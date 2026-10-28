@@ -54,16 +54,21 @@ jobs:
       - name: Build Windows installer
         run: npm run dist:win
 
+      # electron-builder's output dir for this repo is apps/shell/release
+      # (see directories.output in apps/shell/electron-builder.cjs), not
+      # the default dist/ — the first run failed here because it looked
+      # in dist/ and the folder did not exist, even though the installer
+      # itself had built successfully.
       - name: List installer output
-        run: Get-ChildItem apps/shell/dist
+        run: Get-ChildItem apps/shell/release
 
       - name: Publish to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            apps/shell/dist/*.exe
-            apps/shell/dist/*.exe.blockmap
-            apps/shell/dist/latest.yml
+            apps/shell/release/*.exe
+            apps/shell/release/*.exe.blockmap
+            apps/shell/release/latest.yml
           fail_on_unmatched_files: true
           generate_release_notes: false
           body: |
