@@ -4089,7 +4089,7 @@ function createShellWindow(): void {
     ...(restored ? { x: restored.x, y: restored.y } : {}),
     minWidth: SHELL_WINDOW_MIN_WIDTH,
     minHeight: SHELL_WINDOW_MIN_HEIGHT,
-    title: 'GenOffice',
+    title: 'TechPartner Office',
     // Paint the theme's surface before the renderer's first frame so the window
     // does not flash white in dark mode. nativeTheme.themeSource is already set
     // from the saved theme in app.whenReady, before this window is created.

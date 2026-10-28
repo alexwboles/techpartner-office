@@ -22,6 +22,34 @@ import {
 } from './update-window'
 
 /**
+ * TechPartner Office auto-update (Alex's rule: install once, never
+ * delete/reinstall to get changes; usability first).
+ *
+ * Upstream GenOffice already had this updater, but it waited for the user
+ * to click "Update Now", and installed on quit. In TechPartner Office,
+ * the behaviour Alex asked for is: LAUNCH -> check -> download -> apply,
+ * on launch. A check runs 5 seconds after launch. If a newer version is
+ * found on that launch check, the download starts automatically — no
+ * click, no delete/reinstall — and when the download finishes the app
+ * restarts into the new version automatically (after a 3-second
+ * "Updating…" window, so the restart is not a surprise). Later periodic
+ * checks (every 4 hours) do NOT force a restart mid-session: a download
+ * from those checks still installs on normal quit, or via
+ * "Restart & Install". A manual Help > Check for Updates still shows the
+ * window and waits for the user's click, so an explicit check never
+ * downloads or restarts behind the user's back. If the user clicks
+ * "Later" on the launch update, the automatic restart is cancelled and
+ * the update falls back to install-on-quit.
+ *
+ * Opt-out: set TECHPARTNER_NO_AUTO_UPDATE=1 to stop background checks
+ * and background downloads (manual checks still work).
+ *
+ * Feed: the generic provider, pointed at the free GitHub Releases feed
+ * (see AUTO_UPDATE.md) — no paid CDN. The feed URL is injected at build
+ * time via TECHPARTNER_UPDATE_URL (GENOFFICE_UPDATE_URL still works as a
+ * fallback). If no feed URL is baked in, auto-update stays disabled,
+ * exactly as upstream.
+ *
  * Full-package auto-update over the generic provider (Azure CDN).
  *
  * The release pipeline publishes `latest.yml` + the versioned installer to
@@ -415,7 +443,7 @@ const tUpd = createI18n({
   },
 })
 
-const FIRST_CHECK_DELAY_MS = 15_000
+const FIRST_CHECK_DELAY_MS = 5_000
 const RECHECK_INTERVAL_MS = 4 * 60 * 60 * 1000
 
 // After this many failed download/apply attempts for the same version the
@@ -424,11 +452,14 @@ const RECHECK_INTERVAL_MS = 4 * 60 * 60 * 1000
 // code-signing identity (Apple Team ID) change, which Squirrel.Mac rejects
 // on every retry while the error looks like a download failure to the user.
 const MANUAL_FALLBACK_AFTER = 2
+// TechPartner: background auto-download opt-out (manual checks still work)
+const backgroundAutoUpdateEnabled = (): boolean =>
+  process.env.TECHPARTNER_NO_AUTO_UPDATE !== '1'
 // Last-resort manual link only: the GitHub Latest release tracks one channel
 // and signing track, so a stable/legacy-track user could land on the wrong
 // build. Preferred is the CDN installer derived from the user's own update
 // feed (see manualDownloadUrlFor), which matches channel, track, and arch.
-const DOWNLOAD_PAGE_URL = 'https://github.com/genspark-ai/genoffice/releases/latest'
+const DOWNLOAD_PAGE_URL = 'https://github.com/alexwboles/techpartner-office/releases/latest' // repo to be created; fallback link only, see AUTO_UPDATE.md
 
 /// Trusted HTTPS base URL baked into resources/app-update.yml. Manual download
 /// links are always rebuilt from this base rather than trusting URLs supplied
@@ -667,6 +698,21 @@ export function initAutoUpdater(
   // can cancel the request and its late rejection cannot fail the next one
   let downloadToken: CancellationToken | null = null
   let downloadGen = 0
+  // TechPartner launch-apply: true only for the first (launch) background
+  // check, and only if that check found an update. Periodic rechecks never
+  // force a restart mid-session. Set at update-available time, consumed at
+  // update-downloaded time, cancelled by "Later" or a channel switch.
+  let launchAutoInstall = false
+  let launchInstallTimer: ReturnType<typeof setTimeout> | null = null
+  let launchCheckInProgress = false
+  let backgroundChecksDone = 0
+  const cancelLaunchInstall = (): void => {
+    launchAutoInstall = false
+    if (launchInstallTimer) {
+      clearTimeout(launchInstallTimer)
+      launchInstallTimer = null
+    }
+  }
 
   const setPhase = (patch: { phase: UpdatePhase; percent?: number }): void => {
     phase = patch.phase
@@ -686,6 +732,7 @@ export function initAutoUpdater(
   // quit, not via the window) and the next channel's update-available starts
   // the flow over from 'available'
   resetDownloadFlow = () => {
+    cancelLaunchInstall()
     if (latestSeenVersion === null) return
     log('channel switch: dropping', latestSeenVersion, 'in phase', phase)
     autoUpdater.autoInstallOnAppQuit = false
@@ -715,6 +762,7 @@ export function initAutoUpdater(
       })
     },
     onInstall: () => {
+      cancelLaunchInstall()
       closeUpdateWindow()
       if (latestSeenVersion === null) return
       // let the window fully close before tearing the app down
@@ -722,6 +770,7 @@ export function initAutoUpdater(
     },
     onLater: () => {
       dismissedVersion = latestSeenVersion
+      cancelLaunchInstall()
       closeUpdateWindow()
     },
     onOpenDownload: () => {
@@ -760,6 +809,13 @@ export function initAutoUpdater(
     }
     latestSeenVersion = info.version
     manualDownloadUrl = manualDownloadUrlFor(info)
+    // Launch-apply only: this update came from the first background check
+    // after launch, not a manual check and not a periodic recheck.
+    launchAutoInstall =
+      launchCheckInProgress && !manualCheckInFlight && backgroundAutoUpdateEnabled()
+    // The launch check has now produced its result; later checks are not
+    // launch checks, even if they run before the next timed check.
+    launchCheckInProgress = false
     log('update available:', info.version)
     // a periodic recheck resolving to the version the open dialog already
     // shows must not reset its phase to 'available' — that would wipe an
@@ -767,6 +823,11 @@ export function initAutoUpdater(
     // "Update Now" offer
     if (sameVersionRecheck && isUpdateWindowOpen()) return
     showUpdateWindow(getWindow(), { ...initialState(info.version), phase, percent }, actions)
+    // TechPartner: background checks download automatically — no click,
+    // no delete/reinstall. Manual checks (manualCheckInFlight) keep the
+    // old click-to-download behaviour. onDownload is guarded against
+    // a download already in flight, so this cannot double-download.
+    if (!manualCheckInFlight && backgroundAutoUpdateEnabled()) actions.onDownload()
   })
 
   autoUpdater.on('download-progress', (progress) => {
@@ -784,11 +845,29 @@ export function initAutoUpdater(
     downloadInFlight = false
     failedAttempts = 0
     setPhase({ phase: 'downloaded', percent: 100 })
+    // TechPartner launch-apply: the launch update is ready, so restart
+    // into it automatically after a short "Updating…" beat. This only
+    // fires for a launch-check update; periodic-check updates stay in
+    // the downloaded phase until quit or "Restart & Install". The app's
+    // normal close guard still runs on quit, so unsaved work is prompted
+    // for rather than silently lost.
+    if (launchAutoInstall && !manualCheckInFlight) {
+      launchAutoInstall = false
+      launchInstallTimer = setTimeout(() => {
+        launchInstallTimer = null
+        closeUpdateWindow()
+        autoUpdater.quitAndInstall(true, true)
+      }, 3000)
+    }
   })
 
   const check = (): void => {
     // turned off: only an explicit check (Help › Check for Updates…, a channel switch) asks the feed
-    if (!autoCheckEnabled()) return
+    if (!autoCheckEnabled() || !backgroundAutoUpdateEnabled()) return
+    // First background check after launch = the launch check. Later
+    // periodic checks are not launch checks, even if they find an update.
+    launchCheckInProgress = backgroundChecksDone === 0
+    backgroundChecksDone += 1
     autoUpdater.checkForUpdates().catch((err) => log('check failed:', err?.message ?? err))
   }
   setTimeout(check, FIRST_CHECK_DELAY_MS)

@@ -3,10 +3,13 @@
  * auto-update feed URL can be injected at build time instead of living in
  * the repo).
  *
- * GENOFFICE_UPDATE_URL — public base URL of the update channel (the generic
- * provider prefix that serves latest.yml / latest-mac.yml). Required for
- * release builds; CI provides it as a repository secret. For local release
- * builds put it in apps/shell/electron-builder.env (gitignored) — the
+ * TECHPARTNER_UPDATE_URL — public base URL of the update channel (the generic
+ * provider prefix that serves latest.yml / latest-mac.yml). For TechPartner
+ * Office this is the free GitHub Releases feed:
+ *   https://github.com/alexwboles/techpartner-office/releases/latest/download
+ * (GENOFFICE_UPDATE_URL still works as a fallback.) Required for release
+ * builds; CI provides it as a repository secret. For local release builds
+ * put it in apps/shell/electron-builder.env (gitignored) — the
  * electron-builder CLI loads that file automatically.
  *
  * When the variable is unset (forks, PR smoke builds, plain local packaging)
@@ -43,7 +46,8 @@ function normalizeHttpsBaseUrl(name, value) {
   }
 }
 
-const updateUrl = process.env.GENOFFICE_UPDATE_URL
+const updateUrl =
+  process.env.TECHPARTNER_UPDATE_URL || process.env.GENOFFICE_UPDATE_URL
 const ga4MeasurementId = process.env.GENOFFICE_GA4_MEASUREMENT_ID
 const ga4ApiSecret = process.env.GENOFFICE_GA4_API_SECRET
 const fontCdnUrl = normalizeHttpsBaseUrl(
@@ -467,8 +471,8 @@ const FILE_ASSOCIATIONS = [
 ]
 
 const config = {
-  appId: 'com.genoffice.app',
-  productName: 'GenOffice',
+  appId: 'com.techpartner.office',
+  productName: 'TechPartner Office',
   // Resolved from the installed electron package so dependency bumps can
   // never leave a stale hard-coded pin behind (packaging would silently ship
   // the old runtime).

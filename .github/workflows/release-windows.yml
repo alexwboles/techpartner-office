@@ -1,0 +1,72 @@
+# TechPartner Office Windows release
+#
+# Builds the Windows installer on a free GitHub-hosted Windows runner
+# (public repo, so GitHub Actions is free) and uploads it to the GitHub
+# Release for the pushed tag. That release is the auto-update feed:
+# electron-builder writes latest.yml next to the installer, and the
+# in-app updater reads it from
+#   https://github.com/alexwboles/techpartner-office/releases/latest/download
+# Installed copies check on launch, download a newer release, and restart
+# into it automatically (see AUTO_UPDATE.md). No paid CDN, no signing:
+# the installer ships unsigned, so Windows SmartScreen may warn on first
+# install — that is the free-tier tradeoff, not a defect.
+#
+# Trigger: push a version tag (v0.12.0, v0.12.1, ...). The tag must match
+# the version in apps/shell/package.json, or electron-updater will see a
+# version mismatch. Bump that version for every release — same-version
+# releases are ignored by the updater.
+
+name: Release Windows
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    env:
+      TECHPARTNER_UPDATE_URL: https://github.com/alexwboles/techpartner-office/releases/latest/download
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows installer
+        run: npm run dist:win
+
+      - name: List installer output
+        run: Get-ChildItem apps/shell/dist
+
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            apps/shell/dist/*.exe
+            apps/shell/dist/*.exe.blockmap
+            apps/shell/dist/latest.yml
+          fail_on_unmatched_files: true
+          generate_release_notes: false
+          body: |
+            TechPartner Office — free office suite (Docs, Sheets, Slides, PDF).
+            Install once: later releases check, download and apply automatically on launch.
+            Windows SmartScreen may warn because this free build is unsigned; choose "Run anyway" if you trust this release.
