@@ -46,6 +46,15 @@ That rules out the full internal sweep, and settles the AI question:
   `genoffice` CLI/MCP names, internal file/user-data handling, engines,
   file formats, and the AI provider code. Renaming those would break
   builds, skills, agent tools, and existing workflows for no user benefit.
+- **Root package name stays `genoffice` — lesson learned 2026-10-28.**
+  The pilot briefly renamed the root `package.json` to
+  `techpartner-office`, and that broke the CLI: `packages/cli/src/resources.ts`
+  finds the repo root by checking `package.json` name === `genoffice`,
+  so with the new name it returned null and every Word/Markdown CLI
+  operation failed with "jsdom not found", failing CI's CLI and MCP
+  tests (while upstream CI at the same commit was green). The root
+  name is invisible to users, so it was reverted — product name,
+  appId, and window titles carry the TechPartner identity instead.
 - **Genspark AI sign-in: kept, and kept honest.** The AI panel still
   offers Genspark (gsk) login plus bring-your-own-key, exactly as
   upstream. It is not relabelled as a TechPartner service. Removing it
@@ -60,5 +69,7 @@ That rules out the full internal sweep, and settles the AI question:
 
 ## Verification so far
 - `node tools/check-theme-colors.mjs` passes: "No new raw colors in renderer CSS."
-- No push made. This copy is local only at `~/workspace/techpartner-office/`;
-  the pristine upstream copy is at `~/workspace/genoffice-base/`.
+- Pushed to https://github.com/alexwboles/techpartner-office (public,
+  fork of genspark-ai/genoffice); first Windows release v0.12.0 built
+  by GitHub Actions. The pristine upstream copy is at
+  `~/workspace/genoffice-base/`.
