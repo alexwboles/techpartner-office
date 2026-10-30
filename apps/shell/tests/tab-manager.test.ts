@@ -271,7 +271,7 @@ describe('opening tabs', () => {
     expect(tabs[1]).toMatchObject({
       id,
       kind: 'docs',
-      title: 'GenOffice Docs',
+      title: 'TechPartner Docs',
       closable: true,
       active: true,
     })
