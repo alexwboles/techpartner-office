@@ -477,10 +477,19 @@ export function defaultAiSettings(
       cliPath: meta.needsCliPath ? '' : undefined,
     }
   }
+  // TechPartner Office has no Genspark account: a fresh install defaults to
+  // the Custom slot prefilled with the local Ollama endpoint, so AI is free
+  // and local once the user pulls a model. No key is prefilled anywhere.
+  providers.custom = {
+    apiKey: '',
+    model: '',
+    baseUrl: 'http://localhost:11434/v1',
+    cliPath: undefined,
+  }
   return {
-    provider: 'genspark',
+    provider: 'custom',
     providers,
-    gskToolsEnabled: true,
+    gskToolsEnabled: false,
     media: defaultAiMediaSettings(),
     search: defaultAiSearchSettings(),
   }
@@ -488,34 +497,35 @@ export function defaultAiSettings(
 
 /** false only on an explicit opt-out; absent (pre-toggle settings files) means on */
 export function cloudToolsEnabled(settings: Pick<AiSettings, 'gskToolsEnabled'>): boolean {
-  return settings.gskToolsEnabled !== false
+  return settings.gskToolsEnabled === true
 }
 
 /**
  * The stored provider selection is honored only when its config is usable
  * (api-key providers need a key and a model id; custom also needs a base URL).
- * Codex can auto-discover its executable. Anything else — including unknown
- * ids from a hand-edited
- * settings file — falls back to genspark, so a half-filled setup degrades
- * to the signed-in default instead of silently disabling AI.
+ * Codex can auto-discover its executable. Anything else — including a stored
+ * Genspark selection (TechPartner Office no longer offers Genspark) and
+ * unknown ids from a hand-edited settings file — falls back to Custom, so a
+ * half-filled setup degrades to the local-model slot instead of a hosted
+ * account the app no longer signs in to.
  */
 export function activeProvider(settings: AiSettings): AiProviderId {
   const provider = settings.provider
-  if (provider === 'genspark') return 'genspark'
+  if (provider === 'genspark') return 'custom'
   const meta = AI_PROVIDERS.find((m) => m.id === provider)
   const config = settings.providers?.[provider]
-  if (!meta || !config) return 'genspark'
+  if (!meta || !config) return 'custom'
   if (meta.needsCliPath) return provider
   // Trim-aware: in-memory settings bypass the trimConfigs applied to
   // persisted files, and a whitespace-only key/URL/model is a 401, not a config.
-  if (!config.model?.trim()) return 'genspark'
+  if (!config.model?.trim()) return 'custom'
   if (meta.needsBaseUrl) {
     // Custom OpenAI-compatible endpoints (Ollama, LM Studio, vLLM) accept
     // anonymous requests: base URL + model suffice, the key stays optional.
-    if (!config.baseUrl?.trim()) return 'genspark'
+    if (!config.baseUrl?.trim()) return 'custom'
     return provider
   }
-  if (!config.apiKey?.trim()) return 'genspark'
+  if (!config.apiKey?.trim()) return 'custom'
   return provider
 }
 
@@ -645,16 +655,28 @@ export function resolveAiSettings(stored: unknown, defaults: AiSettings): AiSett
     }
     return resolveCustomEndpoints(defaults)
   }
+  // TechPartner migration: a stored Genspark selection (from a pre-Phase-2
+  // install) moves to Custom, prefilled with the local Ollama endpoint, so an
+  // upgrade never leaves the app pointed at an account it no longer offers.
+  const storedProvider = settings.provider ?? defaults.provider
+  const migratedProvider = storedProvider === 'genspark' ? 'custom' : storedProvider
+  const mergedProviders = migrateRetiredModels(
+    trimConfigs(mergeProviderConfigs(defaults.providers, storedProviders)),
+  )
+  if (storedProvider === 'genspark' && !mergedProviders.custom?.baseUrl?.trim()) {
+    mergedProviders.custom = {
+      ...mergedProviders.custom,
+      baseUrl: 'http://localhost:11434/v1',
+    }
+  }
   return resolveCustomEndpoints({
-    provider: settings.provider ?? defaults.provider,
+    provider: migratedProvider,
     customEndpoints: settings.customEndpoints,
     customEndpoint: settings.customEndpoint,
     // Trim before migrating: a pasted " deepseek-reasoner " must still hit
     // the retired-id remap instead of being sent to the API verbatim.
-    providers: migrateRetiredModels(
-      trimConfigs(mergeProviderConfigs(defaults.providers, storedProviders)),
-    ),
-    gskToolsEnabled: settings.gskToolsEnabled ?? defaults.gskToolsEnabled ?? true,
+    providers: mergedProviders,
+    gskToolsEnabled: settings.gskToolsEnabled ?? defaults.gskToolsEnabled ?? false,
     media: resolveAiMediaSettings(settings.media ?? defaults.media),
     search: resolveAiSearchSettings(settings.search ?? defaults.search),
     // clamped on read: a hand-edited settings file with an absurd cap must not be

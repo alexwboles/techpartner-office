@@ -13,13 +13,13 @@ import { resolveNamingProvider } from '../src/main/ai-naming-provider'
  */
 
 describe('resolveNamingProvider', () => {
-  it('takes the Genspark key from the login state, not from the settings file', () => {
-    const resolved = resolveNamingProvider({}, 'gsk-live-key')
-    expect(resolved?.provider).toBe('genspark')
-    expect(resolved?.config.apiKey).toBe('gsk-live-key')
+  it('never uses a Genspark key from the login state', () => {
+    // TechPartner Office has no Genspark account: a passed-in key is ignored,
+    // and with no model configured naming declines instead of calling Genspark.
+    expect(resolveNamingProvider({}, 'gsk-live-key')).toBeNull()
   })
 
-  it('declines when Genspark is selected and nobody is signed in', () => {
+  it('declines when no model is configured', () => {
     expect(resolveNamingProvider({}, '')).toBeNull()
   })
 
@@ -40,24 +40,32 @@ describe('resolveNamingProvider', () => {
     expect(resolved?.config.model).toBe('claude-sonnet-4-6')
   })
 
-  it('falls back to Genspark when the configured provider is half-filled', () => {
+  it('falls back to Custom when the configured provider is half-filled', () => {
     const resolved = resolveNamingProvider(
       {
         provider: 'anthropic',
-        providers: { anthropic: { apiKey: 'sk-ant', model: '' } },
+        providers: {
+          anthropic: { apiKey: 'sk-ant', model: '' },
+          custom: { apiKey: '', model: 'llama3', baseUrl: 'http://localhost:11434/v1' },
+        },
       },
       'gsk-live-key',
     )
-    expect(resolved?.provider).toBe('genspark')
-    expect(resolved?.config.apiKey).toBe('gsk-live-key')
+    expect(resolved?.provider).toBe('custom')
+    expect(resolved?.config.model).toBe('llama3')
   })
 
-  it('falls back to Genspark for a provider this build does not have', () => {
+  it('falls back to Custom for a provider this build does not have', () => {
     const resolved = resolveNamingProvider(
-      { provider: 'not-a-provider', providers: {} },
+      {
+        provider: 'not-a-provider',
+        providers: {
+          custom: { apiKey: '', model: 'llama3', baseUrl: 'http://localhost:11434/v1' },
+        },
+      },
       'gsk-live-key',
     )
-    expect(resolved?.provider).toBe('genspark')
+    expect(resolved?.provider).toBe('custom')
   })
 
   it('does not need a key for codex', () => {

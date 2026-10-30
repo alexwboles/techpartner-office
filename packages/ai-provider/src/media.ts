@@ -229,10 +229,13 @@ export function defaultAiMediaSettings(): AiMediaSettings {
       baseUrl: meta.needsBaseUrl ? '' : undefined,
     }
   }
+  // TechPartner default: OpenAI as the BYOK media provider. With no key
+  // entered it is unusable, so media tools correctly report unavailable
+  // instead of pointing at a hosted account the app no longer offers.
   return {
-    imageProvider: 'genspark',
-    analysisProvider: 'genspark',
-    videoAnalysisProvider: 'genspark',
+    imageProvider: 'openai',
+    analysisProvider: 'openai',
+    videoAnalysisProvider: 'openai',
     providers,
   }
 }

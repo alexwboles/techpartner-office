@@ -614,7 +614,9 @@ const homeApi: HomeApi = {
     await ipcRenderer.invoke('ai:set-settings', settings)
   },
   getAiProviders() {
-    return AI_PROVIDERS.map((meta) => {
+    // TechPartner Office offers no Genspark provider: filter it out of the
+    // Settings picker entirely, so it can never be selected from the UI.
+    return AI_PROVIDERS.filter((meta) => meta.id !== 'genspark').map((meta) => {
       let defaultBaseUrl = ''
       // genspark routes by model and custom has no default — both stay ''
       if (meta.id !== 'genspark' && !meta.needsBaseUrl && !meta.needsCliPath) {
@@ -648,10 +650,12 @@ const homeApi: HomeApi = {
       : { ok: false, error: typeof raw.error === 'string' ? raw.error : 'Connection failed' }
   },
   getAiMediaProviders() {
-    return AI_MEDIA_PROVIDERS
+    // TechPartner Office offers no Genspark media provider either.
+    return AI_MEDIA_PROVIDERS.filter((meta) => meta.id !== 'genspark')
   },
   getAiSearchProviders() {
-    return AI_SEARCH_PROVIDERS
+    // TechPartner Office offers no Genspark search provider either.
+    return AI_SEARCH_PROVIDERS.filter((meta) => meta.id !== 'genspark')
   },
   async testAiSearchSettings(input) {
     const raw = ((await ipcRenderer.invoke('ai:search-test', input)) ?? {}) as {

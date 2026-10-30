@@ -1,6 +1,6 @@
 {
   "name": "@genoffice/slides",
-  "productName": "GenOffice Slides",
+  "productName": "TechPartner Slides",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
@@ -51,7 +51,7 @@
   "author": "GenOffice",
   "build": {
     "appId": "com.genoffice.slides",
-    "productName": "GenOffice Slides",
+    "productName": "TechPartner Slides",
     "electronVersion": "43.3.0",
     "directories": {
       "output": "release"

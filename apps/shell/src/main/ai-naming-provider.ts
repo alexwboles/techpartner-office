@@ -34,24 +34,22 @@ export interface NamingProvider {
  * a request with no usable provider is declined, and the caller keeps the name
  * the document already has.
  */
-export function resolveNamingProvider(stored: unknown, gskKey: string): NamingProvider | null {
+export function resolveNamingProvider(stored: unknown, _gskKey: string): NamingProvider | null {
   const settings = resolveAiSettings(stored, defaultAiSettings())
-  // a stored BYOK provider is honored when usable; a half-filled one falls back
-  // to genspark rather than silently disabling AI
+  // a stored BYOK provider is honored when usable; a half-filled one falls
+  // back to Custom (local Ollama) rather than a hosted account the app no
+  // longer offers. The gskKey argument is ignored: TechPartner Office never
+  // uses a Genspark key for naming.
   settings.provider = activeProvider(settings)
   const provider = settings.provider
   const storedConfig = settings.providers?.[provider]
   if (!storedConfig) return null
   let config = storedConfig
-  // the genspark key never enters the settings file; requests take it from the
-  // gsk login state
-  if (provider === 'genspark' && !config.apiKey?.trim()) {
-    config = { ...config, apiKey: gskKey }
-  }
   // a custom endpoint may name an environment variable instead of storing a key
   config = resolveProfileCredential(config)
-  // codex drives its own executable and needs neither a key nor a model id
-  if (provider !== 'codex' && !config.apiKey?.trim()) return null
+  // codex drives its own executable and needs neither a key nor a model id;
+  // custom endpoints (local Ollama) need no key either, only a model id
+  if (provider !== 'codex' && provider !== 'custom' && !config.apiKey?.trim()) return null
   if (provider !== 'codex' && !config.model?.trim()) return null
   return { provider, config }
 }

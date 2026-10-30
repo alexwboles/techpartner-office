@@ -61,11 +61,11 @@ describe('media settings', () => {
     }
   })
 
-  it('defaults every provider to its default models and genspark as the active one', () => {
+  it('defaults every provider to its default models and openai as the active one', () => {
     const media = defaultAiMediaSettings()
-    expect(media.imageProvider).toBe('genspark')
-    expect(media.analysisProvider).toBe('genspark')
-    expect(media.videoAnalysisProvider).toBe('genspark')
+    expect(media.imageProvider).toBe('openai')
+    expect(media.analysisProvider).toBe('openai')
+    expect(media.videoAnalysisProvider).toBe('openai')
     for (const meta of AI_MEDIA_PROVIDERS) {
       expect(media.providers[meta.id].imageModel).toBe(meta.defaultImageModel)
       expect(media.providers[meta.id].apiKey).toBe('')
@@ -76,7 +76,7 @@ describe('media settings', () => {
 
   it('is carried by defaultAiSettings and healed in from a pre-media settings file', () => {
     const defaults = defaultAiSettings()
-    expect(defaults.media?.imageProvider).toBe('genspark')
+    expect(defaults.media?.imageProvider).toBe('openai')
     const resolved = resolveAiSettings(
       { provider: 'genspark', providers: defaults.providers },
       defaultAiSettings(),
@@ -167,8 +167,12 @@ describe('media settings', () => {
 
   it('gates the tools on gsk login + toggle without BYOK, and on the BYOK model with it', () => {
     const genspark = defaultAiSettings()
-    expect(imageGenerationAvailable(genspark, true)).toBe(true)
+    // TechPartner default: cloud tools off, so Genspark-backed media is
+    // unavailable even when signed in; explicitly enabling the toggle
+    // restores the old gate for a hand-configured Genspark media block.
+    expect(imageGenerationAvailable(genspark, true)).toBe(false)
     expect(imageGenerationAvailable(genspark, false)).toBe(false)
+    expect(imageGenerationAvailable({ ...genspark, gskToolsEnabled: true }, true)).toBe(true)
     expect(imageGenerationAvailable({ ...genspark, gskToolsEnabled: false }, true)).toBe(false)
     expect(mediaAnalysisAvailable({ ...genspark, gskToolsEnabled: false }, true)).toBe(false)
 

@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 import type { AgentMessage } from '@genoffice/agent-core'
 import { streamForProvider } from '@genoffice/ai-provider'
-import { gskApiKey } from '@genoffice/ai-search'
 import { buildNamingInstruction, excerptForNaming, sanitizeFileStem } from './ai-naming'
 import { resolveNamingProvider } from './ai-naming-provider'
 
@@ -38,7 +37,9 @@ function readAiSettingsFile(): unknown {
  * failed rename must never cost the reader their file.
  */
 async function askModel(content: string, lang: string): Promise<string> {
-  const target = resolveNamingProvider(readAiSettingsFile(), gskApiKey())
+  // TechPartner Office never uses a Genspark key for naming: pass an empty
+  // key, so a Genspark selection can never answer a naming request.
+  const target = resolveNamingProvider(readAiSettingsFile(), '')
   if (!target) return ''
 
   let out = ''

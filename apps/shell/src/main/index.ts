@@ -127,20 +127,13 @@ import {
   withResolved,
   withShown,
 } from './star-prompt'
-import {
-  clearCloudProjectsStore,
-  cloudProjectExternalUrl,
-  readCloudProjectsStore,
-  syncCloudProjects,
-} from './cloud-projects'
+import { clearCloudProjectsStore, cloudProjectExternalUrl } from './cloud-projects'
 import { handleDroppedFiles } from './dropped-files'
 import { collectLaunchPaths } from './launch-paths'
 import {
   genofficeLogout,
-  gskLoginInfo,
   loadGenofficeAuth,
   setGskProxyUrl,
-  startGenofficeLogin,
   watchGskApiKey,
 } from '@genoffice/ai-search'
 
@@ -283,7 +276,6 @@ import {
   setHtmlProvisionalTitleHook,
 } from '../../../html/src/main/html-main'
 import type {
-  AccountLoginEvent,
   AutoSaveDefault,
   AuthorNameSetting,
   FolderListing,
@@ -4778,41 +4770,19 @@ function statEntries(paths: string[]): RecentEntry[] {
 function registerHomeIpc(): void {
   // signed-in means GenOffice's own device-code login; the shared gsk CLI key
   // is only a silent fallback, deliberately not shown here to nudge users onto our key
+  // TechPartner Office has no account: always report signed out, so the Home
+  // UI never shows a Genspark account or its cloud projects.
   ipcMain.handle(HOME_CHANNELS.accountStatus, async () => {
-    if (!loadGenofficeAuth()) return { loggedIn: false }
-    await proxyBootstrap
-    const info = await gskLoginInfo()
-    if (info) return { loggedIn: true, email: info.email, creditBalance: info.creditBalance }
-    // login-info answering 401 drops an expired key: report signed-out right away
-    return { loggedIn: !!loadGenofficeAuth() }
+    return { loggedIn: false }
   })
 
   // login progress is streamed to the requesting renderer; the auth URL is
   // kept main-side so the "open manually" rescue never opens a renderer-supplied URL
   let pendingLoginUrl = ''
-  ipcMain.handle(HOME_CHANNELS.accountLogin, async (event) => {
-    analytics.track('login_click')
-    const sender = event.sender
-    pendingLoginUrl = ''
-    await proxyBootstrap
-    const send = (payload: AccountLoginEvent) => {
-      if (!sender.isDestroyed()) sender.send(HOME_CHANNELS.accountLoginEvent, payload)
-    }
-    // open the browser on the first url event only; later events refresh the rescue URL
-    let opened = false
-    const launched = startGenofficeLogin((progress) => {
-      if (progress.url) {
-        pendingLoginUrl = progress.url
-        if (!opened) {
-          opened = true
-          void shell.openExternal(progress.url)
-        }
-      }
-      if (progress.phase === 'success') analytics.track('login_success')
-      send(progress)
-    })
-    if (launched) send({ phase: 'launched' })
-    return launched
+  // TechPartner Office has no account sign-in: the login entry point is a
+  // no-op, so no Genspark device-code flow can ever start from the UI.
+  ipcMain.handle(HOME_CHANNELS.accountLogin, async () => {
+    return false
   })
 
   ipcMain.handle(HOME_CHANNELS.accountLoginOpenUrl, () => {
@@ -5632,11 +5602,11 @@ function registerHomeIpc(): void {
 
   const cloudProjectsStorePath = () => join(app.getPath('userData'), 'cloud-projects.json')
 
-  ipcMain.handle(HOME_CHANNELS.cloudProjectsCached, () =>
-    readCloudProjectsStore(cloudProjectsStorePath()),
-  )
+  // TechPartner Office has no cloud projects: never sync a Genspark project
+  // list, and report no cached projects.
+  ipcMain.handle(HOME_CHANNELS.cloudProjectsCached, () => null)
 
-  ipcMain.handle(HOME_CHANNELS.cloudProjects, () => syncCloudProjects(cloudProjectsStorePath()))
+  ipcMain.handle(HOME_CHANNELS.cloudProjects, () => null)
 
   ipcMain.handle(HOME_CHANNELS.openCloudProject, (_event, projectUrl: unknown) => {
     const url = cloudProjectExternalUrl(projectUrl)

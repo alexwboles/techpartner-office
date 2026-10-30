@@ -28,7 +28,7 @@ export const strings = {
     askSavedAs: '已保存:{name}',
     askSaveFailed: '保存失败:{error}',
     askEmptyCorpus: '知识库还是空的:先收藏一些文件,再回来提问。',
-    askNeedsLogin: '登录 Genspark 后即可使用 AI 问答。',
+    askNeedsLogin: '请先在设置 ▸ AI 中配置模型（本地 Ollama 或自己的 key）后再使用 AI 问答。',
     askPlaceholder: '问一个关于收藏文件的问题…',
     askHintIdle: 'Enter 发送',
     askHintBusy: 'AI 正在回答…',
@@ -417,6 +417,12 @@ export const strings = {
     onbStarHint: '如果你喜欢 GenOffice，欢迎到 GitHub 给我们一个 Star。',
     setEmail: '邮箱',
     setNotLoggedIn: '未登录',
+    aiSetupTitle: 'AI 设置 — 无需账号',
+    aiSetupDesc: 'TechPartner Office 无需账号。AI 可使用免费本地模型或自己的 key。',
+    aiSetupOllama:
+      '免费本地模型 (Ollama)：安装 Ollama，拉取模型（例如 ollama pull llama3.1），然后在 AI 模型设置中选择 Custom，基础 URL 设为 http://localhost:11434/v1，并输入拉取的模型名。',
+    aiSetupByok: '自己的 key：在 AI 模型设置中选择服务商并输入 API key。',
+    aiSetupOpenAi: '打开 AI 模型设置',
     setViewUsage: '查看用量',
     setChange: '更改',
     // Dates
@@ -434,7 +440,7 @@ export const strings = {
     onbBody1: '创建文档、制作表格、生成演示、审阅 PDF。AI 深度融入每个环节。',
     onbTitle2: '这只是一个开始',
     onbBody2: 'GenOffice 目前处于 alpha 阶段。欢迎加入 GenTeam 群聊，分享反馈，一起塑造它的未来。',
-    onbCredits: '活跃贡献者可获得 **1,000+ Genspark 积分**',
+    onbCredits: 'AI 可免费使用本地模型，无需账号',
     onbJoinGenTeam: '加入 GenTeam',
     onbSkip: '跳过',
     onbNext: '下一步',
@@ -442,7 +448,7 @@ export const strings = {
     onbStepAria: '第 {n} 页，共 {total} 页',
     onbTitle3: '人人免费',
     onbBody3: '无授权费用，无广告，无水印。',
-    onbNote3: 'AI 功能可能消耗 Genspark 积分。',
+    onbNote3: 'AI 功能使用你配置的模型：本地模型免费，自己的 key 按服务商计费。',
     onbBack: '上一步',
     intgSkillsDesc:
       'GenOffice 只使用自己技能文件夹里的技能。从文件夹或 zip 导入会把整个技能复制进来；导入不会自动运行任何东西。',
@@ -536,7 +542,8 @@ export const strings = {
     askSavedAs: 'Saved: {name}',
     askSaveFailed: 'Could not save: {error}',
     askEmptyCorpus: 'The knowledge base is empty: star some files first, then ask.',
-    askNeedsLogin: 'Sign in to Genspark to use AI chat.',
+    askNeedsLogin:
+      'Set up a model first in Settings ▸ AI (local Ollama or your own key) to use AI chat.',
     askPlaceholder: 'Ask about your starred files…',
     askHintIdle: 'Enter to send',
     askHintBusy: 'The AI is answering…',
@@ -938,6 +945,13 @@ export const strings = {
     onbStarHint: 'If you like GenOffice, give us a star on GitHub.',
     setEmail: 'Email',
     setNotLoggedIn: 'Not signed in',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'View usage',
     setChange: 'Change',
     today: 'Today',
@@ -955,7 +969,7 @@ export const strings = {
     onbTitle2: 'This is just the beginning',
     onbBody2:
       'GenOffice is still in alpha. Join the group chat on GenTeam to share feedback and help shape what comes next.',
-    onbCredits: 'Active contributors get **1,000+ Genspark credits**',
+    onbCredits: 'AI can run free on a local model — no account needed',
     onbJoinGenTeam: 'Join GenTeam',
     onbSkip: 'Skip',
     onbNext: 'Next',
@@ -963,7 +977,8 @@ export const strings = {
     onbStepAria: 'Page {n} of {total}',
     onbTitle3: 'Free for everyone',
     onbBody3: 'No license fees. No ads. No watermarks.',
-    onbNote3: 'AI features may consume Genspark credits.',
+    onbNote3:
+      'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Back',
     intgSkillsDesc:
       'GenOffice only uses skills in its own skills folder. Importing a folder or a zip copies the whole skill in; nothing runs on import.',

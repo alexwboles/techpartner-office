@@ -24,8 +24,10 @@ export const AI_SEARCH_PROVIDERS: AiSearchProviderMeta[] = [
 ]
 
 export function defaultAiSearchSettings(): AiSearchSettings {
+  // TechPartner default: Parallel runs keylessly, so search works with no
+  // account and no key. Genspark is no longer a search backend here.
   return {
-    provider: 'genspark',
+    provider: 'parallel',
     providers: {
       serper: { apiKey: '' },
       serply: { apiKey: '' },
@@ -60,15 +62,15 @@ export function resolveAiSearchSettings(
 }
 
 /**
- * Parallel and Keenable can run keylessly; other custom providers require a key or fall back
- * to Genspark.
+ * Parallel and Keenable can run keylessly; other providers require a key or
+ * fall back to Parallel (keyless), never to a hosted account backend.
  */
 export function activeSearchProvider(settings: Pick<AiSettings, 'search'>): AiSearchProviderId {
   const search = settings.search
-  if (!search || search.provider === 'genspark') return 'genspark'
-  if (!AI_SEARCH_PROVIDERS.some((m) => m.id === search.provider)) return 'genspark'
+  if (!search || search.provider === 'genspark') return 'parallel'
+  if (!AI_SEARCH_PROVIDERS.some((m) => m.id === search.provider)) return 'parallel'
   if (search.provider === 'parallel' || search.provider === 'keenable') return search.provider
   // Trim-aware: a whitespace-only key from in-memory settings falls back
   // instead of sending `Bearer    ` to the search backend.
-  return search.providers?.[search.provider]?.apiKey?.trim() ? search.provider : 'genspark'
+  return search.providers?.[search.provider]?.apiKey?.trim() ? search.provider : 'parallel'
 }

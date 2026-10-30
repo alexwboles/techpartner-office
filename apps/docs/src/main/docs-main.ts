@@ -118,14 +118,9 @@ import { listCodexModels, shutdownCodexAppServers } from '@genoffice/ai-provider
 import { startAiTrace } from '@genoffice/ai-provider/trace'
 import { listCustomModelsForIpc } from '@genoffice/ai-provider/custom-models'
 import {
-  ensureGenofficeLogin,
   noteGskCallFailure,
-  setGenofficeLoginOpener,
-  gskApiKey,
   generateImageTool,
   testSearchProvider,
-  gskLoginInfo,
-  hasGskAuth,
   webSearchTool,
   imageSearchTool,
   analyzeMediaTool,
@@ -4258,38 +4253,23 @@ export function registerAiIpc(): void {
   app.once('before-quit', shutdownCodexAppServers)
   ipcMain.handle('ai:get-settings', async (): Promise<AiSettings> => {
     const stored = readJson<Partial<AiSettings> & LegacyAiSettings>(SETTINGS_PATH(), {})
-    // pre-lock legacy file: genspark selected with cloud tools opted out. The
-    // settings UI locks the tools switch on with genspark and apps read this
-    // file live, so heal the stored flag once. Judged on the *stored* provider
-    // — never the activeProvider fallback below, which must not leak into the
-    // file and clobber a saved (half-configured) BYOK selection.
-    if ((stored.provider ?? 'genspark') === 'genspark' && stored.gskToolsEnabled === false) {
-      stored.gskToolsEnabled = true
-      writeJsonAtomic(SETTINGS_PATH(), stored)
-    }
+    // TechPartner: no Genspark account, so never heal a stored file back
+    // toward cloud tools. resolveAiSettings migrates a stored Genspark
+    // selection to Custom (local Ollama) below.
     const settings = resolveAiSettings(stored, defaultAiSettings())
     // a stored BYOK provider is honored when usable; half-filled configs fall back to genspark
     settings.provider = activeProvider(settings)
     return settings
   })
 
-  // Genspark account (gsk login state): auth source for AI features; the frontend uses it to prompt login when logged out
-  ipcMain.handle(
-    'ai:gsk-status',
-    async (_event, withEmail?: boolean): Promise<GenSparkAccountStatus> => {
-      if (!hasGskAuth()) return { loggedIn: false }
-      if (!withEmail) return { loggedIn: true }
-      const info = await gskLoginInfo()
-      return info?.email ? { loggedIn: true, email: info.email } : { loggedIn: true }
-    },
-  )
-
-  // a 401 on the gsk key opens the device-code login once (genoffice-auth recovery)
-  setGenofficeLoginOpener((url) => void shell.openExternal(url))
-
-  ipcMain.handle('ai:gsk-login', () => {
-    ensureGenofficeLogin((url) => void shell.openExternal(url))
+  // TechPartner: no Genspark account — always report signed out, so the
+  // frontend never prompts a Genspark sign-in.
+  ipcMain.handle('ai:gsk-status', async (): Promise<GenSparkAccountStatus> => {
+    return { loggedIn: false }
   })
+
+  // TechPartner: no Genspark sign-in — the login entry point is a no-op.
+  ipcMain.handle('ai:gsk-login', () => {})
 
   ipcMain.handle('ai:set-settings', (_event, settings: AiSettings) => {
     // SECURITY.md: payloads are schema-checked in the main process. The settings
@@ -4333,9 +4313,10 @@ export function registerAiIpc(): void {
     // the genspark key never enters the settings file; requests take it from the gsk login state
     // set only when the gsk key was injected: a 401 then means that key expired
     let gskKey = ''
+    // TechPartner: no Genspark key is ever injected. A Genspark
+    // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
-      gskKey = gskApiKey()
-      config = { ...config, apiKey: gskKey }
+      config = { ...config, apiKey: '' }
     }
     // a custom endpoint may name an environment variable instead of storing a key
     config = config ? resolveProfileCredential(config) : config
@@ -4533,19 +4514,20 @@ export function registerAiIpc(): void {
   ipcMain.handle('ai:search-test', (_event, input: unknown) => {
     const { provider, apiKey } = (input ?? {}) as { provider?: AiSearchProviderId; apiKey?: string }
     if (!provider || provider === 'genspark') {
-      return hasGskAuth() ? { ok: true } : { ok: false, error: tm('errGskNotLoggedIn') }
+      return { ok: false, error: tm('errGskNotLoggedIn') }
     }
     return testSearchProvider(provider, String(apiKey ?? ''))
   })
 
-  // settings-UI connection test for the media provider (genspark = the gsk login state)
+  // settings-UI connection test for the media provider (TechPartner: no
+  // Genspark media backend, so a Genspark selection never tests as ok)
   ipcMain.handle('ai:media-test', (_event, input: unknown) => {
     const { provider, config } = (input ?? {}) as {
       provider?: AiMediaProviderId
       config?: AiMediaProviderConfig
     }
     if (!provider || provider === 'genspark') {
-      return hasGskAuth() ? { ok: true } : { ok: false, error: tm('errGskNotLoggedIn') }
+      return { ok: false, error: tm('errGskNotLoggedIn') }
     }
     if (!config) return { ok: false, error: 'No media provider configuration' }
     return testMediaProvider(provider, config)
@@ -4561,9 +4543,10 @@ export function registerAiIpc(): void {
     let config = settings.providers?.[provider]
     // set only when the gsk key was injected: a 401 then means that key expired
     let gskKey = ''
+    // TechPartner: no Genspark key is ever injected. A Genspark
+    // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
-      gskKey = gskApiKey()
-      config = { ...config, apiKey: gskKey }
+      config = { ...config, apiKey: '' }
     }
     // a custom endpoint may name an environment variable instead of storing a key
     config = config ? resolveProfileCredential(config) : config
@@ -6498,7 +6481,7 @@ export function createDocsWindow(openPath?: string): BrowserWindow {
     height: 900,
     minWidth: 720,
     minHeight: 550,
-    title: 'GenOffice Docs',
+    title: 'TechPartner Docs',
     // Word-like custom title bar (document name centered, quick-access buttons)
     ...(process.platform === 'darwin'
       ? { titleBarStyle: 'hiddenInset' as const }
@@ -6779,16 +6762,16 @@ export function startDocsStandalone(): void {
   installContextMenu(app, () => contextMenuLabels(getUiLang()))
   // dev runs must not share the packaged app's userData (recent files, AI settings)
   // or its single-instance lock — otherwise `npm run dev` silently quits whenever
-  // the installed GenOffice Docs is open and forwards its argv there instead.
+  // the installed TechPartner Docs is open and forwards its argv there instead.
   // AI_OFFICE_USER_DATA: E2E/screenshot runs isolate userData (and the
   // single-instance lock) so parallel automation sessions don't evict each other
   if (process.env.AI_OFFICE_USER_DATA) app.setPath('userData', process.env.AI_OFFICE_USER_DATA)
   else if (isDev) {
-    // "GenOffice Docs Dev" carried a space, against the XDG one-token
+    // "TechPartner Docs Dev" carried a space, against the XDG one-token
     // convention (genoffice#1817); move the old profile once, as the shell does.
     const appData = app.getPath('appData')
     const devDir = join(appData, 'GenOffice-Docs-Dev')
-    const oldDevDir = join(appData, 'GenOffice Docs Dev')
+    const oldDevDir = join(appData, 'TechPartner Docs Dev')
     let userData = devDir
     if (existsSync(oldDevDir) && !existsSync(devDir)) {
       try {

@@ -6,8 +6,8 @@ Models and keys are configured in Settings (the account row at the bottom left o
 
 ![The Settings window](img/settings-general.png)
 
-- **Genspark hosted**: sign in (device-code flow) and use it — zero configuration.
-- **Custom endpoints (BYOK)**: Settings ▸ AI takes a base URL and API key per protocol — OpenAI-compatible, Anthropic, Gemini, DeepSeek, DashScope (qwen) and more. Keys are stored in the app's settings file on this machine and sent only in request headers. Atlas Cloud is among the built-in protocols.
+- **Free local AI (no account, no key)**: install Ollama, pull a model (for example `ollama pull llama3.1`), then in Settings ▸ AI pick Custom, set the base URL to `http://localhost:11434/v1`, and enter the model name you pulled. The model runs on this machine.
+- **Your own key (BYOK)**: Settings ▸ AI takes a base URL and API key per protocol — OpenAI-compatible, Anthropic, Gemini, DeepSeek, DashScope (qwen) and more. Keys are stored in the app's settings file on this machine and sent only in request headers. Atlas Cloud is among the built-in protocols.
 - A different model can be picked per capability: chat/generation, image generation, image analysis.
 - **Connection test**: verify endpoint reachability and model visibility before saving.
 - Base URLs may carry a path and query string (gateway-style); endpoint paths are appended correctly.

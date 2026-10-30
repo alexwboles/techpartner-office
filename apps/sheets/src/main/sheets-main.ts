@@ -109,12 +109,7 @@ import {
   sheetCsvToXlsxBuffer,
 } from '@genoffice/xlsx-gateway/gateway/csv-import'
 import {
-  ensureGenofficeLogin,
   noteGskCallFailure,
-  setGenofficeLoginOpener,
-  gskApiKey,
-  gskLoginInfo,
-  hasGskAuth,
   setGskProxyUrl,
   webSearchTool,
   imageSearchTool,
@@ -2457,7 +2452,7 @@ export async function createSheetsWindow(
     minWidth: 720,
     minHeight: 550,
     show: false,
-    title: 'GenOffice Sheets',
+    title: 'TechPartner Sheets',
     // Traffic lights sit inside the toolbar row.
     ...(process.platform === 'darwin' ? { titleBarStyle: 'hiddenInset' as const } : {}),
     webPreferences: {
@@ -3999,24 +3994,13 @@ export function registerSheetsAiIpc(): void {
     return settings
   })
 
-  // Genspark account (gsk login state): the auth source for AI features; the
-  // frontend uses it to guide sign-in when logged out
-  ipcMain.handle(
-    IPC_CHANNELS.aiGskStatus,
-    async (_event, withEmail?: unknown): Promise<GenSparkAccountStatus> => {
-      if (!hasGskAuth()) return { loggedIn: false }
-      if (!withEmail) return { loggedIn: true }
-      const info = await gskLoginInfo()
-      return info?.email ? { loggedIn: true, email: info.email } : { loggedIn: true }
-    },
-  )
-
-  // a 401 on the gsk key opens the device-code login once (genoffice-auth recovery)
-  setGenofficeLoginOpener((url) => void shell.openExternal(url))
-
-  ipcMain.handle(IPC_CHANNELS.aiGskLogin, () => {
-    ensureGenofficeLogin((url) => void shell.openExternal(url))
+  // TechPartner: no Genspark account — always report signed out.
+  ipcMain.handle(IPC_CHANNELS.aiGskStatus, async (): Promise<GenSparkAccountStatus> => {
+    return { loggedIn: false }
   })
+
+  // TechPartner: no Genspark sign-in — the login entry point is a no-op.
+  ipcMain.handle(IPC_CHANNELS.aiGskLogin, () => {})
 
   ipcMain.handle(IPC_CHANNELS.aiSetSettings, async (event, input: unknown) => {
     sessionFor(event)
@@ -4033,9 +4017,10 @@ export function registerSheetsAiIpc(): void {
     let config = request.settings.providers[provider]
     // set only when the gsk key was injected: a 401 then means that key expired
     let gskKey = ''
+    // TechPartner: no Genspark key is ever injected. A Genspark
+    // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
-      gskKey = gskApiKey()
-      config = { ...config, apiKey: gskKey }
+      config = { ...config, apiKey: '' }
     }
     // a custom endpoint may name an environment variable instead of storing a key
     config = config ? resolveProfileCredential(config) : config
@@ -4083,9 +4068,10 @@ export function registerSheetsAiIpc(): void {
     // login state per request
     // set only when the gsk key was injected: a 401 then means that key expired
     let gskKey = ''
+    // TechPartner: no Genspark key is ever injected. A Genspark
+    // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
-      gskKey = gskApiKey()
-      config = { ...config, apiKey: gskKey }
+      config = { ...config, apiKey: '' }
     }
     // a custom endpoint may name an environment variable instead of storing a key
     config = config ? resolveProfileCredential(config) : config

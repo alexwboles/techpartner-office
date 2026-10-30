@@ -48,15 +48,10 @@ import {
 import {
   webSearchTool,
   imageSearchTool,
-  ensureGenofficeLogin,
   noteGskCallFailure,
-  setGenofficeLoginOpener,
-  gskApiKey,
   generateImageTool,
   analyzeMediaTool,
   documentMediaRoots,
-  gskLoginInfo,
-  hasGskAuth,
 } from '@genoffice/ai-search'
 import { addPicture, editPictureSrcRect, replacePictureBytes } from '@genoffice/pptx-engine'
 import { rasterImageExt } from './media-mime'
@@ -134,23 +129,13 @@ export function registerAiIpc(): void {
     return settings
   })
 
-  // Genspark account (gsk login state): the auth source for AI features; when logged out the frontend uses this to guide login
-  ipcMain.handle(
-    'ai:gsk-status',
-    async (_event, withEmail?: boolean): Promise<GenSparkAccountStatus> => {
-      if (!hasGskAuth()) return { loggedIn: false }
-      if (!withEmail) return { loggedIn: true }
-      const info = await gskLoginInfo()
-      return info?.email ? { loggedIn: true, email: info.email } : { loggedIn: true }
-    },
-  )
-
-  // a 401 on the gsk key opens the device-code login once (genoffice-auth recovery)
-  setGenofficeLoginOpener((url) => void shell.openExternal(url))
-
-  ipcMain.handle('ai:gsk-login', () => {
-    ensureGenofficeLogin((url) => void shell.openExternal(url))
+  // TechPartner: no Genspark account — always report signed out.
+  ipcMain.handle('ai:gsk-status', async (): Promise<GenSparkAccountStatus> => {
+    return { loggedIn: false }
   })
+
+  // TechPartner: no Genspark sign-in — the login entry point is a no-op.
+  ipcMain.handle('ai:gsk-login', () => {})
 
   ipcMain.handle('ai:set-settings', (_event, settings: AiSettings) => {
     // SECURITY.md: payloads are schema-checked in the main process. The settings
@@ -191,9 +176,10 @@ export function registerAiIpc(): void {
     // The genspark key never enters the settings file; it is fetched from the gsk login state per request
     // set only when the gsk key was injected: a 401 then means that key expired
     let gskKey = ''
+    // TechPartner: no Genspark key is ever injected. A Genspark
+    // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
-      gskKey = gskApiKey()
-      config = { ...config, apiKey: gskKey }
+      config = { ...config, apiKey: '' }
     }
     // a custom endpoint may name an environment variable instead of storing a key
     config = config ? resolveProfileCredential(config) : config
