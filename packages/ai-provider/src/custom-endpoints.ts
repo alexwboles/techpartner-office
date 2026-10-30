@@ -32,9 +32,7 @@ const DEFAULT_OLLAMA_BASE_URL = 'http://localhost:11434/v1'
 function configuredSlot(config: AiProviderConfig | undefined): boolean {
   if (!config) return false
   const isPrefillOnly =
-    str(config.baseUrl) === DEFAULT_OLLAMA_BASE_URL &&
-    !str(config.model) &&
-    !str(config.apiKey)
+    str(config.baseUrl) === DEFAULT_OLLAMA_BASE_URL && !str(config.model) && !str(config.apiKey)
   if (isPrefillOnly) return false
   return Boolean(str(config.baseUrl) || str(config.model) || str(config.apiKey))
 }
