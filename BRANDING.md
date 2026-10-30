@@ -1,6 +1,7 @@
 # TechPartner Office — branding note
 
 ## What this is
+
 A rebrand of GenOffice (Apache-2.0, https://github.com/genspark-ai/genoffice)
 as **TechPartner Office**, by TechPartner Consulting
 (https://www.techpartner.base44.app).
@@ -12,6 +13,7 @@ trademarks of Mainfunc, Inc. (see upstream README). A fork must not ship
 under those names or logos.
 
 ## TechPartner identity used here
+
 - Product: **TechPartner Office**
 - Apps: TechPartner Docs, TechPartner Sheets, TechPartner Slides,
   TechPartner PDF, plus Markdown and HTML editors
@@ -27,6 +29,7 @@ under those names or logos.
     (the logo file itself is kept as supplied)
 
 ## Done in this pilot (shell + shared chrome)
+
 - `apps/shell/package.json`: productName TechPartner Office,
   desktopName techpartner-office.desktop, author TechPartner Consulting
 - `apps/shell/electron-builder.cjs`: appId `com.techpartner.office`,
@@ -39,6 +42,7 @@ under those names or logos.
   back to genspark-ai by accident
 
 ## Alex's rule (2026-10-28): usability first
+
 **If a rebrand change would affect usability, do not change it.**
 That rules out the full internal sweep, and settles the AI question:
 
@@ -68,6 +72,7 @@ That rules out the full internal sweep, and settles the AI question:
   `apps/*/build/` are left alone for now for the same reason.
 
 ## Verification so far
+
 - `node tools/check-theme-colors.mjs` passes: "No new raw colors in renderer CSS."
 - Pushed to https://github.com/alexwboles/techpartner-office (public,
   fork of genspark-ai/genoffice); first Windows release v0.12.0 built
