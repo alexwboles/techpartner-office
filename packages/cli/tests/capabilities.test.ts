@@ -38,7 +38,9 @@ describe('genoffice capabilities', () => {
     })
     expect(r.code).toBe(0)
     const d = r.json().detail
-    expect(d.search.available).toBe(false)
+    // TechPartner defaults: keyless Parallel search is available with no
+    // account or key; image search, generation, and analysis are not.
+    expect(d.search).toEqual({ available: true, via: 'parallel' })
     expect(d.image_search.available).toBe(false)
     expect(d.image_generation.available).toBe(false)
     expect(d.media_analysis.available).toBe(false)
@@ -69,7 +71,9 @@ describe('genoffice capabilities', () => {
     expect(d.search).toEqual({ available: true, via: 'serper' })
     expect(d.image_search).toEqual({ available: true, via: 'serper' })
     expect(d.image_generation).toEqual({ available: true, via: 'openai' })
-    expect(d.media_analysis.available).toBe(false)
+    // An OpenAI key also enables analysis: the analysis provider defaults
+    // to OpenAI, whose default analysis model fills in.
+    expect(d.media_analysis).toEqual({ available: true, via: 'openai' })
     expect(d.app.available).toBe(true)
     expect(r.json().summary).toContain('image_generation')
   })
@@ -106,7 +110,9 @@ describe('genoffice capabilities', () => {
     '%s does not advertise Genspark image search when signed in',
     async (provider) => {
       vi.spyOn(aiSearch, 'hasGskAuth').mockReturnValue(true)
+      // The Genspark route now requires an explicit cloud-tools opt-in.
       const settings = settingsFile(tempDir(), {
+        gskToolsEnabled: true,
         search: { provider, providers: { [provider]: { apiKey: 'test-key' } } },
       })
       const r = await run(['capabilities', '--json'], {
