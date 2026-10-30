@@ -1480,6 +1480,13 @@ export const strings = {
     onbStarHint: 'Nếu bạn yêu thích GenOffice, hãy tặng chúng tôi một sao trên GitHub.',
     setEmail: 'Email',
     setNotLoggedIn: 'Chưa đăng nhập',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Xem mức sử dụng',
     setChange: 'Thay đổi',
     today: 'Hôm nay',
@@ -2010,6 +2017,13 @@ export const strings = {
     onbStarHint: 'GenOffice’i beğendiyseniz GitHub’da bize bir yıldız verin.',
     setEmail: 'E-posta',
     setNotLoggedIn: 'Giriş yapılmadı',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Kullanımı görüntüle',
     setChange: 'Değiştir',
     today: 'Bugün',
@@ -2549,6 +2563,13 @@ export const strings = {
     onbStarHint: 'GenOffice が気に入ったら、GitHub でスターをお願いします。',
     setEmail: 'メール',
     setNotLoggedIn: '未ログイン',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: '使用状況を見る',
     setChange: '変更',
     // Dates
@@ -3079,6 +3100,13 @@ export const strings = {
     onbStarHint: 'GenOffice가 마음에 들면 GitHub에서 스타를 눌러 주세요.',
     setEmail: '이메일',
     setNotLoggedIn: '로그인되지 않음',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: '사용량 보기',
     setChange: '변경',
     // Dates
@@ -3626,6 +3654,13 @@ export const strings = {
     onbStarHint: 'Si GenOffice vous plaît, mettez-nous une étoile sur GitHub.',
     setEmail: 'E-mail',
     setNotLoggedIn: 'Non connecté',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: "Voir l'utilisation",
     setChange: 'Modifier',
     // Dates
@@ -4176,6 +4211,13 @@ export const strings = {
     onbStarHint: 'Wenn Ihnen GenOffice gefällt, geben Sie uns einen Stern auf GitHub.',
     setEmail: 'E-Mail',
     setNotLoggedIn: 'Nicht angemeldet',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Verbrauch anzeigen',
     setChange: 'Ändern',
     // Dates
@@ -4720,6 +4762,13 @@ export const strings = {
     onbStarHint: 'Si te gusta GenOffice, danos una estrella en GitHub.',
     setEmail: 'Correo electrónico',
     setNotLoggedIn: 'Sesión no iniciada',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Ver uso',
     setChange: 'Cambiar',
     // Dates
@@ -5249,6 +5298,13 @@ export const strings = {
     onbStarHint: 'ถ้าชอบ GenOffice ฝากกดดาวให้เราบน GitHub ด้วยนะ',
     setEmail: 'อีเมล',
     setNotLoggedIn: 'ยังไม่ได้เข้าสู่ระบบ',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'ดูการใช้งาน',
     setChange: 'เปลี่ยน',
     // Dates
@@ -5784,6 +5840,13 @@ export const strings = {
     onbStarHint: 'Jika Anda menyukai GenOffice, beri kami bintang di GitHub.',
     setEmail: 'Email',
     setNotLoggedIn: 'Belum masuk',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Lihat penggunaan',
     setChange: 'Ubah',
     // Dates
@@ -6321,6 +6384,13 @@ export const strings = {
     onbStarHint: 'Если вам нравится GenOffice, поставьте нам звезду на GitHub.',
     setEmail: 'Эл. почта',
     setNotLoggedIn: 'Вы не вошли',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Посмотреть расход',
     setChange: 'Изменить',
     // Dates
@@ -6850,6 +6920,13 @@ export const strings = {
     onbStarHint: 'إذا أعجبك GenOffice، ضع لنا نجمة على GitHub.',
     setEmail: 'البريد الإلكتروني',
     setNotLoggedIn: 'لم يتم تسجيل الدخول',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'عرض الاستخدام',
     setChange: 'تغيير',
     // Dates
@@ -7385,6 +7462,13 @@ export const strings = {
     onbStarHint: 'Se você gosta do GenOffice, deixe uma estrela no GitHub.',
     setEmail: 'E-mail',
     setNotLoggedIn: 'Não conectado',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Ver uso',
     setChange: 'Alterar',
     today: 'Hoje',
@@ -7919,6 +8003,13 @@ export const strings = {
     onbStarHint: 'Se ti piace GenOffice, lasciaci una stella su GitHub.',
     setEmail: 'Email',
     setNotLoggedIn: 'Non connesso',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Vedi utilizzo',
     setChange: 'Cambia',
     today: 'Oggi',
@@ -8449,6 +8540,13 @@ export const strings = {
     onbStarHint: 'Jeśli podoba Ci się GenOffice, zostaw nam gwiazdkę na GitHubie.',
     setEmail: 'E-mail',
     setNotLoggedIn: 'Nie zalogowano',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Zobacz zużycie',
     setChange: 'Zmień',
     today: 'Dzisiaj',
@@ -8932,6 +9030,13 @@ export const strings = {
     onbStarHint: 'Pokud se vám GenOffice líbí, dejte nám hvězdičku na GitHubu.',
     setEmail: 'E-mail',
     setNotLoggedIn: 'Nepřihlášeno',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Zobrazit využití',
     setChange: 'Změnit',
     today: 'Dnes',
@@ -9505,6 +9610,13 @@ export const strings = {
     onbStarHint: 'Als GenOffice je bevalt, geef ons dan een ster op GitHub.',
     setEmail: 'E-mail',
     setNotLoggedIn: 'Niet ingelogd',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Verbruik bekijken',
     setChange: 'Wijzigen',
     today: 'Vandaag',
@@ -10039,6 +10151,13 @@ export const strings = {
     onbStarHint: 'Jika anda suka GenOffice, beri kami bintang di GitHub.',
     setEmail: 'E-mel',
     setNotLoggedIn: 'Belum log masuk',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'Lihat penggunaan',
     setChange: 'Tukar',
     today: 'Hari ini',
@@ -10555,6 +10674,13 @@ export const strings = {
     onbStarHint: 'אם GenOffice מוצא חן בעיניכם, תנו לנו כוכב ב-GitHub.',
     setEmail: 'אימייל',
     setNotLoggedIn: 'לא מחובר',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'הצגת שימוש',
     setChange: 'שינוי',
     today: 'היום',
@@ -11080,6 +11206,13 @@ export const strings = {
     onbStarHint: 'अगर आपको GenOffice पसंद है, तो हमें GitHub पर स्टार दें।',
     setEmail: 'ईमेल',
     setNotLoggedIn: 'साइन इन नहीं किया गया',
+    aiSetupTitle: 'AI setup — no account needed',
+    aiSetupDesc:
+      'TechPartner Office needs no account. For AI, use a free local model or your own key.',
+    aiSetupOllama:
+      'Free local model (Ollama): install Ollama, pull a model (for example ollama pull llama3.1), then in AI model settings pick Custom, set the base URL to http://localhost:11434/v1, and enter the model name you pulled.',
+    aiSetupByok: 'Your own key: in AI model settings, pick a provider and enter its API key.',
+    aiSetupOpenAi: 'Open AI model settings',
     setViewUsage: 'उपयोग देखें',
     setChange: 'बदलें',
     today: 'आज',
@@ -11586,6 +11719,12 @@ export const strings = {
     onbStarHint: '如果你喜歡 GenOffice，歡迎到 GitHub 給我們一顆星。',
     setEmail: '電子郵件',
     setNotLoggedIn: '未登入',
+    aiSetupTitle: 'AI 設定 — 無需帳號',
+    aiSetupDesc: 'TechPartner Office 無需帳號。AI 可使用免費本地模型或自己的 key。',
+    aiSetupOllama:
+      '免費本地模型 (Ollama)：安裝 Ollama，拉取模型（例如 ollama pull llama3.1），然後在 AI 模型設定中選擇 Custom，基礎 URL 設為 http://localhost:11434/v1，並輸入拉取的模型名。',
+    aiSetupByok: '自己的 key：在 AI 模型設定中選擇服務商並輸入 API key。',
+    aiSetupOpenAi: '開啟 AI 模型設定',
     setViewUsage: '查看用量',
     setChange: '變更',
     today: '今天',
