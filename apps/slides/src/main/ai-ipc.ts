@@ -4,7 +4,7 @@
  * to avoid renderer CORS), search tools, and the slides-only ai:* channels
  * (image generation, media analysis, style templates).
  */
-import { app, ipcMain, nativeImage, net, shell, webContents } from 'electron'
+import { app, ipcMain, nativeImage, net, webContents } from 'electron'
 import {
   appendFileSync,
   existsSync,
@@ -175,7 +175,7 @@ export function registerAiIpc(): void {
     let config = settings.providers?.[provider]
     // The genspark key never enters the settings file; it is fetched from the gsk login state per request
     // set only when the gsk key was injected: a 401 then means that key expired
-    let gskKey = ''
+    const gskKey = ''
     // TechPartner: no Genspark key is ever injected. A Genspark
     // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {

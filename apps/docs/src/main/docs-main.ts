@@ -4312,7 +4312,7 @@ export function registerAiIpc(): void {
     let config = settings.providers?.[provider]
     // the genspark key never enters the settings file; requests take it from the gsk login state
     // set only when the gsk key was injected: a 401 then means that key expired
-    let gskKey = ''
+    const gskKey = ''
     // TechPartner: no Genspark key is ever injected. A Genspark
     // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
@@ -4542,7 +4542,7 @@ export function registerAiIpc(): void {
     const provider = settings.provider
     let config = settings.providers?.[provider]
     // set only when the gsk key was injected: a 401 then means that key expired
-    let gskKey = ''
+    const gskKey = ''
     // TechPartner: no Genspark key is ever injected. A Genspark
     // selection reaches the error path below (no key configured).
     if (provider === 'genspark' && config && !config.apiKey) {
