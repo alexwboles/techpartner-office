@@ -549,10 +549,19 @@ describe('webSearch (Keenable)', () => {
 describe('search-tools', () => {
   it('maps the settings block onto SearchOptions', () => {
     const base = defaultAiSettings()
-    expect(searchOptionsFromSettings(base)).toEqual({ useGsk: true })
+    // TechPartner defaults: cloud tools off, search on keyless Parallel.
+    expect(searchOptionsFromSettings(base)).toEqual({
+      useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
+    })
     expect(searchOptionsFromSettings({ ...base, gskToolsEnabled: false })).toEqual({
       useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
     })
+    // Note: a stored 'genspark' search provider no longer reaches the
+    // Genspark branch — activeSearchProvider maps it to Parallel.
     const serper = {
       ...base,
       search: {

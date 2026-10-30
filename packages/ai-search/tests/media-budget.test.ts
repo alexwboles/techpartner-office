@@ -36,6 +36,9 @@ function writeSettings(mediaProvider: string): string {
   writeFileSync(
     path,
     JSON.stringify({
+      // The Genspark-fallback budget tests opt in explicitly: fresh defaults
+      // have cloud tools off, which would mask the budget error.
+      gskToolsEnabled: true,
       provider: mediaProvider,
       providers: { [mediaProvider]: { apiKey: 'k', model: 'test-model' } },
       media: {

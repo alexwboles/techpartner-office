@@ -1,3 +1,6 @@
+import { mkdtempSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('../src/gsk', () => ({
@@ -11,8 +14,15 @@ import { gskGenerateImage, gskAnalyzeMedia } from '../src/gsk'
 
 const gskGen = vi.mocked(gskGenerateImage)
 const gskAnalyze = vi.mocked(gskAnalyzeMedia)
-// nonexistent settings file → defaults: no BYOK media provider, cloud tools on → Genspark route
-const SETTINGS = '/nonexistent/ai-settings.json'
+// Genspark-route tests must opt in explicitly: fresh defaults have cloud
+// tools off (TechPartner has no Genspark sign-in), so a nonexistent settings
+// file would hit the tools-off gate before the Genspark route.
+const SETTINGS = (() => {
+  const dir = mkdtempSync(join(tmpdir(), 'genoffice-media-tools-'))
+  const path = join(dir, 'ai-settings.json')
+  writeFileSync(path, JSON.stringify({ gskToolsEnabled: true }))
+  return path
+})()
 
 beforeEach(() => {
   gskGen.mockReset()
