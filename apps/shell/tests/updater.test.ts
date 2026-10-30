@@ -297,21 +297,27 @@ describe('initAutoUpdater', () => {
     expect(quitAndInstall).toHaveBeenCalledWith(true, true)
   })
 
-  it('does not re-prompt for a version the user dismissed this session', async () => {
+  it('defers a newer version while the dismissed version is downloading for install-on-quit', async () => {
     const { initAutoUpdater } = await loadUpdater()
     initAutoUpdater(() => null)
     const available = updaterState.listeners.get('update-available')!
     available({ version: '0.2.0' })
     expect(showUpdateWindow).toHaveBeenCalledTimes(1)
+    // TechPartner launch-apply: the background check already started the
+    // download, so "Later" keeps it running for install-on-quit rather
+    // than discarding it
+    expect(downloadUpdate).toHaveBeenCalledTimes(1)
     lastShownActions().onLater()
     expect(closeUpdateWindow).toHaveBeenCalledTimes(1)
 
     available({ version: '0.2.0' })
     expect(showUpdateWindow).toHaveBeenCalledTimes(1)
 
-    // a newer version prompts again
+    // a newer version arriving while that download is still in flight is
+    // deferred, not prompted: it must not hijack the pending
+    // install-on-quit flow, and the next launch picks it up instead
     available({ version: '0.3.0' })
-    expect(showUpdateWindow).toHaveBeenCalledTimes(2)
+    expect(showUpdateWindow).toHaveBeenCalledTimes(1)
   })
 
   it('swallows background check failures', async () => {
@@ -573,7 +579,7 @@ describe('manual download fallback', () => {
     const actions = await failTwiceIntoManual(macFiles)
     actions.onOpenDownload()
     expect(openExternal).toHaveBeenCalledWith(
-      'https://github.com/genspark-ai/genoffice/releases/latest',
+      'https://github.com/alexwboles/techpartner-office/releases/latest',
     )
   })
 
@@ -584,7 +590,7 @@ describe('manual download fallback', () => {
     ])
     actions.onOpenDownload()
     expect(openExternal).toHaveBeenCalledWith(
-      'https://github.com/genspark-ai/genoffice/releases/latest',
+      'https://github.com/alexwboles/techpartner-office/releases/latest',
     )
   })
 })
@@ -642,7 +648,7 @@ describe('checkForUpdatesNow (r148 manual check)', () => {
     expect(showMessageBox).toHaveBeenCalledTimes(1)
     expect(lastDialogOpts().buttons.length).toBe(2)
     expect(openExternal).toHaveBeenCalledWith(
-      'https://github.com/genspark-ai/genoffice/releases/latest',
+      'https://github.com/alexwboles/techpartner-office/releases/latest',
     )
     expect(checkForUpdates).not.toHaveBeenCalled()
   })
