@@ -19,8 +19,24 @@ export function newCustomEndpointId(): string {
 
 const str = (v: unknown): string => (typeof v === 'string' ? v.trim() : '')
 
+// The default TechPartner slot is prefilled with the local Ollama endpoint
+// (see defaultAiSettings) so a fresh install points at free local AI. That
+// prefill alone is NOT a user configuration: if it seeded the endpoint list,
+// a fresh install would already have one endpoint, and the UI's "Add
+// endpoint" would create a second one — breaking the fresh-file invariant
+// (a fresh file has no endpoint list; the first added endpoint is [0]).
+// A slot with a model, a key, or any other base URL is a real configuration
+// and still seeds the list.
+const DEFAULT_OLLAMA_BASE_URL = 'http://localhost:11434/v1'
+
 function configuredSlot(config: AiProviderConfig | undefined): boolean {
-  return Boolean(str(config?.baseUrl) || str(config?.model) || str(config?.apiKey))
+  if (!config) return false
+  const isPrefillOnly =
+    str(config.baseUrl) === DEFAULT_OLLAMA_BASE_URL &&
+    !str(config.model) &&
+    !str(config.apiKey)
+  if (isPrefillOnly) return false
+  return Boolean(str(config.baseUrl) || str(config.model) || str(config.apiKey))
 }
 
 /** The profile fields of a stored entry, normalized (unknown keys dropped, bounds applied). */

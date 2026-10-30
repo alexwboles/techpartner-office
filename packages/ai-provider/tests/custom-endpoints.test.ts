@@ -48,6 +48,19 @@ describe('resolveCustomEndpoints', () => {
     expect(next.customEndpoint).toBeUndefined()
   })
 
+  it('does not seed a list from the default Ollama prefill alone', () => {
+    // Fresh TechPartner installs prefill the custom slot with the Ollama URL
+    // and no model or key. That prefill must not become a phantom endpoint:
+    // the first endpoint the user adds must be the list's first entry.
+    const settings = defaultAiSettings()
+    expect(settings.providers.custom.baseUrl).toBe('http://localhost:11434/v1')
+    const next = resolveCustomEndpoints(settings)
+    expect(next.customEndpoints).toBeUndefined()
+    expect(next.customEndpoint).toBeUndefined()
+    // ...but the slot itself still carries the prefill for the request path.
+    expect(next.providers.custom.baseUrl).toBe('http://localhost:11434/v1')
+  })
+
   it('falls back to the first entry when the active id is stale', () => {
     const next = resolveCustomEndpoints({
       ...defaultAiSettings(),
