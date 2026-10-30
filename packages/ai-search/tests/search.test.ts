@@ -634,7 +634,7 @@ describe('search-tools', () => {
       firecrawlKey: 'fc-1',
       prefer: 'firecrawl',
     })
-    // no key → genspark chain
+    // no key → Parallel fallback (the keyless backend), not a Genspark chain
     const empty = {
       ...base,
       search: {
@@ -650,7 +650,11 @@ describe('search-tools', () => {
         },
       },
     }
-    expect(searchOptionsFromSettings(empty)).toEqual({ useGsk: true })
+    expect(searchOptionsFromSettings(empty)).toEqual({
+      useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
+    })
     // keenable stays selected without a key (free endpoint)
     const keenable = {
       ...base,

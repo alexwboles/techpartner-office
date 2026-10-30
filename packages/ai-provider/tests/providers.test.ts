@@ -125,6 +125,11 @@ describe('resolveAiSettings', () => {
     expect(resolveAiSettings({}, defaults)).toEqual(defaults)
   })
 
+  it('keeps an explicit cloud-tools opt-in from a legacy provider-less file', () => {
+    const resolved = resolveAiSettings({ gskToolsEnabled: true }, defaultAiSettings())
+    expect(resolved.gskToolsEnabled).toBe(true)
+  })
+
   it('falls back to defaults for null and non-object settings roots', () => {
     for (const stored of [null, 'settings', 7, true, []]) {
       const defaults = defaultAiSettings()

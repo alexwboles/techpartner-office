@@ -653,7 +653,14 @@ export function resolveAiSettings(stored: unknown, defaults: AiSettings): AiSett
         baseUrl: str(settings.baseUrl) || 'https://api.openai.com/v1',
       }
     }
-    return resolveCustomEndpoints(defaults)
+    // An explicit cloud-tools opt-in in a legacy (provider-less) file must
+    // survive: returning the defaults wholesale would silently drop it, and
+    // with TechPartner defaults having cloud tools off, that opt-in is the
+    // only way such a file enables the Genspark route.
+    return resolveCustomEndpoints({
+      ...defaults,
+      gskToolsEnabled: settings.gskToolsEnabled ?? defaults.gskToolsEnabled ?? false,
+    })
   }
   // TechPartner migration: a stored Genspark selection (from a pre-Phase-2
   // install) moves to Custom, prefilled with the local Ollama endpoint, so an
