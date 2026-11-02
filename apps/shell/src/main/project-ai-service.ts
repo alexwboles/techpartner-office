@@ -132,7 +132,7 @@ function resolveModelTarget(userDataPath: string): {
   provider: Parameters<typeof chatForProvider>[0]
   config: Parameters<typeof chatForProvider>[1]
 } | null {
-  let stored: unknown = {}
+  let stored: unknown
   try {
     stored = JSON.parse(readFileSync(join(userDataPath, 'ai-settings.json'), 'utf8')) as unknown
   } catch {

@@ -110,10 +110,6 @@ function normalizeWords(text: string): string[] {
     .filter(Boolean)
 }
 
-function normalizeLabel(label: string): string {
-  return normalizeWords(label).join(' ')
-}
-
 export interface BudgetRow {
   label: string
   amount: number
