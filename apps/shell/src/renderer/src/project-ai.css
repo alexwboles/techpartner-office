@@ -11,8 +11,8 @@
 }
 
 .project-ai-card {
-  background: #fff;
-  border: 1px solid #e3e6e8;
+  background: var(--surface);
+  border: 1px solid var(--border);
   padding: 20px 24px;
 }
 
@@ -20,13 +20,13 @@
   font-size: 22px;
   font-weight: 650;
   margin: 0 0 6px;
-  color: #1b241f;
+  color: var(--text-primary);
 }
 
 .project-ai-sub,
 .project-ai-note {
   margin: 0 0 16px;
-  color: #5a6170;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
@@ -34,7 +34,7 @@
   font-size: 16px;
   font-weight: 650;
   margin: 0 0 8px;
-  color: #1b241f;
+  color: var(--text-primary);
 }
 
 .project-ai-row {
@@ -45,7 +45,7 @@
   display: block;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #1b241f;
+  color: var(--text-primary);
 }
 
 .project-ai-folder-row {
@@ -56,11 +56,11 @@
 .project-ai-input,
 .project-ai-textarea {
   flex: 1;
-  border: 1px solid #c9ced3;
-  background: #fff;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
   padding: 8px 10px;
   font: inherit;
-  color: #1b241f;
+  color: var(--text-primary);
 }
 
 .project-ai-textarea {
@@ -75,9 +75,9 @@
 }
 
 .project-ai-btn {
-  border: 1px solid #c9ced3;
-  background: #fff;
-  color: #1b241f;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
   padding: 8px 14px;
   font: inherit;
   cursor: pointer;
@@ -89,9 +89,9 @@
 }
 
 .project-ai-btn-primary {
-  background: #1c5b4a;
-  border-color: #1c5b4a;
-  color: #fff;
+  background: var(--color-btn-primary);
+  border-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
 }
 
 .project-ai-btn-primary:disabled {
@@ -99,12 +99,12 @@
 }
 
 .project-ai-status {
-  color: #1b241f;
+  color: var(--text-primary);
   margin: 0 0 8px;
 }
 
 .project-ai-error {
-  color: #b3261e;
+  color: var(--danger);
   margin: 0 0 8px;
 }
 
@@ -120,13 +120,13 @@
   border: none;
   padding: 0;
   font: inherit;
-  color: #1c5b4a;
+  color: var(--color-brand-secondary);
   cursor: pointer;
   text-decoration: underline;
 }
 
 .project-ai-empty {
-  color: #5a6170;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -135,7 +135,7 @@
 }
 
 .project-ai-via {
-  color: #5a6170;
+  color: var(--text-secondary);
 }
 
 .project-ai-queue-item {
@@ -143,7 +143,7 @@
 }
 
 .project-ai-detail {
-  color: #5a6170;
+  color: var(--text-secondary);
 }
 
 .project-ai-diff {
