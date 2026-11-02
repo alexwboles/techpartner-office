@@ -629,6 +629,12 @@ const config = {
     ],
   },
   win: {
+    // No spaces in the installer file name: electron-builder writes the
+    // built file name into latest.yml, but GitHub release assets end up
+    // with spaces converted to dots, so a spaced name makes the updater
+    // request a file that does not exist (404) and every auto-update
+    // download fails. The dots name must match the uploaded asset exactly.
+    artifactName: 'TechPartner.Office.Setup.${version}.${ext}',
     target: [
       {
         target: 'nsis',
