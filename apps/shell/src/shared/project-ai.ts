@@ -346,7 +346,7 @@ export function budgetTotal(budget: BudgetRow[]): number {
 
 export function businessNameFromBrief(brief: string): string {
   const first = brief.trim().split(/[.\n]/)[0] ?? ''
-  const cleaned = first.replace(/^a\s+/i, '').trim()
+  const cleaned = first.trim()
   if (!cleaned) return 'New Business'
   return cleaned.length > 80 ? `${cleaned.slice(0, 77).trim()}…` : cleaned
 }
