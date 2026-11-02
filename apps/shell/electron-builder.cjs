@@ -46,8 +46,7 @@ function normalizeHttpsBaseUrl(name, value) {
   }
 }
 
-const updateUrl =
-  process.env.TECHPARTNER_UPDATE_URL || process.env.GENOFFICE_UPDATE_URL
+const updateUrl = process.env.TECHPARTNER_UPDATE_URL || process.env.GENOFFICE_UPDATE_URL
 const ga4MeasurementId = process.env.GENOFFICE_GA4_MEASUREMENT_ID
 const ga4ApiSecret = process.env.GENOFFICE_GA4_API_SECRET
 const fontCdnUrl = normalizeHttpsBaseUrl(
