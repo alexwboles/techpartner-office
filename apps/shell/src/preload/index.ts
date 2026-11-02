@@ -584,6 +584,35 @@ const homeApi: HomeApi = {
     if (action !== 'starred' && action !== 'later') throw new Error('Invalid star prompt action.')
     await ipcRenderer.invoke(HOME_CHANNELS.starPromptAction, action)
   },
+  async projectAiPickFolder() {
+    const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.projectAiPickFolder)
+    return typeof result === 'string' && result ? result : null
+  },
+  async projectAiBuild(folder, brief) {
+    const result = (await ipcRenderer.invoke(HOME_CHANNELS.projectAiBuild, folder, brief)) as {
+      files?: unknown
+    }
+    const files = Array.isArray(result.files)
+      ? result.files.filter((f): f is string => typeof f === 'string')
+      : []
+    return { files }
+  },
+  async projectAiState() {
+    return (await ipcRenderer.invoke(HOME_CHANNELS.projectAiState)) as Awaited<
+      ReturnType<HomeApi['projectAiState']>
+    >
+  },
+  async projectAiReview() {
+    return (await ipcRenderer.invoke(HOME_CHANNELS.projectAiReview)) as Awaited<
+      ReturnType<HomeApi['projectAiReview']>
+    >
+  },
+  async projectAiAccept(id) {
+    return (await ipcRenderer.invoke(HOME_CHANNELS.projectAiAccept, id)) === true
+  },
+  async projectAiReject(id) {
+    await ipcRenderer.invoke(HOME_CHANNELS.projectAiReject, id)
+  },
   async cloudProjectsCached() {
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.cloudProjectsCached)
     return asCloudProjectsSnapshot(result)

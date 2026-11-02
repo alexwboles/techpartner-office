@@ -1,0 +1,254 @@
+import { useCallback, useEffect, useState } from 'react'
+import type { ProjectAiState } from '../../shared/project-ai'
+import './project-ai.css'
+
+const EMPTY_STATE: ProjectAiState = {
+  folder: null,
+  files: [],
+  status: 'idle',
+  statusMessage: '',
+  applied: [],
+  queue: [],
+  lastReviewAt: null,
+  lastError: null,
+}
+
+/**
+ * Project AI panel (pilot: business plan), rendered in place of the Home
+ * file list when the sidebar's Project AI entry is active.
+ *
+ * Flow: pick a saved project folder, type a short brief, build. The
+ * service generates a plan document, a budget spreadsheet and a pitch
+ * deck into the folder and opens them as tabs, then watches the folder
+ * and reviews the files as they change. The panel polls the service
+ * state (the watcher itself is main-side and debounced).
+ *
+ * Safety, stated in the panel so it is never folklore: only typo fixes
+ * and number syncs (spreadsheet = source of truth) are applied
+ * automatically, and every one lands in the change log below. Everything
+ * else waits in the approval queue until the user clicks Accept.
+ */
+export function ProjectAiPanel() {
+  const [state, setState] = useState<ProjectAiState>(EMPTY_STATE)
+  const [folder, setFolder] = useState('')
+  const [brief, setBrief] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [notice, setNotice] = useState('')
+
+  const refresh = useCallback(async () => {
+    try {
+      const next = await window.aiOffice.projectAiState()
+      setState(next)
+      if (next.folder) setFolder(next.folder)
+    } catch {
+      // the panel keeps its last state when the service is unreachable
+    }
+  }, [])
+
+  useEffect(() => {
+    void refresh()
+    const timer = setInterval(() => {
+      void refresh()
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [refresh])
+
+  const pickFolder = async (): Promise<void> => {
+    try {
+      const picked = await window.aiOffice.projectAiPickFolder()
+      if (picked) {
+        setFolder(picked)
+        setNotice('')
+      }
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : String(error))
+    }
+  }
+
+  const build = async (): Promise<void> => {
+    if (!folder || !brief.trim()) return
+    setBusy(true)
+    setNotice('')
+    try {
+      await window.aiOffice.projectAiBuild(folder, brief)
+      await refresh()
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : String(error))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const reviewNow = async (): Promise<void> => {
+    setBusy(true)
+    try {
+      await window.aiOffice.projectAiReview()
+      await refresh()
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : String(error))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const accept = async (id: string): Promise<void> => {
+    const ok = await window.aiOffice.projectAiAccept(id)
+    if (!ok) setNotice('That suggestion could not be applied exactly; it stays in the queue.')
+    await refresh()
+  }
+
+  const reject = async (id: string): Promise<void> => {
+    await window.aiOffice.projectAiReject(id)
+    await refresh()
+  }
+
+  const openFile = (path: string): void => {
+    void window.aiOffice.openPath(path)
+  }
+
+  return (
+    <main className="content project-ai">
+      <section className="project-ai-card" aria-label="Project AI">
+        <h1 className="project-ai-title">Project AI</h1>
+        <p className="project-ai-sub">
+          Build a business plan project: a plan document, a budget spreadsheet, and a pitch deck,
+          all from one brief. Pick a saved folder first — the files are built into it, and the AI
+          keeps reviewing them as you work.
+        </p>
+
+        <div className="project-ai-row">
+          <label className="project-ai-label" htmlFor="project-ai-folder">
+            Project folder
+          </label>
+          <div className="project-ai-folder-row">
+            <input
+              id="project-ai-folder"
+              className="project-ai-input"
+              value={folder}
+              placeholder="No folder picked yet"
+              readOnly
+            />
+            <button className="project-ai-btn" onClick={() => void pickFolder()}>
+              Choose folder
+            </button>
+          </div>
+        </div>
+
+        <div className="project-ai-row">
+          <label className="project-ai-label" htmlFor="project-ai-brief">
+            Brief
+          </label>
+          <textarea
+            id="project-ai-brief"
+            className="project-ai-textarea"
+            value={brief}
+            onChange={(event) => setBrief(event.target.value)}
+            placeholder="Example: A bakery in Palatka selling fresh bread and pastries to local customers."
+            rows={3}
+          />
+        </div>
+
+        <div className="project-ai-actions">
+          <button
+            className="project-ai-btn project-ai-btn-primary"
+            disabled={!folder || !brief.trim() || busy || state.status === 'building'}
+            onClick={() => void build()}
+          >
+            {state.status === 'building' ? 'Building…' : 'Build business plan'}
+          </button>
+          <button
+            className="project-ai-btn"
+            disabled={busy || !state.folder}
+            onClick={() => void reviewNow()}
+          >
+            Review now
+          </button>
+        </div>
+
+        {state.statusMessage && <p className="project-ai-status">{state.statusMessage}</p>}
+        {state.lastError && <p className="project-ai-error">{state.lastError}</p>}
+        {notice && <p className="project-ai-error">{notice}</p>}
+
+        {state.files.length > 0 && (
+          <div className="project-ai-files">
+            <h2 className="project-ai-heading">Project files</h2>
+            <ul>
+              {state.files.map((file) => (
+                <li key={file}>
+                  <button className="project-ai-link" onClick={() => openFile(file)}>
+                    {file.split(/[/\\]/).pop()}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+
+      <section className="project-ai-card" aria-label="Applied automatically">
+        <h2 className="project-ai-heading">Applied automatically</h2>
+        <p className="project-ai-note">
+          Only two things are ever applied without asking: typo fixes, and number syncs where a
+          figure in the plan or deck disagrees with the budget spreadsheet (the spreadsheet is the
+          source of truth). If a file is open in a tab, reopen it to see an applied change.
+        </p>
+        {state.applied.length === 0 ? (
+          <p className="project-ai-empty">Nothing applied automatically yet.</p>
+        ) : (
+          <ul className="project-ai-list">
+            {state.applied.map((entry, index) => (
+              <li key={`${entry.suggestionId}-${index}`}>
+                <span className="project-ai-kind">{entry.kind}</span> {entry.fileName}:{' '}
+                {entry.before} → {entry.after}
+                <span className="project-ai-via"> ({entry.via})</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="project-ai-card" aria-label="Needs your approval">
+        <h2 className="project-ai-heading">Needs your approval</h2>
+        <p className="project-ai-note">
+          Everything else — wording, structure, new content, and any figure where the spreadsheet is
+          not clearly the source — waits here until you accept it.
+        </p>
+        {state.queue.length === 0 ? (
+          <p className="project-ai-empty">
+            No suggestions waiting.
+            {state.lastReviewAt
+              ? ` Last review: ${new Date(state.lastReviewAt).toLocaleString()}.`
+              : ' Reviews run automatically a moment after you save a project file.'}
+          </p>
+        ) : (
+          <ul className="project-ai-list">
+            {state.queue.map((suggestion) => (
+              <li key={suggestion.id} className="project-ai-queue-item">
+                <div>
+                  <strong>{suggestion.title}</strong>
+                  <div className="project-ai-detail">{suggestion.detail}</div>
+                  {suggestion.before && suggestion.before !== suggestion.after && (
+                    <div className="project-ai-diff">
+                      {suggestion.before} → {suggestion.after}
+                    </div>
+                  )}
+                </div>
+                <div className="project-ai-queue-actions">
+                  <button
+                    className="project-ai-btn project-ai-btn-primary"
+                    onClick={() => void accept(suggestion.id)}
+                  >
+                    Accept
+                  </button>
+                  <button className="project-ai-btn" onClick={() => void reject(suggestion.id)}>
+                    Dismiss
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </main>
+  )
+}

@@ -1,0 +1,159 @@
+/* Project AI panel: same shell tokens as Home (see home.css) — white
+ * cards with a plain border, generous spacing, no rounded corners, no
+ * gradients. The panel lives in Home's content column. */
+
+.project-ai {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.project-ai-card {
+  background: #fff;
+  border: 1px solid #e3e6e8;
+  padding: 20px 24px;
+}
+
+.project-ai-title {
+  font-size: 22px;
+  font-weight: 650;
+  margin: 0 0 6px;
+  color: #1b241f;
+}
+
+.project-ai-sub,
+.project-ai-note {
+  margin: 0 0 16px;
+  color: #5a6170;
+  line-height: 1.5;
+}
+
+.project-ai-heading {
+  font-size: 16px;
+  font-weight: 650;
+  margin: 0 0 8px;
+  color: #1b241f;
+}
+
+.project-ai-row {
+  margin-bottom: 14px;
+}
+
+.project-ai-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1b241f;
+}
+
+.project-ai-folder-row {
+  display: flex;
+  gap: 8px;
+}
+
+.project-ai-input,
+.project-ai-textarea {
+  flex: 1;
+  border: 1px solid #c9ced3;
+  background: #fff;
+  padding: 8px 10px;
+  font: inherit;
+  color: #1b241f;
+}
+
+.project-ai-textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.project-ai-actions {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.project-ai-btn {
+  border: 1px solid #c9ced3;
+  background: #fff;
+  color: #1b241f;
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.project-ai-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.project-ai-btn-primary {
+  background: #1c5b4a;
+  border-color: #1c5b4a;
+  color: #fff;
+}
+
+.project-ai-btn-primary:disabled {
+  opacity: 0.5;
+}
+
+.project-ai-status {
+  color: #1b241f;
+  margin: 0 0 8px;
+}
+
+.project-ai-error {
+  color: #b3261e;
+  margin: 0 0 8px;
+}
+
+.project-ai-files ul,
+.project-ai-list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.6;
+}
+
+.project-ai-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #1c5b4a;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.project-ai-empty {
+  color: #5a6170;
+  margin: 0;
+}
+
+.project-ai-kind {
+  font-weight: 650;
+}
+
+.project-ai-via {
+  color: #5a6170;
+}
+
+.project-ai-queue-item {
+  margin-bottom: 12px;
+}
+
+.project-ai-detail {
+  color: #5a6170;
+}
+
+.project-ai-diff {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.project-ai-queue-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}

@@ -354,6 +354,7 @@ import {
   searchKnowledgeBase,
 } from './knowledge-base'
 import { createFileViaCli } from './mcp/headless-cli'
+import { ProjectAiService } from './project-ai-service'
 import { homeCliContext, runHomeCli, type HomeCliDeps } from './home-cli'
 import { sanitizeFileBase } from './mcp/tools/document-tools'
 import { runHeadlessExport, type HeadlessExporters } from './headless-export'
@@ -490,6 +491,19 @@ const PDF_OUT = app.isPackaged
   ? join(process.resourcesPath, 'modules', 'pdf')
   : join(APPS_ROOT, 'pdf', 'out')
 let cliRunner: ReturnType<typeof createCliRunner> | null = null
+/** Project AI pilot service (business plan): one instance for the shell. */
+let projectAiService: ProjectAiService | null = null
+function ensureProjectAiService(): ProjectAiService {
+  projectAiService ??= new ProjectAiService({
+    cli: bundledCliRunner(),
+    userDataPath: app.getPath('userData'),
+    openFile: (path) => {
+      routeDocumentPath(path)
+    },
+  })
+  return projectAiService
+}
+
 /** the bundled genoffice CLI on the app's own Node runtime (MCP headless tools, Ask AI create_document) */
 function bundledCliRunner(): ReturnType<typeof createCliRunner> {
   cliRunner ??= createCliRunner({
@@ -5528,6 +5542,34 @@ function registerHomeIpc(): void {
   })
   ipcMain.handle(HOME_CHANNELS.getDefaultAppStatus, () => defaultApp.status())
   ipcMain.handle(HOME_CHANNELS.setDefaultApp, () => defaultApp.set())
+
+  // Project AI pilot (business plan): folder picker, build, review, queue.
+  ipcMain.handle(HOME_CHANNELS.projectAiPickFolder, async (): Promise<string | null> => {
+    const result = await dialog.showOpenDialog(shellWindow, {
+      title: 'Choose a project folder',
+      properties: ['openDirectory', 'createDirectory'],
+    })
+    if (result.canceled || !result.filePaths[0]) return null
+    return result.filePaths[0]
+  })
+  ipcMain.handle(
+    HOME_CHANNELS.projectAiBuild,
+    async (_event, folder: unknown, brief: unknown): Promise<{ files: string[] }> => {
+      if (typeof folder !== 'string' || !folder || typeof brief !== 'string' || !brief.trim()) {
+        throw new Error('A project folder and a brief are required.')
+      }
+      return ensureProjectAiService().buildProject(folder, brief)
+    },
+  )
+  ipcMain.handle(HOME_CHANNELS.projectAiState, () => ensureProjectAiService().getState())
+  ipcMain.handle(HOME_CHANNELS.projectAiReview, async () => ensureProjectAiService().runReview())
+  ipcMain.handle(HOME_CHANNELS.projectAiAccept, async (_event, id: unknown): Promise<boolean> => {
+    if (typeof id !== 'string') return false
+    return ensureProjectAiService().acceptSuggestion(id)
+  })
+  ipcMain.handle(HOME_CHANNELS.projectAiReject, (_event, id: unknown): void => {
+    if (typeof id === 'string') ensureProjectAiService().rejectSuggestion(id)
+  })
 
   ipcMain.handle(HOME_CHANNELS.pickDefaultSaveDir, async (): Promise<string | null> => {
     const result = await showOpenDialogWithMemory(dialog, shellWindow, {

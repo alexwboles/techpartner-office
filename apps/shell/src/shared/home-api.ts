@@ -13,6 +13,7 @@ import type {
   CodexModelCatalog,
 } from '@genoffice/ai-provider'
 import type { UpdateChannel, UpdateUiState } from './update-api'
+import type { ProjectAiState } from './project-ai'
 import type {
   AttachmentInfo,
   CliContext,
@@ -316,6 +317,19 @@ export interface HomeApi {
   onAiStream(handler: (chunk: AiStreamChunk) => void): () => void
   /** Genspark login state (the default provider's auth source) */
   aiGskStatus(): Promise<{ loggedIn: boolean; email?: string }>
+  // ---- Project AI (pilot: business plan) ----
+  /** directory picker for the saved project folder */
+  projectAiPickFolder(): Promise<string | null>
+  /** generate plan + budget + deck into the folder and open them as tabs */
+  projectAiBuild(folder: string, brief: string): Promise<{ files: string[] }>
+  /** current project state: status, change log, approval queue */
+  projectAiState(): Promise<ProjectAiState>
+  /** run a cross-file review now (the folder watcher also runs it debounced) */
+  projectAiReview(): Promise<ProjectAiState>
+  /** apply one queued suggestion to disk; false when it cannot apply exactly */
+  projectAiAccept(id: string): Promise<boolean>
+  /** drop one queued suggestion without applying it */
+  projectAiReject(id: string): Promise<void>
   /** open an existing file, routing to the right module by extension */
   openHelp(): Promise<void>
   openPath(path: string): Promise<void>
@@ -725,4 +739,10 @@ export const HOME_CHANNELS = {
   cloudProjects: 'home:cloud-projects',
   cloudProjectsCached: 'home:cloud-projects-cached',
   openCloudProject: 'home:open-cloud-project',
+  projectAiPickFolder: 'home:project-ai-pick-folder',
+  projectAiBuild: 'home:project-ai-build',
+  projectAiState: 'home:project-ai-state',
+  projectAiReview: 'home:project-ai-review',
+  projectAiAccept: 'home:project-ai-accept',
+  projectAiReject: 'home:project-ai-reject',
 } as const

@@ -6,6 +6,7 @@ import type {
 } from 'react'
 import logoLockup from './assets/techpartner-logo.png'
 import { KbAskPanel } from './KbAskPanel'
+import { ProjectAiPanel } from './ProjectAiPanel'
 import { FileBadge } from './file-badge'
 import { placeFolderMenu } from './folder-menu-position'
 import type {
@@ -1179,6 +1180,7 @@ export function Home() {
   const [view, setView] = useState<'recent' | 'starred'>('recent')
   // the knowledge-base ask panel takes over the content area the same way
   const [askMode, setAskMode] = useState(false)
+  const [projectAiMode, setProjectAiMode] = useState(false)
   const [filter, setFilter] = useState('all')
   // ── Starred groups (named buckets the Starred view can filter on) ──
   // groups that currently have at least one starred file (drives the pills)
@@ -1630,6 +1632,7 @@ export function Home() {
     setView(next)
     setSelectedFolder(null)
     setAskMode(false)
+    setProjectAiMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setGroupFilter(null)
@@ -3107,7 +3110,7 @@ export function Home() {
       return parent?.folders.some((f) => f.path === p) ?? false
     })
 
-  const activeNav = !selectedFolder ? (askMode ? 'ask' : view) : null
+  const activeNav = !selectedFolder ? (projectAiMode ? 'projectAi' : askMode ? 'ask' : view) : null
 
   const onSidebarResizeStart = (e: ReactPointerEvent<HTMLDivElement>) => {
     const startX = e.clientX
@@ -3185,6 +3188,7 @@ export function Home() {
             aria-current={activeNav === 'ask' ? 'page' : undefined}
             onClick={() => {
               setAskMode(true)
+              setProjectAiMode(false)
               setSelectedFolder(null)
               setSelected(new Set())
               setRowMenu(null)
@@ -3206,6 +3210,27 @@ export function Home() {
             </svg>
             <span className="nav-label">{t('navAsk')}</span>
           </button>
+          <button
+            className={`nav-item${activeNav === 'projectAi' ? ' active' : ''}`}
+            aria-current={activeNav === 'projectAi' ? 'page' : undefined}
+            onClick={() => {
+              setProjectAiMode(true)
+              setAskMode(false)
+              setSelectedFolder(null)
+              setSelected(new Set())
+              setRowMenu(null)
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M8 1.9l1.9 3.85 4.25.62-3.07 3 .72 4.23L8 11.6l-3.8 2 .72-4.23-3.07-3 4.25-.62z"
+                stroke="currentColor"
+                strokeWidth="1.3"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="nav-label">{t('navProjectAi')}</span>
+          </button>
         </nav>
         <div className="sidebar-divider" />
         {renderFolderPanel()}
@@ -3218,6 +3243,8 @@ export function Home() {
       <div className="sidebar-resizer" onPointerDown={onSidebarResizeStart} />
       {selectedFolder && rootOf(selectedFolder, roots)?.readable ? (
         renderFolderContent()
+      ) : projectAiMode ? (
+        <ProjectAiPanel />
       ) : askMode ? (
         <KbAskPanel
           onOpenPath={(path) => void window.aiOffice.openPath(path)}
