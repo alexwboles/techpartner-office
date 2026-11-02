@@ -90,6 +90,16 @@ describe('number syncs', () => {
     expect(findNumberSyncs('Equipment: $8,500 for the launch.', 'doc', BUDGET, 0)).toHaveLength(0)
   })
 
+  it('does not correct a figure that already matches one of several matching rows', () => {
+    const rows = [
+      { label: 'Marketing', amount: 3500 },
+      { label: 'Marketing launch', amount: 4000 },
+    ]
+    // $3,500 already matches the Marketing row, so there is nothing to
+    // fix — correcting it to $4,000 would invent a discrepancy.
+    expect(findNumberSyncs('Marketing launch budget: $3,500.', 'deck', rows, 0)).toHaveLength(0)
+  })
+
   it('queues (never auto-applies) a figure matching several budget rows', () => {
     const rows = [
       { label: 'Marketing', amount: 3500 },

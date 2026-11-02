@@ -246,11 +246,14 @@ export function findNumberSyncs(
   let index = startIndex
   for (const mention of extractMoneyMentions(text)) {
     const candidates = budgetRows.filter((row) => rowMatchesContext(row, mention.context))
-    const differing = candidates.filter((row) => Math.abs(row.amount - mention.amount) > 0.005)
-    if (differing.length === 0) continue
+    // If ANY matching row already holds this amount, the figure is
+    // consistent with the budget as written — correcting it to a
+    // different matching row would invent a discrepancy, not fix one.
+    if (candidates.some((row) => Math.abs(row.amount - mention.amount) <= 0.005)) continue
+    if (candidates.length === 0) continue
     index += 1
-    if (differing.length === 1) {
-      const row = differing[0]
+    if (candidates.length === 1) {
+      const row = candidates[0]
       out.push({
         id: `number-sync-${file}-${index}`,
         kind: 'number-sync',
@@ -272,12 +275,12 @@ export function findNumberSyncs(
         fileName: projectAiFileName(file),
         title: `${mention.raw} disagrees with the budget (ambiguous)`,
         detail:
-          `This figure could match several budget rows (${differing.map((row) => `${row.label} ${formatMoney(row.amount)}`).join(', ')}), ` +
+          `This figure could match several budget rows (${candidates.map((row) => `${row.label} ${formatMoney(row.amount)}`).join(', ')}), ` +
           `so it was not changed automatically. Accept the correction you mean, or leave it.`,
         before: mention.raw,
         after: mention.raw,
         autoSafe: false,
-        ambiguity: `matches ${differing.length} budget rows`,
+        ambiguity: `matches ${candidates.length} budget rows`,
       })
     }
   }

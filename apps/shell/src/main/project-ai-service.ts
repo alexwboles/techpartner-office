@@ -143,7 +143,7 @@ function resolveModelTarget(userDataPath: string): {
   // Never route a project request to Genspark: activeProvider already
   // migrates it to Custom, and this is a second guard.
   if (provider === 'genspark') return null
-  const config = settings.providers[provider]
+  const config = settings.providers?.[provider]
   if (!config) return null
   if (provider === 'custom' && !config.model?.trim()) return null
   return { provider, config }
