@@ -5545,7 +5545,7 @@ function registerHomeIpc(): void {
 
   // Project AI pilot (business plan): folder picker, build, review, queue.
   ipcMain.handle(HOME_CHANNELS.projectAiPickFolder, async (): Promise<string | null> => {
-    const result = await dialog.showOpenDialog(shellWindow, {
+    const result = await dialog.showOpenDialog(shellWindow ?? undefined, {
       title: 'Choose a project folder',
       properties: ['openDirectory', 'createDirectory'],
     })

@@ -168,7 +168,7 @@ async function callModel(
       controller.signal,
     )
     if (!result.ok) return null
-    return typeof result.text === 'string' && result.text.trim() ? result.text : null
+    return typeof result.content === 'string' && result.content.trim() ? result.content : null
   } catch {
     return null
   } finally {
