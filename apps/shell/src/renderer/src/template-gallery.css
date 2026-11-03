@@ -90,14 +90,63 @@
   color: var(--color-tp-rail-active);
 }
 
-.template-gallery-grid {
+.template-gallery-scroll {
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 24px;
+  background: var(--bg-content);
+}
+
+.template-gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
-  padding: 16px 24px;
-  background: var(--bg-content);
+}
+
+/* Pinned shortcut sections (Favorites / Recently used) above the main
+ * grid in the unfiltered view; the main grid below keeps every template. */
+.template-gallery-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.template-gallery-section-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Star toggle in the card head: same gold-star treatment as Home's file
+ * starring (.star-btn there), square here to match the gallery. */
+.template-card-star {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--icon-muted);
+  cursor: pointer;
+}
+
+.template-card-star:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.template-card-star.starred {
+  color: var(--text);
 }
 
 .template-card {

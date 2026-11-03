@@ -10,6 +10,31 @@ import {
   type TemplateDef,
 } from '../src/shared/template-defs'
 import { buildTemplatePptx, buildTemplateXlsx } from '../src/main/template-files'
+import {
+  EMPTY_TEMPLATE_GALLERY_STATE,
+  TEMPLATE_GALLERY_STORAGE_KEY,
+  TEMPLATE_RECENT_LIMIT,
+  loadTemplateGalleryState,
+  recordTemplateUse,
+  saveTemplateGalleryState,
+  toggleTemplateFavorite,
+  type TemplateGalleryStorage,
+} from '../src/renderer/src/template-gallery-store'
+
+function memoryStorage(initial?: string): TemplateGalleryStorage & { keys: string[] } {
+  const box: TemplateGalleryStorage & { keys: string[] } = {
+    keys: [],
+    getItem: (key: string) => {
+      box.keys.push(key)
+      return initial ?? null
+    },
+    setItem: (key: string, value: string) => {
+      box.keys.push(key)
+      initial = value
+    },
+  }
+  return box
+}
 
 function stripHtml(html: string): string {
   return html
@@ -185,6 +210,83 @@ describe('template visual previews', () => {
     expect(visual.title).toBe('[Company Name]')
     expect(visual.subtitle).toContain('One-line pitch')
     expect(visual.extraSlides).toBe(7)
+  })
+})
+
+describe('template gallery favorites + recently used store', () => {
+  it('stars and unstars, persisting across a reload from the same storage', () => {
+    const storage = memoryStorage()
+    let state = loadTemplateGalleryState(storage)
+    expect(state).toEqual(EMPTY_TEMPLATE_GALLERY_STATE)
+
+    state = toggleTemplateFavorite(state, 'resume-modern')
+    state = toggleTemplateFavorite(state, 'invoice-service')
+    saveTemplateGalleryState(state, storage)
+    expect(storage.keys).toContain(TEMPLATE_GALLERY_STORAGE_KEY)
+    expect(loadTemplateGalleryState(storage).favorites).toEqual([
+      'resume-modern',
+      'invoice-service',
+    ])
+
+    state = toggleTemplateFavorite(loadTemplateGalleryState(storage), 'resume-modern')
+    saveTemplateGalleryState(state, storage)
+    expect(loadTemplateGalleryState(storage).favorites).toEqual(['invoice-service'])
+  })
+
+  it('records uses most-recent first, deduped and capped', () => {
+    let state = EMPTY_TEMPLATE_GALLERY_STATE
+    state = recordTemplateUse(state, 'a', 100)
+    state = recordTemplateUse(state, 'b', 200)
+    state = recordTemplateUse(state, 'a', 300)
+    // re-using a template moves it to the front instead of duplicating it
+    expect(state.recent).toEqual([
+      { id: 'a', usedAt: 300 },
+      { id: 'b', usedAt: 200 },
+    ])
+
+    for (let i = 0; i < TEMPLATE_RECENT_LIMIT + 4; i++) {
+      state = recordTemplateUse(state, `t-${i}`, 1000 + i)
+    }
+    expect(state.recent).toHaveLength(TEMPLATE_RECENT_LIMIT)
+    expect(state.recent[0]).toEqual({
+      id: `t-${TEMPLATE_RECENT_LIMIT + 3}`,
+      usedAt: 1000 + TEMPLATE_RECENT_LIMIT + 3,
+    })
+    expect(new Set(state.recent.map((entry) => entry.id)).size).toBe(TEMPLATE_RECENT_LIMIT)
+  })
+
+  it('persists recents through storage and keeps their order', () => {
+    const storage = memoryStorage()
+    let state = recordTemplateUse(EMPTY_TEMPLATE_GALLERY_STATE, 'pitch-startup', 42)
+    state = recordTemplateUse(state, 'meeting-agenda', 43)
+    saveTemplateGalleryState(state, storage)
+    expect(loadTemplateGalleryState(storage).recent).toEqual([
+      { id: 'meeting-agenda', usedAt: 43 },
+      { id: 'pitch-startup', usedAt: 42 },
+    ])
+  })
+
+  it('falls back to empty on missing, corrupt, or wrongly-shaped data', () => {
+    expect(loadTemplateGalleryState(memoryStorage())).toEqual(EMPTY_TEMPLATE_GALLERY_STATE)
+    expect(loadTemplateGalleryState(memoryStorage('{not json'))).toEqual(
+      EMPTY_TEMPLATE_GALLERY_STATE,
+    )
+    expect(loadTemplateGalleryState(memoryStorage('"just a string"'))).toEqual(
+      EMPTY_TEMPLATE_GALLERY_STATE,
+    )
+    const messy = loadTemplateGalleryState(
+      memoryStorage(
+        JSON.stringify({
+          favorites: ['ok-id', 7, '', 'ok-id', null],
+          recent: [{ id: 'x', usedAt: 5 }, { id: 9, usedAt: 1 }, 'junk', { id: 'x', usedAt: 9 }],
+        }),
+      ),
+    )
+    expect(messy.favorites).toEqual(['ok-id'])
+    expect(messy.recent).toEqual([{ id: 'x', usedAt: 5 }])
+    // no storage at all (non-DOM test environment) is also just empty
+    expect(loadTemplateGalleryState()).toEqual(EMPTY_TEMPLATE_GALLERY_STATE)
+    expect(() => saveTemplateGalleryState(messy)).not.toThrow()
   })
 })
 

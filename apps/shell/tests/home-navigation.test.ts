@@ -64,6 +64,7 @@ beforeEach(async () => {
     aiGskStatus: async () => ({ loggedIn: false }),
     onAiSettingsChanged: () => () => {},
   } as unknown as Window['aiOffice']
+  window.localStorage.clear()
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -84,6 +85,37 @@ function nav(label: string): HTMLButtonElement {
 async function click(button: HTMLButtonElement) {
   expect(button).toBeTruthy()
   await act(async () => button.click())
+}
+async function openGallery() {
+  await click(container.querySelector<HTMLButtonElement>('.landing-template-btn')!)
+  expect(container.querySelector('.template-gallery')).not.toBeNull()
+}
+function gallerySection(label: string): Element | null {
+  return container.querySelector(`.template-gallery-section[aria-label="${label}"]`)
+}
+function galleryCard(scope: Element, title: string): Element {
+  return [...scope.querySelectorAll('.template-card')].find(
+    (card) => card.querySelector('.template-card-title')?.textContent === title,
+  )!
+}
+function mainGalleryCard(title: string): Element {
+  return galleryCard(container.querySelector('.template-gallery-main-grid')!, title)
+}
+async function setGallerySearch(value: string) {
+  const input = container.querySelector<HTMLInputElement>('.template-gallery-search')!
+  const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!
+  await act(async () => {
+    setter.call(input, value)
+    input.dispatchEvent(new window.Event('input', { bubbles: true }))
+  })
+}
+function storedGalleryState(): { favorites: string[]; recent: Array<{ id: string }> } {
+  return (
+    JSON.parse(window.localStorage.getItem('templateGallery.state') ?? 'null') ?? {
+      favorites: [],
+      recent: [],
+    }
+  )
 }
 function selected(): string[] {
   return [...container.querySelectorAll('.icon-rail .rail-btn.active')].map((button) =>
@@ -155,6 +187,89 @@ describe('Home rail navigation', () => {
       expect.objectContaining({ templateId: 'resume-modern' }),
     )
     expect(container.querySelector('.template-gallery')).toBeNull()
+  })
+
+  it('pins starred templates in a Favorites section only in the unfiltered view', async () => {
+    await openGallery()
+    // empty state: no sections at all, not even headers
+    expect(gallerySection('Favorite templates')).toBeNull()
+    expect(gallerySection('Recently used')).toBeNull()
+
+    const star =
+      mainGalleryCard('Modern Resume').querySelector<HTMLButtonElement>('.template-card-star')!
+    expect(star.getAttribute('aria-label')).toBe('Favorite this template')
+    await click(star)
+    expect(
+      mainGalleryCard('Modern Resume')
+        .querySelector('.template-card-star')!
+        .getAttribute('aria-label'),
+    ).toBe('Unfavorite this template')
+
+    // the favorite is pinned above the main grid, and stays in the main grid too
+    const favorites = gallerySection('Favorite templates')!
+    expect(favorites).not.toBeNull()
+    expect(galleryCard(favorites, 'Modern Resume')).toBeTruthy()
+    expect(mainGalleryCard('Modern Resume')).toBeTruthy()
+    expect(storedGalleryState().favorites).toEqual(['resume-modern'])
+
+    // picking a category chip returns to the single flat grid
+    const chip = [...container.querySelectorAll<HTMLButtonElement>('.template-chip')].find(
+      (button) => button.textContent !== 'All',
+    )!
+    await click(chip)
+    expect(gallerySection('Favorite templates')).toBeNull()
+    const allChip = [...container.querySelectorAll<HTMLButtonElement>('.template-chip')].find(
+      (button) => button.textContent === 'All',
+    )!
+    await click(allChip)
+    expect(gallerySection('Favorite templates')).not.toBeNull()
+
+    // typing a search query also hides the sections; the flat grid still matches
+    await setGallerySearch('resume')
+    expect(gallerySection('Favorite templates')).toBeNull()
+    expect(mainGalleryCard('Modern Resume')).toBeTruthy()
+    await setGallerySearch('')
+
+    // unstarring removes the section entirely again
+    await click(
+      mainGalleryCard('Modern Resume').querySelector<HTMLButtonElement>('.template-card-star')!,
+    )
+    expect(gallerySection('Favorite templates')).toBeNull()
+    expect(storedGalleryState().favorites).toEqual([])
+  })
+
+  it('adds a successfully used template to Recently used, and only on success', async () => {
+    await openGallery()
+    const useButton =
+      mainGalleryCard('Modern Resume').querySelector<HTMLButtonElement>('.template-card-use')!
+    await click(useButton)
+    expect(window.aiOffice.createFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({ templateId: 'resume-modern' }),
+    )
+    expect(container.querySelector('.template-gallery')).toBeNull()
+    expect(storedGalleryState().recent.map((entry) => entry.id)).toEqual(['resume-modern'])
+
+    await openGallery()
+    const recent = gallerySection('Recently used')!
+    expect(recent).not.toBeNull()
+    expect(galleryCard(recent, 'Modern Resume')).toBeTruthy()
+    // the shortcut does not remove the template from the main grid
+    expect(mainGalleryCard('Modern Resume')).toBeTruthy()
+    expect(gallerySection('Favorite templates')).toBeNull()
+  })
+
+  it('does not record a template whose creation failed', async () => {
+    const create = window.aiOffice.createFromTemplate as unknown as ReturnType<typeof vi.fn>
+    create.mockResolvedValueOnce({ ok: false, error: 'boom' })
+    await openGallery()
+    const useButton =
+      mainGalleryCard('Modern Resume').querySelector<HTMLButtonElement>('.template-card-use')!
+    await click(useButton)
+    // the gallery stays open with the error, and nothing was recorded
+    expect(container.querySelector('.template-gallery')).not.toBeNull()
+    expect(container.querySelector('.template-gallery')?.textContent).toContain('boom')
+    expect(gallerySection('Recently used')).toBeNull()
+    expect(storedGalleryState().recent).toEqual([])
   })
 
   it('opens on the search-first landing and returns to it from Home', async () => {
