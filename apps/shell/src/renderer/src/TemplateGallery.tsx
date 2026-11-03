@@ -51,7 +51,7 @@ export function TemplateGallery({
     })
   }, [query, category, t])
 
-  const useTemplate = async (template: TemplateDef) => {
+  const createFromTemplate = async (template: TemplateDef) => {
     setBusyId(template.id)
     setError(null)
     try {
@@ -151,7 +151,7 @@ export function TemplateGallery({
                 <button
                   className="template-card-use"
                   disabled={busyId !== null}
-                  onClick={() => void useTemplate(template)}
+                  onClick={() => void createFromTemplate(template)}
                 >
                   {busyId === template.id ? t('templateGalleryCreating') : t('templateGalleryUse')}
                 </button>

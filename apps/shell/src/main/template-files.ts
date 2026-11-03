@@ -25,12 +25,18 @@ import { validateSheetName } from '@genoffice/xlsx-gateway/gateway/xlsx-sheets'
 import { isFormulaCell, type TemplateSheet, type TemplateSlide } from '../shared/template-defs'
 
 function escapeXml(value: string): string {
-  return value
+  const escaped = value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '')
+  let out = ''
+  for (let i = 0; i < escaped.length; i++) {
+    const code = escaped.charCodeAt(i)
+    if (code <= 8 || code === 11 || code === 12 || (code >= 14 && code <= 31)) continue
+    out += escaped[i]
+  }
+  return out
 }
 
 function columnLabel(column: number): string {

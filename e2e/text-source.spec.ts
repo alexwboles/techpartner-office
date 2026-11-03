@@ -29,6 +29,9 @@ test.describe('source text files', () => {
     })
     const { app, page } = launched
     try {
+      // the tree lives in the rail's folder drawer, closed by default
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       const tree = page.locator('.folder-panel .tree')
       const rootRow = tree.locator('.tree-row').first()
       await expect(rootRow).toContainText(dir.split('/').pop()!)

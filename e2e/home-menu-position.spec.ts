@@ -32,6 +32,9 @@ test.describe('home row menu position', () => {
     })
     const { page } = launched
     try {
+      // the tree lives in the rail's folder drawer, closed by default
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       const tree = page.locator('.folder-panel .tree')
       const row = tree.locator('.tree-row', {
         has: page.locator('.tree-name', { hasText: 'Clients' }),
@@ -80,6 +83,9 @@ test.describe('home row menu position', () => {
     })
     const { page } = launched
     try {
+      // the tree lives in the rail's folder drawer, closed by default
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       const row = page.locator('.folder-panel .tree .tree-row', {
         has: page.locator('.tree-name', { hasText: 'Clients' }),
       })

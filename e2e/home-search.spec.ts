@@ -89,6 +89,10 @@ test.describe('home file search', () => {
       await box.fill('quart')
       await expect(rows).toHaveCount(1)
       await expect(page.locator('.search-name .search-hit')).toHaveText('quart')
+      // the landing's search results carry no type filter pills; the full
+      // recents view (one click away via See all) keeps the same search
+      await page.locator('.landing-see-all').click()
+      await expect(rows).toHaveCount(1)
       await page.locator('.filter-pill', { hasText: 'Markdown' }).click()
       await expect(page.locator('.search-results .empty-hint')).toContainText('quart')
       await page.locator('.filter-pill', { hasText: 'All' }).click()
