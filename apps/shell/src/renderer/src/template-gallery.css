@@ -150,6 +150,198 @@
   color: var(--text-tertiary);
 }
 
+/* Live visual preview: a fixed-height, non-interactive miniature of the
+ * template's first screenful. Content is clipped, never scaled with
+ * transforms, so 58 cards stay cheap. Sharp corners throughout. */
+.template-visual {
+  position: relative;
+  height: 148px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-subtle);
+  pointer-events: none;
+  flex: 0 0 auto;
+}
+
+/* Docs: a miniature page on a subtle desk tint. */
+.template-visual-doc {
+  padding: 10px 12px 0;
+}
+
+.template-visual-page {
+  height: 100%;
+  padding: 10px 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-bottom: none;
+  box-shadow: var(--shadow-menu);
+  color: var(--text);
+}
+
+.template-visual-page .tv-h1 {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.template-visual-page .tv-h2 {
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 6px 0 2px;
+}
+
+.template-visual-page .tv-h3 {
+  font-size: 8.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 5px 0 2px;
+}
+
+.template-visual-page .tv-p {
+  margin: 0 0 3px;
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.template-visual-page .tv-list {
+  margin: 0 0 3px;
+  padding-left: 12px;
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.template-visual-page .tv-table {
+  width: 100%;
+  margin: 4px 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 7.5px;
+}
+
+.template-visual-page .tv-table th,
+.template-visual-page .tv-table td {
+  padding: 2px 4px;
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+}
+
+.template-visual-page .tv-table th {
+  color: var(--text);
+}
+
+/* Sheets: a miniature grid under a sheet-name tab. */
+.template-visual-sheet {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+}
+
+.template-visual-sheet-tab {
+  align-self: flex-start;
+  padding: 2px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  font-size: 8.5px;
+  color: var(--text-secondary);
+}
+
+.template-visual-grid-wrap {
+  flex: 1;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.template-visual-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 8px;
+}
+
+.template-visual-grid td {
+  padding: 2.5px 5px;
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.template-visual-grid td.tv-num {
+  text-align: right;
+}
+
+.template-visual-grid td.tv-bold {
+  font-weight: 700;
+}
+
+.template-visual-grid tr.tv-header td {
+  background: var(--color-tp-accent);
+  color: var(--color-tp-rail-active);
+  font-weight: 600;
+}
+
+/* Slides: a miniature title slide with a "+N more" badge. */
+.template-visual-slide {
+  padding: 10px 12px;
+}
+
+.template-visual-slide-box {
+  height: 100%;
+  padding: 12px 14px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-menu);
+}
+
+.template-visual-slide-box .tv-slide-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.template-visual-slide-box .tv-slide-sub {
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.template-visual-slide-box .tv-slide-line {
+  font-size: 8.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.template-visual-more {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  padding: 2px 7px;
+  background: var(--color-tp-accent);
+  color: var(--color-tp-rail-active);
+  font-size: 10px;
+  font-weight: 600;
+}
+
 .template-card-use {
   margin-top: auto;
   padding: 8px 12px;

@@ -182,6 +182,160 @@ export function templatePreview(template: TemplateDef): string[] {
   }
 }
 
+/** One cell of a visual preview grid (sheet rows, doc table rows). */
+export interface TemplatePreviewCell {
+  text: string
+  bold: boolean
+  numeric: boolean
+}
+
+/** One content block of a docs visual preview, in document order. */
+export type TemplatePreviewBlock =
+  | { kind: 'heading'; level: 1 | 2 | 3; text: string }
+  | { kind: 'paragraph'; text: string }
+  | { kind: 'list'; items: string[] }
+  | { kind: 'table'; rows: TemplatePreviewCell[][] }
+
+/**
+ * Render-ready model for a card's miniature live preview. Like the docs
+ * pipeline itself (parseHtmlFragment), the docs model is produced by a
+ * whitelist parse of the template HTML into safe blocks — the gallery
+ * renders these as React elements, never as injected HTML. Everything is
+ * truncated to the first screenful so 58 cards stay cheap to render.
+ */
+export type TemplateVisualPreview =
+  | { app: 'docs'; blocks: TemplatePreviewBlock[] }
+  | {
+      app: 'sheets'
+      sheetName: string
+      headerRow: boolean
+      rows: TemplatePreviewCell[][]
+      extraSheets: number
+    }
+  | { app: 'slides'; title: string; subtitle?: string; lines: string[]; extraSlides: number }
+
+const PREVIEW_BLOCK_LIMIT = 9
+const PREVIEW_LIST_LIMIT = 6
+const PREVIEW_TABLE_ROW_LIMIT = 6
+const PREVIEW_TABLE_COL_LIMIT = 5
+const PREVIEW_SHEET_ROW_LIMIT = 7
+const PREVIEW_SHEET_COL_LIMIT = 5
+
+function docPreviewBlocks(html: string): TemplatePreviewBlock[] {
+  const blocks: TemplatePreviewBlock[] = []
+  const blockRe = /<(h[1-3]|p|ul|table)\b[^>]*>([\s\S]*?)<\/\1>/gi
+  let match: RegExpExecArray | null
+  while ((match = blockRe.exec(html)) !== null && blocks.length < PREVIEW_BLOCK_LIMIT) {
+    const tag = match[1]!.toLowerCase()
+    const inner = match[2]!
+    if (tag === 'ul') {
+      const items: string[] = []
+      const liRe = /<li[^>]*>([\s\S]*?)<\/li>/gi
+      let li: RegExpExecArray | null
+      while ((li = liRe.exec(inner)) !== null && items.length < PREVIEW_LIST_LIMIT) {
+        const text = stripHtml(li[1]!)
+        if (text) items.push(text)
+      }
+      if (items.length > 0) blocks.push({ kind: 'list', items })
+    } else if (tag === 'table') {
+      const rows: TemplatePreviewCell[][] = []
+      const trRe = /<tr[^>]*>([\s\S]*?)<\/tr>/gi
+      let tr: RegExpExecArray | null
+      while ((tr = trRe.exec(inner)) !== null && rows.length < PREVIEW_TABLE_ROW_LIMIT) {
+        const cells: TemplatePreviewCell[] = []
+        const cellRe = /<(th|td)\b[^>]*>([\s\S]*?)<\/\1>/gi
+        let cell: RegExpExecArray | null
+        while ((cell = cellRe.exec(tr[1]!)) !== null && cells.length < PREVIEW_TABLE_COL_LIMIT) {
+          cells.push({
+            text: stripHtml(cell[2]!),
+            bold: cell[1]!.toLowerCase() === 'th',
+            numeric: false,
+          })
+        }
+        if (cells.length > 0) rows.push(cells)
+      }
+      if (rows.length > 0) blocks.push({ kind: 'table', rows })
+    } else if (tag === 'p') {
+      const text = stripHtml(inner)
+      if (text) blocks.push({ kind: 'paragraph', text: text.slice(0, 300) })
+    } else {
+      const text = stripHtml(inner)
+      if (text) {
+        blocks.push({ kind: 'heading', level: Number(tag[1]) as 1 | 2 | 3, text })
+      }
+    }
+  }
+  return blocks
+}
+
+function formatPreviewNumber(value: number, format?: 'currency' | 'percent' | 'int'): string {
+  if (format === 'currency') {
+    return `$${value.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`
+  }
+  if (format === 'percent') {
+    const pct = Math.abs(value) <= 1 ? value * 100 : value
+    return `${Math.round(pct * 10) / 10}%`
+  }
+  if (format === 'int') return String(Math.round(value))
+  return Number.isInteger(value) ? String(value) : String(Math.round(value * 100) / 100)
+}
+
+function sheetCellPreview(cell: TemplateSheetCell): TemplatePreviewCell {
+  if (typeof cell === 'string') return { text: cell, bold: false, numeric: false }
+  if (typeof cell === 'number') {
+    return { text: formatPreviewNumber(cell), bold: false, numeric: true }
+  }
+  // Formula cells show their cached result, the way a reader sees the sheet
+  // before recalculation.
+  const cached = cell.cached
+  return {
+    text: typeof cached === 'number' ? formatPreviewNumber(cached, cell.format) : cached,
+    bold: cell.bold === true,
+    numeric: typeof cached === 'number',
+  }
+}
+
+/**
+ * Visual preview model for a gallery card: the first screenful of the
+ * template's real content — doc blocks for docs, a grid of the first
+ * sheet for sheets, the title slide for slides.
+ */
+export function templateVisualPreview(template: TemplateDef): TemplateVisualPreview {
+  switch (template.content.app) {
+    case 'docs': {
+      const blocks = docPreviewBlocks(template.content.html)
+      if (blocks.length > 0) return { app: 'docs', blocks }
+      const text = stripHtml(template.content.html)
+      return { app: 'docs', blocks: text ? [{ kind: 'paragraph', text: text.slice(0, 300) }] : [] }
+    }
+    case 'sheets': {
+      const sheet = template.content.sheets[0]!
+      return {
+        app: 'sheets',
+        sheetName: sheet.name,
+        headerRow: sheet.headerRow === true,
+        rows: sheet.rows
+          .slice(0, PREVIEW_SHEET_ROW_LIMIT)
+          .map((row) => row.slice(0, PREVIEW_SHEET_COL_LIMIT).map(sheetCellPreview)),
+        extraSheets: template.content.sheets.length - 1,
+      }
+    }
+    case 'slides': {
+      const first = template.content.slides[0]!
+      return {
+        app: 'slides',
+        title: first.title,
+        ...(first.subtitle ? { subtitle: first.subtitle } : {}),
+        lines: first.bullets.slice(0, 4),
+        extraSlides: template.content.slides.length - 1,
+      }
+    }
+  }
+}
+
 export const TEMPLATES: TemplateDef[] = [
   {
     id: 'resume-modern',

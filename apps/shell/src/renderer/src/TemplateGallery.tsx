@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { FileBadge } from './file-badge'
 import { useI18n } from './locale'
 import type { StringKey } from './locale'
@@ -9,17 +9,124 @@ import {
   templateCategoryKey,
   templateExtOf,
   templatePreview,
+  templateVisualPreview,
   type TemplateCategory,
   type TemplateDef,
 } from '../../shared/template-defs'
 import './template-gallery.css'
 
 /**
+ * Miniature live preview of a template's real first screenful, rendered
+ * from the template definition (doc blocks, sheet grid, title slide) as
+ * plain React elements — no injected HTML, no images, nothing async.
+ * Memoized per template: the definitions are static, so each preview is
+ * computed once and reused across gallery re-renders.
+ */
+const TemplateVisual = memo(function TemplateVisual({ template }: { template: TemplateDef }) {
+  const { t } = useI18n()
+  const visual = useMemo(() => templateVisualPreview(template), [template])
+  if (visual.app === 'docs') {
+    return (
+      <div className="template-visual template-visual-doc" aria-hidden="true">
+        <div className="template-visual-page">
+          {visual.blocks.map((block, i) => {
+            switch (block.kind) {
+              case 'heading':
+                return (
+                  <div key={i} className={`tv-h${block.level}`}>
+                    {block.text}
+                  </div>
+                )
+              case 'paragraph':
+                return (
+                  <p key={i} className="tv-p">
+                    {block.text}
+                  </p>
+                )
+              case 'list':
+                return (
+                  <ul key={i} className="tv-list">
+                    {block.items.map((item, j) => (
+                      <li key={j}>{item}</li>
+                    ))}
+                  </ul>
+                )
+              case 'table':
+                return (
+                  <table key={i} className="tv-table">
+                    <tbody>
+                      {block.rows.map((row, r) => (
+                        <tr key={r}>
+                          {row.map((cell, c) =>
+                            cell.bold ? <th key={c}>{cell.text}</th> : <td key={c}>{cell.text}</td>,
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )
+            }
+          })}
+        </div>
+      </div>
+    )
+  }
+  if (visual.app === 'sheets') {
+    return (
+      <div className="template-visual template-visual-sheet" aria-hidden="true">
+        <div className="template-visual-sheet-tab">{visual.sheetName}</div>
+        <div className="template-visual-grid-wrap">
+          <table className="template-visual-grid">
+            <tbody>
+              {visual.rows.map((row, r) => (
+                <tr key={r} className={visual.headerRow && r === 0 ? 'tv-header' : undefined}>
+                  {row.map((cell, c) => (
+                    <td
+                      key={c}
+                      className={
+                        [cell.numeric ? 'tv-num' : '', cell.bold ? 'tv-bold' : '']
+                          .filter(Boolean)
+                          .join(' ') || undefined
+                      }
+                    >
+                      {cell.text}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div className="template-visual template-visual-slide" aria-hidden="true">
+      <div className="template-visual-slide-box">
+        <div className="tv-slide-title">{visual.title}</div>
+        {visual.subtitle && <div className="tv-slide-sub">{visual.subtitle}</div>}
+        {visual.lines.map((line, i) => (
+          <div key={i} className="tv-slide-line">
+            • {line}
+          </div>
+        ))}
+      </div>
+      {visual.extraSlides > 0 && (
+        <span className="template-visual-more">
+          {t('templatePreviewMoreSlides', { count: visual.extraSlides })}
+        </span>
+      )}
+    </div>
+  )
+})
+
+/**
  * Template gallery modal: category chips + search over the template
- * library, one card per template with a structure preview derived from the
- * real template content (headings, sheet names, slide titles — never a
- * fake screenshot). "Use template" builds a real document and opens it;
- * "Open local file" keeps the old file-picker behavior reachable.
+ * library, one card per template with a live visual preview and a
+ * structure preview, both derived from the real template content
+ * (headings, sheet names, slide titles — never a fake screenshot).
+ * "Use template" builds a real document and opens it; "Open local file"
+ * keeps the old file-picker behavior reachable.
  */
 export function TemplateGallery({
   createOpts,
@@ -131,6 +238,7 @@ export function TemplateGallery({
             const preview = templatePreview(template)
             return (
               <article key={template.id} className="template-card">
+                <TemplateVisual template={template} />
                 <div className="template-card-head">
                   <FileBadge ext={templateExtOf(template)} size={30} />
                   <div className="template-card-titles">

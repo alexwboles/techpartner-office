@@ -6,6 +6,7 @@ import {
   templateCategoryKey,
   templateExtOf,
   templatePreview,
+  templateVisualPreview,
   type TemplateDef,
 } from '../src/shared/template-defs'
 import { buildTemplatePptx, buildTemplateXlsx } from '../src/main/template-files'
@@ -97,6 +98,93 @@ describe('template registry completeness', () => {
     for (const key of keys) {
       expect(key).toMatch(/^templateCat/)
     }
+  })
+})
+
+describe('template visual previews', () => {
+  it('produces a non-empty visual preview model for every template', () => {
+    for (const template of TEMPLATES) {
+      const visual = templateVisualPreview(template)
+      expect(visual.app).toBe(template.content.app)
+      if (visual.app === 'docs') {
+        expect(visual.blocks.length).toBeGreaterThan(0)
+        const text = visual.blocks
+          .map((block) => {
+            switch (block.kind) {
+              case 'heading':
+              case 'paragraph':
+                return block.text
+              case 'list':
+                return block.items.join(' ')
+              case 'table':
+                return block.rows
+                  .flat()
+                  .map((cell) => cell.text)
+                  .join(' ')
+            }
+          })
+          .join(' ')
+        expect(text.trim().length).toBeGreaterThan(0)
+      } else if (visual.app === 'sheets') {
+        expect(visual.rows.length).toBeGreaterThan(0)
+        expect(visual.rows[0]!.length).toBeGreaterThan(0)
+        expect(visual.rows.flat().some((cell) => cell.text.length > 0)).toBe(true)
+      } else {
+        expect(visual.title.trim().length).toBeGreaterThan(0)
+      }
+    }
+  })
+
+  it('builds the docs preview from real headings, paragraphs, and tables', () => {
+    const resume = TEMPLATES.find((template) => template.id === 'resume-modern')!
+    const visual = templateVisualPreview(resume)
+    expect(visual.app).toBe('docs')
+    if (visual.app !== 'docs') return
+    expect(visual.blocks[0]).toEqual({ kind: 'heading', level: 1, text: '[Your Full Name]' })
+    expect(visual.blocks.some((block) => block.kind === 'paragraph')).toBe(true)
+
+    const agenda = TEMPLATES.find((template) => template.id === 'meeting-agenda')!
+    const agendaVisual = templateVisualPreview(agenda)
+    expect(agendaVisual.app).toBe('docs')
+    if (agendaVisual.app !== 'docs') return
+    const table = agendaVisual.blocks.find((block) => block.kind === 'table')
+    expect(table).toBeDefined()
+    if (table?.kind !== 'table') return
+    expect(table.rows[0]!.map((cell) => cell.text)).toEqual(['Time', 'Topic', 'Lead'])
+    expect(table.rows[0]!.every((cell) => cell.bold)).toBe(true)
+  })
+
+  it('shows cached formula results in the sheets preview grid', () => {
+    const template = TEMPLATES.find((candidate) => candidate.id === 'invoice-service')!
+    const visual = templateVisualPreview(template)
+    expect(visual.app).toBe('sheets')
+    if (visual.app !== 'sheets') return
+    expect(visual.sheetName).toBe('Invoice')
+    expect(visual.headerRow).toBe(true)
+    expect(visual.rows[0]!.map((cell) => cell.text)).toEqual([
+      'Description',
+      'Quantity',
+      'Rate',
+      'Amount',
+    ])
+    const allText = visual.rows.flat().map((cell) => cell.text)
+    expect(allText).toContain('$500.00')
+    expect(allText).toContain('$2,050.00')
+    expect(allText).toContain('$2,193.50')
+    // the bold total row keeps its bold flag for the grid styling
+    const totalCell = visual.rows.flat().find((cell) => cell.text === '$2,193.50')!
+    expect(totalCell.bold).toBe(true)
+    expect(totalCell.numeric).toBe(true)
+  })
+
+  it('uses the first slide and counts the rest for the slides preview', () => {
+    const template = TEMPLATES.find((candidate) => candidate.id === 'pitch-startup')!
+    const visual = templateVisualPreview(template)
+    expect(visual.app).toBe('slides')
+    if (visual.app !== 'slides') return
+    expect(visual.title).toBe('[Company Name]')
+    expect(visual.subtitle).toContain('One-line pitch')
+    expect(visual.extraSlides).toBe(7)
   })
 })
 
