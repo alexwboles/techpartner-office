@@ -1728,4 +1728,252 @@ export const TEMPLATES: TemplateDef[] = [
       ],
     },
   },
+  // Team-format templates adapted from the structural shapes of a colleague's
+  // onboarding pack (working-preferences guide, multi-page deck layouts,
+  // one-page update slide, navy table formats). All wording and figures here
+  // are original placeholders — no names, employers, real numbers, or brand
+  // assets from the source were carried over.
+  {
+    id: 'team-working-preferences',
+    title: 'Team Working Preferences',
+    description:
+      'One-page guide to how a team prefers to communicate and run projects: short complete emails, bullets for multi-point messages, the right channel for each kind of message, and a consistent project workflow.',
+    category: 'meetings',
+    content: {
+      app: 'docs',
+      html: [
+        '<h1>Team Working Preferences</h1>',
+        '<p>[This guide sets out how our team prefers to work together. Replace the examples with your own team norms.]</p>',
+        '<h2>Email</h2>',
+        '<ul><li>Keep emails short, but include everything the reader needs to act — no missing context.</li><li>When forwarding a message, add a note explaining what is being forwarded and what you need from the reader. Never send a forward with no explanation.</li><li>When a message has several points or questions, list them as bullets so each one can be answered separately. Bulleted messages get faster replies than long paragraphs.</li><li>Long paragraph emails tend to be set aside for later, so break them up.</li></ul>',
+        '<h2>Choosing the channel</h2>',
+        '<ul><li>Use email for deliverables, questions, and requests, so they can be tracked and answered from a desk.</li><li>Use text messages for scheduling, quick or urgent items, and casual conversation.</li><li>When a topic needs back-and-forth discussion, use a short call of about 15 minutes instead of a long email thread.</li></ul>',
+        '<h2>Project working style</h2>',
+        '<ul><li>Start by looking at other examples for ideas, sketch the design on paper, then begin building. The sketch step leads to better results.</li><li>Agree an estimated deadline at the start of each project so everyone plans around the same target.</li><li>Close each project with a final review call to sign off the work, so nothing lingers unfinished.</li></ul>',
+        '<h2>Deliverable formats</h2>',
+        '<p>Keep deliverables consistent: tables go in the spreadsheet format, short updates go in the one-page format, and longer presentations go in the multi-page format.</p>',
+      ].join('\n'),
+    },
+  },
+  {
+    id: 'executive-presentation',
+    title: 'Executive Presentation',
+    description:
+      'Six-slide executive deck distilled from multi-page presentation layouts: title, agenda, section divider, headline statement, summary, and next steps.',
+    category: 'presentations',
+    content: {
+      app: 'slides',
+      slides: [
+        {
+          title: '[Presentation Title]',
+          subtitle: '[A one-line statement of the topic and the decision or outcome you want]',
+          bullets: [],
+        },
+        {
+          title: 'Agenda',
+          bullets: [
+            '[Agenda item 1]',
+            '[Agenda item 2]',
+            '[Agenda item 3]',
+            '[Agenda item 4]',
+            '[Agenda item 5]',
+          ],
+        },
+        {
+          title: 'Section 1: [Section Title]',
+          bullets: ['[What this section covers, in one sentence.]'],
+        },
+        {
+          title: '[Headline Statement]',
+          bullets: [
+            '[Supporting point for the headline.]',
+            '[Supporting point for the headline.]',
+            '[Supporting point for the headline.]',
+          ],
+        },
+        {
+          title: 'Summary',
+          bullets: [
+            '[Recap of the first key point.]',
+            '[Recap of the second key point.]',
+            '[One-sentence summary statement.]',
+          ],
+        },
+        {
+          title: 'Next Steps',
+          bullets: [
+            '[Next step, owner, and timing.]',
+            '[Next step, owner, and timing.]',
+            '[What you need from the audience.]',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 'one-page-project-update',
+    title: 'One-Page Project Update',
+    description:
+      'Project update in the one-page shape: header, highlight sentences, key points, and a summary statement on the first slide, with backup detail slides behind it.',
+    category: 'presentations',
+    content: {
+      app: 'slides',
+      slides: [
+        {
+          title: '[Project Name] — Project Update',
+          subtitle: '[Reporting period]',
+          bullets: [
+            '[Highlight sentence: the most important progress this period.]',
+            '[Highlight sentence: the second most important progress this period.]',
+            'Key point: [Point and supporting sentence.]',
+            'Key point: [Point and supporting sentence.]',
+            'Key point: [Point and supporting sentence.]',
+            'Summary: [One-sentence summary statement.]',
+            'Headline figure: [Figure, e.g. budget used or milestones reached]',
+          ],
+        },
+        {
+          title: 'What Changed Since Last Update',
+          bullets: [
+            '[Change since the last update, and why it matters.]',
+            '[Change since the last update, and why it matters.]',
+            '[Change since the last update, and why it matters.]',
+          ],
+        },
+        {
+          title: 'Risks and Next Steps',
+          bullets: [
+            '[Risk or open issue, and the plan to address it.]',
+            '[Risk or open issue, and the plan to address it.]',
+            '[Next step, owner, and timing.]',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 'financial-review',
+    title: 'Financial Review',
+    description:
+      'Financial review deck: results against plan, what drove the variance, and the forward outlook — all figures are placeholders for your own numbers.',
+    category: 'presentations',
+    content: {
+      app: 'slides',
+      slides: [
+        {
+          title: '[Period] Financial Review',
+          subtitle: '[One-line summary: ahead of, behind, or in line with plan]',
+          bullets: [],
+        },
+        {
+          title: 'Results Against Plan',
+          bullets: [
+            'Planned: [Planned amount]',
+            'Actual: [Actual amount]',
+            'Variance: [Variance amount and percent]',
+            '[One sentence on what the variance means.]',
+          ],
+        },
+        {
+          title: 'What Drove the Variance',
+          bullets: [
+            '[Driver 1 and its effect on the result.]',
+            '[Driver 2 and its effect on the result.]',
+            '[Driver 3 and its effect on the result.]',
+          ],
+        },
+        {
+          title: 'Outlook',
+          bullets: [
+            '[Expected result for the next period.]',
+            '[Assumption the outlook depends on.]',
+            '[Action being taken to close any gap.]',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 'process-timeline',
+    title: 'Process Timeline',
+    description:
+      'Generic process timeline: near-term, mid-term, and long-term phases, milestone rows, and a weekly execution plan.',
+    category: 'presentations',
+    content: {
+      app: 'slides',
+      slides: [
+        {
+          title: '[Process Name] Timeline',
+          subtitle: '[What this process delivers, and by when]',
+          bullets: [],
+        },
+        {
+          title: 'Phases',
+          bullets: [
+            'Near-term: [What happens in this phase.]',
+            'Mid-term: [What happens in this phase.]',
+            'Long-term: [What happens in this phase.]',
+          ],
+        },
+        {
+          title: 'Milestones',
+          bullets: [
+            '[Milestone 1] — [Target timing]',
+            '[Milestone 2] — [Target timing]',
+            '[Milestone 3] — [Target timing]',
+            '[Milestone 4] — [Target timing]',
+          ],
+        },
+        {
+          title: 'Weekly Execution Plan',
+          bullets: [
+            '[Week 1]: [Tasks for this week.]',
+            '[Week 2]: [Tasks for this week.]',
+            '[Week 3]: [Tasks for this week.]',
+            '[Week 4]: [Tasks for this week.]',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 'formatted-data-table',
+    title: 'Formatted Data Table',
+    description:
+      'Styled data table with a bold header row, sample rows, and an automatic total, plus a comparison sheet for weighing options side by side.',
+    category: 'budgets',
+    content: {
+      app: 'sheets',
+      sheets: [
+        {
+          name: 'Data Table',
+          headerRow: true,
+          widths: [28, 44, 16, 28],
+          rows: [
+            ['Item', 'Description', 'Amount', 'Notes'],
+            ['[Item 1]', '[Short description of the item]', 120, '[Note]'],
+            ['[Item 2]', '[Short description of the item]', 250, '[Note]'],
+            ['[Item 3]', '[Short description of the item]', 80, '[Note]'],
+            [
+              'Total',
+              '',
+              { formula: 'SUM(C2:C4)', cached: 450, format: 'currency', bold: true },
+              '',
+            ],
+          ],
+        },
+        {
+          name: 'Comparison',
+          headerRow: true,
+          widths: [28, 16, 16, 32],
+          rows: [
+            ['Option', 'Cost', 'Rating', 'Notes'],
+            ['[Option 1]', 100, 'High', '[Note]'],
+            ['[Option 2]', 150, 'Medium', '[Note]'],
+            ['[Option 3]', 75, 'Low', '[Note]'],
+          ],
+        },
+      ],
+    },
+  },
 ]

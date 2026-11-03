@@ -90,6 +90,49 @@ describe('template registry completeness', () => {
   })
 })
 
+describe('team-format templates (onboarding pack shapes, genericized)', () => {
+  const EXPECTED: Array<{ id: string; category: string; app: string }> = [
+    { id: 'team-working-preferences', category: 'meetings', app: 'docs' },
+    { id: 'executive-presentation', category: 'presentations', app: 'slides' },
+    { id: 'one-page-project-update', category: 'presentations', app: 'slides' },
+    { id: 'financial-review', category: 'presentations', app: 'slides' },
+    { id: 'process-timeline', category: 'presentations', app: 'slides' },
+    { id: 'formatted-data-table', category: 'budgets', app: 'sheets' },
+  ]
+
+  it('includes all six templates in the right category and app', () => {
+    for (const expected of EXPECTED) {
+      const template = TEMPLATES.find((candidate) => candidate.id === expected.id)
+      expect(template).toBeDefined()
+      expect(template!.category).toBe(expected.category)
+      expect(template!.content.app).toBe(expected.app)
+    }
+  })
+
+  it('carries no source names, brands, banks, or real figures', () => {
+    const forbidden = ['tyler', 'full sail', 'vilano', 'goldman', '439', '440']
+    for (const expected of EXPECTED) {
+      const template = TEMPLATES.find((candidate) => candidate.id === expected.id)!
+      const text = JSON.stringify(template.content).toLowerCase()
+      for (const word of forbidden) {
+        expect(text).not.toContain(word)
+      }
+    }
+  })
+
+  it('builds the formatted data table with a header row and a correct total', async () => {
+    const template = TEMPLATES.find((candidate) => candidate.id === 'formatted-data-table')!
+    expect(template.content.app).toBe('sheets')
+    if (template.content.app !== 'sheets') return
+    const buffer = await buildTemplateXlsx(template.content.sheets)
+    const zip = await JSZip.loadAsync(buffer)
+    const sheet = await zip.file('xl/worksheets/sheet1.xml')!.async('text')
+    expect(sheet).toContain('<f>SUM(C2:C4)</f>')
+    expect(sheet).toContain('<v>450</v>')
+    expect(sheet).toContain('s="2"')
+  })
+})
+
 describe('template file builders', () => {
   it('builds a multi-sheet workbook with formulas and header styling', async () => {
     const template = TEMPLATES.find((candidate) => candidate.id === 'invoice-service')!
