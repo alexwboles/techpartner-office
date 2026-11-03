@@ -76,8 +76,8 @@ afterEach(async () => {
   vi.unstubAllGlobals()
 })
 function nav(label: string): HTMLButtonElement {
-  return [...container.querySelectorAll<HTMLButtonElement>('.sidebar-nav button')].find(
-    (button) => button.querySelector('.nav-label')?.textContent === label,
+  return [...container.querySelectorAll<HTMLButtonElement>('.icon-rail .rail-btn')].find(
+    (button) => button.getAttribute('aria-label') === label,
   )!
 }
 async function click(button: HTMLButtonElement) {
@@ -85,12 +85,12 @@ async function click(button: HTMLButtonElement) {
   await act(async () => button.click())
 }
 function selected(): string[] {
-  return [...container.querySelectorAll('.sidebar-nav .active .nav-label')].map(
-    (label) => label.textContent!,
+  return [...container.querySelectorAll('.icon-rail .rail-btn.active')].map((button) =>
+    button.getAttribute('aria-label')!,
   )
 }
 
-describe('Home sidebar navigation', () => {
+describe('Home rail navigation', () => {
   it.each(['Recent', 'Starred'])('shows only Ask AI as selected after leaving %s', async (from) => {
     await click(nav(from))
     expect(selected()).toEqual([from])
@@ -110,6 +110,8 @@ describe('Home sidebar navigation', () => {
   })
 
   it('keeps the file-type filter when returning from Ask AI', async () => {
+    // the landing has no filter pills: enter the full Recent view first
+    await click(nav('Recent'))
     const docs = [...container.querySelectorAll<HTMLButtonElement>('.filter-pill')].find(
       (button) => button.textContent === 'Docs',
     )!
@@ -125,5 +127,29 @@ describe('Home sidebar navigation', () => {
     expect(window.aiOffice.recents).toHaveBeenLastCalledWith(
       expect.objectContaining({ ext: 'docx' }),
     )
+  })
+
+  it('toggles the folder drawer from the rail', async () => {
+    expect(container.querySelector('.folder-drawer')).toBeNull()
+    await click(nav('Folders'))
+    expect(container.querySelector('.folder-drawer .folder-panel')).not.toBeNull()
+    expect(nav('Folders').getAttribute('aria-expanded')).toBe('true')
+    await click(nav('Folders'))
+    expect(container.querySelector('.folder-drawer')).toBeNull()
+    expect(nav('Folders').getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('opens on the search-first landing and returns to it from Home', async () => {
+    expect(container.querySelector('.landing-headline')).not.toBeNull()
+    expect(container.querySelector('.landing-search-hint')?.textContent).toBe('Ctrl K')
+    expect(container.querySelector('.landing-recent-list')?.textContent).toContain('brief.docx')
+    expect(selected()).toEqual(['Home'])
+    const seeAll = container.querySelector<HTMLButtonElement>('.landing-see-all')!
+    await click(seeAll)
+    expect(container.querySelector('.landing-headline')).toBeNull()
+    expect(container.querySelector('.recent-table')).not.toBeNull()
+    await click(nav('Home'))
+    expect(container.querySelector('.landing-headline')).not.toBeNull()
+    expect(selected()).toEqual(['Home'])
   })
 })

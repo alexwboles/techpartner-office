@@ -42,6 +42,9 @@ test.describe('home folders panel', () => {
     })
     const { page } = launched
     try {
+      // the tree lives in the rail's folder drawer, closed by default
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       const tree = page.locator('.folder-panel .tree')
       await expect(page.locator('.folder-panel-title')).toHaveText('Folders')
       const rootRow = tree.locator('.tree-row').first()
@@ -135,6 +138,8 @@ test.describe('home folders panel', () => {
     })
     const { page, userDataDir } = launched
     try {
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       const tree = page.locator('.folder-panel .tree')
       const rootRows = tree.locator(':scope > .tree-item > .tree-row')
       await expect(rootRows).toHaveCount(2)
@@ -187,6 +192,8 @@ test.describe('home folders panel', () => {
     })
     const { page, app } = launched
     try {
+      await page.getByRole('button', { name: 'Folders', exact: true }).click()
+      await expect(page.locator('.folder-drawer')).toBeVisible()
       await page.locator('.folder-panel .tree .tree-name', { hasText: 'Personal' }).click()
       await expect(page.locator('.folder-panel .tree .tree-row.active .tree-name')).toHaveText(
         'Personal',

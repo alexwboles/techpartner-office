@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type {
-  DragEvent as ReactDragEvent,
-  PointerEvent as ReactPointerEvent,
-  ReactElement,
-} from 'react'
-import logoLockup from './assets/techpartner-logo.png'
+import type { DragEvent as ReactDragEvent, ReactElement } from 'react'
+import appIcon from './assets/app-icon.png'
 import { KbAskPanel } from './KbAskPanel'
 import { ProjectAiPanel } from './ProjectAiPanel'
 import { FileBadge } from './file-badge'
@@ -21,6 +17,7 @@ import type {
   FileSearchPage,
   FileSearchRerank,
 } from '../../shared/home-api'
+import type { ProjectAiState } from '../../shared/project-ai'
 import type { IntegrationsApi } from '../../shared/integrations-api'
 import { markText } from '../../shared/text-marks'
 import { useDismissablePopover } from '@genoffice/ui'
@@ -46,15 +43,8 @@ declare global {
 /** page size of the home list; scrolling to the bottom auto-loads the next page */
 const PAGE_SIZE = 50
 
-/** greeting sublines on the home page: one is picked at random on entry */
-const GREET_ASK_KEYS = [
-  'greetAsk1',
-  'greetAsk2',
-  'greetAsk3',
-  'greetAsk4',
-  'greetAsk5',
-  'greetAsk6',
-] as const satisfies readonly StringKey[]
+/** the search-first landing shows the first page of recents as clean rows */
+const LANDING_ROW_COUNT = 5
 
 /* Formats the open-local card advertises. Too long for the card at any window
    width, so it ellipsizes and a hover ScreenTip carries the full list. Keep in
@@ -68,19 +58,8 @@ const DRAG_PATHS_MIME = 'application/x-genoffice-paths'
 const DRAG_EXPAND_DELAY_MS = 600
 /** expanded folders survive a home reload; the selection is per session */
 const TREE_STATE_KEY = 'home.folderTree'
-/** user-dragged sidebar width; unset keeps the stylesheet's default (genoffice#2169) */
-const SIDEBAR_WIDTH_KEY = 'home.sidebarWidth'
-const SIDEBAR_MIN_WIDTH = 180
-const SIDEBAR_MAX_WIDTH = 480
-
-function readSidebarWidth(): number | null {
-  try {
-    const n = Number(localStorage.getItem(SIDEBAR_WIDTH_KEY))
-    return n >= SIDEBAR_MIN_WIDTH && n <= SIDEBAR_MAX_WIDTH ? n : null
-  } catch {
-    return null
-  }
-}
+/** the slim icon rail replaced the draggable 232px sidebar; the width setting
+ * it used (home.sidebarWidth) is intentionally left unread from here on */
 
 /**
  * Width of the viewport that `position: fixed` elements anchor to. The layout
@@ -1175,9 +1154,14 @@ export function Home() {
   /** sidebar Recent / Starred counts under the active type filter */
   const [navCounts, setNavCounts] = useState({ recent: 0, starred: 0 })
   const [loadingMore, setLoadingMore] = useState(false)
-  const [sidebarWidth, setSidebarWidth] = useState(readSidebarWidth)
-  const sidebarRef = useRef<HTMLElement>(null)
   const [view, setView] = useState<'recent' | 'starred'>('recent')
+  // the search-first landing is the default Home view; the full recents/starred
+  // tables live one click away (rail Recent/Starred, or the landing's See all)
+  const [landing, setLanding] = useState(true)
+  // the folder tree lives in a drawer beside the slim rail instead of a sidebar
+  const [folderDrawerOpen, setFolderDrawerOpen] = useState(false)
+  // live Project AI state for the landing's strip (polled like the panel does)
+  const [projectAiStrip, setProjectAiStrip] = useState<ProjectAiState | null>(null)
   // the knowledge-base ask panel takes over the content area the same way
   const [askMode, setAskMode] = useState(false)
   const [projectAiMode, setProjectAiMode] = useState(false)
@@ -1229,10 +1213,6 @@ export function Home() {
     const name = on ? (s?.email ?? '').split('@')[0] : ''
     setAccountName(name ? name[0].toUpperCase() + name.slice(1) : '')
   }, [])
-  const [greetAskKey] = useState(
-    () => GREET_ASK_KEYS[Math.floor(Math.random() * GREET_ASK_KEYS.length)]!,
-  )
-
   // ── Folder tree state ──
   // the default save folder first, then the folders the user added; `root` is the default one
   const [roots, setRoots] = useState<FolderRoot[]>([])
@@ -1451,7 +1431,7 @@ export function Home() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey) return
-      if (event.key !== 'f' && event.key !== 'p') return
+      if (event.key !== 'f' && event.key !== 'p' && event.key !== 'k') return
       const input = searchInputRef.current
       if (!input) return
       event.preventDefault()
@@ -1461,6 +1441,31 @@ export function Home() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
+
+  // the landing's Project AI strip polls the same state the panel shows, but
+  // only while the landing is visible — the panel polls for itself when open
+  useEffect(() => {
+    if (!landing) return
+    let cancelled = false
+    const refresh = () => {
+      // a build without the project bridge has no strip to poll
+      const state = window.aiOffice.projectAiState?.()
+      if (!state) return
+      void state
+        .then((next) => {
+          if (!cancelled) setProjectAiStrip(next)
+        })
+        .catch(() => {
+          // the strip keeps its last state when the service is unreachable
+        })
+    }
+    void refresh()
+    const timer = window.setInterval(refresh, 4000)
+    return () => {
+      cancelled = true
+      window.clearInterval(timer)
+    }
+  }, [landing])
 
   useEffect(() => {
     const onFocus = () => refreshRef.current()
@@ -1630,12 +1635,35 @@ export function Home() {
 
   const changeView = (next: 'recent' | 'starred') => {
     setView(next)
+    setLanding(false)
     setSelectedFolder(null)
     setAskMode(false)
     setProjectAiMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setGroupFilter(null)
+  }
+
+  /** the rail's Home button: back to the search-first landing */
+  const goHome = () => {
+    setView('recent')
+    setLanding(true)
+    setSelectedFolder(null)
+    setAskMode(false)
+    setProjectAiMode(false)
+    setSelected(new Set())
+    setRowMenu(null)
+    setGroupFilter(null)
+  }
+
+  /** the rail's Project AI button and the landing strip share this */
+  const goProjectAi = () => {
+    setProjectAiMode(true)
+    setAskMode(false)
+    setLanding(false)
+    setSelectedFolder(null)
+    setSelected(new Set())
+    setRowMenu(null)
   }
 
   const changeFilter = (key: string) => {
@@ -1952,11 +1980,26 @@ export function Home() {
     },
   ]
 
-  function renderQuickCards() {
+  /** the create row shared by the landing and the folder view: + New, one
+   * button per file type, and From template. The type buttons keep the
+   * `quick-card` class so existing file-creation flows keep finding them.
+   * No template gallery exists yet, so From template opens the file picker
+   * (start from an existing file) until a real gallery is built. */
+  function renderCreateRow() {
     return (
-      <div className="quick-cards">
+      <div className="landing-create-row">
+        <button
+          className="landing-new-btn"
+          onClick={() => void window.aiOffice.newDoc(newFileOpts)}
+        >
+          <span aria-hidden="true">+</span> {t('homeNew')}
+        </button>
         {NEW_ITEMS.map((item) => (
-          <button key={item.ext} className="quick-card" onClick={() => void item.action()}>
+          <button
+            key={item.ext}
+            className="quick-card landing-create-btn"
+            onClick={() => void item.action()}
+          >
             <FileBadge ext={item.ext} size={30} />
             <span className="quick-text">
               <span className="quick-title-row">
@@ -1968,18 +2011,15 @@ export function Home() {
           </button>
         ))}
         <button
-          className="quick-card"
+          className="landing-template-btn"
           onClick={() => void window.aiOffice.browse()}
           data-tip={OPEN_LOCAL_EXTENSIONS}
         >
-          <span className="quick-folder">
-            <FolderIcon size={18} />
-          </span>
           <span className="quick-text">
             <span className="quick-title-row">
-              <span className="quick-title">{t('openLocal')}</span>
+              <span className="quick-title">{t('homeFromTemplate')}</span>
             </span>
-            <span className="quick-sub">{OPEN_LOCAL_EXTENSIONS}</span>
+            <span className="quick-sub">{t('openLocal')}</span>
           </span>
         </button>
       </div>
@@ -2844,7 +2884,7 @@ export function Home() {
           <div className="section-head">
             <span className="section-label">{t('secQuickStart')}</span>
           </div>
-          {renderQuickCards()}
+          {renderCreateRow()}
         </section>
 
         <section className="recents" aria-label={t('folders')}>
@@ -2940,7 +2980,42 @@ export function Home() {
 
   // ── Plain view ────────────────────────────────────────
 
-  function renderGlobalContent() {
+  /** the global view's selection bar, shared with the landing's recent rows */
+  function renderSelectionBar() {
+    return (
+      <div className="selection-bar">
+        <span className="selection-count">{t('selectedCount', { n: selectedPaths.length })}</span>
+        {canMove && (
+          <button className="selection-action" onClick={() => startMove(selectedPaths)}>
+            {t('moveToFolder')}
+          </button>
+        )}
+        {view === 'starred' ? (
+          // every Starred-view row is a favorite, so the selection
+          // action unstars; removeRecent there kept the stars and the
+          // rows came straight back on refresh
+          <button className="selection-action" onClick={() => unstarSelected(selectedPaths)}>
+            {t('unstar')}
+          </button>
+        ) : (
+          <button className="selection-action" onClick={() => removeRecent(selectedPaths)}>
+            {t('removeFromList')}
+          </button>
+        )}
+        <button className="selection-action danger" onClick={() => deleteFiles(selectedPaths)}>
+          {t('deleteFiles')}
+        </button>
+        <button className="selection-action" onClick={() => setSelected(new Set())}>
+          {t('cancel')}
+        </button>
+      </div>
+    )
+  }
+
+  /** the search-first landing: kicker, greeting, big search, create row,
+   * the first recent rows, and the Project AI strip — the full tables live
+   * one click away (See all, or the rail's Recent / Starred) */
+  function renderLanding() {
     const now = new Date()
     const hour = now.getHours()
     const greetKey =
@@ -2953,58 +3028,82 @@ export function Home() {
             : 'greetEvening'
     const cjk = lang === 'zh' || lang === 'zh-TW' || lang === 'ja'
     const greeting = `${t(greetKey)}${accountName ? (cjk ? '，' : ', ') + accountName : ''}${cjk ? '。' : '. '}`
+    const landingRows = entries.slice(0, LANDING_ROW_COUNT)
+    const strip = projectAiStrip
+    const stripFolder = strip?.folder
+      ? strip.folder.replace(/\\/g, '/').split('/').filter(Boolean).pop()
+      : null
+    const stripCounts = [
+      strip && strip.applied.length > 0 ? t('homeAiApplied', { n: strip.applied.length }) : null,
+      strip && strip.queue.length > 0 ? t('homeAiNeeds', { n: strip.queue.length }) : null,
+    ].filter((part): part is string => part !== null)
+    return (
+      <main className="content landing-content">
+        <div className="landing-column">
+          <p className="landing-kicker">{t('homeKicker')}</p>
+          <h1 className="landing-headline">
+            {greeting} <span className="landing-accent">{t('homeWorkingOn')}</span>
+          </h1>
+          <p className="landing-sub">{t('homeSub')}</p>
+          <div className="landing-search">
+            {renderSearchBox()}
+            <span className="landing-search-hint">Ctrl K</span>
+          </div>
+          {renderCreateRow()}
+          <section className="landing-recents" aria-label={t('secRecent')}>
+            <div className="landing-recents-head">
+              <span className="section-label">{t('secRecent')}</span>
+              <button className="landing-see-all" onClick={() => setLanding(false)}>
+                {t('homeSeeAll')}
+              </button>
+            </div>
+            {searchActive ? (
+              <>
+                {renderSearchHeading()}
+                {renderSearchResults()}
+              </>
+            ) : (
+              <>
+                {selectedPaths.length > 0 && renderSelectionBar()}
+                {landingRows.length === 0 ? (
+                  renderEmpty(navCounts.recent === 0 ? t('emptyRecent') : t('emptyFiltered'))
+                ) : (
+                  <ul className="recent-list landing-recent-list">
+                    {landingRows.map((entry) => renderFileRow(entry, 'global'))}
+                  </ul>
+                )}
+              </>
+            )}
+          </section>
+          <button className="landing-ai-strip" onClick={goProjectAi}>
+            {stripFolder ? (
+              <>
+                <span className="landing-ai-title">
+                  {t('homeAiWatching', { name: stripFolder })}
+                </span>
+                {stripCounts.length > 0 && (
+                  <span className="landing-ai-counts">{stripCounts.join(' · ')}</span>
+                )}
+              </>
+            ) : (
+              <span className="landing-ai-title">{t('homeAiEmpty')}</span>
+            )}
+          </button>
+        </div>
+      </main>
+    )
+  }
+
+  function renderGlobalContent() {
     return (
       <main className="content">
-        <section className="quick-start" aria-label={t('secQuickStart')}>
-          <div className="home-hero">
-            <h1 className="hero-title">
-              {greeting}
-              <span className="hero-ask">{t(greetAskKey)}</span>
-            </h1>
-          </div>
-          {renderQuickCards()}
-        </section>
-
         <section
           className="recents"
           aria-label={view === 'recent' ? t('secRecent') : t('secStarred')}
         >
           <div className="recents-toolbar">
             {selectedPaths.length > 0 ? (
-              <div className="selection-bar">
-                <span className="selection-count">
-                  {t('selectedCount', { n: selectedPaths.length })}
-                </span>
-                {canMove && (
-                  <button className="selection-action" onClick={() => startMove(selectedPaths)}>
-                    {t('moveToFolder')}
-                  </button>
-                )}
-                {view === 'starred' ? (
-                  // every Starred-view row is a favorite, so the selection
-                  // action unstars; removeRecent there kept the stars and the
-                  // rows came straight back on refresh
-                  <button
-                    className="selection-action"
-                    onClick={() => unstarSelected(selectedPaths)}
-                  >
-                    {t('unstar')}
-                  </button>
-                ) : (
-                  <button className="selection-action" onClick={() => removeRecent(selectedPaths)}>
-                    {t('removeFromList')}
-                  </button>
-                )}
-                <button
-                  className="selection-action danger"
-                  onClick={() => deleteFiles(selectedPaths)}
-                >
-                  {t('deleteFiles')}
-                </button>
-                <button className="selection-action" onClick={() => setSelected(new Set())}>
-                  {t('cancel')}
-                </button>
-              </div>
+              renderSelectionBar()
             ) : (
               <div className="toolbar-filters">
                 <div className="filter-pills" role="tablist" aria-label={t('filterAria')}>
@@ -3110,137 +3209,154 @@ export function Home() {
       return parent?.folders.some((f) => f.path === p) ?? false
     })
 
-  const activeNav = !selectedFolder ? (projectAiMode ? 'projectAi' : askMode ? 'ask' : view) : null
-
-  const onSidebarResizeStart = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const startX = e.clientX
-    const startW = sidebarRef.current?.getBoundingClientRect().width ?? SIDEBAR_MIN_WIDTH
-    const sign = getComputedStyle(e.currentTarget).direction === 'rtl' ? -1 : 1
-    const el = e.currentTarget
-    el.setPointerCapture(e.pointerId)
-    let next = startW
-    const move = (ev: PointerEvent) => {
-      next = Math.min(
-        SIDEBAR_MAX_WIDTH,
-        Math.max(SIDEBAR_MIN_WIDTH, startW + sign * (ev.clientX - startX)),
-      )
-      setSidebarWidth(next)
-    }
-    const up = () => {
-      el.removeEventListener('pointermove', move)
-      el.removeEventListener('pointerup', up)
-      try {
-        localStorage.setItem(SIDEBAR_WIDTH_KEY, String(Math.round(next)))
-      } catch {
-        // quota / private mode: the width lasts for this session only
-      }
-    }
-    el.addEventListener('pointermove', move)
-    el.addEventListener('pointerup', up)
-  }
+  const activeNav = !selectedFolder
+    ? projectAiMode
+      ? 'projectAi'
+      : askMode
+        ? 'ask'
+        : landing
+          ? 'home'
+          : view
+    : null
 
   return (
     <div className="home">
-      <aside
-        className="sidebar"
-        ref={sidebarRef}
-        style={sidebarWidth === null ? undefined : { width: sidebarWidth }}
-      >
-        <div className="sidebar-logo">
-          <img className="logo-lockup" src={logoLockup} alt="TechPartner Office" />
-        </div>
-        <nav className="sidebar-nav">
-          <button
-            className={`nav-item${activeNav === 'recent' ? ' active' : ''}`}
-            aria-current={activeNav === 'recent' ? 'page' : undefined}
-            onClick={() => changeView('recent')}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.3" />
-              <path
-                d="M8 4.8V8l2.2 1.6"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="nav-label">{t('navRecent')}</span>
-            <span className="nav-count">{navCounts.recent}</span>
-          </button>
-          <button
-            className={`nav-item${activeNav === 'starred' ? ' active' : ''}`}
-            aria-current={activeNav === 'starred' ? 'page' : undefined}
-            onClick={() => changeView('starred')}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M8 1.9l1.9 3.85 4.25.62-3.07 3 .72 4.23L8 11.6l-3.8 2 .72-4.23-3.07-3 4.25-.62z"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="nav-label">{t('navStarred')}</span>
-            <span className="nav-count">{navCounts.starred}</span>
-          </button>
-          <button
-            className={`nav-item${activeNav === 'ask' ? ' active' : ''}`}
-            aria-current={activeNav === 'ask' ? 'page' : undefined}
-            onClick={() => {
-              setAskMode(true)
-              setProjectAiMode(false)
-              setSelectedFolder(null)
-              setSelected(new Set())
-              setRowMenu(null)
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M14 10.5c0 .9-.7 1.6-1.6 1.6H5.4L2 14.5V3.6C2 2.7 2.7 2 3.6 2h8.8c.9 0 1.6.7 1.6 1.6z"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5 6.2h6M5 8.6h4"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="nav-label">{t('navAsk')}</span>
-          </button>
-          <button
-            className={`nav-item${activeNav === 'projectAi' ? ' active' : ''}`}
-            aria-current={activeNav === 'projectAi' ? 'page' : undefined}
-            onClick={() => {
-              setProjectAiMode(true)
-              setAskMode(false)
-              setSelectedFolder(null)
-              setSelected(new Set())
-              setRowMenu(null)
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M8 1.9l1.9 3.85 4.25.62-3.07 3 .72 4.23L8 11.6l-3.8 2 .72-4.23-3.07-3 4.25-.62z"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="nav-label">{t('navProjectAi')}</span>
-          </button>
-        </nav>
-        <div className="sidebar-divider" />
-        {renderFolderPanel()}
+      <nav className="icon-rail" aria-label={t('navHome')}>
+        <button
+          className="rail-logo"
+          onClick={goHome}
+          aria-label={t('navHome')}
+          title={t('navHome')}
+        >
+          <img src={appIcon} alt="" aria-hidden="true" />
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'home' ? ' active' : ''}`}
+          aria-label={t('navHome')}
+          aria-current={activeNav === 'home' ? 'page' : undefined}
+          title={t('navHome')}
+          onClick={goHome}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M3 10.5 10 3.5l7 7M5 9.5V17h10V9.5"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'recent' ? ' active' : ''}`}
+          aria-label={t('navRecent')}
+          aria-current={activeNav === 'recent' ? 'page' : undefined}
+          title={t('navRecent')}
+          onClick={() => changeView('recent')}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.4" />
+            <path d="M10 6v4l2.8 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          {navCounts.recent > 0 && <span className="rail-count">{navCounts.recent}</span>}
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'starred' ? ' active' : ''}`}
+          aria-label={t('navStarred')}
+          aria-current={activeNav === 'starred' ? 'page' : undefined}
+          title={t('navStarred')}
+          onClick={() => changeView('starred')}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M10 2.5l2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2L2.3 8.1l5.3-.8z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {navCounts.starred > 0 && <span className="rail-count">{navCounts.starred}</span>}
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'ask' ? ' active' : ''}`}
+          aria-label={t('navAsk')}
+          aria-current={activeNav === 'ask' ? 'page' : undefined}
+          title={t('navAsk')}
+          onClick={() => {
+            setAskMode(true)
+            setProjectAiMode(false)
+            setLanding(false)
+            setSelectedFolder(null)
+            setSelected(new Set())
+            setRowMenu(null)
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M17.5 13c0 1.1-.9 2-2 2H6.8L2.5 18V4.5c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 7.5h8M6 10.5h5"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'projectAi' ? ' active' : ''}`}
+          aria-label={t('navProjectAi')}
+          aria-current={activeNav === 'projectAi' ? 'page' : undefined}
+          title={t('navProjectAi')}
+          onClick={goProjectAi}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M10 2.5l2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2L2.3 8.1l5.3-.8z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          className={`rail-btn${folderDrawerOpen ? ' active' : ''}`}
+          aria-label={t('folders')}
+          aria-expanded={folderDrawerOpen}
+          title={t('folders')}
+          onClick={() => setFolderDrawerOpen((open) => !open)}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M2.5 5.5A1.5 1.5 0 0 1 4 4h3.5l2 2.5H16a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 16 15.5h-12A1.5 1.5 0 0 1 2.5 14z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div className="rail-spacer" />
         <AccountEntry
           onStatusChange={handleAccountStatus}
           onFileSearchSettingsChange={() => setRerankSettingsTick((n) => n + 1)}
           openRequest={settingsRequest}
         />
-      </aside>
-      <div className="sidebar-resizer" onPointerDown={onSidebarResizeStart} />
+      </nav>
+      {folderDrawerOpen && (
+        <div className="folder-drawer">
+          <button
+            className="folder-drawer-close"
+            aria-label={t('cancel')}
+            onClick={() => setFolderDrawerOpen(false)}
+          >
+            ×
+          </button>
+          {renderFolderPanel()}
+        </div>
+      )}
       {selectedFolder && rootOf(selectedFolder, roots)?.readable ? (
         renderFolderContent()
       ) : projectAiMode ? (
@@ -3251,6 +3367,8 @@ export function Home() {
           onGoToRecents={() => changeView('recent')}
           onOpenModelSettings={() => setSettingsRequest({ section: 'aiModel' })}
         />
+      ) : landing ? (
+        renderLanding()
       ) : (
         renderGlobalContent()
       )}

@@ -70,6 +70,12 @@
   --color-ai-action-hover: #d4552f;
   --color-ai-action-text: #ffffff;
   --color-brand-secondary: #1c5b4a;
+  /* TechPartner Home palette: fixed greens that stay green in both themes */
+  --color-tp-accent: #1c5b4a;
+  --color-tp-deep: #123f34;
+  --color-tp-rail: #131e19;
+  --color-tp-rail-text: #b9c6bf;
+  --color-tp-rail-active: #ffffff;
   --color-text-primary: #232425;
   --color-text-secondary: #606366;
   --color-text-tertiary: #909499;
@@ -141,6 +147,12 @@
   --color-ai-action-hover: #f07a55;
   --color-ai-action-text: #ffffff;
   --color-brand-secondary: #4a9eff;
+  /* TechPartner Home palette: fixed greens that stay green in both themes */
+  --color-tp-accent: #1c5b4a;
+  --color-tp-deep: #123f34;
+  --color-tp-rail: #131e19;
+  --color-tp-rail-text: #b9c6bf;
+  --color-tp-rail-active: #ffffff;
   --color-text-primary: #e4e4e4;
   --color-text-secondary: #a0a0a0;
   --color-text-tertiary: #8a8a8a;
