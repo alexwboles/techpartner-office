@@ -17,6 +17,16 @@ function stripHtml(html: string): string {
     .trim()
 }
 
+// Mirror the builder's XML escaping: slide titles land in slide XML escaped,
+// so a title like 'Team & The Ask' appears as 'Team &amp; The Ask'.
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 describe('template registry completeness', () => {
   it('has unique ids and covers every category', () => {
     const ids = TEMPLATES.map((template) => template.id)
@@ -164,7 +174,7 @@ describe('template file builders', () => {
     // slide files are numbered in creation order, so each must hold its own title
     for (let i = 0; i < template.content.slides.length; i++) {
       const xml = await zip.file(`ppt/slides/slide${i + 1}.xml`)!.async('text')
-      expect(xml).toContain(template.content.slides[i]!.title)
+      expect(xml).toContain(escapeXml(template.content.slides[i]!.title))
     }
   })
 })
