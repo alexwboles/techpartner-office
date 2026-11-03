@@ -25,6 +25,7 @@ import { fileCountLabel, visiblePageCount } from './counts'
 import { useI18n } from './locale'
 import type { I18n, StringKey } from './locale'
 import { SettingsModal } from './SettingsModal'
+import { TemplateGallery } from './TemplateGallery'
 import type { SettingsTarget } from './SettingsModal'
 import { skillUpdateDue } from './IntegrationsPane'
 import { onFilesChanged } from './file-events'
@@ -1160,6 +1161,8 @@ export function Home() {
   const [landing, setLanding] = useState(true)
   // the folder tree lives in a drawer beside the slim rail instead of a sidebar
   const [folderDrawerOpen, setFolderDrawerOpen] = useState(false)
+  // template gallery modal (opened from either create row's From template)
+  const [galleryOpen, setGalleryOpen] = useState(false)
   // live Project AI state for the landing's strip (polled like the panel does)
   const [projectAiStrip, setProjectAiStrip] = useState<ProjectAiState | null>(null)
   // the knowledge-base ask panel takes over the content area the same way
@@ -1983,8 +1986,8 @@ export function Home() {
   /** the create row shared by the landing and the folder view: + New, one
    * button per file type, and From template. The type buttons keep the
    * `quick-card` class so existing file-creation flows keep finding them.
-   * No template gallery exists yet, so From template opens the file picker
-   * (start from an existing file) until a real gallery is built. */
+   * From template opens the template gallery; the plain file picker stays
+   * reachable from inside the gallery ("Open local file"). */
   function renderCreateRow() {
     return (
       <div className="landing-create-row">
@@ -2010,16 +2013,12 @@ export function Home() {
             </span>
           </button>
         ))}
-        <button
-          className="landing-template-btn"
-          onClick={() => void window.aiOffice.browse()}
-          data-tip={OPEN_LOCAL_EXTENSIONS}
-        >
+        <button className="landing-template-btn" onClick={() => setGalleryOpen(true)}>
           <span className="quick-text">
             <span className="quick-title-row">
               <span className="quick-title">{t('homeFromTemplate')}</span>
             </span>
-            <span className="quick-sub">{t('openLocal')}</span>
+            <span className="quick-sub">{t('templateGalleryHint')}</span>
           </span>
         </button>
       </div>
@@ -3507,6 +3506,10 @@ export function Home() {
       )}
 
       <DropToOpenOverlay />
+
+      {galleryOpen && (
+        <TemplateGallery createOpts={newFileOpts} onClose={() => setGalleryOpen(false)} />
+      )}
     </div>
   )
 }

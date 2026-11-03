@@ -347,6 +347,11 @@ export interface HomeApi {
   newHtml(opts?: NewFileOpts): Promise<void>
   /** create a blank single-page PDF in the default save folder and open it */
   newPdf(opts?: NewFileOpts): Promise<void>
+  /** build a document from a template-gallery template and open it */
+  createFromTemplate(input: {
+    templateId: string
+    opts?: NewFileOpts
+  }): Promise<{ ok: boolean; path?: string; error?: string }>
   /** drop entries from the recent list (does not touch the files) */
   removeRecent(paths: string[]): Promise<void>
   /** unstar files in bulk (Starred view selection bar); the recents list and the files are untouched */
@@ -674,6 +679,7 @@ export const HOME_CHANNELS = {
   newMarkdown: 'home:new-markdown',
   newHtml: 'home:new-html',
   newPdf: 'home:new-pdf',
+  createFromTemplate: 'home:create-from-template',
   removeRecent: 'home:remove-recent',
   revealPath: 'home:reveal-path',
   renameFile: 'home:rename-file',

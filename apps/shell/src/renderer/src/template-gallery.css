@@ -1,0 +1,208 @@
+/* Template gallery modal. Sharp corners throughout (no rounded edges);
+ * colors only from the shared tokens — the theme-color gate fails on raw
+ * hex in renderer CSS. */
+
+.template-gallery {
+  width: min(960px, 92vw);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-modal-strong);
+  animation: menu-in 0.12s ease;
+}
+
+.template-gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px 8px;
+}
+
+.template-gallery-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.template-gallery-close {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.template-gallery-close:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.template-gallery-search-row {
+  padding: 8px 24px 0;
+}
+
+.template-gallery-search {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+
+.template-gallery-search:focus {
+  border-color: var(--color-tp-accent);
+}
+
+.template-gallery-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.template-chip {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.template-chip:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.template-chip.active {
+  background: var(--color-tp-accent);
+  border-color: var(--color-tp-accent);
+  color: var(--color-tp-rail-active);
+}
+
+.template-gallery-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--bg-content);
+}
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.template-card:hover {
+  border-color: var(--border-hover);
+}
+
+.template-card-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.template-card-titles {
+  min-width: 0;
+}
+
+.template-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.template-card-app {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.template-card-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.template-card-preview {
+  margin: 0;
+  padding: 8px 0 8px 16px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-tertiary);
+}
+
+.template-card-use {
+  margin-top: auto;
+  padding: 8px 12px;
+  border: none;
+  background: var(--color-tp-accent);
+  color: var(--color-tp-rail-active);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.template-card-use:hover:not(:disabled) {
+  background: var(--color-tp-deep);
+}
+
+.template-card-use:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.template-gallery-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.template-gallery-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.template-gallery-error {
+  font-size: 13px;
+  color: var(--color-error);
+}
+
+.template-gallery-open-local {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.template-gallery-open-local:hover {
+  border-color: var(--border-hover);
+}

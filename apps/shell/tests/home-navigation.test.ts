@@ -59,6 +59,7 @@ beforeEach(async () => {
     onOpenSettings: () => () => {},
     onAccountLogin: () => () => {},
     kbList: async () => [],
+    createFromTemplate: vi.fn(async () => ({ ok: true })),
     aiGetSettings: async () => defaultAiSettings(),
     aiGskStatus: async () => ({ loggedIn: false }),
     onAiSettingsChanged: () => () => {},
@@ -137,6 +138,23 @@ describe('Home rail navigation', () => {
     await click(nav('Folders'))
     expect(container.querySelector('.folder-drawer')).toBeNull()
     expect(nav('Folders').getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('opens the template gallery from the landing and creates from a template', async () => {
+    const templateBtn = container.querySelector<HTMLButtonElement>('.landing-template-btn')!
+    await click(templateBtn)
+    expect(container.querySelector('.template-gallery')).not.toBeNull()
+    expect(container.querySelector('.template-gallery')?.textContent).toContain('Modern Resume')
+    const useButton = [...container.querySelectorAll<HTMLButtonElement>('.template-card-use')].find(
+      (button) =>
+        button.closest('.template-card')?.querySelector('.template-card-title')?.textContent ===
+        'Modern Resume',
+    )!
+    await click(useButton)
+    expect(window.aiOffice.createFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({ templateId: 'resume-modern' }),
+    )
+    expect(container.querySelector('.template-gallery')).toBeNull()
   })
 
   it('opens on the search-first landing and returns to it from Home', async () => {

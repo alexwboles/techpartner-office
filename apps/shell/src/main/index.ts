@@ -356,6 +356,8 @@ import {
 } from './knowledge-base'
 import { createFileViaCli } from './mcp/headless-cli'
 import { ProjectAiService } from './project-ai-service'
+import { buildTemplatePptx, buildTemplateXlsx } from './template-files'
+import { TEMPLATES, templateExtOf } from '../shared/template-defs'
 import { homeCliContext, runHomeCli, type HomeCliDeps } from './home-cli'
 import { sanitizeFileBase } from './mcp/tools/document-tools'
 import { runHeadlessExport, type HeadlessExporters } from './headless-export'
@@ -5061,6 +5063,62 @@ function registerHomeIpc(): void {
   ipcMain.handle(HOME_CHANNELS.newPdf, (_event, opts?: NewFileOpts) => {
     rememberPendingDir('pdf', opts)
     void newPdfTab()
+  })
+
+  /**
+   * Template gallery: build a real document from a template definition and
+   * open it. Docs templates ride the AI-document pipeline (HTML into a new
+   * blank tab, which saves itself under the template title and is then
+   * moved into the bound folder by applyPendingDir, exactly like an
+   * AI-generated document). Sheets/Slides templates are built into real
+   * .xlsx/.pptx files in the target folder (selected folder, else the
+   * default save folder) and opened as regular tabs — the same shape as
+   * AI create_document, so the first save just saves, no Save As dance.
+   */
+  ipcMain.handle(HOME_CHANNELS.createFromTemplate, async (_event, input: unknown) => {
+    const { templateId, opts } = (input ?? {}) as {
+      templateId?: unknown
+      opts?: NewFileOpts
+    }
+    const template =
+      typeof templateId === 'string'
+        ? TEMPLATES.find((candidate) => candidate.id === templateId)
+        : undefined
+    if (!template) return { ok: false, error: 'Unknown template.' }
+    try {
+      if (template.content.app === 'docs') {
+        rememberPendingDir('doc', opts)
+        bindPendingDir(
+          'doc',
+          tabManager?.openDocsTab(undefined, {
+            newBlank: true,
+            aiContent: { title: template.title, html: template.content.html },
+          }),
+        )
+        recordStarPromptDocOpen()
+        analytics.track('file_new', { kind: 'docx' })
+        return { ok: true }
+      }
+      const kind = template.content.app === 'sheets' ? 'sheet' : 'slide'
+      rememberPendingDir(kind, opts)
+      const dir = newFileDir(kind)
+      const ext = templateExtOf(template)
+      const filePath = uniquePathIn(dir, `${sanitizeFileBase(template.title)}.${ext}`)
+      const bytes =
+        template.content.app === 'sheets'
+          ? await buildTemplateXlsx(template.content.sheets)
+          : await buildTemplatePptx(template.content.slides)
+      await atomicWriteFile(filePath, bytes)
+      if (!routeDocumentPath(filePath)) {
+        return { ok: false, error: 'The template file could not be opened.' }
+      }
+      recordStarPromptDocOpen()
+      analytics.track('file_new', { kind: ext === 'xlsx' ? 'xlsx' : 'pptx' })
+      return { ok: true, path: filePath }
+    } catch (err) {
+      console.error('[shell] create from template failed:', err)
+      return { ok: false, error: err instanceof Error ? err.message : String(err) }
+    }
   })
 
   ipcMain.handle(HOME_CHANNELS.removeRecent, (_event, paths: unknown) => {
