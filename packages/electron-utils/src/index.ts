@@ -56,10 +56,14 @@ export {
 } from './dialog-memory'
 export {
   DEFAULT_SAVE_DIR_KEY,
+  DEFAULT_SAVE_DIR_NAME,
+  LEGACY_DEFAULT_SAVE_DIR_NAME,
   configuredDefaultSaveDir,
   isUsableSaveDir,
+  migrateLegacySaveDir,
   mkdirDirs,
   readDefaultSaveDirSetting,
+  rebaseSavedPaths,
   resolveDefaultSaveDir,
   type PathProvider,
 } from './default-save-dir'

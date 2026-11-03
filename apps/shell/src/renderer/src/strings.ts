@@ -205,7 +205,7 @@ export const strings = {
     docThemeFollowApp: '跟随应用主题',
     saveLocation: '默认保存位置',
     setRestoreSession: '启动时重新打开上次的文档',
-    setRestoreSessionDesc: '关闭 GenOffice 时打开的文档会在下次启动时自动重新打开。',
+    setRestoreSessionDesc: '关闭 TechPartner Office 时打开的文档会在下次启动时自动重新打开。',
     setTabSleep: '休眠不活跃的标签页',
     setTabSleepDesc:
       '标签页多到一定数量后，长时间没有查看的会释放内存；回到它时会重新打开文件。有未保存修改或已固定的标签页不会休眠。',
@@ -234,8 +234,8 @@ export const strings = {
     aiFontSizeCustom: '自定义',
     setAiSpellcheck: 'AI 对话拼写检查',
     setDefaultApp: '设为 Office 文档默认程序',
-    setDefaultAppDesc: '双击 .docx、.xlsx、.pptx 文件时用 GenOffice 打开。',
-    setDefaultAppIs: 'GenOffice 已是默认程序。',
+    setDefaultAppDesc: '双击 .docx、.xlsx、.pptx 文件时用 TechPartner Office 打开。',
+    setDefaultAppIs: 'TechPartner Office 已是默认程序。',
     setDefaultAppOther: '当前默认程序：{app}',
     setDefaultAppSet: '设为默认',
     setDefaultAppOpenSettings: '打开系统设置',
@@ -277,7 +277,7 @@ export const strings = {
     setSecAbout: '关于',
     setSecIntegrations: '集成',
     setSecSkills: '技能',
-    intgHeroTitle: '在 AI 助手里使用 GenOffice',
+    intgHeroTitle: '在 AI 助手里使用 TechPartner Office',
     intgHeroDesc:
       '接好后，Claude Code、Codex、Cursor、Claude Desktop 等助手就能替你创建、转换、读取和编辑 Word、Excel、PowerPoint、PDF 和 Markdown 文件。全部在本机完成，不会上传任何内容。',
     intgHeroStep1: '选接法：助手能运行终端命令就用 CLI，不能就用 MCP',
@@ -285,14 +285,14 @@ export const strings = {
     intgHeroStep3: '新开一个对话，直接提需求',
     intgStep1Title: '把 skill 安装到你的助手',
     intgStep1Desc: '这里只列出本机检测到的助手。装到你实际在用的那一个即可，不必全装。',
-    intgStep1Update: 'GenOffice 升级带来新版 skill 时，对应助手旁会出现「更新」按钮。',
+    intgStep1Update: 'TechPartner Office 升级带来新版 skill 时，对应助手旁会出现「更新」按钮。',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'skill 未安装',
     intgStateInstalled: '已安装 skill {v} · 下次对话即可使用',
     intgOtherToggle: '没有列出我的助手',
     intgOtherDesc: '以下三种方式任选一种即可。装的是同一份 skill，不需要重复操作。',
     intgOtherFolderTitle: '任何能读取 SKILL.md 目录的助手',
-    intgOtherFolderDesc: '选择它的 skills 目录，GenOffice 把文件写进去。',
+    intgOtherFolderDesc: '选择它的 skills 目录，TechPartner Office 把文件写进去。',
     intgOtherZipTitle: '把文件交给助手',
     intgOtherZipDesc: '把 skill 保存为 zip，然后让助手自己安装。',
     intgOtherNpxTitle: '用 skills 命令安装（需要 Node.js）',
@@ -303,7 +303,7 @@ export const strings = {
     intgStep2DescBefore: '装好后，在助手里新开一个对话，用平常说话的方式提需求，例如：',
     intgExample1: '把 ~/Downloads/report.md 转成 Word 文档',
     intgExample2: '做一份 6 页的幻灯片，介绍我们第三季度的业绩',
-    intgExample3: '把 budget.xlsx 转成 PDF，并在 GenOffice 里打开',
+    intgExample3: '把 budget.xlsx 转成 PDF，并在 TechPartner Office 里打开',
     intgStep2Note: '助手会自己调用 genoffice 命令行，你不需要输入任何命令。',
     intgCliPartTitle: 'CLI · 命令行 + skill',
     intgCliPartDesc:
@@ -318,7 +318,7 @@ export const strings = {
     intgMcpHttpDesc:
       '在 GenOffice 内运行，助手通过网址连接，可以看着它在 Word 编辑器里逐步生成。需要 GenOffice 保持打开；目前只支持 Word。',
     intgMcpHttpAdvanced: '高级：其他地址与日志',
-    intgMcpTryNote: '助手会通过 MCP 调用 GenOffice，你不需要输入任何命令。',
+    intgMcpTryNote: '助手会通过 MCP 调用 TechPartner Office，你不需要输入任何命令。',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: '在终端运行一次：',
     intgMcpOtherTitle: 'Cursor、Claude Desktop 或其他支持 MCP 的助手',
@@ -352,9 +352,9 @@ export const strings = {
     intgSaveZipTitle: '保存 skill',
     intgSavedTo: '已保存到 {path}',
     intgCopied: '已复制',
-    intgCliEphemeral: '请先把 GenOffice 拖到「应用程序」，再使用命令行。',
+    intgCliEphemeral: '请先把 TechPartner Office 拖到「应用程序」，再使用命令行。',
     intgCopyPath: '复制路径',
-    intgCliNeedsUpdate: '此 skill 需要命令行 {v} 或更新版本，请更新 GenOffice。',
+    intgCliNeedsUpdate: '此 skill 需要命令行 {v} 或更新版本，请更新 TechPartner Office。',
     intgLoading: '正在检测…',
     intgUpdateDue: 'skill 有新版本可更新',
     setSecAiModel: 'AI 模型',
@@ -454,7 +454,7 @@ export const strings = {
     onbNote3: 'AI 功能使用你配置的模型：本地模型免费，自己的 key 按服务商计费。',
     onbBack: '上一步',
     intgSkillsDesc:
-      'GenOffice 只使用自己技能文件夹里的技能。从文件夹或 zip 导入会把整个技能复制进来；导入不会自动运行任何东西。',
+      'TechPartner Office 只使用自己技能文件夹里的技能。从文件夹或 zip 导入会把整个技能复制进来；导入不会自动运行任何东西。',
     intgSkillsEmpty: '还没有安装技能。',
     intgSkillsImportFolder: '导入文件夹…',
     intgSkillsImportZip: '导入技能包（zip / .md）…',
@@ -463,7 +463,7 @@ export const strings = {
     intgSkillsImportDone: '已导入 {name}',
     intgSkillsImportFailed: '导入失败：{reason}',
     intgSkillsRemove: '移除',
-    intgSkillsRemoveConfirm: '移除技能「{name}」？其文件夹会从 GenOffice 中删除。',
+    intgSkillsRemoveConfirm: '移除技能「{name}」？其文件夹会从 TechPartner Office 中删除。',
     intgSkillsRemoved: '已移除 {name}',
     intgSkillsRead: '详情',
     intgSkillsMine: '我的技能',
@@ -709,7 +709,7 @@ export const strings = {
     setUpdateRestart: 'Restart & install',
     setAutoUpdateCheck: 'Check for updates automatically',
     setAutoUpdateCheckDesc:
-      'When off, GenOffice no longer checks for new versions at launch or in the background. You can still check from Help › Check for Updates.',
+      'When off, TechPartner Office no longer checks for new versions at launch or in the background. You can still check from Help › Check for Updates.',
     updateChannel: 'Update Channel',
     channelStable: 'Stable',
     channelBeta: 'Beta',
@@ -722,7 +722,7 @@ export const strings = {
     saveLocation: 'Save Location',
     setRestoreSession: 'Reopen documents from last time',
     setRestoreSessionDesc:
-      'Documents open when GenOffice closes reopen automatically the next time it starts.',
+      'Documents open when TechPartner Office closes reopen automatically the next time it starts.',
     setTabSleep: 'Sleep inactive tabs',
     setTabSleepDesc:
       'Once many tabs are open, ones you have not looked at for a while release their memory and reopen their file when you return. Tabs with unsaved changes or pinned tabs never sleep.',
@@ -752,8 +752,9 @@ export const strings = {
     aiFontSizeCustom: 'Custom',
     setAiSpellcheck: 'Spell check in AI chat',
     setDefaultApp: 'Default app for Office documents',
-    setDefaultAppDesc: 'Open .docx, .xlsx and .pptx files in GenOffice when double-clicked.',
-    setDefaultAppIs: 'GenOffice is already the default.',
+    setDefaultAppDesc:
+      'Open .docx, .xlsx and .pptx files in TechPartner Office when double-clicked.',
+    setDefaultAppIs: 'TechPartner Office is already the default.',
     setDefaultAppOther: 'Current default: {app}',
     setDefaultAppSet: 'Make default',
     setDefaultAppOpenSettings: 'Open system settings',
@@ -798,7 +799,7 @@ export const strings = {
     setSecAbout: 'About',
     setSecIntegrations: 'Integrations',
     setSecSkills: 'Skills',
-    intgHeroTitle: 'Use GenOffice from your AI assistant',
+    intgHeroTitle: 'Use TechPartner Office from your AI assistant',
     intgHeroDesc:
       'Once connected, Claude Code, Codex, Cursor, Claude Desktop and similar assistants can create, convert, read and edit Word, Excel, PowerPoint, PDF and Markdown files for you. Everything runs on this computer; nothing is uploaded.',
     intgHeroStep1:
@@ -809,7 +810,7 @@ export const strings = {
     intgStep1Desc:
       'Only assistants found on this computer are listed. Install into the one you actually use; you do not need all of them.',
     intgStep1Update:
-      'When a GenOffice update ships a newer skill, an Update button appears next to that assistant.',
+      'When a TechPartner Office update ships a newer skill, an Update button appears next to that assistant.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill not installed',
     intgStateInstalled: 'Skill {v} installed · ready in your next chat',
@@ -817,7 +818,7 @@ export const strings = {
     intgOtherDesc:
       'Pick any one of these three ways. They all install the same skill, so there is no need to do more than one.',
     intgOtherFolderTitle: 'Any assistant that reads SKILL.md folders',
-    intgOtherFolderDesc: 'Pick its skills folder and GenOffice writes the file there.',
+    intgOtherFolderDesc: 'Pick its skills folder and TechPartner Office writes the file there.',
     intgOtherZipTitle: 'Hand the file to the assistant',
     intgOtherZipDesc: 'Save the skill as a zip, then ask the assistant to install it.',
     intgOtherNpxTitle: 'With the skills command (needs Node.js)',
@@ -829,7 +830,7 @@ export const strings = {
       'Once installed, open a new chat in your assistant and ask in plain words, for example:',
     intgExample1: 'Turn ~/Downloads/report.md into a Word document',
     intgExample2: 'Make a 6-slide deck about our Q3 results',
-    intgExample3: 'Convert budget.xlsx to PDF and open it in GenOffice',
+    intgExample3: 'Convert budget.xlsx to PDF and open it in TechPartner Office',
     intgStep2Note:
       'The assistant runs the genoffice command line itself; you never have to type it.',
     intgCliPartTitle: 'CLI · command line + skill',
@@ -845,7 +846,7 @@ export const strings = {
     intgMcpHttpDesc:
       'Runs inside GenOffice; the assistant connects to a URL and you can watch it build the document step by step in the Word editor. GenOffice must stay open; Word documents only for now.',
     intgMcpHttpAdvanced: 'Advanced: other endpoints and log',
-    intgMcpTryNote: 'The assistant calls GenOffice through MCP; you never type a command.',
+    intgMcpTryNote: 'The assistant calls TechPartner Office through MCP; you never type a command.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Run this once in a terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop or any other MCP-capable assistant',
@@ -880,9 +881,9 @@ export const strings = {
     intgSaveZipTitle: 'Save skill',
     intgSavedTo: 'Saved to {path}',
     intgCopied: 'Copied',
-    intgCliEphemeral: 'Drag GenOffice into Applications first, then use the command line.',
+    intgCliEphemeral: 'Drag TechPartner Office into Applications first, then use the command line.',
     intgCopyPath: 'Copy path',
-    intgCliNeedsUpdate: 'This skill needs command line {v} or newer; update GenOffice.',
+    intgCliNeedsUpdate: 'This skill needs command line {v} or newer; update TechPartner Office.',
     intgLoading: 'Checking…',
     intgUpdateDue: 'Skill update available',
     setSecAiModel: 'AI Model',
@@ -985,7 +986,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Back',
     intgSkillsDesc:
-      'GenOffice only uses skills in its own skills folder. Importing a folder or a zip copies the whole skill in; nothing runs on import.',
+      'TechPartner Office only uses skills in its own skills folder. Importing a folder or a zip copies the whole skill in; nothing runs on import.',
     intgSkillsEmpty: 'No skills installed yet.',
     intgSkillsImportFolder: 'Import folder…',
     intgSkillsImportZip: 'Import skill package (zip / .md)…',
@@ -994,7 +995,8 @@ export const strings = {
     intgSkillsImportDone: 'Imported {name}',
     intgSkillsImportFailed: 'Import failed: {reason}',
     intgSkillsRemove: 'Remove',
-    intgSkillsRemoveConfirm: 'Remove the skill "{name}"? Its folder is deleted from GenOffice.',
+    intgSkillsRemoveConfirm:
+      'Remove the skill "{name}"? Its folder is deleted from TechPartner Office.',
     intgSkillsRemoved: 'Removed {name}',
     intgSkillsRead: 'Details',
     intgSkillsMine: 'My skills',
@@ -1242,7 +1244,7 @@ export const strings = {
     setUpdateRestart: 'Khởi động lại và cài đặt',
     setAutoUpdateCheck: 'Tự động kiểm tra cập nhật',
     setAutoUpdateCheckDesc:
-      'Khi tắt, GenOffice không còn kiểm tra phiên bản mới khi khởi động hoặc chạy nền. Bạn vẫn có thể kiểm tra trong Trợ giúp › Kiểm tra bản cập nhật.',
+      'Khi tắt, TechPartner Office không còn kiểm tra phiên bản mới khi khởi động hoặc chạy nền. Bạn vẫn có thể kiểm tra trong Trợ giúp › Kiểm tra bản cập nhật.',
     updateChannel: 'Kênh cập nhật',
     channelStable: 'Ổn định',
     channelBeta: 'Beta',
@@ -1255,7 +1257,7 @@ export const strings = {
     saveLocation: 'Vị trí lưu',
     setRestoreSession: 'Mở lại tài liệu của lần trước',
     setRestoreSessionDesc:
-      'Các tài liệu đang mở khi đóng GenOffice sẽ tự động mở lại vào lần khởi động tiếp theo.',
+      'Các tài liệu đang mở khi đóng TechPartner Office sẽ tự động mở lại vào lần khởi động tiếp theo.',
     setTabSleep: 'Tạm ngủ các thẻ không hoạt động',
     setTabSleepDesc:
       'Khi mở nhiều thẻ, những thẻ lâu không xem sẽ giải phóng bộ nhớ và mở lại tệp khi bạn quay lại. Thẻ có thay đổi chưa lưu hoặc đã ghim sẽ không ngủ.',
@@ -1285,8 +1287,8 @@ export const strings = {
     aiFontSizeCustom: 'Tùy chỉnh',
     setAiSpellcheck: 'Kiểm tra chính tả trong trò chuyện AI',
     setDefaultApp: 'Ứng dụng mặc định cho tài liệu Office',
-    setDefaultAppDesc: 'Mở các tệp .docx, .xlsx và .pptx bằng GenOffice khi bấm đúp.',
-    setDefaultAppIs: 'GenOffice đã là ứng dụng mặc định.',
+    setDefaultAppDesc: 'Mở các tệp .docx, .xlsx và .pptx bằng TechPartner Office khi bấm đúp.',
+    setDefaultAppIs: 'TechPartner Office đã là ứng dụng mặc định.',
     setDefaultAppOther: 'Mặc định hiện tại: {app}',
     setDefaultAppSet: 'Đặt làm mặc định',
     setDefaultAppOpenSettings: 'Mở cài đặt hệ thống',
@@ -1331,7 +1333,7 @@ export const strings = {
     setSecAbout: 'Giới thiệu',
     setSecIntegrations: 'Tích hợp',
     setSecSkills: 'Kỹ năng',
-    intgHeroTitle: 'Sử dụng GenOffice từ trợ lý AI của bạn',
+    intgHeroTitle: 'Sử dụng TechPartner Office từ trợ lý AI của bạn',
     intgHeroDesc:
       'Sau khi kết nối, Claude Code, Codex, Cursor, Claude Desktop và các trợ lý tương tự có thể tạo, chuyển đổi, đọc và chỉnh sửa các tệp Word, Excel, PowerPoint, PDF và Markdown cho bạn. Mọi thứ đều chạy trên máy tính này; không có gì được tải lên.',
     intgHeroStep1:
@@ -1342,7 +1344,7 @@ export const strings = {
     intgStep1Desc:
       'Chỉ các trợ lý được tìm thấy trên máy tính này mới được liệt kê. Hãy cài đặt vào trợ lý bạn thực sự sử dụng; bạn không cần phải cài đặt tất cả.',
     intgStep1Update:
-      'Khi bản cập nhật GenOffice cung cấp kỹ năng mới hơn, nút Cập nhật sẽ xuất hiện bên cạnh trợ lý đó.',
+      'Khi bản cập nhật TechPartner Office cung cấp kỹ năng mới hơn, nút Cập nhật sẽ xuất hiện bên cạnh trợ lý đó.',
     intgSkillVersion: 'kỹ năng {v}',
     intgStateMissing: 'Chưa cài đặt kỹ năng',
     intgStateInstalled: 'Đã cài đặt kỹ năng {v} · sẵn sàng cho cuộc trò chuyện tiếp theo của bạn',
@@ -1350,7 +1352,7 @@ export const strings = {
     intgOtherDesc:
       'Chọn bất kỳ cách nào trong ba cách này. Tất cả đều cài đặt cùng một kỹ năng, vì vậy không cần làm nhiều hơn một cách.',
     intgOtherFolderTitle: 'Bất kỳ trợ lý nào đọc thư mục SKILL.md',
-    intgOtherFolderDesc: 'Chọn thư mục kỹ năng của trợ lý và GenOffice sẽ ghi tệp vào đó.',
+    intgOtherFolderDesc: 'Chọn thư mục kỹ năng của trợ lý và TechPartner Office sẽ ghi tệp vào đó.',
     intgOtherZipTitle: 'Giao tệp cho trợ lý',
     intgOtherZipDesc: 'Lưu kỹ năng dưới dạng zip, sau đó yêu cầu trợ lý cài đặt.',
     intgOtherNpxTitle: 'Bằng lệnh skills (yêu cầu Node.js)',
@@ -1363,7 +1365,7 @@ export const strings = {
       'Sau khi cài đặt, hãy mở một cuộc trò chuyện mới trong trợ lý của bạn và hỏi bằng ngôn ngữ tự nhiên, ví dụ:',
     intgExample1: 'Chuyển đổi ~/Downloads/report.md thành tài liệu Word',
     intgExample2: 'Tạo bài thuyết trình 6 trang trình bày về kết quả quý 3 của chúng tôi',
-    intgExample3: 'Chuyển đổi budget.xlsx sang PDF và mở trong GenOffice',
+    intgExample3: 'Chuyển đổi budget.xlsx sang PDF và mở trong TechPartner Office',
     intgStep2Note: 'Trợ lý tự chạy dòng lệnh genoffice; bạn không bao giờ phải nhập lệnh.',
     intgCliPartTitle: 'CLI · dòng lệnh + kỹ năng',
     intgCliPartDesc:
@@ -1378,7 +1380,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Chạy bên trong GenOffice; trợ lý kết nối với một URL và bạn có thể theo dõi nó tạo tài liệu từng bước trong trình chỉnh sửa Word. GenOffice phải luôn mở; hiện tại chỉ hỗ trợ tài liệu Word.',
     intgMcpHttpAdvanced: 'Nâng cao: các điểm cuối khác và nhật ký',
-    intgMcpTryNote: 'Trợ lý gọi GenOffice thông qua MCP; bạn không bao giờ phải nhập lệnh.',
+    intgMcpTryNote:
+      'Trợ lý gọi TechPartner Office thông qua MCP; bạn không bao giờ phải nhập lệnh.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Chạy lệnh này một lần trong terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop hoặc bất kỳ trợ lý hỗ trợ MCP nào khác',
@@ -1414,10 +1417,10 @@ export const strings = {
     intgSavedTo: 'Đã lưu vào {path}',
     intgCopied: 'Đã sao chép',
     intgCliEphemeral:
-      'Trước tiên hãy kéo GenOffice vào Applications, sau đó mới sử dụng dòng lệnh.',
+      'Trước tiên hãy kéo TechPartner Office vào Applications, sau đó mới sử dụng dòng lệnh.',
     intgCopyPath: 'Sao chép đường dẫn',
     intgCliNeedsUpdate:
-      'Kỹ năng này yêu cầu dòng lệnh {v} hoặc mới hơn; vui lòng cập nhật GenOffice.',
+      'Kỹ năng này yêu cầu dòng lệnh {v} hoặc mới hơn; vui lòng cập nhật TechPartner Office.',
     intgLoading: 'Đang kiểm tra…',
     intgUpdateDue: 'Có bản cập nhật kỹ năng',
     setSecAiModel: 'Mô hình AI',
@@ -1521,7 +1524,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Quay lại',
     intgSkillsDesc:
-      'GenOffice chỉ dùng kỹ năng trong thư mục kỹ năng của chính nó. Nhập từ thư mục hoặc zip sẽ sao chép toàn bộ kỹ năng vào; không có gì chạy khi nhập.',
+      'TechPartner Office chỉ dùng kỹ năng trong thư mục kỹ năng của chính nó. Nhập từ thư mục hoặc zip sẽ sao chép toàn bộ kỹ năng vào; không có gì chạy khi nhập.',
     intgSkillsEmpty: 'Chưa cài kỹ năng nào.',
     intgSkillsImportFolder: 'Nhập thư mục…',
     intgSkillsImportZip: 'Nhập gói kỹ năng (zip / .md)…',
@@ -1530,7 +1533,8 @@ export const strings = {
     intgSkillsImportDone: 'Đã nhập {name}',
     intgSkillsImportFailed: 'Nhập thất bại: {reason}',
     intgSkillsRemove: 'Gỡ bỏ',
-    intgSkillsRemoveConfirm: 'Gỡ kỹ năng "{name}"? Thư mục của nó sẽ bị xóa khỏi GenOffice.',
+    intgSkillsRemoveConfirm:
+      'Gỡ kỹ năng "{name}"? Thư mục của nó sẽ bị xóa khỏi TechPartner Office.',
     intgSkillsRemoved: 'Đã gỡ {name}',
     intgSkillsRead: 'Chi tiết',
     intgSkillsMine: 'Kỹ năng của tôi',
@@ -1779,7 +1783,7 @@ export const strings = {
     setUpdateRestart: 'Yeniden başlat ve yükle',
     setAutoUpdateCheck: 'Güncellemeleri otomatik denetle',
     setAutoUpdateCheckDesc:
-      'Kapalıyken GenOffice açılışta veya arka planda yeni sürümleri denetlemez. Yardım › Güncellemeleri Denetle üzerinden yine de denetleyebilirsiniz.',
+      'Kapalıyken TechPartner Office açılışta veya arka planda yeni sürümleri denetlemez. Yardım › Güncellemeleri Denetle üzerinden yine de denetleyebilirsiniz.',
     updateChannel: 'Güncelleme Kanalı',
     channelStable: 'Kararlı',
     channelBeta: 'Beta',
@@ -1792,7 +1796,7 @@ export const strings = {
     saveLocation: 'Kayıt Konumu',
     setRestoreSession: 'Son oturumdaki belgeleri yeniden aç',
     setRestoreSessionDesc:
-      'GenOffice kapatılırken açık olan belgeler bir sonraki başlatmada otomatik olarak yeniden açılır.',
+      'TechPartner Office kapatılırken açık olan belgeler bir sonraki başlatmada otomatik olarak yeniden açılır.',
     setTabSleep: 'Etkin olmayan sekmeleri uyut',
     setTabSleepDesc:
       'Çok sayıda sekme açıkken bir süredir bakmadıklarınız belleklerini serbest bırakır ve geri döndüğünüzde dosyalarını yeniden açar. Kaydedilmemiş değişiklikleri olan veya sabitlenmiş sekmeler hiçbir zaman uyumaz.',
@@ -1822,8 +1826,9 @@ export const strings = {
     aiFontSizeCustom: 'Özel',
     setAiSpellcheck: 'AI sohbetinde yazım denetimi',
     setDefaultApp: 'Office belgeleri için varsayılan uygulama',
-    setDefaultAppDesc: '.docx, .xlsx ve .pptx dosyalarını çift tıklandığında GenOffice ile açar.',
-    setDefaultAppIs: 'GenOffice zaten varsayılan.',
+    setDefaultAppDesc:
+      '.docx, .xlsx ve .pptx dosyalarını çift tıklandığında TechPartner Office ile açar.',
+    setDefaultAppIs: 'TechPartner Office zaten varsayılan.',
     setDefaultAppOther: 'Geçerli varsayılan: {app}',
     setDefaultAppSet: 'Varsayılan yap',
     setDefaultAppOpenSettings: 'Sistem ayarlarını aç',
@@ -1868,7 +1873,7 @@ export const strings = {
     setSecAbout: 'Hakkında',
     setSecIntegrations: 'Tümleştirmeler',
     setSecSkills: 'Beceriler',
-    intgHeroTitle: 'GenOffice’i AI asistanınızdan kullanın',
+    intgHeroTitle: 'TechPartner Office’i AI asistanınızdan kullanın',
     intgHeroDesc:
       'Bağlandıktan sonra Claude Code, Codex, Cursor, Claude Desktop ve benzeri asistanlar sizin için Word, Excel, PowerPoint, PDF ve Markdown dosyaları oluşturabilir, dönüştürebilir, okuyabilir ve düzenleyebilir. Her şey bu bilgisayarda çalışır; hiçbir şey yüklenmez.',
     intgHeroStep1:
@@ -1879,7 +1884,7 @@ export const strings = {
     intgStep1Desc:
       'Yalnızca bu bilgisayarda bulunan asistanlar listelenir. Gerçekten kullandığınıza yükleyin; hepsine gerek yok.',
     intgStep1Update:
-      'Bir GenOffice güncellemesi daha yeni bir beceri getirdiğinde o asistanın yanında bir Güncelle düğmesi görünür.',
+      'Bir TechPartner Office güncellemesi daha yeni bir beceri getirdiğinde o asistanın yanında bir Güncelle düğmesi görünür.',
     intgSkillVersion: 'beceri {v}',
     intgStateMissing: 'Beceri yüklü değil',
     intgStateInstalled: 'Beceri {v} yüklü · bir sonraki sohbetinizde hazır',
@@ -1887,7 +1892,7 @@ export const strings = {
     intgOtherDesc:
       'Bu üç yoldan herhangi birini seçin. Hepsi aynı beceriyi yükler, bu yüzden birden fazlasını yapmanıza gerek yok.',
     intgOtherFolderTitle: 'SKILL.md klasörlerini okuyan herhangi bir asistan',
-    intgOtherFolderDesc: 'Beceri klasörünü seçin, GenOffice dosyayı oraya yazsın.',
+    intgOtherFolderDesc: 'Beceri klasörünü seçin, TechPartner Office dosyayı oraya yazsın.',
     intgOtherZipTitle: 'Dosyayı asistana verin',
     intgOtherZipDesc: 'Beceriyi zip olarak kaydedin, sonra asistandan yüklemesini isteyin.',
     intgOtherNpxTitle: 'skills komutuyla (Node.js gerekir)',
@@ -1899,7 +1904,7 @@ export const strings = {
       'Yükledikten sonra asistanınızda yeni bir sohbet açın ve düz sözcüklerle isteyin, örneğin:',
     intgExample1: '~/Downloads/report.md dosyasını Word belgesine dönüştür',
     intgExample2: '3. çeyrek sonuçlarımız hakkında 6 slaytlık bir sunu hazırla',
-    intgExample3: 'budget.xlsx dosyasını PDF’e dönüştür ve GenOffice’te aç',
+    intgExample3: 'budget.xlsx dosyasını PDF’e dönüştür ve TechPartner Office’te aç',
     intgStep2Note:
       'genoffice komut satırını asistan kendisi çalıştırır; sizin yazmanız hiç gerekmez.',
     intgCliPartTitle: 'CLI · komut satırı + beceri',
@@ -1915,7 +1920,8 @@ export const strings = {
     intgMcpHttpDesc:
       'GenOffice içinde çalışır; asistan bir URL’ye bağlanır ve belgeyi Word düzenleyicisinde adım adım oluşturmasını izleyebilirsiniz. GenOffice açık kalmalıdır; şimdilik yalnızca Word belgeleri.',
     intgMcpHttpAdvanced: 'Gelişmiş: diğer uç noktalar ve günlük',
-    intgMcpTryNote: 'Asistan GenOffice’i MCP üzerinden çağırır; siz hiç komut yazmazsınız.',
+    intgMcpTryNote:
+      'Asistan TechPartner Office’i MCP üzerinden çağırır; siz hiç komut yazmazsınız.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Bunu bir terminalde bir kez çalıştırın:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop veya MCP destekli başka bir asistan',
@@ -1951,10 +1957,10 @@ export const strings = {
     intgSavedTo: '{path} konumuna kaydedildi',
     intgCopied: 'Kopyalandı',
     intgCliEphemeral:
-      'Önce GenOffice’i Uygulamalar klasörüne sürükleyin, sonra komut satırını kullanın.',
+      'Önce TechPartner Office’i Uygulamalar klasörüne sürükleyin, sonra komut satırını kullanın.',
     intgCopyPath: 'Yolu kopyala',
     intgCliNeedsUpdate:
-      'Bu beceri komut satırı {v} veya daha yenisini gerektirir; GenOffice’i güncelleyin.',
+      'Bu beceri komut satırı {v} veya daha yenisini gerektirir; TechPartner Office’i güncelleyin.',
     intgLoading: 'Denetleniyor…',
     intgUpdateDue: 'Beceri güncellemesi mevcut',
     setSecAiModel: 'AI Modeli',
@@ -2060,7 +2066,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Geri',
     intgSkillsDesc:
-      'GenOffice yalnızca kendi beceri klasöründeki becerileri kullanır. Bir klasör veya zip içe aktarıldığında becerinin tamamı kopyalanır; içe aktarma sırasında hiçbir şey çalıştırılmaz.',
+      'TechPartner Office yalnızca kendi beceri klasöründeki becerileri kullanır. Bir klasör veya zip içe aktarıldığında becerinin tamamı kopyalanır; içe aktarma sırasında hiçbir şey çalıştırılmaz.',
     intgSkillsEmpty: 'Henüz beceri yüklenmedi.',
     intgSkillsImportFolder: 'Klasörü içe aktar…',
     intgSkillsImportZip: 'Beceri paketini içe aktar (zip / .md)…',
@@ -2069,7 +2075,8 @@ export const strings = {
     intgSkillsImportDone: '{name} içe aktarıldı',
     intgSkillsImportFailed: 'İçe aktarma başarısız oldu: {reason}',
     intgSkillsRemove: 'Kaldır',
-    intgSkillsRemoveConfirm: '"{name}" becerisi kaldırılsın mı? Klasörü GenOffice’ten silinir.',
+    intgSkillsRemoveConfirm:
+      '"{name}" becerisi kaldırılsın mı? Klasörü TechPartner Office’ten silinir.',
     intgSkillsRemoved: '{name} kaldırıldı',
     intgSkillsRead: 'Ayrıntılar',
     intgSkillsMine: 'Becerilerim',
@@ -2342,7 +2349,7 @@ export const strings = {
     saveLocation: '保存先',
     setRestoreSession: '前回のドキュメントを再度開く',
     setRestoreSessionDesc:
-      'GenOffice を閉じたときに開いていたドキュメントを、次回起動時に自動で開き直します。',
+      'TechPartner Office を閉じたときに開いていたドキュメントを、次回起動時に自動で開き直します。',
     setTabSleep: '非アクティブなタブをスリープ',
     setTabSleepDesc:
       '多くのタブを開いているとき、しばらく見ていないタブはメモリを解放し、戻ったときにファイルを再度開きます。未保存の変更があるタブやピン留めしたタブはスリープしません。',
@@ -2373,8 +2380,8 @@ export const strings = {
     setAiSpellcheck: 'AI チャットのスペルチェック',
     setDefaultApp: 'Office 文書の既定のアプリ',
     setDefaultAppDesc:
-      '.docx、.xlsx、.pptx ファイルをダブルクリックしたとき GenOffice で開きます。',
-    setDefaultAppIs: 'GenOffice はすでに既定のアプリです。',
+      '.docx、.xlsx、.pptx ファイルをダブルクリックしたとき TechPartner Office で開きます。',
+    setDefaultAppIs: 'TechPartner Office はすでに既定のアプリです。',
     setDefaultAppOther: '現在の既定：{app}',
     setDefaultAppSet: '既定にする',
     setDefaultAppOpenSettings: 'システム設定を開く',
@@ -2419,7 +2426,7 @@ export const strings = {
     setSecAbout: '情報',
     setSecIntegrations: '連携',
     setSecSkills: 'スキル',
-    intgHeroTitle: 'AI アシスタントから GenOffice を使う',
+    intgHeroTitle: 'AI アシスタントから TechPartner Office を使う',
     intgHeroDesc:
       '接続すると、Claude Code、Codex、Cursor、Claude Desktop などのアシスタントが Word、Excel、PowerPoint、PDF、Markdown ファイルの作成・変換・読み取り・編集を代行します。すべてこの PC 上で完結し、何もアップロードされません。',
     intgHeroStep1:
@@ -2430,7 +2437,7 @@ export const strings = {
     intgStep1Desc:
       'このパソコンで見つかったアシスタントだけを表示しています。実際に使っているものにだけインストールすれば十分で、すべてに入れる必要はありません。',
     intgStep1Update:
-      'GenOffice の更新で新しいスキルが届くと、そのアシスタントの横に「更新」ボタンが表示されます。',
+      'TechPartner Office の更新で新しいスキルが届くと、そのアシスタントの横に「更新」ボタンが表示されます。',
     intgSkillVersion: 'スキル {v}',
     intgStateMissing: 'スキル未インストール',
     intgStateInstalled: 'スキル {v} をインストール済み · 次のチャットから使えます',
@@ -2438,7 +2445,8 @@ export const strings = {
     intgOtherDesc:
       '次の 3 つの方法からどれか 1 つを選んでください。どれも同じスキルをインストールするので、複数行う必要はありません。',
     intgOtherFolderTitle: 'SKILL.md フォルダーを読むアシスタント全般',
-    intgOtherFolderDesc: 'その skills フォルダーを選ぶと、GenOffice がファイルを書き込みます。',
+    intgOtherFolderDesc:
+      'その skills フォルダーを選ぶと、TechPartner Office がファイルを書き込みます。',
     intgOtherZipTitle: 'ファイルをアシスタントに渡す',
     intgOtherZipDesc: 'スキルを zip で保存し、アシスタントにインストールを頼みます。',
     intgOtherNpxTitle: 'skills コマンドで入れる（Node.js が必要）',
@@ -2450,7 +2458,7 @@ export const strings = {
       'インストール後、アシスタントで新しいチャットを開き、普通の言葉で頼んでください。例：',
     intgExample1: '~/Downloads/report.md を Word 文書にして',
     intgExample2: '第 3 四半期の業績について 6 枚のスライドを作って',
-    intgExample3: 'budget.xlsx を PDF に変換して GenOffice で開いて',
+    intgExample3: 'budget.xlsx を PDF に変換して TechPartner Office で開いて',
     intgStep2Note:
       'genoffice コマンドラインはアシスタントが自分で実行します。あなたが入力する必要はありません。',
     intgCliPartTitle: 'CLI · コマンドライン + skill',
@@ -2467,7 +2475,7 @@ export const strings = {
       'GenOffice 内で動作し、アシスタントは URL で接続します。Word エディター上で文書が段階的に生成される様子を見られます。GenOffice を開いたままにする必要があり、現時点では Word のみ対応です。',
     intgMcpHttpAdvanced: '詳細：その他のエンドポイントとログ',
     intgMcpTryNote:
-      'アシスタントが MCP 経由で GenOffice を呼び出します。コマンドを入力する必要はありません。',
+      'アシスタントが MCP 経由で TechPartner Office を呼び出します。コマンドを入力する必要はありません。',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'ターミナルで一度だけ実行します：',
     intgMcpOtherTitle: 'Cursor、Claude Desktop、その他 MCP 対応のアシスタント',
@@ -2503,10 +2511,10 @@ export const strings = {
     intgSavedTo: '{path} に保存しました',
     intgCopied: 'コピーしました',
     intgCliEphemeral:
-      '先に GenOffice を「アプリケーション」に移してから、コマンドラインを使ってください。',
+      '先に TechPartner Office を「アプリケーション」に移してから、コマンドラインを使ってください。',
     intgCopyPath: 'パスをコピー',
     intgCliNeedsUpdate:
-      'このスキルにはコマンドライン {v} 以降が必要です。GenOffice を更新してください。',
+      'このスキルにはコマンドライン {v} 以降が必要です。TechPartner Office を更新してください。',
     intgLoading: '確認中…',
     intgUpdateDue: 'スキルの更新があります',
     setSecAiModel: 'AIモデル',
@@ -2610,7 +2618,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: '戻る',
     intgSkillsDesc:
-      'GenOffice は自身のスキルフォルダ内のスキルのみ使用します。フォルダまたは zip からの読み込みはスキル全体をコピーします。読み込み時に何も実行されません。',
+      'TechPartner Office は自身のスキルフォルダ内のスキルのみ使用します。フォルダまたは zip からの読み込みはスキル全体をコピーします。読み込み時に何も実行されません。',
     intgSkillsEmpty: 'スキルはまだインストールされていません。',
     intgSkillsImportFolder: 'フォルダを読み込む…',
     intgSkillsImportZip: 'スキルパッケージを読み込む（zip / .md）…',
@@ -2620,7 +2628,7 @@ export const strings = {
     intgSkillsImportFailed: '読み込みに失敗しました：{reason}',
     intgSkillsRemove: '削除',
     intgSkillsRemoveConfirm:
-      'スキル「{name}」を削除しますか？フォルダーは GenOffice から削除されます。',
+      'スキル「{name}」を削除しますか？フォルダーは TechPartner Office から削除されます。',
     intgSkillsRemoved: '{name} を削除しました',
     intgSkillsRead: '詳細',
     intgSkillsMine: 'マイスキル',
@@ -2887,7 +2895,7 @@ export const strings = {
     saveLocation: '저장 위치',
     setRestoreSession: '지난번 문서 다시 열기',
     setRestoreSessionDesc:
-      'GenOffice를 닫을 때 열려 있던 문서를 다음 실행 시 자동으로 다시 엽니다.',
+      'TechPartner Office를 닫을 때 열려 있던 문서를 다음 실행 시 자동으로 다시 엽니다.',
     setTabSleep: '비활성 탭 절전',
     setTabSleepDesc:
       '탭이 많이 열려 있으면 한동안 보지 않은 탭은 메모리를 해제하고 돌아올 때 파일을 다시 엽니다. 저장하지 않은 변경이 있거나 고정된 탭은 절전되지 않습니다.',
@@ -2916,8 +2924,8 @@ export const strings = {
     aiFontSizeCustom: '사용자 지정',
     setAiSpellcheck: 'AI 채팅 맞춤법 검사',
     setDefaultApp: 'Office 문서 기본 앱',
-    setDefaultAppDesc: '.docx, .xlsx, .pptx 파일을 두 번 클릭하면 GenOffice로 엽니다.',
-    setDefaultAppIs: 'GenOffice가 이미 기본 앱입니다.',
+    setDefaultAppDesc: '.docx, .xlsx, .pptx 파일을 두 번 클릭하면 TechPartner Office로 엽니다.',
+    setDefaultAppIs: 'TechPartner Office가 이미 기본 앱입니다.',
     setDefaultAppOther: '현재 기본 앱: {app}',
     setDefaultAppSet: '기본으로 설정',
     setDefaultAppOpenSettings: '시스템 설정 열기',
@@ -2962,7 +2970,7 @@ export const strings = {
     setSecAbout: '정보',
     setSecIntegrations: '연동',
     setSecSkills: '스킬',
-    intgHeroTitle: 'AI 어시스턴트에서 GenOffice 사용하기',
+    intgHeroTitle: 'AI 어시스턴트에서 TechPartner Office 사용하기',
     intgHeroDesc:
       '연결하면 Claude Code, Codex, Cursor, Claude Desktop 등의 어시스턴트가 Word, Excel, PowerPoint, PDF, Markdown 파일을 대신 만들고 변환하고 읽고 편집합니다. 모두 이 컴퓨터에서 처리되며 어떤 내용도 업로드되지 않습니다.',
     intgHeroStep1: '연결 방식 선택: 어시스턴트가 터미널 명령을 실행할 수 있으면 CLI, 없으면 MCP',
@@ -2972,7 +2980,7 @@ export const strings = {
     intgStep1Desc:
       '이 컴퓨터에서 발견된 어시스턴트만 표시됩니다. 실제로 사용하는 하나에만 설치하면 되고, 모두 설치할 필요는 없습니다.',
     intgStep1Update:
-      'GenOffice 업데이트에 새 스킬이 포함되면 해당 어시스턴트 옆에 업데이트 버튼이 나타납니다.',
+      'TechPartner Office 업데이트에 새 스킬이 포함되면 해당 어시스턴트 옆에 업데이트 버튼이 나타납니다.',
     intgSkillVersion: '스킬 {v}',
     intgStateMissing: '스킬 미설치',
     intgStateInstalled: '스킬 {v} 설치됨 · 다음 대화부터 사용 가능',
@@ -2980,7 +2988,7 @@ export const strings = {
     intgOtherDesc:
       '다음 세 가지 방법 중 하나만 선택하세요. 모두 같은 스킬을 설치하므로 여러 번 할 필요가 없습니다.',
     intgOtherFolderTitle: 'SKILL.md 폴더를 읽는 모든 어시스턴트',
-    intgOtherFolderDesc: '해당 skills 폴더를 선택하면 GenOffice가 파일을 기록합니다.',
+    intgOtherFolderDesc: '해당 skills 폴더를 선택하면 TechPartner Office가 파일을 기록합니다.',
     intgOtherZipTitle: '파일을 어시스턴트에게 전달',
     intgOtherZipDesc: '스킬을 zip으로 저장한 뒤 어시스턴트에게 설치를 요청하세요.',
     intgOtherNpxTitle: 'skills 명령으로 설치(Node.js 필요)',
@@ -2991,7 +2999,7 @@ export const strings = {
     intgStep2DescBefore: '설치 후 어시스턴트에서 새 대화를 열고 평소 말투로 요청하세요. 예:',
     intgExample1: '~/Downloads/report.md를 Word 문서로 만들어 줘',
     intgExample2: '3분기 실적을 소개하는 6장짜리 슬라이드를 만들어 줘',
-    intgExample3: 'budget.xlsx를 PDF로 변환해서 GenOffice에서 열어 줘',
+    intgExample3: 'budget.xlsx를 PDF로 변환해서 TechPartner Office에서 열어 줘',
     intgStep2Note:
       'genoffice 명령줄은 어시스턴트가 직접 실행하므로 여러분이 입력할 필요가 없습니다.',
     intgCliPartTitle: 'CLI · 명령줄 + skill',
@@ -3008,7 +3016,7 @@ export const strings = {
       'GenOffice 안에서 실행되며 어시스턴트가 URL로 연결합니다. Word 편집기에서 문서가 단계별로 만들어지는 과정을 볼 수 있습니다. GenOffice를 열어 두어야 하며 현재는 Word만 지원합니다.',
     intgMcpHttpAdvanced: '고급: 기타 주소와 로그',
     intgMcpTryNote:
-      '어시스턴트가 MCP를 통해 GenOffice를 호출합니다. 명령을 직접 입력할 필요가 없습니다.',
+      '어시스턴트가 MCP를 통해 TechPartner Office를 호출합니다. 명령을 직접 입력할 필요가 없습니다.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: '터미널에서 한 번만 실행하세요:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop 또는 MCP를 지원하는 다른 어시스턴트',
@@ -3043,9 +3051,10 @@ export const strings = {
     intgSaveZipTitle: '스킬 저장',
     intgSavedTo: '{path}에 저장됨',
     intgCopied: '복사됨',
-    intgCliEphemeral: '먼저 GenOffice를 응용 프로그램 폴더로 옮긴 뒤 명령줄을 사용하세요.',
+    intgCliEphemeral: '먼저 TechPartner Office를 응용 프로그램 폴더로 옮긴 뒤 명령줄을 사용하세요.',
     intgCopyPath: '경로 복사',
-    intgCliNeedsUpdate: '이 스킬은 명령줄 {v} 이상이 필요합니다. GenOffice를 업데이트하세요.',
+    intgCliNeedsUpdate:
+      '이 스킬은 명령줄 {v} 이상이 필요합니다. TechPartner Office를 업데이트하세요.',
     intgLoading: '확인 중…',
     intgUpdateDue: '스킬 업데이트 가능',
     setSecAiModel: 'AI 모델',
@@ -3149,7 +3158,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: '이전',
     intgSkillsDesc:
-      'GenOffice는 자체 스킬 폴더의 스킬만 사용합니다. 폴더나 zip에서 가져오면 스킬 전체가 복사되며, 가져오기 시 아무것도 실행되지 않습니다.',
+      'TechPartner Office는 자체 스킬 폴더의 스킬만 사용합니다. 폴더나 zip에서 가져오면 스킬 전체가 복사되며, 가져오기 시 아무것도 실행되지 않습니다.',
     intgSkillsEmpty: '설치된 스킬이 없습니다.',
     intgSkillsImportFolder: '폴더 가져오기…',
     intgSkillsImportZip: '스킬 패키지 가져오기(zip / .md)…',
@@ -3159,7 +3168,7 @@ export const strings = {
     intgSkillsImportFailed: '가져오기 실패: {reason}',
     intgSkillsRemove: '제거',
     intgSkillsRemoveConfirm:
-      '스킬 "{name}"을(를) 제거할까요? 해당 폴더가 GenOffice에서 삭제됩니다.',
+      '스킬 "{name}"을(를) 제거할까요? 해당 폴더가 TechPartner Office에서 삭제됩니다.',
     intgSkillsRemoved: '{name} 제거됨',
     intgSkillsRead: '상세',
     intgSkillsMine: '내 스킬',
@@ -3420,7 +3429,7 @@ export const strings = {
     setUpdateRestart: 'Redémarrer et installer',
     setAutoUpdateCheck: 'Rechercher automatiquement les mises à jour',
     setAutoUpdateCheckDesc:
-      'Désactivé, GenOffice ne recherche plus de nouvelle version au démarrage ni en arrière-plan. Vous pouvez toujours vérifier via Aide › Rechercher des mises à jour.',
+      'Désactivé, TechPartner Office ne recherche plus de nouvelle version au démarrage ni en arrière-plan. Vous pouvez toujours vérifier via Aide › Rechercher des mises à jour.',
     updateChannel: 'Canal de mise à jour',
     channelStable: 'Stable',
     channelBeta: 'Bêta',
@@ -3433,7 +3442,7 @@ export const strings = {
     saveLocation: "Emplacement d'enregistrement",
     setRestoreSession: 'Rouvrir les documents de la dernière fois',
     setRestoreSessionDesc:
-      'Les documents ouverts à la fermeture de GenOffice se rouvrent automatiquement au prochain démarrage.',
+      'Les documents ouverts à la fermeture de TechPartner Office se rouvrent automatiquement au prochain démarrage.',
     setTabSleep: 'Mettre en veille les onglets inactifs',
     setTabSleepDesc:
       'Lorsque de nombreux onglets sont ouverts, ceux que vous n’avez pas consultés depuis un moment libèrent leur mémoire et rouvrent leur fichier à votre retour. Les onglets avec des modifications non enregistrées ou épinglés ne sont jamais mis en veille.',
@@ -3463,8 +3472,9 @@ export const strings = {
     aiFontSizeCustom: 'Personnalisé',
     setAiSpellcheck: 'Correction orthographique dans le chat IA',
     setDefaultApp: 'Application par défaut pour les documents Office',
-    setDefaultAppDesc: 'Ouvrir les fichiers .docx, .xlsx et .pptx dans GenOffice par double-clic.',
-    setDefaultAppIs: 'GenOffice est déjà l’application par défaut.',
+    setDefaultAppDesc:
+      'Ouvrir les fichiers .docx, .xlsx et .pptx dans TechPartner Office par double-clic.',
+    setDefaultAppIs: 'TechPartner Office est déjà l’application par défaut.',
     setDefaultAppOther: 'Par défaut actuellement : {app}',
     setDefaultAppSet: 'Définir par défaut',
     setDefaultAppOpenSettings: 'Ouvrir les réglages système',
@@ -3510,7 +3520,7 @@ export const strings = {
     setSecAbout: 'À propos',
     setSecIntegrations: 'Intégrations',
     setSecSkills: 'Compétences',
-    intgHeroTitle: 'Utiliser GenOffice depuis votre assistant IA',
+    intgHeroTitle: 'Utiliser TechPartner Office depuis votre assistant IA',
     intgHeroDesc:
       'Une fois connectés, Claude Code, Codex, Cursor, Claude Desktop et les assistants similaires peuvent créer, convertir, lire et modifier vos fichiers Word, Excel, PowerPoint, PDF et Markdown. Tout se passe sur cet ordinateur ; rien n’est envoyé.',
     intgHeroStep1:
@@ -3521,7 +3531,7 @@ export const strings = {
     intgStep1Desc:
       'Seuls les assistants trouvés sur cet ordinateur sont listés. Installez-le dans celui que vous utilisez vraiment ; inutile de le faire pour tous.',
     intgStep1Update:
-      'Quand une mise à jour de GenOffice apporte un skill plus récent, un bouton Mettre à jour apparaît à côté de cet assistant.',
+      'Quand une mise à jour de TechPartner Office apporte un skill plus récent, un bouton Mettre à jour apparaît à côté de cet assistant.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill non installé',
     intgStateInstalled: 'Skill {v} installé · prêt pour votre prochaine discussion',
@@ -3529,7 +3539,7 @@ export const strings = {
     intgOtherDesc:
       "Choisissez une seule de ces trois méthodes. Elles installent toutes le même skill : inutile d'en faire plusieurs.",
     intgOtherFolderTitle: 'Tout assistant qui lit des dossiers SKILL.md',
-    intgOtherFolderDesc: 'Choisissez son dossier skills et GenOffice y écrit le fichier.',
+    intgOtherFolderDesc: 'Choisissez son dossier skills et TechPartner Office y écrit le fichier.',
     intgOtherZipTitle: "Remettre le fichier à l'assistant",
     intgOtherZipDesc: "Enregistrez le skill en zip, puis demandez à l'assistant de l'installer.",
     intgOtherNpxTitle: 'Avec la commande skills (nécessite Node.js)',
@@ -3542,7 +3552,7 @@ export const strings = {
       'Une fois installé, ouvrez une nouvelle discussion dans votre assistant et demandez simplement, par exemple :',
     intgExample1: 'Transforme ~/Downloads/report.md en document Word',
     intgExample2: 'Prépare une présentation de 6 diapositives sur nos résultats du T3',
-    intgExample3: 'Convertis budget.xlsx en PDF et ouvre-le dans GenOffice',
+    intgExample3: 'Convertis budget.xlsx en PDF et ouvre-le dans TechPartner Office',
     intgStep2Note:
       "L'assistant lance lui-même la ligne de commande genoffice ; vous n'avez jamais à la saisir.",
     intgCliPartTitle: 'CLI · ligne de commande + skill',
@@ -3558,7 +3568,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Tourne dans GenOffice ; l’assistant se connecte à une URL et vous voyez le document se construire pas à pas dans l’éditeur Word. GenOffice doit rester ouvert ; documents Word uniquement pour l’instant.',
     intgMcpHttpAdvanced: 'Avancé : autres adresses et journal',
-    intgMcpTryNote: 'L’assistant appelle GenOffice via MCP ; vous ne tapez jamais de commande.',
+    intgMcpTryNote:
+      'L’assistant appelle TechPartner Office via MCP ; vous ne tapez jamais de commande.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Exécutez ceci une fois dans un terminal :',
     intgMcpOtherTitle: 'Cursor, Claude Desktop ou tout autre assistant compatible MCP',
@@ -3594,10 +3605,10 @@ export const strings = {
     intgSavedTo: 'Enregistré dans {path}',
     intgCopied: 'Copié',
     intgCliEphemeral:
-      "Glissez d'abord GenOffice dans Applications, puis utilisez la ligne de commande.",
+      "Glissez d'abord TechPartner Office dans Applications, puis utilisez la ligne de commande.",
     intgCopyPath: 'Copier le chemin',
     intgCliNeedsUpdate:
-      'Ce skill requiert la ligne de commande {v} ou plus récente ; mettez GenOffice à jour.',
+      'Ce skill requiert la ligne de commande {v} ou plus récente ; mettez TechPartner Office à jour.',
     intgLoading: 'Vérification…',
     intgUpdateDue: 'Mise à jour du skill disponible',
     setSecAiModel: 'Modèle IA',
@@ -3705,7 +3716,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Retour',
     intgSkillsDesc:
-      'GenOffice n’utilise que les compétences de son propre dossier. Importer un dossier ou un zip copie toute la compétence ; rien ne s’exécute à l’import.',
+      'TechPartner Office n’utilise que les compétences de son propre dossier. Importer un dossier ou un zip copie toute la compétence ; rien ne s’exécute à l’import.',
     intgSkillsEmpty: 'Aucune compétence installée.',
     intgSkillsImportFolder: 'Importer un dossier…',
     intgSkillsImportZip: 'Importer un paquet de compétence (zip / .md)…',
@@ -3715,7 +3726,7 @@ export const strings = {
     intgSkillsImportFailed: 'Échec de l’import : {reason}',
     intgSkillsRemove: 'Supprimer',
     intgSkillsRemoveConfirm:
-      'Supprimer la compétence « {name} » ? Son dossier sera supprimé de GenOffice.',
+      'Supprimer la compétence « {name} » ? Son dossier sera supprimé de TechPartner Office.',
     intgSkillsRemoved: '{name} supprimée',
     intgSkillsRead: 'Détails',
     intgSkillsMine: 'Mes compétences',
@@ -3980,7 +3991,7 @@ export const strings = {
     setUpdateRestart: 'Neustarten & installieren',
     setAutoUpdateCheck: 'Automatisch nach Updates suchen',
     setAutoUpdateCheckDesc:
-      'Wenn aus, sucht GenOffice weder beim Start noch im Hintergrund nach neuen Versionen. Über Hilfe › Nach Updates suchen können Sie weiterhin selbst prüfen.',
+      'Wenn aus, sucht TechPartner Office weder beim Start noch im Hintergrund nach neuen Versionen. Über Hilfe › Nach Updates suchen können Sie weiterhin selbst prüfen.',
     updateChannel: 'Update-Kanal',
     channelStable: 'Stabil',
     channelBeta: 'Beta',
@@ -3993,7 +4004,7 @@ export const strings = {
     saveLocation: 'Speicherort',
     setRestoreSession: 'Dokumente vom letzten Mal wieder öffnen',
     setRestoreSessionDesc:
-      'Dokumente, die beim Schließen von GenOffice geöffnet waren, werden beim nächsten Start automatisch wieder geöffnet.',
+      'Dokumente, die beim Schließen von TechPartner Office geöffnet waren, werden beim nächsten Start automatisch wieder geöffnet.',
     setTabSleep: 'Inaktive Tabs schlafen legen',
     setTabSleepDesc:
       'Sind viele Tabs offen, geben länger nicht angesehene ihren Speicher frei und öffnen ihre Datei bei der Rückkehr neu. Tabs mit ungespeicherten Änderungen oder angeheftete Tabs schlafen nie.',
@@ -4023,8 +4034,9 @@ export const strings = {
     aiFontSizeCustom: 'Benutzerdefiniert',
     setAiSpellcheck: 'Rechtschreibprüfung im KI-Chat',
     setDefaultApp: 'Standard-App für Office-Dokumente',
-    setDefaultAppDesc: '.docx-, .xlsx- und .pptx-Dateien per Doppelklick in GenOffice öffnen.',
-    setDefaultAppIs: 'GenOffice ist bereits die Standard-App.',
+    setDefaultAppDesc:
+      '.docx-, .xlsx- und .pptx-Dateien per Doppelklick in TechPartner Office öffnen.',
+    setDefaultAppIs: 'TechPartner Office ist bereits die Standard-App.',
     setDefaultAppOther: 'Aktueller Standard: {app}',
     setDefaultAppSet: 'Als Standard festlegen',
     setDefaultAppOpenSettings: 'Systemeinstellungen öffnen',
@@ -4070,7 +4082,7 @@ export const strings = {
     setSecAbout: 'Über',
     setSecIntegrations: 'Integrationen',
     setSecSkills: 'Skills',
-    intgHeroTitle: 'GenOffice aus Ihrem KI-Assistenten nutzen',
+    intgHeroTitle: 'TechPartner Office aus Ihrem KI-Assistenten nutzen',
     intgHeroDesc:
       'Einmal verbunden, können Claude Code, Codex, Cursor, Claude Desktop und ähnliche Assistenten Word-, Excel-, PowerPoint-, PDF- und Markdown-Dateien für Sie erstellen, konvertieren, lesen und bearbeiten. Alles läuft auf diesem Rechner; nichts wird hochgeladen.',
     intgHeroStep1: 'Weg wählen: CLI, wenn der Assistent Terminalbefehle ausführen kann, sonst MCP',
@@ -4080,7 +4092,7 @@ export const strings = {
     intgStep1Desc:
       'Es werden nur Assistenten angezeigt, die auf diesem Rechner gefunden wurden. Installieren Sie ihn in dem, den Sie tatsächlich nutzen; Sie brauchen nicht alle.',
     intgStep1Update:
-      'Bringt ein GenOffice-Update einen neueren Skill mit, erscheint neben diesem Assistenten ein Aktualisieren-Button.',
+      'Bringt ein TechPartner Office-Update einen neueren Skill mit, erscheint neben diesem Assistenten ein Aktualisieren-Button.',
     intgSkillVersion: 'Skill {v}',
     intgStateMissing: 'Skill nicht installiert',
     intgStateInstalled: 'Skill {v} installiert · ab dem nächsten Chat bereit',
@@ -4089,7 +4101,7 @@ export const strings = {
       'Wählen Sie genau einen dieser drei Wege. Alle installieren denselben Skill, mehr als einer ist nicht nötig.',
     intgOtherFolderTitle: 'Jeder Assistent, der SKILL.md-Ordner liest',
     intgOtherFolderDesc:
-      'Wählen Sie seinen Skills-Ordner, und GenOffice schreibt die Datei dorthin.',
+      'Wählen Sie seinen Skills-Ordner, und TechPartner Office schreibt die Datei dorthin.',
     intgOtherZipTitle: 'Datei an den Assistenten übergeben',
     intgOtherZipDesc:
       'Speichern Sie den Skill als Zip und bitten Sie den Assistenten, ihn zu installieren.',
@@ -4103,7 +4115,7 @@ export const strings = {
       'Öffnen Sie nach der Installation einen neuen Chat in Ihrem Assistenten und fragen Sie in normalen Worten, zum Beispiel:',
     intgExample1: 'Mach aus ~/Downloads/report.md ein Word-Dokument',
     intgExample2: 'Erstelle eine Präsentation mit 6 Folien zu unseren Q3-Ergebnissen',
-    intgExample3: 'Wandle budget.xlsx in PDF um und öffne es in GenOffice',
+    intgExample3: 'Wandle budget.xlsx in PDF um und öffne es in TechPartner Office',
     intgStep2Note:
       'Der Assistent ruft die genoffice-Befehlszeile selbst auf; Sie müssen sie nie eintippen.',
     intgCliPartTitle: 'CLI · Kommandozeile + Skill',
@@ -4119,7 +4131,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Läuft in GenOffice; der Assistent verbindet sich über eine URL, und Sie sehen im Word-Editor zu, wie das Dokument Schritt für Schritt entsteht. GenOffice muss geöffnet bleiben; derzeit nur Word-Dokumente.',
     intgMcpHttpAdvanced: 'Erweitert: weitere Adressen und Protokoll',
-    intgMcpTryNote: 'Der Assistent ruft GenOffice über MCP auf; Sie tippen nie einen Befehl.',
+    intgMcpTryNote:
+      'Der Assistent ruft TechPartner Office über MCP auf; Sie tippen nie einen Befehl.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Einmal im Terminal ausführen:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop oder ein anderer MCP-fähiger Assistent',
@@ -4155,10 +4168,10 @@ export const strings = {
     intgSavedTo: 'Gespeichert unter {path}',
     intgCopied: 'Kopiert',
     intgCliEphemeral:
-      'Ziehen Sie GenOffice zuerst in „Programme“, dann nutzen Sie die Befehlszeile.',
+      'Ziehen Sie TechPartner Office zuerst in „Programme“, dann nutzen Sie die Befehlszeile.',
     intgCopyPath: 'Pfad kopieren',
     intgCliNeedsUpdate:
-      'Dieser Skill braucht Befehlszeile {v} oder neuer; aktualisieren Sie GenOffice.',
+      'Dieser Skill braucht Befehlszeile {v} oder neuer; aktualisieren Sie TechPartner Office.',
     intgLoading: 'Prüfe …',
     intgUpdateDue: 'Skill-Update verfügbar',
     setSecAiModel: 'KI-Modell',
@@ -4264,7 +4277,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Zurück',
     intgSkillsDesc:
-      'GenOffice verwendet nur Skills aus seinem eigenen Skills-Ordner. Der Import eines Ordners oder einer ZIP kopiert den ganzen Skill; beim Import wird nichts ausgeführt.',
+      'TechPartner Office verwendet nur Skills aus seinem eigenen Skills-Ordner. Der Import eines Ordners oder einer ZIP kopiert den ganzen Skill; beim Import wird nichts ausgeführt.',
     intgSkillsEmpty: 'Noch keine Skills installiert.',
     intgSkillsImportFolder: 'Ordner importieren…',
     intgSkillsImportZip: 'Skill-Paket importieren (ZIP / .md)…',
@@ -4273,7 +4286,8 @@ export const strings = {
     intgSkillsImportDone: '{name} importiert',
     intgSkillsImportFailed: 'Import fehlgeschlagen: {reason}',
     intgSkillsRemove: 'Entfernen',
-    intgSkillsRemoveConfirm: 'Skill „{name}“ entfernen? Sein Ordner wird aus GenOffice gelöscht.',
+    intgSkillsRemoveConfirm:
+      'Skill „{name}“ entfernen? Sein Ordner wird aus TechPartner Office gelöscht.',
     intgSkillsRemoved: '{name} entfernt',
     intgSkillsRead: 'Details',
     intgSkillsMine: 'Meine Skills',
@@ -4535,7 +4549,7 @@ export const strings = {
     setUpdateRestart: 'Reiniciar e instalar',
     setAutoUpdateCheck: 'Buscar actualizaciones automáticamente',
     setAutoUpdateCheckDesc:
-      'Si está desactivado, GenOffice deja de buscar nuevas versiones al iniciar y en segundo plano. Puede seguir comprobándolo en Ayuda › Buscar actualizaciones.',
+      'Si está desactivado, TechPartner Office deja de buscar nuevas versiones al iniciar y en segundo plano. Puede seguir comprobándolo en Ayuda › Buscar actualizaciones.',
     updateChannel: 'Canal de actualización',
     channelStable: 'Estable',
     channelBeta: 'Beta',
@@ -4548,7 +4562,7 @@ export const strings = {
     saveLocation: 'Ubicación de guardado',
     setRestoreSession: 'Volver a abrir los documentos de la última vez',
     setRestoreSessionDesc:
-      'Los documentos abiertos al cerrar GenOffice se vuelven a abrir automáticamente la próxima vez que se inicie.',
+      'Los documentos abiertos al cerrar TechPartner Office se vuelven a abrir automáticamente la próxima vez que se inicie.',
     setTabSleep: 'Suspender pestañas inactivas',
     setTabSleepDesc:
       'Con muchas pestañas abiertas, las que no has mirado durante un tiempo liberan su memoria y vuelven a abrir el archivo al regresar. Las pestañas con cambios sin guardar o fijadas nunca se suspenden.',
@@ -4578,8 +4592,9 @@ export const strings = {
     aiFontSizeCustom: 'Personalizado',
     setAiSpellcheck: 'Corrección ortográfica en el chat de IA',
     setDefaultApp: 'App predeterminada para documentos de Office',
-    setDefaultAppDesc: 'Abrir archivos .docx, .xlsx y .pptx en GenOffice al hacer doble clic.',
-    setDefaultAppIs: 'GenOffice ya es la app predeterminada.',
+    setDefaultAppDesc:
+      'Abrir archivos .docx, .xlsx y .pptx en TechPartner Office al hacer doble clic.',
+    setDefaultAppIs: 'TechPartner Office ya es la app predeterminada.',
     setDefaultAppOther: 'Predeterminada actual: {app}',
     setDefaultAppSet: 'Establecer como predeterminada',
     setDefaultAppOpenSettings: 'Abrir ajustes del sistema',
@@ -4626,7 +4641,7 @@ export const strings = {
     setSecAbout: 'Acerca de',
     setSecIntegrations: 'Integraciones',
     setSecSkills: 'Habilidades',
-    intgHeroTitle: 'Usa GenOffice desde tu asistente de IA',
+    intgHeroTitle: 'Usa TechPartner Office desde tu asistente de IA',
     intgHeroDesc:
       'Una vez conectados, Claude Code, Codex, Cursor, Claude Desktop y asistentes similares pueden crear, convertir, leer y editar archivos Word, Excel, PowerPoint, PDF y Markdown por ti. Todo ocurre en este equipo; no se sube nada.',
     intgHeroStep1:
@@ -4637,7 +4652,7 @@ export const strings = {
     intgStep1Desc:
       'Solo se muestran los asistentes encontrados en este equipo. Instálalo en el que realmente usas; no necesitas todos.',
     intgStep1Update:
-      'Cuando una actualización de GenOffice traiga un skill más nuevo, aparecerá un botón Actualizar junto a ese asistente.',
+      'Cuando una actualización de TechPartner Office traiga un skill más nuevo, aparecerá un botón Actualizar junto a ese asistente.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill no instalado',
     intgStateInstalled: 'Skill {v} instalado · listo en tu próximo chat',
@@ -4645,7 +4660,7 @@ export const strings = {
     intgOtherDesc:
       'Elige solo una de estas tres formas. Todas instalan el mismo skill, así que no hace falta hacer más de una.',
     intgOtherFolderTitle: 'Cualquier asistente que lea carpetas SKILL.md',
-    intgOtherFolderDesc: 'Elige su carpeta de skills y GenOffice escribe el archivo ahí.',
+    intgOtherFolderDesc: 'Elige su carpeta de skills y TechPartner Office escribe el archivo ahí.',
     intgOtherZipTitle: 'Entrega el archivo al asistente',
     intgOtherZipDesc: 'Guarda el skill como zip y pide al asistente que lo instale.',
     intgOtherNpxTitle: 'Con el comando skills (requiere Node.js)',
@@ -4657,7 +4672,7 @@ export const strings = {
       'Una vez instalado, abre un chat nuevo en tu asistente y pídelo con tus palabras, por ejemplo:',
     intgExample1: 'Convierte ~/Downloads/report.md en un documento de Word',
     intgExample2: 'Haz una presentación de 6 diapositivas sobre nuestros resultados del T3',
-    intgExample3: 'Convierte budget.xlsx a PDF y ábrelo en GenOffice',
+    intgExample3: 'Convierte budget.xlsx a PDF y ábrelo en TechPartner Office',
     intgStep2Note:
       'El asistente ejecuta la línea de comandos genoffice por sí mismo; nunca tienes que escribirla.',
     intgCliPartTitle: 'CLI · línea de comandos + skill',
@@ -4673,7 +4688,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Se ejecuta dentro de GenOffice; el asistente se conecta a una URL y puedes ver cómo construye el documento paso a paso en el editor de Word. GenOffice debe permanecer abierto; por ahora solo documentos Word.',
     intgMcpHttpAdvanced: 'Avanzado: otras direcciones y registro',
-    intgMcpTryNote: 'El asistente llama a GenOffice a través de MCP; nunca escribes un comando.',
+    intgMcpTryNote:
+      'El asistente llama a TechPartner Office a través de MCP; nunca escribes un comando.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Ejecuta esto una vez en una terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop o cualquier otro asistente compatible con MCP',
@@ -4708,10 +4724,11 @@ export const strings = {
     intgSaveZipTitle: 'Guardar skill',
     intgSavedTo: 'Guardado en {path}',
     intgCopied: 'Copiado',
-    intgCliEphemeral: 'Arrastra primero GenOffice a Aplicaciones y luego usa la línea de comandos.',
+    intgCliEphemeral:
+      'Arrastra primero TechPartner Office a Aplicaciones y luego usa la línea de comandos.',
     intgCopyPath: 'Copiar ruta',
     intgCliNeedsUpdate:
-      'Este skill necesita la línea de comandos {v} o superior; actualiza GenOffice.',
+      'Este skill necesita la línea de comandos {v} o superior; actualiza TechPartner Office.',
     intgLoading: 'Comprobando…',
     intgUpdateDue: 'Actualización del skill disponible',
     setSecAiModel: 'Modelo de IA',
@@ -4817,7 +4834,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Atrás',
     intgSkillsDesc:
-      'GenOffice solo usa habilidades de su propia carpeta. Importar una carpeta o un zip copia la habilidad completa; nada se ejecuta al importar.',
+      'TechPartner Office solo usa habilidades de su propia carpeta. Importar una carpeta o un zip copia la habilidad completa; nada se ejecuta al importar.',
     intgSkillsEmpty: 'Aún no hay habilidades instaladas.',
     intgSkillsImportFolder: 'Importar carpeta…',
     intgSkillsImportZip: 'Importar paquete de habilidad (zip / .md)…',
@@ -4826,7 +4843,8 @@ export const strings = {
     intgSkillsImportDone: '{name} importada',
     intgSkillsImportFailed: 'Error al importar: {reason}',
     intgSkillsRemove: 'Quitar',
-    intgSkillsRemoveConfirm: '¿Quitar la habilidad "{name}"? Su carpeta se eliminará de GenOffice.',
+    intgSkillsRemoveConfirm:
+      '¿Quitar la habilidad "{name}"? Su carpeta se eliminará de TechPartner Office.',
     intgSkillsRemoved: '{name} quitada',
     intgSkillsRead: 'Detalles',
     intgSkillsMine: 'Mis habilidades',
@@ -5082,7 +5100,7 @@ export const strings = {
     setUpdateRestart: 'รีสตาร์ตและติดตั้ง',
     setAutoUpdateCheck: 'ตรวจหาอัปเดตโดยอัตโนมัติ',
     setAutoUpdateCheckDesc:
-      'เมื่อปิด GenOffice จะไม่ตรวจหาเวอร์ชันใหม่ตอนเปิดโปรแกรมหรือในเบื้องหลัง คุณยังตรวจเองได้จาก วิธีใช้ › ตรวจหาการอัปเดต',
+      'เมื่อปิด TechPartner Office จะไม่ตรวจหาเวอร์ชันใหม่ตอนเปิดโปรแกรมหรือในเบื้องหลัง คุณยังตรวจเองได้จาก วิธีใช้ › ตรวจหาการอัปเดต',
     updateChannel: 'ช่องทางอัปเดต',
     channelStable: 'เสถียร',
     channelBeta: 'เบต้า',
@@ -5095,7 +5113,7 @@ export const strings = {
     saveLocation: 'ตำแหน่งบันทึก',
     setRestoreSession: 'เปิดเอกสารจากครั้งที่แล้วอีกครั้ง',
     setRestoreSessionDesc:
-      'เอกสารที่เปิดอยู่ตอนปิด GenOffice จะเปิดขึ้นอีกครั้งโดยอัตโนมัติเมื่อเริ่มโปรแกรมครั้งถัดไป',
+      'เอกสารที่เปิดอยู่ตอนปิด TechPartner Office จะเปิดขึ้นอีกครั้งโดยอัตโนมัติเมื่อเริ่มโปรแกรมครั้งถัดไป',
     setTabSleep: 'พักแท็บที่ไม่ได้ใช้งาน',
     setTabSleepDesc:
       'เมื่อเปิดแท็บจำนวนมาก แท็บที่ไม่ได้ดูสักพักจะคืนหน่วยความจำและเปิดไฟล์ใหม่เมื่อคุณกลับมา แท็บที่มีการเปลี่ยนแปลงที่ยังไม่บันทึกหรือปักหมุดไว้จะไม่พัก',
@@ -5124,8 +5142,8 @@ export const strings = {
     aiFontSizeCustom: 'กำหนดเอง',
     setAiSpellcheck: 'ตรวจการสะกดในแชท AI',
     setDefaultApp: 'แอปเริ่มต้นสำหรับเอกสาร Office',
-    setDefaultAppDesc: 'เปิดไฟล์ .docx, .xlsx และ .pptx ด้วย GenOffice เมื่อดับเบิลคลิก',
-    setDefaultAppIs: 'GenOffice เป็นแอปเริ่มต้นอยู่แล้ว',
+    setDefaultAppDesc: 'เปิดไฟล์ .docx, .xlsx และ .pptx ด้วย TechPartner Office เมื่อดับเบิลคลิก',
+    setDefaultAppIs: 'TechPartner Office เป็นแอปเริ่มต้นอยู่แล้ว',
     setDefaultAppOther: 'แอปเริ่มต้นปัจจุบัน: {app}',
     setDefaultAppSet: 'ตั้งเป็นค่าเริ่มต้น',
     setDefaultAppOpenSettings: 'เปิดการตั้งค่าระบบ',
@@ -5169,7 +5187,7 @@ export const strings = {
     setSecAbout: 'เกี่ยวกับ',
     setSecIntegrations: 'การเชื่อมต่อ',
     setSecSkills: 'ทักษะ',
-    intgHeroTitle: 'ใช้ GenOffice จากผู้ช่วย AI ของคุณ',
+    intgHeroTitle: 'ใช้ TechPartner Office จากผู้ช่วย AI ของคุณ',
     intgHeroDesc:
       'เมื่อเชื่อมต่อแล้ว Claude Code, Codex, Cursor, Claude Desktop และผู้ช่วยลักษณะเดียวกันจะสร้าง แปลง อ่าน และแก้ไขไฟล์ Word, Excel, PowerPoint, PDF และ Markdown แทนคุณได้ ทุกอย่างทำงานบนคอมพิวเตอร์เครื่องนี้ ไม่มีการอัปโหลดใด ๆ',
     intgHeroStep1: 'เลือกวิธี: ใช้ CLI ถ้าผู้ช่วยรันคำสั่งเทอร์มินัลได้ ใช้ MCP ถ้าไม่ได้',
@@ -5179,7 +5197,7 @@ export const strings = {
     intgStep1Desc:
       'แสดงเฉพาะผู้ช่วยที่พบบนคอมพิวเตอร์เครื่องนี้ ติดตั้งเฉพาะตัวที่คุณใช้จริงก็พอ ไม่จำเป็นต้องติดตั้งทั้งหมด',
     intgStep1Update:
-      'เมื่อการอัปเดต GenOffice มาพร้อมสกิลเวอร์ชันใหม่ ปุ่มอัปเดตจะปรากฏข้างผู้ช่วยนั้น',
+      'เมื่อการอัปเดต TechPartner Office มาพร้อมสกิลเวอร์ชันใหม่ ปุ่มอัปเดตจะปรากฏข้างผู้ช่วยนั้น',
     intgSkillVersion: 'สกิล {v}',
     intgStateMissing: 'ยังไม่ติดตั้งสกิล',
     intgStateInstalled: 'ติดตั้งสกิล {v} แล้ว · พร้อมใช้ในแชตถัดไป',
@@ -5187,7 +5205,7 @@ export const strings = {
     intgOtherDesc:
       'เลือกเพียงวิธีใดวิธีหนึ่งจากสามวิธีนี้ ทุกวิธีติดตั้งสกิลเดียวกัน จึงไม่ต้องทำมากกว่าหนึ่งวิธี',
     intgOtherFolderTitle: 'ผู้ช่วยใดก็ได้ที่อ่านโฟลเดอร์ SKILL.md',
-    intgOtherFolderDesc: 'เลือกโฟลเดอร์ skills ของผู้ช่วย แล้ว GenOffice จะเขียนไฟล์ลงไป',
+    intgOtherFolderDesc: 'เลือกโฟลเดอร์ skills ของผู้ช่วย แล้ว TechPartner Office จะเขียนไฟล์ลงไป',
     intgOtherZipTitle: 'ส่งไฟล์ให้ผู้ช่วย',
     intgOtherZipDesc: 'บันทึกสกิลเป็น zip แล้วขอให้ผู้ช่วยติดตั้งเอง',
     intgOtherNpxTitle: 'ใช้คำสั่ง skills (ต้องมี Node.js)',
@@ -5198,7 +5216,7 @@ export const strings = {
     intgStep2DescBefore: 'เมื่อติดตั้งแล้ว เปิดแชตใหม่ในผู้ช่วยแล้วสั่งด้วยภาษาธรรมดา เช่น:',
     intgExample1: 'แปลง ~/Downloads/report.md เป็นเอกสาร Word',
     intgExample2: 'ทำสไลด์ 6 หน้าเกี่ยวกับผลประกอบการไตรมาส 3 ของเรา',
-    intgExample3: 'แปลง budget.xlsx เป็น PDF แล้วเปิดใน GenOffice',
+    intgExample3: 'แปลง budget.xlsx เป็น PDF แล้วเปิดใน TechPartner Office',
     intgStep2Note: 'ผู้ช่วยจะเรียกใช้บรรทัดคำสั่ง genoffice เอง คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
     intgCliPartTitle: 'CLI · บรรทัดคำสั่ง + skill',
     intgCliPartDesc:
@@ -5213,7 +5231,7 @@ export const strings = {
     intgMcpHttpDesc:
       'ทำงานอยู่ใน GenOffice ผู้ช่วยเชื่อมต่อผ่าน URL และคุณจะเห็นเอกสารค่อย ๆ ถูกสร้างขึ้นในตัวแก้ไข Word ต้องเปิด GenOffice ไว้ตลอด ปัจจุบันรองรับเฉพาะ Word',
     intgMcpHttpAdvanced: 'ขั้นสูง: ที่อยู่อื่นและบันทึก',
-    intgMcpTryNote: 'ผู้ช่วยจะเรียก GenOffice ผ่าน MCP คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
+    intgMcpTryNote: 'ผู้ช่วยจะเรียก TechPartner Office ผ่าน MCP คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'รันคำสั่งนี้ครั้งเดียวในเทอร์มินัล:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop หรือผู้ช่วยอื่นที่รองรับ MCP',
@@ -5248,9 +5266,9 @@ export const strings = {
     intgSaveZipTitle: 'บันทึกสกิล',
     intgSavedTo: 'บันทึกไว้ที่ {path}',
     intgCopied: 'คัดลอกแล้ว',
-    intgCliEphemeral: 'กรุณาลาก GenOffice ไปที่ Applications ก่อน แล้วจึงใช้บรรทัดคำสั่ง',
+    intgCliEphemeral: 'กรุณาลาก TechPartner Office ไปที่ Applications ก่อน แล้วจึงใช้บรรทัดคำสั่ง',
     intgCopyPath: 'คัดลอกพาธ',
-    intgCliNeedsUpdate: 'สกิลนี้ต้องใช้บรรทัดคำสั่ง {v} หรือใหม่กว่า โปรดอัปเดต GenOffice',
+    intgCliNeedsUpdate: 'สกิลนี้ต้องใช้บรรทัดคำสั่ง {v} หรือใหม่กว่า โปรดอัปเดต TechPartner Office',
     intgLoading: 'กำลังตรวจสอบ…',
     intgUpdateDue: 'มีอัปเดตสกิล',
     setSecAiModel: 'โมเดล AI',
@@ -5354,7 +5372,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'ย้อนกลับ',
     intgSkillsDesc:
-      'GenOffice ใช้เฉพาะทักษะในโฟลเดอร์ทักษะของตัวเอง การนำเข้าจากโฟลเดอร์หรือ zip จะคัดลอกทักษะทั้งชุด และไม่มีสิ่งใดทำงานเมื่อนำเข้า',
+      'TechPartner Office ใช้เฉพาะทักษะในโฟลเดอร์ทักษะของตัวเอง การนำเข้าจากโฟลเดอร์หรือ zip จะคัดลอกทักษะทั้งชุด และไม่มีสิ่งใดทำงานเมื่อนำเข้า',
     intgSkillsEmpty: 'ยังไม่ได้ติดตั้งทักษะ',
     intgSkillsImportFolder: 'นำเข้าโฟลเดอร์…',
     intgSkillsImportZip: 'นำเข้าแพ็กเกจทักษะ (zip / .md)…',
@@ -5363,7 +5381,8 @@ export const strings = {
     intgSkillsImportDone: 'นำเข้า {name} แล้ว',
     intgSkillsImportFailed: 'นำเข้าไม่สำเร็จ: {reason}',
     intgSkillsRemove: 'ลบ',
-    intgSkillsRemoveConfirm: 'ลบทักษะ "{name}" หรือไม่ โฟลเดอร์ของทักษะจะถูกลบออกจาก GenOffice',
+    intgSkillsRemoveConfirm:
+      'ลบทักษะ "{name}" หรือไม่ โฟลเดอร์ของทักษะจะถูกลบออกจาก TechPartner Office',
     intgSkillsRemoved: 'ลบ {name} แล้ว',
     intgSkillsRead: 'รายละเอียด',
     intgSkillsMine: 'สกิลของฉัน',
@@ -5620,7 +5639,7 @@ export const strings = {
     setUpdateRestart: 'Mulai ulang & instal',
     setAutoUpdateCheck: 'Periksa pembaruan secara otomatis',
     setAutoUpdateCheckDesc:
-      'Jika dimatikan, GenOffice tidak lagi memeriksa versi baru saat dijalankan atau di latar belakang. Anda tetap bisa memeriksa dari Bantuan › Periksa Pembaruan.',
+      'Jika dimatikan, TechPartner Office tidak lagi memeriksa versi baru saat dijalankan atau di latar belakang. Anda tetap bisa memeriksa dari Bantuan › Periksa Pembaruan.',
     updateChannel: 'Saluran Pembaruan',
     channelStable: 'Stabil',
     channelBeta: 'Beta',
@@ -5633,7 +5652,7 @@ export const strings = {
     saveLocation: 'Lokasi penyimpanan',
     setRestoreSession: 'Buka kembali dokumen dari sesi terakhir',
     setRestoreSessionDesc:
-      'Dokumen yang terbuka saat GenOffice ditutup akan dibuka kembali secara otomatis saat dijalankan berikutnya.',
+      'Dokumen yang terbuka saat TechPartner Office ditutup akan dibuka kembali secara otomatis saat dijalankan berikutnya.',
     setTabSleep: 'Tidurkan tab tidak aktif',
     setTabSleepDesc:
       'Saat banyak tab terbuka, tab yang lama tidak dilihat melepaskan memorinya dan membuka kembali berkasnya saat Anda kembali. Tab dengan perubahan belum disimpan atau yang disematkan tidak pernah tidur.',
@@ -5663,8 +5682,9 @@ export const strings = {
     aiFontSizeCustom: 'Kustom',
     setAiSpellcheck: 'Pemeriksaan ejaan di obrolan AI',
     setDefaultApp: 'Aplikasi default untuk dokumen Office',
-    setDefaultAppDesc: 'Buka file .docx, .xlsx, dan .pptx di GenOffice saat diklik dua kali.',
-    setDefaultAppIs: 'GenOffice sudah menjadi aplikasi default.',
+    setDefaultAppDesc:
+      'Buka file .docx, .xlsx, dan .pptx di TechPartner Office saat diklik dua kali.',
+    setDefaultAppIs: 'TechPartner Office sudah menjadi aplikasi default.',
     setDefaultAppOther: 'Default saat ini: {app}',
     setDefaultAppSet: 'Jadikan default',
     setDefaultAppOpenSettings: 'Buka pengaturan sistem',
@@ -5709,7 +5729,7 @@ export const strings = {
     setSecAbout: 'Tentang',
     setSecIntegrations: 'Integrasi',
     setSecSkills: 'Keterampilan',
-    intgHeroTitle: 'Gunakan GenOffice dari asisten AI Anda',
+    intgHeroTitle: 'Gunakan TechPartner Office dari asisten AI Anda',
     intgHeroDesc:
       'Setelah terhubung, Claude Code, Codex, Cursor, Claude Desktop, dan asisten serupa dapat membuat, mengonversi, membaca, dan mengedit file Word, Excel, PowerPoint, PDF, dan Markdown untuk Anda. Semuanya berjalan di komputer ini; tidak ada yang diunggah.',
     intgHeroStep1:
@@ -5720,7 +5740,7 @@ export const strings = {
     intgStep1Desc:
       'Hanya asisten yang ditemukan di komputer ini yang ditampilkan. Pasang ke yang benar-benar Anda pakai; tidak perlu semuanya.',
     intgStep1Update:
-      'Saat pembaruan GenOffice membawa skill yang lebih baru, tombol Perbarui muncul di samping asisten itu.',
+      'Saat pembaruan TechPartner Office membawa skill yang lebih baru, tombol Perbarui muncul di samping asisten itu.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill belum terpasang',
     intgStateInstalled: 'Skill {v} terpasang · siap di obrolan berikutnya',
@@ -5728,7 +5748,7 @@ export const strings = {
     intgOtherDesc:
       'Pilih salah satu saja dari tiga cara ini. Semuanya memasang skill yang sama, jadi tidak perlu lebih dari satu.',
     intgOtherFolderTitle: 'Asisten apa pun yang membaca folder SKILL.md',
-    intgOtherFolderDesc: 'Pilih folder skills-nya dan GenOffice menulis file di sana.',
+    intgOtherFolderDesc: 'Pilih folder skills-nya dan TechPartner Office menulis file di sana.',
     intgOtherZipTitle: 'Serahkan file ke asisten',
     intgOtherZipDesc: 'Simpan skill sebagai zip, lalu minta asisten memasangnya.',
     intgOtherNpxTitle: 'Dengan perintah skills (butuh Node.js)',
@@ -5740,7 +5760,7 @@ export const strings = {
       'Setelah terpasang, buka obrolan baru di asisten Anda dan minta dengan bahasa biasa, misalnya:',
     intgExample1: 'Ubah ~/Downloads/report.md menjadi dokumen Word',
     intgExample2: 'Buat presentasi 6 slide tentang hasil Q3 kami',
-    intgExample3: 'Konversi budget.xlsx ke PDF dan buka di GenOffice',
+    intgExample3: 'Konversi budget.xlsx ke PDF dan buka di TechPartner Office',
     intgStep2Note:
       'Asisten menjalankan baris perintah genoffice sendiri; Anda tidak perlu mengetiknya.',
     intgCliPartTitle: 'CLI · baris perintah + skill',
@@ -5756,7 +5776,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Berjalan di dalam GenOffice; asisten terhubung lewat URL dan Anda bisa melihat dokumen dibangun langkah demi langkah di editor Word. GenOffice harus tetap terbuka; untuk saat ini hanya dokumen Word.',
     intgMcpHttpAdvanced: 'Lanjutan: alamat lain dan log',
-    intgMcpTryNote: 'Asisten memanggil GenOffice melalui MCP; Anda tidak pernah mengetik perintah.',
+    intgMcpTryNote:
+      'Asisten memanggil TechPartner Office melalui MCP; Anda tidak pernah mengetik perintah.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Jalankan ini sekali di terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop, atau asisten lain yang mendukung MCP',
@@ -5791,10 +5812,10 @@ export const strings = {
     intgSaveZipTitle: 'Simpan skill',
     intgSavedTo: 'Disimpan ke {path}',
     intgCopied: 'Disalin',
-    intgCliEphemeral: 'Seret GenOffice ke Applications dulu, lalu gunakan baris perintah.',
+    intgCliEphemeral: 'Seret TechPartner Office ke Applications dulu, lalu gunakan baris perintah.',
     intgCopyPath: 'Salin path',
     intgCliNeedsUpdate:
-      'Skill ini memerlukan baris perintah {v} atau lebih baru; perbarui GenOffice.',
+      'Skill ini memerlukan baris perintah {v} atau lebih baru; perbarui TechPartner Office.',
     intgLoading: 'Memeriksa…',
     intgUpdateDue: 'Pembaruan skill tersedia',
     setSecAiModel: 'Model AI',
@@ -5899,7 +5920,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Kembali',
     intgSkillsDesc:
-      'GenOffice hanya memakai keterampilan di folder keterampilannya sendiri. Mengimpor folder atau zip menyalin seluruh keterampilan; tidak ada yang dijalankan saat impor.',
+      'TechPartner Office hanya memakai keterampilan di folder keterampilannya sendiri. Mengimpor folder atau zip menyalin seluruh keterampilan; tidak ada yang dijalankan saat impor.',
     intgSkillsEmpty: 'Belum ada keterampilan terpasang.',
     intgSkillsImportFolder: 'Impor folder…',
     intgSkillsImportZip: 'Impor paket keterampilan (zip / .md)…',
@@ -5908,7 +5929,8 @@ export const strings = {
     intgSkillsImportDone: '{name} diimpor',
     intgSkillsImportFailed: 'Impor gagal: {reason}',
     intgSkillsRemove: 'Hapus',
-    intgSkillsRemoveConfirm: 'Hapus keterampilan "{name}"? Foldernya akan dihapus dari GenOffice.',
+    intgSkillsRemoveConfirm:
+      'Hapus keterampilan "{name}"? Foldernya akan dihapus dari TechPartner Office.',
     intgSkillsRemoved: '{name} dihapus',
     intgSkillsRead: 'Detail',
     intgSkillsMine: 'Skill saya',
@@ -6165,7 +6187,7 @@ export const strings = {
     setUpdateRestart: 'Перезапустить и установить',
     setAutoUpdateCheck: 'Автоматически проверять обновления',
     setAutoUpdateCheckDesc:
-      'Если выключено, GenOffice не проверяет новые версии при запуске и в фоне. Проверить вручную можно через Справка › Проверить обновления.',
+      'Если выключено, TechPartner Office не проверяет новые версии при запуске и в фоне. Проверить вручную можно через Справка › Проверить обновления.',
     updateChannel: 'Канал обновлений',
     channelStable: 'Стабильный',
     channelBeta: 'Бета',
@@ -6178,7 +6200,7 @@ export const strings = {
     saveLocation: 'Папка сохранения',
     setRestoreSession: 'Открывать документы прошлого сеанса',
     setRestoreSessionDesc:
-      'Документы, открытые при закрытии GenOffice, автоматически откроются при следующем запуске.',
+      'Документы, открытые при закрытии TechPartner Office, автоматически откроются при следующем запуске.',
     setTabSleep: 'Усыплять неактивные вкладки',
     setTabSleepDesc:
       'Когда открыто много вкладок, давно не просматриваемые освобождают память и заново открывают файл при возврате. Вкладки с несохранёнными изменениями и закреплённые не усыпляются.',
@@ -6208,8 +6230,9 @@ export const strings = {
     aiFontSizeCustom: 'Другой',
     setAiSpellcheck: 'Проверка орфографии в чате ИИ',
     setDefaultApp: 'Приложение по умолчанию для документов Office',
-    setDefaultAppDesc: 'Открывать файлы .docx, .xlsx и .pptx в GenOffice по двойному щелчку.',
-    setDefaultAppIs: 'GenOffice уже является приложением по умолчанию.',
+    setDefaultAppDesc:
+      'Открывать файлы .docx, .xlsx и .pptx в TechPartner Office по двойному щелчку.',
+    setDefaultAppIs: 'TechPartner Office уже является приложением по умолчанию.',
     setDefaultAppOther: 'Сейчас по умолчанию: {app}',
     setDefaultAppSet: 'Сделать по умолчанию',
     setDefaultAppOpenSettings: 'Открыть системные настройки',
@@ -6254,7 +6277,7 @@ export const strings = {
     setSecAbout: 'О программе',
     setSecIntegrations: 'Интеграции',
     setSecSkills: 'Навыки',
-    intgHeroTitle: 'Используйте GenOffice из своего ИИ-ассистента',
+    intgHeroTitle: 'Используйте TechPartner Office из своего ИИ-ассистента',
     intgHeroDesc:
       'После подключения Claude Code, Codex, Cursor, Claude Desktop и похожие ассистенты смогут создавать, конвертировать, читать и редактировать файлы Word, Excel, PowerPoint, PDF и Markdown за вас. Всё выполняется на этом компьютере; ничего не загружается.',
     intgHeroStep1:
@@ -6265,7 +6288,7 @@ export const strings = {
     intgStep1Desc:
       'Показаны только ассистенты, найденные на этом компьютере. Установите скилл в тот, которым действительно пользуетесь; все не нужны.',
     intgStep1Update:
-      'Когда обновление GenOffice принесёт более новый скилл, рядом с этим ассистентом появится кнопка «Обновить».',
+      'Когда обновление TechPartner Office принесёт более новый скилл, рядом с этим ассистентом появится кнопка «Обновить».',
     intgSkillVersion: 'скилл {v}',
     intgStateMissing: 'Скилл не установлен',
     intgStateInstalled: 'Скилл {v} установлен · готов к следующему чату',
@@ -6273,7 +6296,7 @@ export const strings = {
     intgOtherDesc:
       'Выберите только один из трёх способов. Все они устанавливают один и тот же скилл, повторять не нужно.',
     intgOtherFolderTitle: 'Любой ассистент, читающий папки SKILL.md',
-    intgOtherFolderDesc: 'Выберите его папку skills, и GenOffice запишет файл туда.',
+    intgOtherFolderDesc: 'Выберите его папку skills, и TechPartner Office запишет файл туда.',
     intgOtherZipTitle: 'Передать файл ассистенту',
     intgOtherZipDesc: 'Сохраните скилл как zip и попросите ассистента установить его.',
     intgOtherNpxTitle: 'Командой skills (нужен Node.js)',
@@ -6285,7 +6308,7 @@ export const strings = {
       'После установки откройте новый чат в ассистенте и попросите обычными словами, например:',
     intgExample1: 'Преврати ~/Downloads/report.md в документ Word',
     intgExample2: 'Сделай презентацию из 6 слайдов о наших результатах за 3-й квартал',
-    intgExample3: 'Конвертируй budget.xlsx в PDF и открой в GenOffice',
+    intgExample3: 'Конвертируй budget.xlsx в PDF и открой в TechPartner Office',
     intgStep2Note:
       'Ассистент сам запускает командную строку genoffice; вводить её вам не придётся.',
     intgCliPartTitle: 'CLI · командная строка + skill',
@@ -6301,7 +6324,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Работает внутри GenOffice; ассистент подключается по URL, и вы видите, как документ шаг за шагом собирается в редакторе Word. GenOffice должен оставаться открытым; пока только документы Word.',
     intgMcpHttpAdvanced: 'Дополнительно: другие адреса и журнал',
-    intgMcpTryNote: 'Ассистент обращается к GenOffice через MCP; вам не нужно вводить команды.',
+    intgMcpTryNote:
+      'Ассистент обращается к TechPartner Office через MCP; вам не нужно вводить команды.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Выполните один раз в терминале:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop или другой ассистент с поддержкой MCP',
@@ -6337,9 +6361,10 @@ export const strings = {
     intgSavedTo: 'Сохранено в {path}',
     intgCopied: 'Скопировано',
     intgCliEphemeral:
-      'Сначала перетащите GenOffice в «Программы», затем используйте командную строку.',
+      'Сначала перетащите TechPartner Office в «Программы», затем используйте командную строку.',
     intgCopyPath: 'Копировать путь',
-    intgCliNeedsUpdate: 'Этому скиллу нужна командная строка {v} или новее; обновите GenOffice.',
+    intgCliNeedsUpdate:
+      'Этому скиллу нужна командная строка {v} или новее; обновите TechPartner Office.',
     intgLoading: 'Проверка…',
     intgUpdateDue: 'Доступно обновление скилла',
     setSecAiModel: 'Модель ИИ',
@@ -6445,7 +6470,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Назад',
     intgSkillsDesc:
-      'GenOffice использует только навыки из своей папки навыков. Импорт папки или zip копирует навык целиком; при импорте ничего не запускается.',
+      'TechPartner Office использует только навыки из своей папки навыков. Импорт папки или zip копирует навык целиком; при импорте ничего не запускается.',
     intgSkillsEmpty: 'Навыки ещё не установлены.',
     intgSkillsImportFolder: 'Импорт папки…',
     intgSkillsImportZip: 'Импорт пакета навыка (zip / .md)…',
@@ -6454,7 +6479,8 @@ export const strings = {
     intgSkillsImportDone: 'Импортирован {name}',
     intgSkillsImportFailed: 'Ошибка импорта: {reason}',
     intgSkillsRemove: 'Удалить',
-    intgSkillsRemoveConfirm: 'Удалить навык «{name}»? Его папка будет удалена из GenOffice.',
+    intgSkillsRemoveConfirm:
+      'Удалить навык «{name}»? Его папка будет удалена из TechPartner Office.',
     intgSkillsRemoved: '{name} удалён',
     intgSkillsRead: 'Подробнее',
     intgSkillsMine: 'Мои навыки',
@@ -6710,7 +6736,7 @@ export const strings = {
     setUpdateRestart: 'إعادة التشغيل والتثبيت',
     setAutoUpdateCheck: 'التحقق من التحديثات تلقائيًا',
     setAutoUpdateCheckDesc:
-      'عند الإيقاف، لن يتحقق GenOffice من الإصدارات الجديدة عند التشغيل أو في الخلفية. يمكنك التحقق يدويًا من تعليمات › التحقق من التحديثات.',
+      'عند الإيقاف، لن يتحقق TechPartner Office من الإصدارات الجديدة عند التشغيل أو في الخلفية. يمكنك التحقق يدويًا من تعليمات › التحقق من التحديثات.',
     updateChannel: 'قناة التحديث',
     channelStable: 'مستقر',
     channelBeta: 'تجريبي',
@@ -6723,7 +6749,7 @@ export const strings = {
     saveLocation: 'موقع الحفظ',
     setRestoreSession: 'إعادة فتح مستندات المرة السابقة',
     setRestoreSessionDesc:
-      'تُعاد فتح المستندات المفتوحة عند إغلاق GenOffice تلقائيًا في المرة التالية التي يبدأ فيها.',
+      'تُعاد فتح المستندات المفتوحة عند إغلاق TechPartner Office تلقائيًا في المرة التالية التي يبدأ فيها.',
     setTabSleep: 'إسبات علامات التبويب غير النشطة',
     setTabSleepDesc:
       'عند فتح علامات تبويب كثيرة، تحرّر التي لم تطّلع عليها منذ فترة ذاكرتها وتعيد فتح ملفها عند عودتك. علامات التبويب ذات التغييرات غير المحفوظة أو المثبّتة لا تُسبَت أبدًا.',
@@ -6753,8 +6779,8 @@ export const strings = {
     aiFontSizeCustom: 'مخصص',
     setAiSpellcheck: 'التدقيق الإملائي في محادثة الذكاء الاصطناعي',
     setDefaultApp: 'التطبيق الافتراضي لمستندات Office',
-    setDefaultAppDesc: 'فتح ملفات .docx و.xlsx و.pptx في GenOffice عند النقر المزدوج.',
-    setDefaultAppIs: 'GenOffice هو التطبيق الافتراضي بالفعل.',
+    setDefaultAppDesc: 'فتح ملفات .docx و.xlsx و.pptx في TechPartner Office عند النقر المزدوج.',
+    setDefaultAppIs: 'TechPartner Office هو التطبيق الافتراضي بالفعل.',
     setDefaultAppOther: 'الافتراضي الحالي: {app}',
     setDefaultAppSet: 'تعيين كافتراضي',
     setDefaultAppOpenSettings: 'فتح إعدادات النظام',
@@ -6800,7 +6826,7 @@ export const strings = {
     setSecAbout: 'حول',
     setSecIntegrations: 'التكاملات',
     setSecSkills: 'المهارات',
-    intgHeroTitle: 'استخدم GenOffice من مساعد الذكاء الاصطناعي',
+    intgHeroTitle: 'استخدم TechPartner Office من مساعد الذكاء الاصطناعي',
     intgHeroDesc:
       'بعد الربط، يمكن لـ Claude Code وCodex وCursor وClaude Desktop والمساعدين المشابهين إنشاء ملفات Word وExcel وPowerPoint وPDF وMarkdown وتحويلها وقراءتها وتحريرها نيابةً عنك. كل شيء يعمل على هذا الجهاز؛ لا يُرفع أي شيء.',
     intgHeroStep1: 'اختر الطريقة: CLI إذا كان مساعدك يستطيع تنفيذ أوامر الطرفية، وMCP إذا لم يستطع',
@@ -6809,7 +6835,8 @@ export const strings = {
     intgStep1Title: 'ثبّت المهارة في مساعدك',
     intgStep1Desc:
       'تُعرض فقط المساعدات الموجودة على هذا الجهاز. ثبّتها في المساعد الذي تستخدمه فعلاً؛ لا حاجة لتثبيتها في الجميع.',
-    intgStep1Update: 'عندما يجلب تحديث GenOffice مهارة أحدث، يظهر زر «تحديث» بجوار ذلك المساعد.',
+    intgStep1Update:
+      'عندما يجلب تحديث TechPartner Office مهارة أحدث، يظهر زر «تحديث» بجوار ذلك المساعد.',
     intgSkillVersion: 'المهارة {v}',
     intgStateMissing: 'المهارة غير مثبّتة',
     intgStateInstalled: 'المهارة {v} مثبّتة · جاهزة في محادثتك التالية',
@@ -6817,7 +6844,7 @@ export const strings = {
     intgOtherDesc:
       'اختر طريقة واحدة فقط من هذه الطرق الثلاث. جميعها تثبّت المهارة نفسها، فلا حاجة لأكثر من واحدة.',
     intgOtherFolderTitle: 'أي مساعد يقرأ مجلدات SKILL.md',
-    intgOtherFolderDesc: 'اختر مجلد skills الخاص به وسيكتب GenOffice الملف هناك.',
+    intgOtherFolderDesc: 'اختر مجلد skills الخاص به وسيكتب TechPartner Office الملف هناك.',
     intgOtherZipTitle: 'سلّم الملف إلى المساعد',
     intgOtherZipDesc: 'احفظ المهارة كملف zip ثم اطلب من المساعد تثبيتها.',
     intgOtherNpxTitle: 'بأمر skills (يتطلب Node.js)',
@@ -6828,7 +6855,7 @@ export const strings = {
     intgStep2DescBefore: 'بعد التثبيت، افتح محادثة جديدة في مساعدك واطلب بكلمات عادية، مثلاً:',
     intgExample1: 'حوّل ~/Downloads/report.md إلى مستند Word',
     intgExample2: 'أنشئ عرضاً من 6 شرائح عن نتائج الربع الثالث',
-    intgExample3: 'حوّل budget.xlsx إلى PDF وافتحه في GenOffice',
+    intgExample3: 'حوّل budget.xlsx إلى PDF وافتحه في TechPartner Office',
     intgStep2Note: 'المساعد يشغّل سطر أوامر genoffice بنفسه؛ لن تحتاج إلى كتابته أبداً.',
     intgCliPartTitle: 'CLI · سطر الأوامر + skill',
     intgCliPartDesc:
@@ -6843,7 +6870,7 @@ export const strings = {
     intgMcpHttpDesc:
       'يعمل داخل GenOffice؛ يتصل المساعد عبر عنوان URL ويمكنك مشاهدة المستند يُبنى خطوة بخطوة في محرر Word. يجب أن يبقى GenOffice مفتوحًا؛ مستندات Word فقط حاليًا.',
     intgMcpHttpAdvanced: 'متقدم: عناوين أخرى والسجل',
-    intgMcpTryNote: 'يستدعي المساعد GenOffice عبر MCP؛ لن تكتب أي أمر.',
+    intgMcpTryNote: 'يستدعي المساعد TechPartner Office عبر MCP؛ لن تكتب أي أمر.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'شغّل هذا مرة واحدة في الطرفية:',
     intgMcpOtherTitle: 'Cursor أو Claude Desktop أو أي مساعد آخر يدعم MCP',
@@ -6878,9 +6905,9 @@ export const strings = {
     intgSaveZipTitle: 'حفظ المهارة',
     intgSavedTo: 'تم الحفظ في {path}',
     intgCopied: 'تم النسخ',
-    intgCliEphemeral: 'اسحب GenOffice إلى مجلد التطبيقات أولاً، ثم استخدم سطر الأوامر.',
+    intgCliEphemeral: 'اسحب TechPartner Office إلى مجلد التطبيقات أولاً، ثم استخدم سطر الأوامر.',
     intgCopyPath: 'نسخ المسار',
-    intgCliNeedsUpdate: 'تحتاج هذه المهارة إلى سطر الأوامر {v} أو أحدث؛ حدّث GenOffice.',
+    intgCliNeedsUpdate: 'تحتاج هذه المهارة إلى سطر الأوامر {v} أو أحدث؛ حدّث TechPartner Office.',
     intgLoading: 'جارٍ التحقق…',
     intgUpdateDue: 'يتوفر تحديث للمهارة',
     setSecAiModel: 'نموذج الذكاء الاصطناعي',
@@ -6983,7 +7010,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'رجوع',
     intgSkillsDesc:
-      'يستخدم GenOffice المهارات الموجودة في مجلد مهاراته فقط. استيراد مجلد أو ملف zip ينسخ المهارة كاملة؛ ولا يُشغَّل شيء عند الاستيراد.',
+      'يستخدم TechPartner Office المهارات الموجودة في مجلد مهاراته فقط. استيراد مجلد أو ملف zip ينسخ المهارة كاملة؛ ولا يُشغَّل شيء عند الاستيراد.',
     intgSkillsEmpty: 'لم تُثبَّت أي مهارات بعد.',
     intgSkillsImportFolder: 'استيراد مجلد…',
     intgSkillsImportZip: 'استيراد حزمة مهارة (zip / .md)…',
@@ -6992,7 +7019,8 @@ export const strings = {
     intgSkillsImportDone: 'تم استيراد {name}',
     intgSkillsImportFailed: 'فشل الاستيراد: {reason}',
     intgSkillsRemove: 'إزالة',
-    intgSkillsRemoveConfirm: 'هل تريد إزالة المهارة "{name}"؟ سيتم حذف مجلدها من GenOffice.',
+    intgSkillsRemoveConfirm:
+      'هل تريد إزالة المهارة "{name}"؟ سيتم حذف مجلدها من TechPartner Office.',
     intgSkillsRemoved: 'تمت إزالة {name}',
     intgSkillsRead: 'التفاصيل',
     intgSkillsMine: 'مهاراتي',
@@ -7244,7 +7272,7 @@ export const strings = {
     setUpdateRestart: 'Reiniciar e instalar',
     setAutoUpdateCheck: 'Verificar atualizações automaticamente',
     setAutoUpdateCheckDesc:
-      'Desligado, o GenOffice deixa de procurar novas versões ao iniciar e em segundo plano. Você ainda pode verificar em Ajuda › Procurar atualizações.',
+      'Desligado, o TechPartner Office deixa de procurar novas versões ao iniciar e em segundo plano. Você ainda pode verificar em Ajuda › Procurar atualizações.',
     updateChannel: 'Canal de atualização',
     channelStable: 'Estável',
     channelBeta: 'Beta',
@@ -7257,7 +7285,7 @@ export const strings = {
     saveLocation: 'Local de salvamento',
     setRestoreSession: 'Reabrir os documentos da última vez',
     setRestoreSessionDesc:
-      'Os documentos abertos ao fechar o GenOffice são reabertos automaticamente na próxima vez que ele for iniciado.',
+      'Os documentos abertos ao fechar o TechPartner Office são reabertos automaticamente na próxima vez que ele for iniciado.',
     setTabSleep: 'Suspender separadores inativos',
     setTabSleepDesc:
       'Com muitos separadores abertos, os que não vê há algum tempo libertam a memória e reabrem o ficheiro quando regressa. Separadores com alterações por guardar ou fixados nunca são suspensos.',
@@ -7287,8 +7315,9 @@ export const strings = {
     aiFontSizeCustom: 'Personalizado',
     setAiSpellcheck: 'Verificação ortográfica no chat de IA',
     setDefaultApp: 'App padrão para documentos do Office',
-    setDefaultAppDesc: 'Abrir arquivos .docx, .xlsx e .pptx no GenOffice ao clicar duas vezes.',
-    setDefaultAppIs: 'O GenOffice já é o app padrão.',
+    setDefaultAppDesc:
+      'Abrir arquivos .docx, .xlsx e .pptx no TechPartner Office ao clicar duas vezes.',
+    setDefaultAppIs: 'O TechPartner Office já é o app padrão.',
     setDefaultAppOther: 'Padrão atual: {app}',
     setDefaultAppSet: 'Definir como padrão',
     setDefaultAppOpenSettings: 'Abrir configurações do sistema',
@@ -7335,7 +7364,7 @@ export const strings = {
     setSecAbout: 'Sobre',
     setSecIntegrations: 'Integrações',
     setSecSkills: 'Habilidades',
-    intgHeroTitle: 'Use o GenOffice a partir do seu assistente de IA',
+    intgHeroTitle: 'Use o TechPartner Office a partir do seu assistente de IA',
     intgHeroDesc:
       'Depois de conectados, Claude Code, Codex, Cursor, Claude Desktop e assistentes semelhantes podem criar, converter, ler e editar arquivos Word, Excel, PowerPoint, PDF e Markdown por você. Tudo roda neste computador; nada é enviado.',
     intgHeroStep1:
@@ -7346,7 +7375,7 @@ export const strings = {
     intgStep1Desc:
       'Só aparecem os assistentes encontrados neste computador. Instale no que você realmente usa; não precisa de todos.',
     intgStep1Update:
-      'Quando uma atualização do GenOffice trouxer um skill mais novo, um botão Atualizar aparece ao lado desse assistente.',
+      'Quando uma atualização do TechPartner Office trouxer um skill mais novo, um botão Atualizar aparece ao lado desse assistente.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill não instalado',
     intgStateInstalled: 'Skill {v} instalado · pronto no seu próximo chat',
@@ -7354,7 +7383,8 @@ export const strings = {
     intgOtherDesc:
       'Escolha apenas uma destas três formas. Todas instalam o mesmo skill, então não é preciso fazer mais de uma.',
     intgOtherFolderTitle: 'Qualquer assistente que leia pastas SKILL.md',
-    intgOtherFolderDesc: 'Escolha a pasta de skills dele e o GenOffice grava o arquivo lá.',
+    intgOtherFolderDesc:
+      'Escolha a pasta de skills dele e o TechPartner Office grava o arquivo lá.',
     intgOtherZipTitle: 'Entregue o arquivo ao assistente',
     intgOtherZipDesc: 'Salve o skill como zip e peça ao assistente para instalá-lo.',
     intgOtherNpxTitle: 'Com o comando skills (requer Node.js)',
@@ -7366,7 +7396,7 @@ export const strings = {
       'Depois de instalar, abra um chat novo no seu assistente e peça com suas palavras, por exemplo:',
     intgExample1: 'Transforme ~/Downloads/report.md em um documento Word',
     intgExample2: 'Monte uma apresentação de 6 slides sobre nossos resultados do 3º trimestre',
-    intgExample3: 'Converta budget.xlsx para PDF e abra no GenOffice',
+    intgExample3: 'Converta budget.xlsx para PDF e abra no TechPartner Office',
     intgStep2Note:
       'O assistente executa a linha de comando genoffice sozinho; você nunca precisa digitá-la.',
     intgCliPartTitle: 'CLI · linha de comando + skill',
@@ -7382,7 +7412,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Roda dentro do GenOffice; o assistente conecta por URL e você acompanha o documento sendo montado passo a passo no editor Word. O GenOffice precisa ficar aberto; por enquanto só documentos Word.',
     intgMcpHttpAdvanced: 'Avançado: outros endereços e log',
-    intgMcpTryNote: 'O assistente chama o GenOffice via MCP; você nunca digita um comando.',
+    intgMcpTryNote:
+      'O assistente chama o TechPartner Office via MCP; você nunca digita um comando.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Execute isto uma vez no terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop ou qualquer outro assistente compatível com MCP',
@@ -7418,10 +7449,10 @@ export const strings = {
     intgSavedTo: 'Salvo em {path}',
     intgCopied: 'Copiado',
     intgCliEphemeral:
-      'Arraste o GenOffice para Aplicativos primeiro e depois use a linha de comando.',
+      'Arraste o TechPartner Office para Aplicativos primeiro e depois use a linha de comando.',
     intgCopyPath: 'Copiar caminho',
     intgCliNeedsUpdate:
-      'Este skill precisa da linha de comando {v} ou mais recente; atualize o GenOffice.',
+      'Este skill precisa da linha de comando {v} ou mais recente; atualize o TechPartner Office.',
     intgLoading: 'Verificando…',
     intgUpdateDue: 'Atualização do skill disponível',
     setSecAiModel: 'Modelo de IA',
@@ -7525,7 +7556,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Voltar',
     intgSkillsDesc:
-      'O GenOffice só usa habilidades da sua própria pasta. Importar uma pasta ou um zip copia a habilidade inteira; nada é executado na importação.',
+      'O TechPartner Office só usa habilidades da sua própria pasta. Importar uma pasta ou um zip copia a habilidade inteira; nada é executado na importação.',
     intgSkillsEmpty: 'Nenhuma habilidade instalada.',
     intgSkillsImportFolder: 'Importar pasta…',
     intgSkillsImportZip: 'Importar pacote de habilidade (zip / .md)…',
@@ -7535,7 +7566,7 @@ export const strings = {
     intgSkillsImportFailed: 'Falha na importação: {reason}',
     intgSkillsRemove: 'Remover',
     intgSkillsRemoveConfirm:
-      'Remover a habilidade "{name}"? A pasta dela será excluída do GenOffice.',
+      'Remover a habilidade "{name}"? A pasta dela será excluída do TechPartner Office.',
     intgSkillsRemoved: '{name} removida',
     intgSkillsRead: 'Detalhes',
     intgSkillsMine: 'As minhas competências',
@@ -7788,7 +7819,7 @@ export const strings = {
     setUpdateRestart: 'Riavvia e installa',
     setAutoUpdateCheck: 'Controlla automaticamente gli aggiornamenti',
     setAutoUpdateCheckDesc:
-      "Se disattivato, GenOffice non cerca più nuove versioni all'avvio o in background. Puoi comunque controllare da Aiuto › Controlla aggiornamenti.",
+      "Se disattivato, TechPartner Office non cerca più nuove versioni all'avvio o in background. Puoi comunque controllare da Aiuto › Controlla aggiornamenti.",
     updateChannel: 'Canale di aggiornamento',
     channelStable: 'Stabile',
     channelBeta: 'Beta',
@@ -7801,7 +7832,7 @@ export const strings = {
     saveLocation: 'Posizione di salvataggio',
     setRestoreSession: "Riapri i documenti dell'ultima volta",
     setRestoreSessionDesc:
-      'I documenti aperti alla chiusura di GenOffice si riaprono automaticamente al successivo avvio.',
+      'I documenti aperti alla chiusura di TechPartner Office si riaprono automaticamente al successivo avvio.',
     setTabSleep: 'Sospendi le schede inattive',
     setTabSleepDesc:
       'Con molte schede aperte, quelle che non guardi da un po’ liberano la memoria e riaprono il file al tuo ritorno. Le schede con modifiche non salvate o fissate non vengono mai sospese.',
@@ -7831,8 +7862,8 @@ export const strings = {
     aiFontSizeCustom: 'Personalizzato',
     setAiSpellcheck: 'Controllo ortografico nella chat IA',
     setDefaultApp: 'App predefinita per i documenti Office',
-    setDefaultAppDesc: 'Apri i file .docx, .xlsx e .pptx in GenOffice con un doppio clic.',
-    setDefaultAppIs: 'GenOffice è già l’app predefinita.',
+    setDefaultAppDesc: 'Apri i file .docx, .xlsx e .pptx in TechPartner Office con un doppio clic.',
+    setDefaultAppIs: 'TechPartner Office è già l’app predefinita.',
     setDefaultAppOther: 'Predefinita attuale: {app}',
     setDefaultAppSet: 'Imposta come predefinita',
     setDefaultAppOpenSettings: 'Apri impostazioni di sistema',
@@ -7878,7 +7909,7 @@ export const strings = {
     setSecAbout: 'Informazioni',
     setSecIntegrations: 'Integrazioni',
     setSecSkills: 'Competenze',
-    intgHeroTitle: 'Usa GenOffice dal tuo assistente IA',
+    intgHeroTitle: 'Usa TechPartner Office dal tuo assistente IA',
     intgHeroDesc:
       'Una volta collegati, Claude Code, Codex, Cursor, Claude Desktop e assistenti simili possono creare, convertire, leggere e modificare file Word, Excel, PowerPoint, PDF e Markdown per te. Tutto avviene su questo computer; nulla viene caricato.',
     intgHeroStep1:
@@ -7889,7 +7920,7 @@ export const strings = {
     intgStep1Desc:
       'Sono elencati solo gli assistenti trovati su questo computer. Installalo in quello che usi davvero; non servono tutti.',
     intgStep1Update:
-      "Quando un aggiornamento di GenOffice porta uno skill più recente, accanto a quell'assistente compare un pulsante Aggiorna.",
+      "Quando un aggiornamento di TechPartner Office porta uno skill più recente, accanto a quell'assistente compare un pulsante Aggiorna.",
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill non installato',
     intgStateInstalled: 'Skill {v} installato · pronto nella prossima chat',
@@ -7897,7 +7928,7 @@ export const strings = {
     intgOtherDesc:
       'Scegli una sola di queste tre strade. Installano tutte lo stesso skill, quindi non serve farne più di una.',
     intgOtherFolderTitle: 'Qualsiasi assistente che legge cartelle SKILL.md',
-    intgOtherFolderDesc: 'Scegli la sua cartella skills e GenOffice vi scrive il file.',
+    intgOtherFolderDesc: 'Scegli la sua cartella skills e TechPartner Office vi scrive il file.',
     intgOtherZipTitle: "Consegna il file all'assistente",
     intgOtherZipDesc: "Salva lo skill come zip, poi chiedi all'assistente di installarlo.",
     intgOtherNpxTitle: 'Con il comando skills (richiede Node.js)',
@@ -7910,7 +7941,7 @@ export const strings = {
       "Dopo l'installazione, apri una nuova chat nel tuo assistente e chiedi con parole semplici, ad esempio:",
     intgExample1: 'Trasforma ~/Downloads/report.md in un documento Word',
     intgExample2: 'Prepara una presentazione di 6 slide sui nostri risultati del terzo trimestre',
-    intgExample3: 'Converti budget.xlsx in PDF e aprilo in GenOffice',
+    intgExample3: 'Converti budget.xlsx in PDF e aprilo in TechPartner Office',
     intgStep2Note:
       "L'assistente esegue da solo la riga di comando genoffice; non dovrai mai digitarla.",
     intgCliPartTitle: 'CLI · riga di comando + skill',
@@ -7926,7 +7957,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Gira dentro GenOffice; l’assistente si collega a un URL e puoi vedere il documento prendere forma passo dopo passo nell’editor Word. GenOffice deve restare aperto; per ora solo documenti Word.',
     intgMcpHttpAdvanced: 'Avanzato: altri indirizzi e registro',
-    intgMcpTryNote: 'L’assistente richiama GenOffice tramite MCP; non digiti mai un comando.',
+    intgMcpTryNote:
+      'L’assistente richiama TechPartner Office tramite MCP; non digiti mai un comando.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Esegui questo una volta nel terminale:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop o qualsiasi altro assistente compatibile con MCP',
@@ -7961,10 +7993,11 @@ export const strings = {
     intgSaveZipTitle: 'Salva skill',
     intgSavedTo: 'Salvato in {path}',
     intgCopied: 'Copiato',
-    intgCliEphemeral: 'Trascina prima GenOffice in Applicazioni, poi usa la riga di comando.',
+    intgCliEphemeral:
+      'Trascina prima TechPartner Office in Applicazioni, poi usa la riga di comando.',
     intgCopyPath: 'Copia percorso',
     intgCliNeedsUpdate:
-      'Questo skill richiede la riga di comando {v} o successiva; aggiorna GenOffice.',
+      'Questo skill richiede la riga di comando {v} o successiva; aggiorna TechPartner Office.',
     intgLoading: 'Verifica in corso…',
     intgUpdateDue: 'Aggiornamento dello skill disponibile',
     setSecAiModel: 'Modello IA',
@@ -8068,7 +8101,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Indietro',
     intgSkillsDesc:
-      'GenOffice usa solo le competenze nella propria cartella. Importare una cartella o uno zip copia l’intera competenza; nulla viene eseguito all’importazione.',
+      'TechPartner Office usa solo le competenze nella propria cartella. Importare una cartella o uno zip copia l’intera competenza; nulla viene eseguito all’importazione.',
     intgSkillsEmpty: 'Nessuna competenza installata.',
     intgSkillsImportFolder: 'Importa cartella…',
     intgSkillsImportZip: 'Importa pacchetto competenza (zip / .md)…',
@@ -8078,7 +8111,7 @@ export const strings = {
     intgSkillsImportFailed: 'Importazione non riuscita: {reason}',
     intgSkillsRemove: 'Rimuovi',
     intgSkillsRemoveConfirm:
-      'Rimuovere la competenza "{name}"? La sua cartella sarà eliminata da GenOffice.',
+      'Rimuovere la competenza "{name}"? La sua cartella sarà eliminata da TechPartner Office.',
     intgSkillsRemoved: '{name} rimossa',
     intgSkillsRead: 'Dettagli',
     intgSkillsMine: 'Le mie competenze',
@@ -8330,7 +8363,7 @@ export const strings = {
     setUpdateRestart: 'Uruchom ponownie i zainstaluj',
     setAutoUpdateCheck: 'Automatycznie sprawdzaj aktualizacje',
     setAutoUpdateCheckDesc:
-      'Po wyłączeniu GenOffice nie sprawdza nowych wersji przy uruchomieniu ani w tle. Nadal możesz sprawdzić ręcznie w Pomoc › Sprawdź aktualizacje.',
+      'Po wyłączeniu TechPartner Office nie sprawdza nowych wersji przy uruchomieniu ani w tle. Nadal możesz sprawdzić ręcznie w Pomoc › Sprawdź aktualizacje.',
     updateChannel: 'Kanał aktualizacji',
     channelStable: 'Stabilny',
     channelBeta: 'Beta',
@@ -8343,7 +8376,7 @@ export const strings = {
     saveLocation: 'Lokalizacja zapisu',
     setRestoreSession: 'Otwieraj ponownie dokumenty z ostatniej sesji',
     setRestoreSessionDesc:
-      'Dokumenty otwarte w chwili zamknięcia GenOffice zostaną automatycznie otwarte przy następnym uruchomieniu.',
+      'Dokumenty otwarte w chwili zamknięcia TechPartner Office zostaną automatycznie otwarte przy następnym uruchomieniu.',
     setTabSleep: 'Usypiaj nieaktywne karty',
     setTabSleepDesc:
       'Gdy otwartych jest wiele kart, te dawno nieoglądane zwalniają pamięć i ponownie otwierają plik po powrocie. Karty z niezapisanymi zmianami lub przypięte nigdy nie są usypiane.',
@@ -8373,8 +8406,9 @@ export const strings = {
     aiFontSizeCustom: 'Niestandardowy',
     setAiSpellcheck: 'Sprawdzanie pisowni w czacie AI',
     setDefaultApp: 'Domyślna aplikacja dla dokumentów Office',
-    setDefaultAppDesc: 'Otwieraj pliki .docx, .xlsx i .pptx w GenOffice po dwukrotnym kliknięciu.',
-    setDefaultAppIs: 'GenOffice jest już aplikacją domyślną.',
+    setDefaultAppDesc:
+      'Otwieraj pliki .docx, .xlsx i .pptx w TechPartner Office po dwukrotnym kliknięciu.',
+    setDefaultAppIs: 'TechPartner Office jest już aplikacją domyślną.',
     setDefaultAppOther: 'Obecnie domyślna: {app}',
     setDefaultAppSet: 'Ustaw jako domyślną',
     setDefaultAppOpenSettings: 'Otwórz ustawienia systemu',
@@ -8419,7 +8453,7 @@ export const strings = {
     setSecAbout: 'O aplikacji',
     setSecIntegrations: 'Integracje',
     setSecSkills: 'Umiejętności',
-    intgHeroTitle: 'Używaj GenOffice ze swojego asystenta AI',
+    intgHeroTitle: 'Używaj TechPartner Office ze swojego asystenta AI',
     intgHeroDesc:
       'Po połączeniu Claude Code, Codex, Cursor, Claude Desktop i podobni asystenci mogą tworzyć, konwertować, czytać i edytować pliki Word, Excel, PowerPoint, PDF i Markdown za Ciebie. Wszystko działa na tym komputerze; nic nie jest przesyłane.',
     intgHeroStep1:
@@ -8430,7 +8464,7 @@ export const strings = {
     intgStep1Desc:
       'Widoczne są tylko asystenty znalezione na tym komputerze. Zainstaluj w tym, którego naprawdę używasz; nie potrzebujesz wszystkich.',
     intgStep1Update:
-      'Gdy aktualizacja GenOffice przyniesie nowszy skill, obok tego asystenta pojawi się przycisk Aktualizuj.',
+      'Gdy aktualizacja TechPartner Office przyniesie nowszy skill, obok tego asystenta pojawi się przycisk Aktualizuj.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill niezainstalowany',
     intgStateInstalled: 'Skill {v} zainstalowany · gotowy w następnym czacie',
@@ -8438,7 +8472,7 @@ export const strings = {
     intgOtherDesc:
       'Wybierz tylko jeden z tych trzech sposobów. Wszystkie instalują ten sam skill, więc nie trzeba robić więcej niż jednego.',
     intgOtherFolderTitle: 'Dowolny asystent czytający foldery SKILL.md',
-    intgOtherFolderDesc: 'Wybierz jego folder skills, a GenOffice zapisze tam plik.',
+    intgOtherFolderDesc: 'Wybierz jego folder skills, a TechPartner Office zapisze tam plik.',
     intgOtherZipTitle: 'Przekaż plik asystentowi',
     intgOtherZipDesc: 'Zapisz skill jako zip, a potem poproś asystenta o instalację.',
     intgOtherNpxTitle: 'Poleceniem skills (wymaga Node.js)',
@@ -8450,7 +8484,7 @@ export const strings = {
       'Po instalacji otwórz nowy czat w asystencie i poproś zwykłymi słowami, na przykład:',
     intgExample1: 'Zamień ~/Downloads/report.md na dokument Word',
     intgExample2: 'Zrób prezentację z 6 slajdów o naszych wynikach za III kwartał',
-    intgExample3: 'Przekonwertuj budget.xlsx do PDF i otwórz w GenOffice',
+    intgExample3: 'Przekonwertuj budget.xlsx do PDF i otwórz w TechPartner Office',
     intgStep2Note: 'Asystent sam uruchamia wiersz poleceń genoffice; nigdy nie musisz go wpisywać.',
     intgCliPartTitle: 'CLI · wiersz poleceń + skill',
     intgCliPartDesc:
@@ -8465,7 +8499,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Działa wewnątrz GenOffice; asystent łączy się przez URL, a Ty widzisz, jak dokument powstaje krok po kroku w edytorze Word. GenOffice musi pozostać otwarty; na razie tylko dokumenty Word.',
     intgMcpHttpAdvanced: 'Zaawansowane: inne adresy i dziennik',
-    intgMcpTryNote: 'Asystent wywołuje GenOffice przez MCP; nigdy nie wpisujesz polecenia.',
+    intgMcpTryNote:
+      'Asystent wywołuje TechPartner Office przez MCP; nigdy nie wpisujesz polecenia.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Uruchom to raz w terminalu:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop lub inny asystent obsługujący MCP',
@@ -8500,9 +8535,11 @@ export const strings = {
     intgSaveZipTitle: 'Zapisz skill',
     intgSavedTo: 'Zapisano w {path}',
     intgCopied: 'Skopiowano',
-    intgCliEphemeral: 'Najpierw przenieś GenOffice do Aplikacji, potem użyj wiersza poleceń.',
+    intgCliEphemeral:
+      'Najpierw przenieś TechPartner Office do Aplikacji, potem użyj wiersza poleceń.',
     intgCopyPath: 'Kopiuj ścieżkę',
-    intgCliNeedsUpdate: 'Ten skill wymaga wiersza poleceń {v} lub nowszego; zaktualizuj GenOffice.',
+    intgCliNeedsUpdate:
+      'Ten skill wymaga wiersza poleceń {v} lub nowszego; zaktualizuj TechPartner Office.',
     intgLoading: 'Sprawdzanie…',
     intgUpdateDue: 'Dostępna aktualizacja skilla',
     setSecAiModel: 'Model AI',
@@ -8607,7 +8644,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Wstecz',
     intgSkillsDesc:
-      'GenOffice używa tylko umiejętności z własnego folderu. Import folderu lub pliku zip kopiuje całą umiejętność; podczas importu nic nie jest uruchamiane.',
+      'TechPartner Office używa tylko umiejętności z własnego folderu. Import folderu lub pliku zip kopiuje całą umiejętność; podczas importu nic nie jest uruchamiane.',
     intgSkillsEmpty: 'Brak zainstalowanych umiejętności.',
     intgSkillsImportFolder: 'Importuj folder…',
     intgSkillsImportZip: 'Importuj pakiet umiejętności (zip / .md)…',
@@ -8617,7 +8654,7 @@ export const strings = {
     intgSkillsImportFailed: 'Import nie powiódł się: {reason}',
     intgSkillsRemove: 'Usuń',
     intgSkillsRemoveConfirm:
-      'Usunąć umiejętność „{name}”? Jej folder zostanie usunięty z GenOffice.',
+      'Usunąć umiejętność „{name}”? Jej folder zostanie usunięty z TechPartner Office.',
     intgSkillsRemoved: 'Usunięto {name}',
     intgSkillsRead: 'Szczegóły',
     intgSkillsMine: 'Moje umiejętności',
@@ -8867,7 +8904,7 @@ export const strings = {
     setUpdateRestart: 'Restartovat a nainstalovat',
     setAutoUpdateCheck: 'Automaticky kontrolovat aktualizace',
     setAutoUpdateCheckDesc:
-      'Po vypnutí GenOffice nekontroluje nové verze při spuštění ani na pozadí. Ručně můžete zkontrolovat v Nápověda › Zkontrolovat aktualizace.',
+      'Po vypnutí TechPartner Office nekontroluje nové verze při spuštění ani na pozadí. Ručně můžete zkontrolovat v Nápověda › Zkontrolovat aktualizace.',
     updateChannel: 'Kanál aktualizací',
     channelStable: 'Stabilní',
     channelBeta: 'Beta',
@@ -8911,7 +8948,7 @@ export const strings = {
     setSecAbout: 'O aplikaci',
     setSecIntegrations: 'Integrace',
     setSecSkills: 'Dovednosti',
-    intgHeroTitle: 'Používejte GenOffice ze svého AI asistenta',
+    intgHeroTitle: 'Používejte TechPartner Office ze svého AI asistenta',
     intgHeroDesc:
       'Po připojení mohou Claude Code, Codex, Cursor, Claude Desktop a podobní asistenti za vás vytvářet, převádět, číst a upravovat soubory Word, Excel, PowerPoint, PDF a Markdown. Vše běží na tomto počítači; nic se neodesílá.',
     intgHeroStep1: 'Zvolte cestu: CLI, pokud asistent umí spouštět příkazy terminálu, jinak MCP',
@@ -8921,7 +8958,7 @@ export const strings = {
     intgStep1Desc:
       'Zobrazeni jsou jen asistenti nalezení na tomto počítači. Nainstalujte jej do toho, který skutečně používáte; všechny nepotřebujete.',
     intgStep1Update:
-      'Když aktualizace GenOffice přinese novější skill, u daného asistenta se objeví tlačítko Aktualizovat.',
+      'Když aktualizace TechPartner Office přinese novější skill, u daného asistenta se objeví tlačítko Aktualizovat.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill není nainstalován',
     intgStateInstalled: 'Skill {v} nainstalován · připraven v příštím chatu',
@@ -8929,7 +8966,7 @@ export const strings = {
     intgOtherDesc:
       'Zvolte pouze jeden z těchto tří způsobů. Všechny instalují stejný skill, takže není třeba dělat více než jeden.',
     intgOtherFolderTitle: 'Jakýkoli asistent, který čte složky SKILL.md',
-    intgOtherFolderDesc: 'Vyberte jeho složku skills a GenOffice tam soubor zapíše.',
+    intgOtherFolderDesc: 'Vyberte jeho složku skills a TechPartner Office tam soubor zapíše.',
     intgOtherZipTitle: 'Předejte soubor asistentovi',
     intgOtherZipDesc: 'Uložte skill jako zip a požádejte asistenta, aby jej nainstaloval.',
     intgOtherNpxTitle: 'Příkazem skills (vyžaduje Node.js)',
@@ -8941,7 +8978,7 @@ export const strings = {
       'Po instalaci otevřete v asistentovi nový chat a požádejte běžnými slovy, například:',
     intgExample1: 'Převeď ~/Downloads/report.md na dokument Word',
     intgExample2: 'Udělej prezentaci o 6 snímcích o našich výsledcích za 3. čtvrtletí',
-    intgExample3: 'Převeď budget.xlsx do PDF a otevři ho v GenOffice',
+    intgExample3: 'Převeď budget.xlsx do PDF a otevři ho v TechPartner Office',
     intgStep2Note: 'Asistent spouští příkazový řádek genoffice sám; nikdy ho nemusíte psát.',
     intgCliPartTitle: 'CLI · příkazový řádek + skill',
     intgCliPartDesc:
@@ -8956,7 +8993,7 @@ export const strings = {
     intgMcpHttpDesc:
       'Běží uvnitř GenOffice; asistent se připojí přes URL a v editoru Word sledujete, jak dokument krok za krokem vzniká. GenOffice musí zůstat otevřený; zatím jen dokumenty Word.',
     intgMcpHttpAdvanced: 'Pokročilé: další adresy a protokol',
-    intgMcpTryNote: 'Asistent volá GenOffice přes MCP; žádný příkaz nepíšete.',
+    intgMcpTryNote: 'Asistent volá TechPartner Office přes MCP; žádný příkaz nepíšete.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Spusťte jednou v terminálu:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop nebo jiný asistent s podporou MCP',
@@ -8991,10 +9028,11 @@ export const strings = {
     intgSaveZipTitle: 'Uložit skill',
     intgSavedTo: 'Uloženo do {path}',
     intgCopied: 'Zkopírováno',
-    intgCliEphemeral: 'Nejprve přetáhněte GenOffice do Aplikací a poté použijte příkazový řádek.',
+    intgCliEphemeral:
+      'Nejprve přetáhněte TechPartner Office do Aplikací a poté použijte příkazový řádek.',
     intgCopyPath: 'Kopírovat cestu',
     intgCliNeedsUpdate:
-      'Tento skill vyžaduje příkazový řádek {v} nebo novější; aktualizujte GenOffice.',
+      'Tento skill vyžaduje příkazový řádek {v} nebo novější; aktualizujte TechPartner Office.',
     intgLoading: 'Kontrola…',
     intgUpdateDue: 'K dispozici je aktualizace skillu',
     setSecAiModel: 'Model AI',
@@ -9100,7 +9138,7 @@ export const strings = {
     onbBack: 'Zpět',
     setRestoreSession: 'Znovu otevřít dokumenty z minula',
     setRestoreSessionDesc:
-      'Dokumenty otevřené při zavření GenOffice se při příštím spuštění automaticky znovu otevřou.',
+      'Dokumenty otevřené při zavření TechPartner Office se při příštím spuštění automaticky znovu otevřou.',
     setTabSleep: 'Uspávat neaktivní karty',
     setTabSleepDesc:
       'Když je otevřeno mnoho karet, ty dlouho nezobrazené uvolní paměť a při návratu znovu otevřou soubor. Karty s neuloženými změnami nebo připnuté se nikdy neuspí.',
@@ -9127,8 +9165,8 @@ export const strings = {
     aiFontSizeCustom: 'Vlastní',
     setAiSpellcheck: 'Kontrola pravopisu v chatu AI',
     setDefaultApp: 'Výchozí aplikace pro dokumenty Office',
-    setDefaultAppDesc: 'Otevírat soubory .docx, .xlsx a .pptx v GenOffice poklepáním.',
-    setDefaultAppIs: 'GenOffice už je výchozí aplikací.',
+    setDefaultAppDesc: 'Otevírat soubory .docx, .xlsx a .pptx v TechPartner Office poklepáním.',
+    setDefaultAppIs: 'TechPartner Office už je výchozí aplikací.',
     setDefaultAppOther: 'Aktuální výchozí: {app}',
     setDefaultAppSet: 'Nastavit jako výchozí',
     setDefaultAppOpenSettings: 'Otevřít nastavení systému',
@@ -9141,7 +9179,7 @@ export const strings = {
     setAiOpenInNewDocsDesc:
       'Když je vypnuto, nově otevřené dokumenty začínají se sbaleným panelem AI; v případě potřeby stačí jedno kliknutí.',
     intgSkillsDesc:
-      'GenOffice používá pouze dovednosti ze své vlastní složky. Import složky nebo zipu zkopíruje celou dovednost; při importu se nic nespouští.',
+      'TechPartner Office používá pouze dovednosti ze své vlastní složky. Import složky nebo zipu zkopíruje celou dovednost; při importu se nic nespouští.',
     intgSkillsEmpty: 'Zatím nejsou nainstalovány žádné dovednosti.',
     intgSkillsImportFolder: 'Importovat složku…',
     intgSkillsImportZip: 'Importovat balíček dovednosti (zip / .md)…',
@@ -9150,7 +9188,8 @@ export const strings = {
     intgSkillsImportDone: 'Importováno: {name}',
     intgSkillsImportFailed: 'Import se nezdařil: {reason}',
     intgSkillsRemove: 'Odebrat',
-    intgSkillsRemoveConfirm: 'Odebrat dovednost „{name}“? Její složka bude z GenOffice smazána.',
+    intgSkillsRemoveConfirm:
+      'Odebrat dovednost „{name}“? Její složka bude z TechPartner Office smazána.',
     intgSkillsRemoved: '{name} odebrána',
     intgSkillsRead: 'Podrobnosti',
     intgSkillsMine: 'Moje dovednosti',
@@ -9402,7 +9441,7 @@ export const strings = {
     setUpdateRestart: 'Herstarten en installeren',
     setAutoUpdateCheck: 'Automatisch controleren op updates',
     setAutoUpdateCheckDesc:
-      'Uitgeschakeld controleert GenOffice niet meer op nieuwe versies bij het starten of op de achtergrond. Je kunt nog steeds controleren via Help › Controleren op updates.',
+      'Uitgeschakeld controleert TechPartner Office niet meer op nieuwe versies bij het starten of op de achtergrond. Je kunt nog steeds controleren via Help › Controleren op updates.',
     updateChannel: 'Updatekanaal',
     channelStable: 'Stabiel',
     channelBeta: 'Bèta',
@@ -9415,7 +9454,7 @@ export const strings = {
     saveLocation: 'Opslaglocatie',
     setRestoreSession: 'Documenten van de vorige keer opnieuw openen',
     setRestoreSessionDesc:
-      'Documenten die open waren toen GenOffice werd gesloten, worden bij de volgende start automatisch opnieuw geopend.',
+      'Documenten die open waren toen TechPartner Office werd gesloten, worden bij de volgende start automatisch opnieuw geopend.',
     setTabSleep: 'Inactieve tabbladen laten slapen',
     setTabSleepDesc:
       'Als er veel tabbladen open zijn, geven tabbladen die u een tijd niet hebt bekeken hun geheugen vrij en openen ze het bestand opnieuw als u terugkeert. Tabbladen met niet-opgeslagen wijzigingen of vastgemaakte tabbladen slapen nooit.',
@@ -9445,8 +9484,9 @@ export const strings = {
     aiFontSizeCustom: 'Aangepast',
     setAiSpellcheck: 'Spellingcontrole in AI-chat',
     setDefaultApp: 'Standaardapp voor Office-documenten',
-    setDefaultAppDesc: '.docx-, .xlsx- en .pptx-bestanden in GenOffice openen bij dubbelklikken.',
-    setDefaultAppIs: 'GenOffice is al de standaardapp.',
+    setDefaultAppDesc:
+      '.docx-, .xlsx- en .pptx-bestanden in TechPartner Office openen bij dubbelklikken.',
+    setDefaultAppIs: 'TechPartner Office is al de standaardapp.',
     setDefaultAppOther: 'Huidige standaard: {app}',
     setDefaultAppSet: 'Als standaard instellen',
     setDefaultAppOpenSettings: 'Systeeminstellingen openen',
@@ -9492,7 +9532,7 @@ export const strings = {
     setSecAbout: 'Over',
     setSecIntegrations: 'Integraties',
     setSecSkills: 'Vaardigheden',
-    intgHeroTitle: 'GenOffice gebruiken vanuit uw AI-assistent',
+    intgHeroTitle: 'TechPartner Office gebruiken vanuit uw AI-assistent',
     intgHeroDesc:
       'Eenmaal verbonden kunnen Claude Code, Codex, Cursor, Claude Desktop en vergelijkbare assistenten Word-, Excel-, PowerPoint-, PDF- en Markdown-bestanden voor je maken, converteren, lezen en bewerken. Alles draait op deze computer; er wordt niets geüpload.',
     intgHeroStep1:
@@ -9503,7 +9543,7 @@ export const strings = {
     intgStep1Desc:
       'Alleen assistenten die op deze computer zijn gevonden staan hier. Installeer in die u echt gebruikt; u hebt ze niet allemaal nodig.',
     intgStep1Update:
-      'Wanneer een GenOffice-update een nieuwere skill meebrengt, verschijnt naast die assistent een knop Bijwerken.',
+      'Wanneer een TechPartner Office-update een nieuwere skill meebrengt, verschijnt naast die assistent een knop Bijwerken.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill niet geïnstalleerd',
     intgStateInstalled: 'Skill {v} geïnstalleerd · klaar in uw volgende chat',
@@ -9511,7 +9551,7 @@ export const strings = {
     intgOtherDesc:
       'Kies één van deze drie manieren. Ze installeren allemaal dezelfde skill, dus meer dan één is niet nodig.',
     intgOtherFolderTitle: 'Elke assistent die SKILL.md-mappen leest',
-    intgOtherFolderDesc: 'Kies zijn skills-map en GenOffice schrijft het bestand daar.',
+    intgOtherFolderDesc: 'Kies zijn skills-map en TechPartner Office schrijft het bestand daar.',
     intgOtherZipTitle: 'Geef het bestand aan de assistent',
     intgOtherZipDesc: 'Sla de skill op als zip en vraag de assistent hem te installeren.',
     intgOtherNpxTitle: 'Met de skills-opdracht (vereist Node.js)',
@@ -9524,7 +9564,7 @@ export const strings = {
       'Open na de installatie een nieuwe chat in uw assistent en vraag het in gewone woorden, bijvoorbeeld:',
     intgExample1: 'Maak van ~/Downloads/report.md een Word-document',
     intgExample2: 'Maak een presentatie van 6 dia’s over onze Q3-resultaten',
-    intgExample3: 'Zet budget.xlsx om naar PDF en open het in GenOffice',
+    intgExample3: 'Zet budget.xlsx om naar PDF en open het in TechPartner Office',
     intgStep2Note:
       'De assistent voert de genoffice-opdrachtregel zelf uit; u hoeft die nooit te typen.',
     intgCliPartTitle: 'CLI · opdrachtregel + skill',
@@ -9540,7 +9580,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Draait in GenOffice; de assistent verbindt via een URL en je ziet het document stap voor stap ontstaan in de Word-editor. GenOffice moet open blijven; voorlopig alleen Word-documenten.',
     intgMcpHttpAdvanced: 'Geavanceerd: andere adressen en logboek',
-    intgMcpTryNote: 'De assistent roept GenOffice aan via MCP; je typt nooit een opdracht.',
+    intgMcpTryNote:
+      'De assistent roept TechPartner Office aan via MCP; je typt nooit een opdracht.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Voer dit één keer uit in een terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop of een andere assistent met MCP-ondersteuning',
@@ -9575,9 +9616,11 @@ export const strings = {
     intgSaveZipTitle: 'Skill opslaan',
     intgSavedTo: 'Opgeslagen in {path}',
     intgCopied: 'Gekopieerd',
-    intgCliEphemeral: "Sleep GenOffice eerst naar Programma's en gebruik daarna de opdrachtregel.",
+    intgCliEphemeral:
+      "Sleep TechPartner Office eerst naar Programma's en gebruik daarna de opdrachtregel.",
     intgCopyPath: 'Pad kopiëren',
-    intgCliNeedsUpdate: 'Deze skill vereist opdrachtregel {v} of nieuwer; werk GenOffice bij.',
+    intgCliNeedsUpdate:
+      'Deze skill vereist opdrachtregel {v} of nieuwer; werk TechPartner Office bij.',
     intgLoading: 'Controleren…',
     intgUpdateDue: 'Skill-update beschikbaar',
     setSecAiModel: 'AI-model',
@@ -9681,7 +9724,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Terug',
     intgSkillsDesc:
-      'GenOffice gebruikt alleen vaardigheden uit zijn eigen map. Een map of zip importeren kopieert de hele vaardigheid; bij het importeren wordt niets uitgevoerd.',
+      'TechPartner Office gebruikt alleen vaardigheden uit zijn eigen map. Een map of zip importeren kopieert de hele vaardigheid; bij het importeren wordt niets uitgevoerd.',
     intgSkillsEmpty: 'Nog geen vaardigheden geïnstalleerd.',
     intgSkillsImportFolder: 'Map importeren…',
     intgSkillsImportZip: 'Vaardigheidspakket importeren (zip / .md)…',
@@ -9691,7 +9734,7 @@ export const strings = {
     intgSkillsImportFailed: 'Importeren mislukt: {reason}',
     intgSkillsRemove: 'Verwijderen',
     intgSkillsRemoveConfirm:
-      'Vaardigheid "{name}" verwijderen? De map wordt uit GenOffice verwijderd.',
+      'Vaardigheid "{name}" verwijderen? De map wordt uit TechPartner Office verwijderd.',
     intgSkillsRemoved: '{name} verwijderd',
     intgSkillsRead: 'Details',
     intgSkillsMine: 'Mijn vaardigheden',
@@ -9942,7 +9985,7 @@ export const strings = {
     setUpdateRestart: 'Mulakan semula dan pasang',
     setAutoUpdateCheck: 'Semak kemas kini secara automatik',
     setAutoUpdateCheckDesc:
-      'Apabila dimatikan, GenOffice tidak lagi menyemak versi baharu semasa dimulakan atau di latar belakang. Anda masih boleh menyemak melalui Bantuan › Semak Kemas Kini.',
+      'Apabila dimatikan, TechPartner Office tidak lagi menyemak versi baharu semasa dimulakan atau di latar belakang. Anda masih boleh menyemak melalui Bantuan › Semak Kemas Kini.',
     updateChannel: 'Saluran Kemas Kini',
     channelStable: 'Stabil',
     channelBeta: 'Beta',
@@ -9955,7 +9998,7 @@ export const strings = {
     saveLocation: 'Lokasi simpanan',
     setRestoreSession: 'Buka semula dokumen dari kali terakhir',
     setRestoreSessionDesc:
-      'Dokumen yang dibuka semasa GenOffice ditutup akan dibuka semula secara automatik apabila ia dimulakan seterusnya.',
+      'Dokumen yang dibuka semasa TechPartner Office ditutup akan dibuka semula secara automatik apabila ia dimulakan seterusnya.',
     setTabSleep: 'Tidurkan tab tidak aktif',
     setTabSleepDesc:
       'Apabila banyak tab dibuka, tab yang lama tidak dilihat melepaskan memorinya dan membuka semula failnya apabila anda kembali. Tab dengan perubahan belum disimpan atau yang disemat tidak akan tidur.',
@@ -9985,8 +10028,9 @@ export const strings = {
     aiFontSizeCustom: 'Tersuai',
     setAiSpellcheck: 'Semakan ejaan dalam sembang AI',
     setDefaultApp: 'Apl lalai untuk dokumen Office',
-    setDefaultAppDesc: 'Buka fail .docx, .xlsx dan .pptx dalam GenOffice apabila diklik dua kali.',
-    setDefaultAppIs: 'GenOffice sudah menjadi apl lalai.',
+    setDefaultAppDesc:
+      'Buka fail .docx, .xlsx dan .pptx dalam TechPartner Office apabila diklik dua kali.',
+    setDefaultAppIs: 'TechPartner Office sudah menjadi apl lalai.',
     setDefaultAppOther: 'Lalai semasa: {app}',
     setDefaultAppSet: 'Jadikan lalai',
     setDefaultAppOpenSettings: 'Buka tetapan sistem',
@@ -10032,7 +10076,7 @@ export const strings = {
     setSecAbout: 'Perihal',
     setSecIntegrations: 'Integrasi',
     setSecSkills: 'Kemahiran',
-    intgHeroTitle: 'Gunakan GenOffice daripada pembantu AI anda',
+    intgHeroTitle: 'Gunakan TechPartner Office daripada pembantu AI anda',
     intgHeroDesc:
       'Setelah disambungkan, Claude Code, Codex, Cursor, Claude Desktop dan pembantu serupa boleh mencipta, menukar, membaca dan mengedit fail Word, Excel, PowerPoint, PDF dan Markdown untuk anda. Semuanya berjalan di komputer ini; tiada apa yang dimuat naik.',
     intgHeroStep1:
@@ -10043,7 +10087,7 @@ export const strings = {
     intgStep1Desc:
       'Hanya pembantu yang ditemui pada komputer ini disenaraikan. Pasang pada yang anda benar-benar guna; tidak perlu kesemuanya.',
     intgStep1Update:
-      'Apabila kemas kini GenOffice membawa skill yang lebih baharu, butang Kemas kini muncul di sebelah pembantu itu.',
+      'Apabila kemas kini TechPartner Office membawa skill yang lebih baharu, butang Kemas kini muncul di sebelah pembantu itu.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'Skill belum dipasang',
     intgStateInstalled: 'Skill {v} dipasang · sedia dalam sembang seterusnya',
@@ -10051,7 +10095,8 @@ export const strings = {
     intgOtherDesc:
       'Pilih satu sahaja daripada tiga cara ini. Semuanya memasang skill yang sama, jadi tidak perlu lebih daripada satu.',
     intgOtherFolderTitle: 'Mana-mana pembantu yang membaca folder SKILL.md',
-    intgOtherFolderDesc: 'Pilih folder skills pembantu itu dan GenOffice menulis fail di sana.',
+    intgOtherFolderDesc:
+      'Pilih folder skills pembantu itu dan TechPartner Office menulis fail di sana.',
     intgOtherZipTitle: 'Serahkan fail kepada pembantu',
     intgOtherZipDesc: 'Simpan skill sebagai zip, kemudian minta pembantu memasangnya.',
     intgOtherNpxTitle: 'Dengan arahan skills (perlukan Node.js)',
@@ -10064,7 +10109,7 @@ export const strings = {
       'Selepas dipasang, buka sembang baharu dalam pembantu anda dan minta dengan bahasa biasa, contohnya:',
     intgExample1: 'Tukar ~/Downloads/report.md kepada dokumen Word',
     intgExample2: 'Buat pembentangan 6 slaid tentang hasil S3 kami',
-    intgExample3: 'Tukar budget.xlsx kepada PDF dan buka dalam GenOffice',
+    intgExample3: 'Tukar budget.xlsx kepada PDF dan buka dalam TechPartner Office',
     intgStep2Note:
       'Pembantu menjalankan baris arahan genoffice sendiri; anda tidak perlu menaipnya.',
     intgCliPartTitle: 'CLI · baris arahan + skill',
@@ -10081,7 +10126,7 @@ export const strings = {
       'Berjalan di dalam GenOffice; pembantu menyambung melalui URL dan anda boleh melihat dokumen dibina langkah demi langkah dalam editor Word. GenOffice mesti kekal dibuka; buat masa ini dokumen Word sahaja.',
     intgMcpHttpAdvanced: 'Lanjutan: alamat lain dan log',
     intgMcpTryNote:
-      'Pembantu memanggil GenOffice melalui MCP; anda tidak perlu menaip sebarang arahan.',
+      'Pembantu memanggil TechPartner Office melalui MCP; anda tidak perlu menaip sebarang arahan.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Jalankan ini sekali dalam terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop atau pembantu lain yang menyokong MCP',
@@ -10116,10 +10161,11 @@ export const strings = {
     intgSaveZipTitle: 'Simpan skill',
     intgSavedTo: 'Disimpan ke {path}',
     intgCopied: 'Disalin',
-    intgCliEphemeral: 'Seret GenOffice ke Applications dahulu, kemudian gunakan baris arahan.',
+    intgCliEphemeral:
+      'Seret TechPartner Office ke Applications dahulu, kemudian gunakan baris arahan.',
     intgCopyPath: 'Salin laluan',
     intgCliNeedsUpdate:
-      'Skill ini memerlukan baris arahan {v} atau lebih baharu; kemas kini GenOffice.',
+      'Skill ini memerlukan baris arahan {v} atau lebih baharu; kemas kini TechPartner Office.',
     intgLoading: 'Menyemak…',
     intgUpdateDue: 'Kemas kini skill tersedia',
     setSecAiModel: 'Model AI',
@@ -10224,7 +10270,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'Kembali',
     intgSkillsDesc:
-      'GenOffice hanya menggunakan kemahiran dalam folder kemahirannya sendiri. Mengimport folder atau zip menyalin keseluruhan kemahiran; tiada apa yang dijalankan semasa import.',
+      'TechPartner Office hanya menggunakan kemahiran dalam folder kemahirannya sendiri. Mengimport folder atau zip menyalin keseluruhan kemahiran; tiada apa yang dijalankan semasa import.',
     intgSkillsEmpty: 'Belum ada kemahiran dipasang.',
     intgSkillsImportFolder: 'Import folder…',
     intgSkillsImportZip: 'Import pakej kemahiran (zip / .md)…',
@@ -10233,7 +10279,8 @@ export const strings = {
     intgSkillsImportDone: '{name} diimport',
     intgSkillsImportFailed: 'Import gagal: {reason}',
     intgSkillsRemove: 'Buang',
-    intgSkillsRemoveConfirm: 'Buang kemahiran "{name}"? Foldernya akan dipadam daripada GenOffice.',
+    intgSkillsRemoveConfirm:
+      'Buang kemahiran "{name}"? Foldernya akan dipadam daripada TechPartner Office.',
     intgSkillsRemoved: '{name} dibuang',
     intgSkillsRead: 'Detail',
     intgSkillsMine: 'Kemahiran saya',
@@ -10481,7 +10528,7 @@ export const strings = {
     setUpdateRestart: 'הפעל מחדש והתקן',
     setAutoUpdateCheck: 'בדיקת עדכונים אוטומטית',
     setAutoUpdateCheckDesc:
-      'כשהאפשרות כבויה, GenOffice לא בודקת גרסאות חדשות בהפעלה או ברקע. עדיין אפשר לבדוק ידנית דרך עזרה › בדוק עדכונים.',
+      'כשהאפשרות כבויה, TechPartner Office לא בודקת גרסאות חדשות בהפעלה או ברקע. עדיין אפשר לבדוק ידנית דרך עזרה › בדוק עדכונים.',
     updateChannel: 'ערוץ עדכונים',
     channelStable: 'יציב',
     channelBeta: 'בטא',
@@ -10494,7 +10541,7 @@ export const strings = {
     saveLocation: 'מיקום שמירה',
     setRestoreSession: 'פתיחה מחדש של המסמכים מהפעם הקודמת',
     setRestoreSessionDesc:
-      'מסמכים שהיו פתוחים כש-GenOffice נסגרה ייפתחו מחדש אוטומטית בהפעלה הבאה.',
+      'מסמכים שהיו פתוחים כש-TechPartner Office נסגרה ייפתחו מחדש אוטומטית בהפעלה הבאה.',
     setTabSleep: 'השהה כרטיסיות לא פעילות',
     setTabSleepDesc:
       'כשפתוחות כרטיסיות רבות, כרטיסיות שלא נצפו זמן מה משחררות את הזיכרון ופותחות מחדש את הקובץ כשחוזרים אליהן. כרטיסיות עם שינויים שלא נשמרו או מוצמדות לעולם לא מושהות.',
@@ -10523,8 +10570,8 @@ export const strings = {
     aiFontSizeCustom: 'מותאם אישית',
     setAiSpellcheck: 'בדיקת איות בצ׳אט ה-AI',
     setDefaultApp: 'אפליקציית ברירת המחדל למסמכי Office',
-    setDefaultAppDesc: 'פתיחת קובצי .docx‏, .xlsx ו‑.pptx ב‑GenOffice בלחיצה כפולה.',
-    setDefaultAppIs: 'GenOffice היא כבר ברירת המחדל.',
+    setDefaultAppDesc: 'פתיחת קובצי .docx‏, .xlsx ו‑.pptx ב‑TechPartner Office בלחיצה כפולה.',
+    setDefaultAppIs: 'TechPartner Office היא כבר ברירת המחדל.',
     setDefaultAppOther: 'ברירת המחדל הנוכחית: {app}',
     setDefaultAppSet: 'הגדרה כברירת מחדל',
     setDefaultAppOpenSettings: 'פתיחת הגדרות המערכת',
@@ -10569,7 +10616,7 @@ export const strings = {
     setSecAbout: 'אודות',
     setSecIntegrations: 'שילובים',
     setSecSkills: 'מיומנויות',
-    intgHeroTitle: 'שימוש ב-GenOffice מתוך עוזר ה-AI שלכם',
+    intgHeroTitle: 'שימוש ב-TechPartner Office מתוך עוזר ה-AI שלכם',
     intgHeroDesc:
       'לאחר החיבור, Claude Code‏, Codex‏, Cursor‏, Claude Desktop ועוזרים דומים יכולים ליצור, להמיר, לקרוא ולערוך עבורך קובצי Word‏, Excel‏, PowerPoint‏, PDF ו‑Markdown. הכול פועל במחשב זה; דבר אינו נשלח.',
     intgHeroStep1: 'בחרו מסלול: CLI אם העוזר יכול להריץ פקודות טרמינל, MCP אם לא',
@@ -10578,7 +10625,8 @@ export const strings = {
     intgStep1Title: 'התקינו את ה-skill בעוזר שלכם',
     intgStep1Desc:
       'מוצגים רק עוזרים שנמצאו במחשב הזה. התקינו בזה שבו אתם משתמשים באמת; אין צורך בכולם.',
-    intgStep1Update: 'כשעדכון של GenOffice מביא skill חדש יותר, ליד אותו עוזר יופיע כפתור עדכון.',
+    intgStep1Update:
+      'כשעדכון של TechPartner Office מביא skill חדש יותר, ליד אותו עוזר יופיע כפתור עדכון.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'ה-skill לא מותקן',
     intgStateInstalled: 'skill {v} מותקן · מוכן בשיחה הבאה',
@@ -10586,7 +10634,7 @@ export const strings = {
     intgOtherDesc:
       'בחרו רק דרך אחת מבין השלוש. כולן מתקינות את אותו skill, ולכן אין צורך ביותר מאחת.',
     intgOtherFolderTitle: 'כל עוזר שקורא תיקיות SKILL.md',
-    intgOtherFolderDesc: 'בחרו את תיקיית ה-skills שלו ו-GenOffice יכתוב שם את הקובץ.',
+    intgOtherFolderDesc: 'בחרו את תיקיית ה-skills שלו ו-TechPartner Office יכתוב שם את הקובץ.',
     intgOtherZipTitle: 'מסרו את הקובץ לעוזר',
     intgOtherZipDesc: 'שמרו את ה-skill כ-zip ובקשו מהעוזר להתקין אותו.',
     intgOtherNpxTitle: 'באמצעות פקודת skills (דורש Node.js)',
@@ -10597,7 +10645,7 @@ export const strings = {
     intgStep2DescBefore: 'לאחר ההתקנה, פתחו שיחה חדשה בעוזר ובקשו במילים פשוטות, למשל:',
     intgExample1: 'הפוך את ~/Downloads/report.md למסמך Word',
     intgExample2: 'הכן מצגת של 6 שקופיות על תוצאות הרבעון השלישי שלנו',
-    intgExample3: 'המר את budget.xlsx ל-PDF ופתח אותו ב-GenOffice',
+    intgExample3: 'המר את budget.xlsx ל-PDF ופתח אותו ב-TechPartner Office',
     intgStep2Note: 'העוזר מריץ בעצמו את שורת הפקודה genoffice; לעולם לא תצטרכו להקליד אותה.',
     intgCliPartTitle: 'CLI · שורת פקודה + skill',
     intgCliPartDesc:
@@ -10612,7 +10660,7 @@ export const strings = {
     intgMcpHttpDesc:
       'פועל בתוך GenOffice; העוזר מתחבר דרך כתובת URL ואפשר לראות את המסמך נבנה צעד אחר צעד בעורך Word. GenOffice חייב להישאר פתוח; בשלב זה מסמכי Word בלבד.',
     intgMcpHttpAdvanced: 'מתקדם: כתובות נוספות ויומן',
-    intgMcpTryNote: 'העוזר קורא ל‑GenOffice דרך MCP; אתם לא מקלידים שום פקודה.',
+    intgMcpTryNote: 'העוזר קורא ל‑TechPartner Office דרך MCP; אתם לא מקלידים שום פקודה.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'הריצו זאת פעם אחת בטרמינל:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop או כל עוזר אחר התומך ב-MCP',
@@ -10646,9 +10694,9 @@ export const strings = {
     intgSaveZipTitle: 'שמירת skill',
     intgSavedTo: 'נשמר אל {path}',
     intgCopied: 'הועתק',
-    intgCliEphemeral: 'גררו קודם את GenOffice לתיקיית היישומים, ואז השתמשו בשורת הפקודה.',
+    intgCliEphemeral: 'גררו קודם את TechPartner Office לתיקיית היישומים, ואז השתמשו בשורת הפקודה.',
     intgCopyPath: 'העתקת נתיב',
-    intgCliNeedsUpdate: 'skill זה דורש שורת פקודה {v} ומעלה; עדכנו את GenOffice.',
+    intgCliNeedsUpdate: 'skill זה דורש שורת פקודה {v} ומעלה; עדכנו את TechPartner Office.',
     intgLoading: 'בודק…',
     intgUpdateDue: 'עדכון skill זמין',
     setSecAiModel: 'מודל AI',
@@ -10749,7 +10797,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'חזרה',
     intgSkillsDesc:
-      'GenOffice משתמש רק במיומנויות שבתיקיית המיומנויות שלו. ייבוא תיקייה או zip מעתיק את המיומנות כולה; שום דבר לא מופעל בייבוא.',
+      'TechPartner Office משתמש רק במיומנויות שבתיקיית המיומנויות שלו. ייבוא תיקייה או zip מעתיק את המיומנות כולה; שום דבר לא מופעל בייבוא.',
     intgSkillsEmpty: 'עדיין לא הותקנו מיומנויות.',
     intgSkillsImportFolder: 'ייבוא תיקייה…',
     intgSkillsImportZip: 'ייבוא חבילת מיומנות (zip / .md)…',
@@ -10758,7 +10806,7 @@ export const strings = {
     intgSkillsImportDone: '{name} יובאה',
     intgSkillsImportFailed: 'הייבוא נכשל: {reason}',
     intgSkillsRemove: 'הסרה',
-    intgSkillsRemoveConfirm: 'להסיר את המיומנות "{name}"? התיקייה שלה תימחק מ-GenOffice.',
+    intgSkillsRemoveConfirm: 'להסיר את המיומנות "{name}"? התיקייה שלה תימחק מ-TechPartner Office.',
     intgSkillsRemoved: '{name} הוסרה',
     intgSkillsRead: 'פרטים',
     intgSkillsMine: 'הכישורים שלי',
@@ -11008,7 +11056,7 @@ export const strings = {
     setUpdateRestart: 'रीस्टार्ट कर इंस्टॉल करें',
     setAutoUpdateCheck: 'अपडेट अपने-आप जाँचें',
     setAutoUpdateCheckDesc:
-      'बंद होने पर GenOffice शुरू होते समय या बैकग्राउंड में नए संस्करण नहीं जाँचता। आप फिर भी सहायता › अपडेट जांचें से जाँच सकते हैं।',
+      'बंद होने पर TechPartner Office शुरू होते समय या बैकग्राउंड में नए संस्करण नहीं जाँचता। आप फिर भी सहायता › अपडेट जांचें से जाँच सकते हैं।',
     updateChannel: 'अपडेट चैनल',
     channelStable: 'स्थिर',
     channelBeta: 'बीटा',
@@ -11021,7 +11069,7 @@ export const strings = {
     saveLocation: 'सहेजने का स्थान',
     setRestoreSession: 'पिछली बार के दस्तावेज़ फिर से खोलें',
     setRestoreSessionDesc:
-      'GenOffice बंद करते समय खुले दस्तावेज़ अगली बार शुरू होने पर अपने-आप फिर से खुल जाते हैं।',
+      'TechPartner Office बंद करते समय खुले दस्तावेज़ अगली बार शुरू होने पर अपने-आप फिर से खुल जाते हैं।',
     setTabSleep: 'निष्क्रिय टैब को सुलाएँ',
     setTabSleepDesc:
       'कई टैब खुले होने पर, जिन्हें आपने कुछ समय से नहीं देखा वे मेमोरी छोड़ देते हैं और लौटने पर फ़ाइल फिर खोलते हैं। बिना सहेजे बदलाव वाले या पिन किए गए टैब कभी नहीं सोते।',
@@ -11051,8 +11099,9 @@ export const strings = {
     aiFontSizeCustom: 'कस्टम',
     setAiSpellcheck: 'AI चैट में वर्तनी जाँच',
     setDefaultApp: 'Office दस्तावेज़ों के लिए डिफ़ॉल्ट ऐप',
-    setDefaultAppDesc: '.docx, .xlsx और .pptx फ़ाइलें डबल-क्लिक करने पर GenOffice में खोलें।',
-    setDefaultAppIs: 'GenOffice पहले से डिफ़ॉल्ट ऐप है।',
+    setDefaultAppDesc:
+      '.docx, .xlsx और .pptx फ़ाइलें डबल-क्लिक करने पर TechPartner Office में खोलें।',
+    setDefaultAppIs: 'TechPartner Office पहले से डिफ़ॉल्ट ऐप है।',
     setDefaultAppOther: 'वर्तमान डिफ़ॉल्ट: {app}',
     setDefaultAppSet: 'डिफ़ॉल्ट बनाएँ',
     setDefaultAppOpenSettings: 'सिस्टम सेटिंग खोलें',
@@ -11097,7 +11146,7 @@ export const strings = {
     setSecAbout: 'जानकारी',
     setSecIntegrations: 'इंटीग्रेशन',
     setSecSkills: 'कौशल',
-    intgHeroTitle: 'अपने AI असिस्टेंट से GenOffice इस्तेमाल करें',
+    intgHeroTitle: 'अपने AI असिस्टेंट से TechPartner Office इस्तेमाल करें',
     intgHeroDesc:
       'कनेक्ट होने के बाद Claude Code, Codex, Cursor, Claude Desktop और ऐसे ही सहायक आपके लिए Word, Excel, PowerPoint, PDF और Markdown फ़ाइलें बना, बदल, पढ़ और संपादित कर सकते हैं। सब कुछ इसी कंप्यूटर पर चलता है; कुछ भी अपलोड नहीं होता।',
     intgHeroStep1: 'रास्ता चुनें: सहायक टर्मिनल कमांड चला सकता है तो CLI, नहीं तो MCP',
@@ -11107,7 +11156,7 @@ export const strings = {
     intgStep1Desc:
       'यहाँ केवल इस कंप्यूटर पर मिले असिस्टेंट दिखते हैं। जिसे आप सच में इस्तेमाल करते हैं उसी में इंस्टॉल करें; सभी की ज़रूरत नहीं।',
     intgStep1Update:
-      'जब GenOffice के अपडेट में नया skill आता है, तो उस असिस्टेंट के पास अपडेट बटन दिखता है।',
+      'जब TechPartner Office के अपडेट में नया skill आता है, तो उस असिस्टेंट के पास अपडेट बटन दिखता है।',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'skill इंस्टॉल नहीं है',
     intgStateInstalled: 'skill {v} इंस्टॉल हो गया · अगली चैट में तैयार',
@@ -11115,7 +11164,7 @@ export const strings = {
     intgOtherDesc:
       'इन तीन तरीकों में से कोई एक ही चुनें। सभी एक ही skill इंस्टॉल करते हैं, इसलिए एक से ज़्यादा की ज़रूरत नहीं।',
     intgOtherFolderTitle: 'कोई भी असिस्टेंट जो SKILL.md फ़ोल्डर पढ़ता है',
-    intgOtherFolderDesc: 'उसका skills फ़ोल्डर चुनें, GenOffice वहाँ फ़ाइल लिख देगा।',
+    intgOtherFolderDesc: 'उसका skills फ़ोल्डर चुनें, TechPartner Office वहाँ फ़ाइल लिख देगा।',
     intgOtherZipTitle: 'फ़ाइल असिस्टेंट को दें',
     intgOtherZipDesc: 'skill को zip के रूप में सहेजें, फिर असिस्टेंट से इंस्टॉल करने को कहें।',
     intgOtherNpxTitle: 'skills कमांड से (Node.js ज़रूरी)',
@@ -11127,7 +11176,7 @@ export const strings = {
       'इंस्टॉल होने के बाद अपने असिस्टेंट में नई चैट खोलें और सादे शब्दों में कहें, जैसे:',
     intgExample1: '~/Downloads/report.md को Word दस्तावेज़ बना दो',
     intgExample2: 'हमारे Q3 नतीजों पर 6 स्लाइड का प्रेज़ेंटेशन बनाओ',
-    intgExample3: 'budget.xlsx को PDF में बदलो और GenOffice में खोलो',
+    intgExample3: 'budget.xlsx को PDF में बदलो और TechPartner Office में खोलो',
     intgStep2Note: 'genoffice कमांड लाइन असिस्टेंट खुद चलाता है; आपको कभी टाइप नहीं करना पड़ता।',
     intgCliPartTitle: 'CLI · कमांड लाइन + skill',
     intgCliPartDesc:
@@ -11143,7 +11192,7 @@ export const strings = {
       'GenOffice के अंदर चलता है; सहायक URL से जुड़ता है और आप Word संपादक में दस्तावेज़ को चरण-दर-चरण बनते देख सकते हैं। GenOffice खुला रहना चाहिए; अभी केवल Word दस्तावेज़।',
     intgMcpHttpAdvanced: 'उन्नत: अन्य पते और लॉग',
     intgMcpTryNote:
-      'सहायक MCP के ज़रिये GenOffice को बुलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
+      'सहायक MCP के ज़रिये TechPartner Office को बुलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'टर्मिनल में इसे एक बार चलाएँ:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop या कोई अन्य MCP-समर्थित असिस्टेंट',
@@ -11178,9 +11227,10 @@ export const strings = {
     intgSaveZipTitle: 'skill सहेजें',
     intgSavedTo: '{path} में सहेजा गया',
     intgCopied: 'कॉपी हो गया',
-    intgCliEphemeral: 'पहले GenOffice को Applications में खींचें, फिर कमांड लाइन का उपयोग करें।',
+    intgCliEphemeral:
+      'पहले TechPartner Office को Applications में खींचें, फिर कमांड लाइन का उपयोग करें।',
     intgCopyPath: 'पथ कॉपी करें',
-    intgCliNeedsUpdate: 'इस skill को कमांड लाइन {v} या नया चाहिए; GenOffice अपडेट करें।',
+    intgCliNeedsUpdate: 'इस skill को कमांड लाइन {v} या नया चाहिए; TechPartner Office अपडेट करें।',
     intgLoading: 'जाँच हो रही है…',
     intgUpdateDue: 'skill अपडेट उपलब्ध',
     setSecAiModel: 'AI मॉडल',
@@ -11284,7 +11334,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: 'वापस',
     intgSkillsDesc:
-      'GenOffice केवल अपने कौशल फ़ोल्डर के कौशल उपयोग करता है। फ़ोल्डर या zip से आयात पूरा कौशल कॉपी करता है; आयात पर कुछ नहीं चलता।',
+      'TechPartner Office केवल अपने कौशल फ़ोल्डर के कौशल उपयोग करता है। फ़ोल्डर या zip से आयात पूरा कौशल कॉपी करता है; आयात पर कुछ नहीं चलता।',
     intgSkillsEmpty: 'अभी कोई कौशल इंस्टॉल नहीं है।',
     intgSkillsImportFolder: 'फ़ोल्डर आयात करें…',
     intgSkillsImportZip: 'कौशल पैकेज आयात करें (zip / .md)…',
@@ -11293,7 +11343,8 @@ export const strings = {
     intgSkillsImportDone: '{name} आयात हुआ',
     intgSkillsImportFailed: 'आयात विफल: {reason}',
     intgSkillsRemove: 'हटाएँ',
-    intgSkillsRemoveConfirm: 'कौशल "{name}" हटाएँ? इसका फ़ोल्डर GenOffice से हटा दिया जाएगा।',
+    intgSkillsRemoveConfirm:
+      'कौशल "{name}" हटाएँ? इसका फ़ोल्डर TechPartner Office से हटा दिया जाएगा।',
     intgSkillsRemoved: '{name} हटाया गया',
     intgSkillsRead: 'विवरण',
     intgSkillsMine: 'मेरे कौशल',
@@ -11549,7 +11600,7 @@ export const strings = {
     docThemeFollowApp: '跟隨應用程式主題',
     saveLocation: '預設儲存位置',
     setRestoreSession: '啟動時重新開啟上次的文件',
-    setRestoreSessionDesc: '關閉 GenOffice 時開啟的文件會在下次啟動時自動重新開啟。',
+    setRestoreSessionDesc: '關閉 TechPartner Office 時開啟的文件會在下次啟動時自動重新開啟。',
     setTabSleep: '休眠閒置的標籤頁',
     setTabSleepDesc:
       '開啟的標籤頁多到一定數量後，長時間未查看的會釋放記憶體；回到它時會重新開啟檔案。有未儲存變更或已釘選的標籤頁不會休眠。',
@@ -11578,8 +11629,8 @@ export const strings = {
     aiFontSizeCustom: '自訂',
     setAiSpellcheck: 'AI 對話拼字檢查',
     setDefaultApp: '設為 Office 文件預設程式',
-    setDefaultAppDesc: '雙擊 .docx、.xlsx、.pptx 檔案時用 GenOffice 開啟。',
-    setDefaultAppIs: 'GenOffice 已是預設程式。',
+    setDefaultAppDesc: '雙擊 .docx、.xlsx、.pptx 檔案時用 TechPartner Office 開啟。',
+    setDefaultAppIs: 'TechPartner Office 已是預設程式。',
     setDefaultAppOther: '目前預設程式：{app}',
     setDefaultAppSet: '設為預設',
     setDefaultAppOpenSettings: '開啟系統設定',
@@ -11622,7 +11673,7 @@ export const strings = {
     setSecAbout: '關於',
     setSecIntegrations: '整合',
     setSecSkills: '技能',
-    intgHeroTitle: '在 AI 助理中使用 GenOffice',
+    intgHeroTitle: '在 AI 助理中使用 TechPartner Office',
     intgHeroDesc:
       '接好後，Claude Code、Codex、Cursor、Claude Desktop 等助理就能替你建立、轉換、讀取和編輯 Word、Excel、PowerPoint、PDF 和 Markdown 檔案。全部在本機完成，不會上傳任何內容。',
     intgHeroStep1: '選接法：助理能執行終端機指令就用 CLI，不能就用 MCP',
@@ -11630,14 +11681,14 @@ export const strings = {
     intgHeroStep3: '開一個新對話，直接提需求',
     intgStep1Title: '將 skill 安裝到你的助理',
     intgStep1Desc: '這裡只列出本機偵測到的助理。安裝到你實際使用的那一個即可，不必全部安裝。',
-    intgStep1Update: 'GenOffice 升級帶來新版 skill 時，對應助理旁會出現「更新」按鈕。',
+    intgStep1Update: 'TechPartner Office 升級帶來新版 skill 時，對應助理旁會出現「更新」按鈕。',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'skill 未安裝',
     intgStateInstalled: '已安裝 skill {v} · 下次對話即可使用',
     intgOtherToggle: '沒有列出我的助理',
     intgOtherDesc: '以下三種方式任選一種即可。安裝的是同一份 skill，不需要重複操作。',
     intgOtherFolderTitle: '任何能讀取 SKILL.md 資料夾的助理',
-    intgOtherFolderDesc: '選擇它的 skills 資料夾，GenOffice 會把檔案寫進去。',
+    intgOtherFolderDesc: '選擇它的 skills 資料夾，TechPartner Office 會把檔案寫進去。',
     intgOtherZipTitle: '把檔案交給助理',
     intgOtherZipDesc: '把 skill 儲存為 zip，然後讓助理自行安裝。',
     intgOtherNpxTitle: '用 skills 指令安裝（需要 Node.js）',
@@ -11648,7 +11699,7 @@ export const strings = {
     intgStep2DescBefore: '安裝好後，在助理中開一個新對話，用平常說話的方式提出需求，例如：',
     intgExample1: '把 ~/Downloads/report.md 轉成 Word 文件',
     intgExample2: '做一份 6 頁的簡報，介紹我們第三季的業績',
-    intgExample3: '把 budget.xlsx 轉成 PDF，並在 GenOffice 中開啟',
+    intgExample3: '把 budget.xlsx 轉成 PDF，並在 TechPartner Office 中開啟',
     intgStep2Note: '助理會自行呼叫 genoffice 命令列，你不需要輸入任何指令。',
     intgCliPartTitle: 'CLI · 命令列 + skill',
     intgCliPartDesc:
@@ -11663,7 +11714,7 @@ export const strings = {
     intgMcpHttpDesc:
       '在 GenOffice 內執行，助理透過網址連線，可以看著它在 Word 編輯器裡逐步產生。需要 GenOffice 保持開啟；目前只支援 Word。',
     intgMcpHttpAdvanced: '進階：其他位址與記錄',
-    intgMcpTryNote: '助理會透過 MCP 呼叫 GenOffice，你不需要輸入任何指令。',
+    intgMcpTryNote: '助理會透過 MCP 呼叫 TechPartner Office，你不需要輸入任何指令。',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: '在終端機執行一次：',
     intgMcpOtherTitle: 'Cursor、Claude Desktop 或其他支援 MCP 的助理',
@@ -11697,9 +11748,9 @@ export const strings = {
     intgSaveZipTitle: '儲存 skill',
     intgSavedTo: '已儲存至 {path}',
     intgCopied: '已複製',
-    intgCliEphemeral: '請先把 GenOffice 拖到「應用程式」，再使用命令列。',
+    intgCliEphemeral: '請先把 TechPartner Office 拖到「應用程式」，再使用命令列。',
     intgCopyPath: '複製路徑',
-    intgCliNeedsUpdate: '此 skill 需要命令列 {v} 或更新版本，請更新 GenOffice。',
+    intgCliNeedsUpdate: '此 skill 需要命令列 {v} 或更新版本，請更新 TechPartner Office。',
     intgLoading: '正在檢查…',
     intgUpdateDue: 'skill 有新版本可更新',
     setSecAiModel: 'AI 模型',
@@ -11798,7 +11849,7 @@ export const strings = {
       'AI uses the model you configure: local models are free, your own key is billed by its provider.',
     onbBack: '上一步',
     intgSkillsDesc:
-      'GenOffice 只使用自己技能資料夾裡的技能。從資料夾或 zip 匯入會把整個技能複製進來；匯入不會自動執行任何東西。',
+      'TechPartner Office 只使用自己技能資料夾裡的技能。從資料夾或 zip 匯入會把整個技能複製進來；匯入不會自動執行任何東西。',
     intgSkillsEmpty: '尚未安裝技能。',
     intgSkillsImportFolder: '匯入資料夾…',
     intgSkillsImportZip: '匯入技能包（zip / .md）…',
@@ -11807,7 +11858,7 @@ export const strings = {
     intgSkillsImportDone: '已匯入 {name}',
     intgSkillsImportFailed: '匯入失敗：{reason}',
     intgSkillsRemove: '移除',
-    intgSkillsRemoveConfirm: '移除技能「{name}」？其資料夾會從 GenOffice 中刪除。',
+    intgSkillsRemoveConfirm: '移除技能「{name}」？其資料夾會從 TechPartner Office 中刪除。',
     intgSkillsRemoved: '已移除 {name}',
     intgSkillsRead: '詳情',
     intgSkillsMine: '我的技能',

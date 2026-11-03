@@ -1,4 +1,12 @@
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  chmodSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -6,7 +14,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
   configuredDefaultSaveDir,
+  migrateLegacySaveDir,
   readDefaultSaveDirSetting,
+  rebaseSavedPaths,
   resolveDefaultSaveDir,
 } from '../src/index'
 
@@ -90,14 +100,106 @@ describe('configuredDefaultSaveDir', () => {
     expect(configuredDefaultSaveDir(app)).toBe(custom)
   })
 
-  it('falls back to <Documents>/GenOffice without a setting', () => {
+  it('falls back to <Documents>/TechPartner Office without a setting', () => {
     const userData = join(root, 'userData')
     const documents = join(root, 'Documents')
     mkdirSync(userData, { recursive: true })
     const app = {
       getPath: (name: 'userData' | 'documents') => (name === 'userData' ? userData : documents),
     }
-    expect(configuredDefaultSaveDir(app)).toBe(join(documents, 'GenOffice'))
+    expect(configuredDefaultSaveDir(app)).toBe(join(documents, 'TechPartner Office'))
+    expect(existsSync(join(documents, 'TechPartner Office'))).toBe(true)
+  })
+})
+
+describe('rebaseSavedPaths', () => {
+  it('rebases paths under the old folder and leaves other strings alone', () => {
+    const oldDir = join(root, 'Documents', 'GenOffice')
+    const newDir = join(root, 'Documents', 'TechPartner Office')
+    const value = {
+      starred: [join(oldDir, 'plan.docx'), '/elsewhere/file.docx'],
+      lastSession: join(oldDir, 'notes.md'),
+      note: 'I keep files in GenOffice', // mentions, not a path: untouched
+      nested: { folder: oldDir },
+    }
+    expect(rebaseSavedPaths(value, oldDir, newDir)).toEqual({
+      starred: [join(newDir, 'plan.docx'), '/elsewhere/file.docx'],
+      lastSession: join(newDir, 'notes.md'),
+      note: 'I keep files in GenOffice',
+      nested: { folder: newDir },
+    })
+  })
+})
+
+describe('migrateLegacySaveDir', () => {
+  const setup = (withSettings?: Record<string, unknown>) => {
+    const userData = join(root, 'userData')
+    const documents = join(root, 'Documents')
+    mkdirSync(userData, { recursive: true })
+    mkdirSync(documents, { recursive: true })
+    if (withSettings !== undefined) {
+      writeFileSync(join(userData, 'app-settings.json'), JSON.stringify(withSettings))
+    }
+    return { userData, documents }
+  }
+
+  it('renames the legacy folder and rebases saved paths', () => {
+    const { userData, documents } = setup({
+      starred: [join(documents, 'GenOffice', 'plan.docx')],
+      lastSessionDocuments: [join(documents, 'GenOffice', 'notes.md')],
+    })
+    const oldDir = join(documents, 'GenOffice')
+    mkdirSync(oldDir)
+    writeFileSync(join(oldDir, 'plan.docx'), 'x')
+    const result = migrateLegacySaveDir(documents, userData)
+    expect(result).toEqual({ migrated: true, reason: 'renamed' })
+    expect(existsSync(oldDir)).toBe(false)
+    const newDir = join(documents, 'TechPartner Office')
+    expect(existsSync(join(newDir, 'plan.docx'))).toBe(true)
+    const settings = JSON.parse(readFileSync(join(userData, 'app-settings.json'), 'utf8'))
+    expect(settings.starred).toEqual([join(newDir, 'plan.docx')])
+    expect(settings.lastSessionDocuments).toEqual([join(newDir, 'notes.md')])
+  })
+
+  it('does nothing when the legacy folder is missing', () => {
+    const { userData, documents } = setup()
+    expect(migrateLegacySaveDir(documents, userData)).toEqual({
+      migrated: false,
+      reason: 'no-legacy-dir',
+    })
+  })
+
+  it('never merges when the target folder already exists', () => {
+    const { userData, documents } = setup()
+    mkdirSync(join(documents, 'GenOffice'))
+    mkdirSync(join(documents, 'TechPartner Office'))
+    expect(migrateLegacySaveDir(documents, userData)).toEqual({
+      migrated: false,
+      reason: 'target-exists',
+    })
     expect(existsSync(join(documents, 'GenOffice'))).toBe(true)
+  })
+
+  it('respects a configured custom save folder', () => {
+    const { userData, documents } = setup({ defaultSaveDir: join(root, 'my-files') })
+    mkdirSync(join(documents, 'GenOffice'))
+    expect(migrateLegacySaveDir(documents, userData)).toEqual({
+      migrated: false,
+      reason: 'custom-save-dir',
+    })
+    expect(existsSync(join(documents, 'GenOffice'))).toBe(true)
+  })
+
+  it('updates an explicit setting that points at the legacy folder', () => {
+    const { userData, documents } = setup({
+      defaultSaveDir: join(documents, 'GenOffice'),
+    })
+    mkdirSync(join(documents, 'GenOffice'))
+    expect(migrateLegacySaveDir(documents, userData)).toEqual({
+      migrated: true,
+      reason: 'renamed',
+    })
+    const settings = JSON.parse(readFileSync(join(userData, 'app-settings.json'), 'utf8'))
+    expect(settings.defaultSaveDir).toBe(join(documents, 'TechPartner Office'))
   })
 })

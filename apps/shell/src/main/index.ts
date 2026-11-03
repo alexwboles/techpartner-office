@@ -66,6 +66,7 @@ import {
   installContextMenu,
   installNavigationGuard,
   isUsableSaveDir,
+  migrateLegacySaveDir,
   HEADLESS_EXIT,
   formatHeadlessEnvelope,
   headlessExitCode,
@@ -7067,6 +7068,18 @@ async function runHeadlessExportEntry(
 }
 
 app.whenReady().then(async () => {
+  // One-time rebrand migration, before any folder watcher, tab restore, or
+  // save-folder creation touches the save folder: an existing
+  // <Documents>/GenOffice from before the rebrand becomes
+  // <Documents>/TechPartner Office (contents intact, saved paths rebased).
+  // It never throws and never merges: a custom save folder, an already
+  // existing target, or a failed rename all leave the old folder alone.
+  try {
+    const migration = migrateLegacySaveDir(app.getPath('documents'), app.getPath('userData'))
+    if (migration.migrated) console.warn('[shell] save folder migrated to TechPartner Office')
+  } catch {
+    // startup must never fail on the migration
+  }
   // first scan waits for the windows to come up; later ones follow folder changes
   setTimeout(() => ensureFileIndexer()?.refresh(), 4000)
   installRendererProtocol({
