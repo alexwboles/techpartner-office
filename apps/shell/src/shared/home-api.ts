@@ -13,7 +13,7 @@ import type {
   CodexModelCatalog,
 } from '@genoffice/ai-provider'
 import type { UpdateChannel, UpdateUiState } from './update-api'
-import type { ProjectAiState } from './project-ai'
+import type { ProjectAiProjectType, ProjectAiState } from './project-ai'
 import type {
   AttachmentInfo,
   CliContext,
@@ -317,11 +317,16 @@ export interface HomeApi {
   onAiStream(handler: (chunk: AiStreamChunk) => void): () => void
   /** Genspark login state (the default provider's auth source) */
   aiGskStatus(): Promise<{ loggedIn: boolean; email?: string }>
-  // ---- Project AI (pilot: business plan) ----
+  // ---- Project AI (business plan, grant application, event plan, marketing plan) ----
   /** directory picker for the saved project folder */
   projectAiPickFolder(): Promise<string | null>
-  /** generate plan + budget + deck into the folder and open them as tabs */
-  projectAiBuild(folder: string, brief: string): Promise<{ files: string[] }>
+  /** generate doc + budget + deck into the folder and open them as tabs;
+   *  `projectType` defaults to a business plan when omitted (old callers) */
+  projectAiBuild(
+    folder: string,
+    brief: string,
+    projectType?: ProjectAiProjectType,
+  ): Promise<{ files: string[] }>
   /** current project state: status, change log, approval queue */
   projectAiState(): Promise<ProjectAiState>
   /** run a cross-file review now (the folder watcher also runs it debounced) */

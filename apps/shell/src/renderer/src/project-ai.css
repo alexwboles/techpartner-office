@@ -53,6 +53,27 @@
   gap: 8px;
 }
 
+.project-ai-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.project-ai-type {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.project-ai-type-active {
+  background: var(--color-btn-primary);
+  border-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+}
+
 .project-ai-input,
 .project-ai-textarea {
   flex: 1;

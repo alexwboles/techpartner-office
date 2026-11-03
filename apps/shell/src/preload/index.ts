@@ -591,8 +591,13 @@ const homeApi: HomeApi = {
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.projectAiPickFolder)
     return typeof result === 'string' && result ? result : null
   },
-  async projectAiBuild(folder, brief) {
-    const result = (await ipcRenderer.invoke(HOME_CHANNELS.projectAiBuild, folder, brief)) as {
+  async projectAiBuild(folder, brief, projectType) {
+    const result = (await ipcRenderer.invoke(
+      HOME_CHANNELS.projectAiBuild,
+      folder,
+      brief,
+      typeof projectType === 'string' ? projectType : 'business-plan',
+    )) as {
       files?: unknown
     }
     const files = Array.isArray(result.files)

@@ -5602,7 +5602,7 @@ function registerHomeIpc(): void {
   ipcMain.handle(HOME_CHANNELS.getDefaultAppStatus, () => defaultApp.status())
   ipcMain.handle(HOME_CHANNELS.setDefaultApp, () => defaultApp.set())
 
-  // Project AI pilot (business plan): folder picker, build, review, queue.
+  // Project AI (all project types): folder picker, build, review, queue.
   ipcMain.handle(HOME_CHANNELS.projectAiPickFolder, async (): Promise<string | null> => {
     const result = await showOpenDialogWithMemory(dialog, shellWindow, {
       title: 'Choose a project folder',
@@ -5613,11 +5613,17 @@ function registerHomeIpc(): void {
   })
   ipcMain.handle(
     HOME_CHANNELS.projectAiBuild,
-    async (_event, folder: unknown, brief: unknown): Promise<{ files: string[] }> => {
+    async (
+      _event,
+      folder: unknown,
+      brief: unknown,
+      projectType: unknown,
+    ): Promise<{ files: string[] }> => {
       if (typeof folder !== 'string' || !folder || typeof brief !== 'string' || !brief.trim()) {
         throw new Error('A project folder and a brief are required.')
       }
-      return ensureProjectAiService().buildProject(folder, brief)
+      // the service normalizes the type: missing / unknown = business plan
+      return ensureProjectAiService().buildProject(folder, brief, projectType)
     },
   )
   ipcMain.handle(HOME_CHANNELS.projectAiState, () => ensureProjectAiService().getState())

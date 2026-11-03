@@ -1,5 +1,11 @@
 /**
- * Project AI (pilot: business plan) — shell main-process service.
+ * Project AI — shell main-process service.
+ *
+ * One flow serves every project type (business plan, grant application,
+ * event plan, marketing plan): the per-type definition in
+ * `../shared/project-ai` supplies the file names, document sections,
+ * budget shape, deck slides and prompt framing, and this service runs
+ * the same build / watch / review steps for each of them.
  *
  * Flow: the user picks a saved project folder and types a short brief.
  * The service generates a plan document (.docx), a budget spreadsheet
@@ -36,24 +42,27 @@ import type { CliRunner } from './mcp/cli-runner'
 import { createFileViaCli, createPptxViaCli, readDocxTextViaCli } from './mcp/headless-cli'
 import { outlineToOps, parsePptxOutline } from './mcp/pptx-outline'
 import {
+  PROJECT_AI_PROJECT_TYPES,
   formatMoney,
-  PROJECT_AI_DECK,
-  PROJECT_AI_DOC,
-  PROJECT_AI_SHEET,
-  buildBusinessPlanContent,
-  businessNameFromBrief,
-  businessPlanBudgetRows,
-  businessPlanDeckOutline,
-  businessPlanMarkdown,
+  buildProjectContent,
   budgetTotal,
+  normalizeProjectDraft,
+  normalizeProjectType,
   projectAiFileName,
+  projectAiTypeDefinition,
+  projectDraftBudgetRows,
+  projectDraftDeckOutline,
+  projectDraftMarkdown,
   reviewProjectContent,
+  validateModelSuggestions,
+  validateProjectDraft,
   type BudgetRow,
-  type BusinessPlanDraft,
   type ProjectAiChangeLogEntry,
   type ProjectAiFileKind,
+  type ProjectAiProjectType,
   type ProjectAiState,
   type ProjectAiSuggestion,
+  type ProjectDraft,
 } from '../shared/project-ai'
 
 /** Debounce for folder-change reviews: never on every keystroke/save. */
@@ -65,7 +74,7 @@ export interface ProjectAiServiceDeps {
   /** open a file path as a tab (routeDocumentPath in the shell main) */
   openFile: (path: string) => void
   /** model draft override (tests inject a fake; production uses Ollama/BYOK) */
-  draftWithAi?: (brief: string) => Promise<BusinessPlanDraft | null>
+  draftWithAi?: (brief: string, projectType: ProjectAiProjectType) => Promise<ProjectDraft | null>
   /** model review override (tests inject a fake) */
   suggestWithAi?: (input: {
     docText: string
@@ -78,34 +87,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function validateDraft(value: unknown, brief: string): BusinessPlanDraft | null {
-  if (!isRecord(value)) return null
-  const sectionsRaw = value.sections
-  const budgetRaw = value.budget
-  if (!Array.isArray(sectionsRaw) || !Array.isArray(budgetRaw)) return null
-  const sections: BusinessPlanDraft['sections'] = []
-  for (const entry of sectionsRaw.slice(0, 8)) {
-    if (!isRecord(entry)) return null
-    const heading = typeof entry.heading === 'string' ? entry.heading.trim() : ''
-    const body = typeof entry.body === 'string' ? entry.body.trim() : ''
-    if (!heading || !body) return null
-    sections.push({ heading, body })
-  }
-  const budget: BudgetRow[] = []
-  for (const entry of budgetRaw.slice(0, 20)) {
-    if (!isRecord(entry)) return null
-    const label = typeof entry.label === 'string' ? entry.label.trim() : ''
-    const amount = typeof entry.amount === 'number' ? entry.amount : Number(entry.amount)
-    if (!label || !Number.isFinite(amount) || amount <= 0) return null
-    budget.push({ label, amount })
-  }
-  if (sections.length === 0 || budget.length === 0) return null
-  const businessName =
-    typeof value.businessName === 'string' && value.businessName.trim()
-      ? value.businessName.trim()
-      : businessNameFromBrief(brief)
-  return { businessName, sections, budget }
-}
+/** Draft validation is the shared, bounded validateProjectDraft. */
 
 function extractJson(text: string): unknown | null {
   const fenced = /```(?:json)?\s*([\s\S]*?)```/.exec(text)
@@ -176,50 +158,33 @@ async function callModel(
   }
 }
 
-const DRAFT_SYSTEM =
-  'You draft small business plans. Reply with JSON only, no prose: ' +
-  '{"businessName": "...", "sections": [{"heading": "...", "body": "..."}], ' +
-  '"budget": [{"label": "...", "amount": 0}]}. Keep sections to at most 5 and ' +
-  'budget rows to at most 10. Amounts are US dollars, numbers only.'
-
-const REVIEW_SYSTEM =
-  'You review a business plan project: a plan document, a pitch deck, and a ' +
-  'budget spreadsheet (the source of truth for figures). Reply with JSON only, ' +
-  'no prose: an array of {"title": "...", "detail": "...", "file": "doc" | "deck", ' +
-  '"before": "exact text in that file", "after": "replacement text"}. Suggest only ' +
-  'wording, structure, or new-content improvements — never typo fixes and never ' +
-  'number corrections, which are handled elsewhere. If nothing is worth ' +
-  'changing, reply with [].'
-
-function validateModelSuggestions(value: unknown, startIndex: number): ProjectAiSuggestion[] {
-  if (!Array.isArray(value)) return []
-  const out: ProjectAiSuggestion[] = []
-  let index = startIndex
-  for (const entry of value.slice(0, 20)) {
-    if (!isRecord(entry)) continue
-    const file = entry.file === 'doc' || entry.file === 'deck' ? entry.file : null
-    const title = typeof entry.title === 'string' ? entry.title.trim() : ''
-    const detail = typeof entry.detail === 'string' ? entry.detail.trim() : ''
-    const before = typeof entry.before === 'string' ? entry.before : ''
-    const after = typeof entry.after === 'string' ? entry.after : ''
-    if (!file || !title || !before || !after || before === after) continue
-    index += 1
-    // Model suggestions are ALWAYS queue items, even if they look like a
-    // typo or a number fix: only deterministic findings may auto-apply.
-    out.push({
-      id: `other-${file}-${index}`,
-      kind: 'other',
-      file,
-      fileName: projectAiFileName(file),
-      title,
-      detail,
-      before,
-      after,
-      autoSafe: false,
-    })
-  }
-  return out
+/** Model draft prompt for a project type, framed by its definition. */
+export function draftSystemFor(projectType: unknown): string {
+  const definition = projectAiTypeDefinition(projectType)
+  return (
+    `You draft ${definition.draftSubject}. Reply with JSON only, no prose: ` +
+    '{"title": "...", "sections": [{"heading": "...", "body": "..."}], ' +
+    '"budget": [{"label": "...", "amount": 0}]}. Keep sections to at most 5 and ' +
+    'budget rows to at most 10. Amounts are US dollars, numbers only.'
+  )
 }
+
+/** Model review prompt for a project type, framed by its definition. */
+export function reviewSystemFor(projectType: unknown): string {
+  const definition = projectAiTypeDefinition(projectType)
+  return (
+    `You review a ${definition.reviewSubject}: a project document, a deck, and a ` +
+    'budget spreadsheet (the source of truth for figures). Reply with JSON only, ' +
+    'no prose: an array of {"title": "...", "detail": "...", "file": "doc" | "deck", ' +
+    '"before": "exact text in that file", "after": "replacement text"}. Suggest only ' +
+    'wording, structure, or new-content improvements — never typo fixes and never ' +
+    'number corrections, which are handled elsewhere. If nothing is worth ' +
+    'changing, reply with [].'
+  )
+}
+
+/** Model suggestions are validated by the shared validateModelSuggestions:
+ *  they are always queue items (kind other, autoSafe false), for every type. */
 
 /** Collect every `text` string in a slides-read JSON tree. */
 export function collectDeckText(detail: unknown): string {
@@ -295,6 +260,7 @@ export class ProjectAiService {
   private state: ProjectAiState = {
     folder: null,
     files: [],
+    projectType: 'business-plan',
     status: 'idle',
     statusMessage: '',
     applied: [],
@@ -321,28 +287,38 @@ export class ProjectAiService {
     }
   }
 
-  /** Build the three project files, register + open them, watch, review. */
-  async buildProject(folder: string, brief: string): Promise<{ files: string[] }> {
+  /** Build the three project files, register + open them, watch, review.
+   *  `projectType` may be any stored / incoming value: a missing or
+   *  unknown type builds a business plan, so old callers keep working. */
+  async buildProject(
+    folder: string,
+    brief: string,
+    projectTypeInput?: unknown,
+  ): Promise<{ files: string[] }> {
+    const projectType = normalizeProjectType(projectTypeInput)
+    const definition = projectAiTypeDefinition(projectType)
     const trimmed = brief.trim()
-    if (!trimmed) throw new Error('A brief is required to build a business plan.')
+    if (!trimmed) throw new Error('A brief is required to build a project.')
     this.stopWatching()
     this.state = {
       folder,
       files: [],
+      projectType,
       status: 'building',
-      statusMessage: 'Drafting the business plan…',
+      statusMessage: `Drafting the ${definition.docTitle.toLowerCase()}…`,
       applied: [],
       queue: [],
       lastReviewAt: null,
       lastError: null,
     }
-    const draft = (await this.draftPlan(trimmed)) ?? buildBusinessPlanContent(trimmed)
-    const docPath = join(folder, PROJECT_AI_DOC)
-    const sheetPath = join(folder, PROJECT_AI_SHEET)
-    const deckPath = join(folder, PROJECT_AI_DECK)
+    const draft =
+      (await this.draftPlan(trimmed, projectType)) ?? buildProjectContent(projectType, trimmed)
+    const docPath = join(folder, projectAiFileName('doc', projectType))
+    const sheetPath = join(folder, projectAiFileName('sheet', projectType))
+    const deckPath = join(folder, projectAiFileName('deck', projectType))
     await createFileViaCli(this.deps.cli, {
       type: 'docx',
-      input: { name: 'content.md', content: businessPlanMarkdown(draft) },
+      input: { name: 'content.md', content: projectDraftMarkdown(draft) },
       out: docPath,
       overwrite: true,
     })
@@ -351,13 +327,13 @@ export class ProjectAiService {
       input: {
         name: 'table.json',
         content: JSON.stringify({
-          sheets: [{ name: 'Budget', rows: businessPlanBudgetRows(draft) }],
+          sheets: [{ name: definition.sheetName, rows: projectDraftBudgetRows(draft) }],
         }),
       },
       out: sheetPath,
       overwrite: true,
     })
-    const outline = businessPlanDeckOutline(draft)
+    const outline = projectDraftDeckOutline(draft)
     await createPptxViaCli(this.deps.cli, {
       ops: outlineToOps(parsePptxOutline('markdown', outline)),
       out: deckPath,
@@ -375,7 +351,9 @@ export class ProjectAiService {
     }
     this.state.files = files
     this.state.status = 'ready'
-    this.state.statusMessage = `Built ${draft.businessName}: plan, budget (${formatMoney(budgetTotal(draft.budget))} total) and pitch deck.`
+    this.state.statusMessage = `Built ${draft.businessName}: ${definition.buildSummary
+      .split('{total}')
+      .join(formatMoney(budgetTotal(draft.budget)))}.`
     for (const file of files) {
       try {
         this.deps.openFile(file)
@@ -388,21 +366,28 @@ export class ProjectAiService {
     return { files }
   }
 
-  private async draftPlan(brief: string): Promise<BusinessPlanDraft | null> {
+  private async draftPlan(
+    brief: string,
+    projectType: ProjectAiProjectType,
+  ): Promise<ProjectDraft | null> {
     if (this.deps.draftWithAi) {
       try {
-        return await this.deps.draftWithAi(brief)
+        const draft = await this.deps.draftWithAi(brief, projectType)
+        // An injected draft may predate project types (no type / title):
+        // carry it into the shape for the type actually being built.
+        return draft ? normalizeProjectDraft(draft, projectType) : null
       } catch {
         return null
       }
     }
+    const definition = projectAiTypeDefinition(projectType)
     const text = await callModel(
       this.deps.userDataPath,
-      DRAFT_SYSTEM,
-      `Business idea / brief:\n${brief}`,
+      draftSystemFor(projectType),
+      `${definition.briefPromptLabel}\n${brief}`,
     )
     if (!text) return null
-    return validateDraft(extractJson(text), brief)
+    return validateProjectDraft(extractJson(text), brief, projectType)
   }
 
   startWatching(folder: string): void {
@@ -440,9 +425,10 @@ export class ProjectAiService {
     if (!folder || this.reviewing) return this.getState()
     this.reviewing = true
     try {
-      const docPath = join(folder, PROJECT_AI_DOC)
-      const sheetPath = join(folder, PROJECT_AI_SHEET)
-      const deckPath = join(folder, PROJECT_AI_DECK)
+      const projectType = normalizeProjectType(this.state.projectType)
+      const docPath = join(folder, projectAiFileName('doc', projectType))
+      const sheetPath = join(folder, projectAiFileName('sheet', projectType))
+      const deckPath = join(folder, projectAiFileName('deck', projectType))
       if (!existsSync(docPath) || !existsSync(sheetPath) || !existsSync(deckPath)) {
         this.state.lastError = 'Project files are missing from the folder.'
         return this.getState()
@@ -475,7 +461,7 @@ export class ProjectAiService {
       }
       const deckText = collectDeckText(deckOutcome.json.detail)
 
-      const { safe, queued } = reviewProjectContent({ docText, deckText, budgetRows })
+      const { safe, queued } = reviewProjectContent({ docText, deckText, budgetRows, projectType })
       const appliedNow: ProjectAiChangeLogEntry[] = []
       const failedSafe: ProjectAiSuggestion[] = []
       for (const suggestion of safe) {
@@ -502,9 +488,19 @@ export class ProjectAiService {
       }
       let modelSuggestions: ProjectAiSuggestion[] = []
       try {
-        modelSuggestions = this.deps.suggestWithAi
+        const rawModelSuggestions = this.deps.suggestWithAi
           ? await this.deps.suggestWithAi({ docText, deckText, budgetRows })
           : await this.suggestWithModel(docText, deckText, budgetRows)
+        // Belt and braces, for every project type: model output is always
+        // a queue item — kind 'other', never autoSafe, and addressed to
+        // this project's files — whatever the model (or a test fake
+        // standing in for it) returned.
+        modelSuggestions = rawModelSuggestions.map((suggestion) => ({
+          ...suggestion,
+          kind: 'other' as const,
+          autoSafe: false,
+          fileName: projectAiFileName(suggestion.file, projectType),
+        }))
       } catch {
         modelSuggestions = []
       }
@@ -534,19 +530,20 @@ export class ProjectAiService {
     deckText: string,
     budgetRows: BudgetRow[],
   ): Promise<ProjectAiSuggestion[]> {
+    const projectType = normalizeProjectType(this.state.projectType)
     const excerpt = (text: string): string =>
       text.length > 4000 ? `${text.slice(0, 4000)}…` : text
     const text = await callModel(
       this.deps.userDataPath,
-      REVIEW_SYSTEM,
+      reviewSystemFor(projectType),
       [
         `Budget (source of truth): ${JSON.stringify(budgetRows)}`,
-        `Plan document:\n${excerpt(docText)}`,
-        `Pitch deck:\n${excerpt(deckText)}`,
+        `Project document:\n${excerpt(docText)}`,
+        `Deck:\n${excerpt(deckText)}`,
       ].join('\n\n'),
     )
     if (!text) return []
-    return validateModelSuggestions(extractJson(text), 0)
+    return validateModelSuggestions(extractJson(text), 0, projectType)
   }
 
   /** Accept a queued suggestion: apply it to disk and log it. */
@@ -624,23 +621,34 @@ export class ProjectAiService {
   }
 }
 
-export function projectAiDocPath(folder: string): string {
-  return join(folder, PROJECT_AI_DOC)
+export function projectAiDocPath(folder: string, projectType?: unknown): string {
+  return join(folder, projectAiFileName('doc', normalizeProjectType(projectType)))
 }
 
-export function projectAiSheetPath(folder: string): string {
-  return join(folder, PROJECT_AI_SHEET)
+export function projectAiSheetPath(folder: string, projectType?: unknown): string {
+  return join(folder, projectAiFileName('sheet', normalizeProjectType(projectType)))
 }
 
-export function projectAiDeckPath(folder: string): string {
-  return join(folder, PROJECT_AI_DECK)
+export function projectAiDeckPath(folder: string, projectType?: unknown): string {
+  return join(folder, projectAiFileName('deck', normalizeProjectType(projectType)))
+}
+
+/** Which project type and file kind a file name belongs to, across all
+ *  project types; null when the name is not a Project AI file. */
+export function projectAiFileInfoForName(
+  name: string,
+): { projectType: ProjectAiProjectType; kind: ProjectAiFileKind } | null {
+  const base = basename(name)
+  for (const projectType of PROJECT_AI_PROJECT_TYPES) {
+    for (const kind of ['doc', 'sheet', 'deck'] as const) {
+      if (base === projectAiFileName(kind, projectType)) return { projectType, kind }
+    }
+  }
+  return null
 }
 
 export function projectAiFileKindForName(name: string): ProjectAiFileKind | null {
-  if (name === PROJECT_AI_DOC) return 'doc'
-  if (name === PROJECT_AI_SHEET) return 'sheet'
-  if (name === PROJECT_AI_DECK) return 'deck'
-  return null
+  return projectAiFileInfoForName(name)?.kind ?? null
 }
 
 export function isProjectAiFileName(name: string): boolean {
