@@ -1696,28 +1696,6 @@ export function AiPanel({
 
       <div className="ai-composer">
         {attachNotice && <div className="ai-attach-notice">{attachNotice}</div>}
-        {activePartial && (
-          <div className="ai-queue ai-partial-card" role="group" aria-label={t('aiPartialTitle')}>
-            <div className="ai-queue-head">
-              <span className="ai-queue-title">{t('aiPartialTitle')}</span>
-            </div>
-            <div className="ai-queue-hint">
-              {t('aiPartialBody', { blocks: activePartial.blocks })}
-            </div>
-            <div className="ai-queue-foot">
-              <button
-                type="button"
-                className="ai-queue-discard"
-                onClick={() => decidePartial(false)}
-              >
-                {t('aiPartialDiscard')}
-              </button>
-              <button type="button" className="ai-queue-send" onClick={() => decidePartial(true)}>
-                {t('aiPartialAdopt')}
-              </button>
-            </div>
-          </div>
-        )}
         <EditQueueCard
           items={editQueue}
           editor={editor}
@@ -1888,6 +1866,32 @@ export function AiPanel({
           }
         />
       </div>
+      {/* A partial draft waits in the document for its Keep/Discard decision,
+          so the decision card floats at the page edge of the canvas (opposite
+          the panel) instead of hiding at the bottom of the composer. Same
+          strings, same decidePartial handlers as the former composer card. */}
+      {activePartial && (
+        <div
+          className="ai-queue ai-partial-card ai-partial-float"
+          role="group"
+          aria-label={t('aiPartialTitle')}
+        >
+          <div className="ai-queue-head">
+            <span className="ai-queue-title">{t('aiPartialTitle')}</span>
+          </div>
+          <div className="ai-queue-hint">
+            {t('aiPartialBody', { blocks: activePartial.blocks })}
+          </div>
+          <div className="ai-queue-foot">
+            <button type="button" className="ai-queue-discard" onClick={() => decidePartial(false)}>
+              {t('aiPartialDiscard')}
+            </button>
+            <button type="button" className="ai-queue-send" onClick={() => decidePartial(true)}>
+              {t('aiPartialAdopt')}
+            </button>
+          </div>
+        </div>
+      )}
     </aside>
   )
 }

@@ -3167,7 +3167,7 @@ function RibbonInner({
             <div className="ribbon-group">
               <div className="ribbon-group-items">
                 <button
-                  className={`rb-big ai-entry ${showAi ? 'active' : ''}`}
+                  className={`rb-big ai-entry ai-entry-main ${showAi ? 'active' : ''}`}
                   data-tip={t('aiOpenAssistant')}
                   onClick={onToggleAi}
                 >

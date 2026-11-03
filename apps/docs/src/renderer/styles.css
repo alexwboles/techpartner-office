@@ -400,9 +400,53 @@ button {
 
 /* ================= ribbon ================= */
 
+/* TechPartner editor chrome (mockup-2 redesign): paper-toned ribbon and AI
+ * panel, brand-green accents, and a dark status bar in the Home redesign's
+ * language. This block sits after the theme token blocks above so it wins
+ * at equal specificity; each theme lists every token it touches so no
+ * light value can leak into a dark window. Brand hues come from the shared
+ * --color-tp-* tokens in @genoffice/ui. */
+:root {
+  --docs-chrome-paper: #f6f7f4;
+  --docs-chrome-accent-ink: #1c5b4a;
+  --docs-canvas-bg: #e9edea;
+  --docs-statusbar-bg: #131e19;
+  --docs-statusbar-border: #131e19;
+  --docs-statusbar-hover: rgb(255 255 255 / 12%);
+  --docs-statusbar-ink: #b9c6bf;
+  --docs-statusbar-strong: #fff;
+  --docs-page-shadow: 0 2px 6px rgb(19 30 25 / 12%), 0 12px 32px rgb(19 30 25 / 16%);
+}
+
+[data-theme='dark'] {
+  --docs-chrome-paper: #252525;
+  --docs-chrome-accent-ink: #b9c6bf;
+  --docs-canvas-bg: #2b2b2b;
+  --docs-statusbar-bg: #252525;
+  --docs-statusbar-border: #3a3a3a;
+  --docs-statusbar-hover: rgb(255 255 255 / 10%);
+  --docs-statusbar-ink: #a0a0a0;
+  --docs-statusbar-strong: #fff;
+  --docs-page-shadow: 0 1px 3px rgb(0 0 0 / 60%), 0 4px 16px rgb(0 0 0 / 40%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    --docs-chrome-paper: #252525;
+    --docs-chrome-accent-ink: #b9c6bf;
+    --docs-canvas-bg: #2b2b2b;
+    --docs-statusbar-bg: #252525;
+    --docs-statusbar-border: #3a3a3a;
+    --docs-statusbar-hover: rgb(255 255 255 / 10%);
+    --docs-statusbar-ink: #a0a0a0;
+    --docs-statusbar-strong: #fff;
+    --docs-page-shadow: 0 1px 3px rgb(0 0 0 / 60%), 0 4px 16px rgb(0 0 0 / 40%);
+  }
+}
+
 .ribbon {
   flex-shrink: 0;
-  background: var(--chrome-bg);
+  background: var(--docs-chrome-paper);
   border-bottom: 1px solid var(--border-strong);
   user-select: none;
   /* shared toolbar ink (glyphs, letterforms, labels) — same as sheets/slides */
@@ -465,16 +509,16 @@ html.genoffice-popover-open .ribbon-tabs {
   /* transparent border keeps the row height; the visible underline is the
    * ::after, sized to the label text rather than the padded button */
   border-bottom: 2.5px solid transparent;
-  border-radius: 4px 4px 0 0;
+  border-radius: 0;
 }
 
 /* hovering a tab tints the label, it doesn't paint a box */
 .ribbon-tab:hover {
-  color: var(--word-blue);
+  color: var(--docs-chrome-accent-ink);
 }
 
 .ribbon-tab.active {
-  color: var(--word-blue);
+  color: var(--docs-chrome-accent-ink);
   font-weight: 600;
 }
 
@@ -488,20 +532,20 @@ html.genoffice-popover-open .ribbon-tabs {
   bottom: -2.5px;
   height: 2.5px;
   border-radius: 1px;
-  background: var(--word-blue);
+  background: var(--color-tp-accent);
 }
 
 .ribbon-tab-file {
   color: var(--docs-on-accent);
-  background: var(--word-blue);
-  border-radius: 4px;
+  background: var(--color-tp-accent);
+  border-radius: 0;
   padding: 6px 16px;
   margin-right: 6px;
 }
 
 .ribbon-tab-file:hover,
 .ribbon-tab-file.open {
-  background: var(--word-blue-dark);
+  background: var(--color-tp-deep);
 }
 
 .file-tab-wrap {
@@ -1011,7 +1055,7 @@ html.genoffice-popover-open .ribbon-tabs {
    (icon + label together), unlike the other tall buttons where only the icon
    row is painted. */
 .rb-big.ai-entry {
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .rb-big.ai-entry:hover:not(:disabled) {
@@ -1025,6 +1069,22 @@ html.genoffice-popover-open .ribbon-tabs {
 .rb-big.ai-entry:hover:not(:disabled) .rb-big-icon,
 .rb-big.ai-entry.active .rb-big-icon {
   background: transparent;
+}
+
+/* The main AI entry (panel toggle) is the mockup's solid green Ask AI
+ * button; the one-click AI actions beside it keep the plain rb-big look. */
+.rb-big.ai-entry-main {
+  background: var(--color-tp-accent);
+  color: var(--docs-on-accent);
+}
+
+.rb-big.ai-entry-main:hover:not(:disabled) {
+  background: var(--color-tp-deep);
+}
+
+.rb-big.ai-entry-main.active {
+  background: var(--color-tp-deep);
+  color: var(--docs-on-accent);
 }
 
 .rb-col {
@@ -2592,6 +2652,10 @@ th.cell-rev-del {
   display: flex;
   flex: 1;
   min-height: 0;
+  /* mockup-2 canvas tint, routed through --canvas so every canvas-band
+   * rule inside keeps matching the surround; .workspace-dark (defined
+   * later) still overrides it for the dark-page band */
+  --canvas: var(--docs-canvas-bg);
   background: var(--canvas);
 }
 
@@ -7979,7 +8043,7 @@ body.docs-crop-active
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-page);
+  background: var(--docs-chrome-paper);
   /* Same visible divider as the GenOffice Sheets panel: the editor canvas is gray, so the default border would drown */
   border-left: var(--ai-panel-border-left, 0px) solid var(--color-border-strong);
   border-right: var(--ai-panel-border-right, 1px) solid var(--color-border-strong);
@@ -8022,6 +8086,11 @@ body.docs-crop-active
   align-items: center;
   gap: 7px;
   white-space: nowrap;
+  /* mockup-2: the panel header reads as a small-caps section label */
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .ai-panel-header-actions {
@@ -8101,27 +8170,30 @@ body.docs-crop-active
   color: var(--color-text-tertiary);
 }
 
+/* mockup-2: the empty state is the panel's deep-green hero block, with the
+ * starter prompts reading as white cards inside it */
 .ai-chat-empty {
-  margin-top: 36px;
-  padding: 0 10px;
-  text-align: center;
+  margin-top: 0;
+  padding: 20px 18px;
+  text-align: left;
+  background: var(--color-tp-deep);
 }
 
 .ai-chat-empty-title {
   font-size: var(--text-body-lg);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--docs-on-accent);
   margin-bottom: 8px;
 }
 
 .ai-chat-empty-body {
-  color: var(--color-text-secondary);
+  color: var(--color-tp-rail-text);
   font-size: var(--text-small);
   line-height: 1.5;
 }
 
-/* clickable starter prompts in the empty state — suggestion chips:
- * 30px-radius outline pills, 13px/400 */
+/* clickable starter prompts in the empty state — suggestion cards:
+ * sharp-cornered outline cards, 13px/400 */
 .ai-starter-list {
   display: flex;
   flex-direction: column;
@@ -8130,9 +8202,14 @@ body.docs-crop-active
   margin-top: 16px;
 }
 
+/* inside the hero block the starters stretch to full-width sharp cards */
+.ai-chat-empty .ai-starter-list {
+  align-items: stretch;
+}
+
 .ai-starter {
   padding: 8px 16px;
-  border-radius: var(--radius-30);
+  border-radius: 0;
   border: 1px solid var(--color-border-default);
   background: var(--color-bg-page);
   font-size: 13px;
@@ -8214,10 +8291,11 @@ body.docs-crop-active
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
-/* User pill: gray, fully rounded (no tail) */
+/* User pill: white card on the paper-toned panel, fully rounded (no tail) */
 .ai-msg-user {
   align-self: flex-end;
-  background: var(--color-bg-subtle);
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--color-text-primary);
   padding: 8px 16px;
   border-radius: 14px;
@@ -9025,7 +9103,7 @@ body.docs-crop-active
 .ai-composer {
   border-top: none;
   padding: 8px 12px 12px;
-  background: var(--color-bg-page);
+  background: var(--docs-chrome-paper);
 }
 
 .ai-composer-top {
@@ -9287,9 +9365,9 @@ body.docs-crop-active
 /* queue card above the composer */
 .ai-queue {
   margin-bottom: 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-12);
-  background: var(--color-bg-subtle);
+  border: 1px solid var(--border-strong);
+  border-radius: 0;
+  background: var(--surface);
   overflow: hidden;
 }
 
@@ -9300,10 +9378,13 @@ body.docs-crop-active
   padding: 8px 10px;
 }
 
+/* mockup-2: card titles read as green small-caps kickers */
 .ai-queue-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-tp-accent);
 }
 
 .ai-queue-count {
@@ -9345,7 +9426,7 @@ body.docs-crop-active
   align-items: center;
   gap: 6px;
   padding: 4px 4px 4px 6px;
-  border-radius: var(--radius-6);
+  border-radius: 0;
   font-size: 12px;
   color: var(--text);
   cursor: default;
@@ -9390,7 +9471,7 @@ body.docs-crop-active
   min-width: 0;
   padding: 2px 6px;
   border: 1px solid var(--accent);
-  border-radius: var(--radius-6);
+  border-radius: 0;
   background: var(--color-bg-page);
   color: var(--text);
   font-family: inherit;
@@ -9413,7 +9494,7 @@ body.docs-crop-active
   display: inline-flex;
   padding: 2px;
   border: none;
-  border-radius: var(--radius-6);
+  border-radius: 0;
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -9441,7 +9522,7 @@ body.docs-crop-active
 .ai-queue-discard {
   padding: 4px 10px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-6);
+  border-radius: 0;
   background: transparent;
   color: var(--color-text-secondary);
   font-size: 11.5px;
@@ -9456,8 +9537,8 @@ body.docs-crop-active
   margin-left: auto;
   padding: 4px 12px;
   border: 1px solid transparent;
-  border-radius: var(--radius-6);
-  background: var(--accent);
+  border-radius: 0;
+  background: var(--color-tp-accent);
   color: var(--docs-on-accent);
   font-size: 11.5px;
   cursor: pointer;
@@ -9467,6 +9548,27 @@ body.docs-crop-active
 .ai-queue-discard:disabled {
   opacity: 0.45;
   cursor: default;
+}
+
+/* Partial-draft decision card, floated at the page edge of the canvas: the
+ * draft already sits in the document awaiting Keep/Discard, so the decision
+ * anchors to the page instead of the foot of the AI panel. It pins to the
+ * window edge opposite the panel (the panel side flips it). */
+.ai-partial-float {
+  position: fixed;
+  top: 34%;
+  right: 24px;
+  width: 264px;
+  margin-bottom: 0;
+  padding: 4px 6px 6px;
+  border-left: 4px solid var(--color-tp-accent);
+  box-shadow: var(--docs-shadow-ctx);
+  z-index: 90;
+}
+
+html[data-ai-panel-side='right'] .ai-partial-float {
+  right: auto;
+  left: 24px;
 }
 
 /* composer card — 16px radius, default border, production float shadow */
@@ -9894,8 +9996,9 @@ body.docs-crop-active
   padding: 0 12px;
   height: 24px;
   font-size: 11.5px;
-  /* neutral chrome, unified with slides/sheets — no app-brand tint */
-  color: var(--text-dim);
+  /* mockup-2: the bar is the dark TechPartner rail tone in both themes,
+     with rail-text ink and white for the "on"/value states */
+  color: var(--docs-statusbar-ink);
   background: var(--docs-statusbar-bg);
   border-top: 1px solid var(--docs-statusbar-border);
 }
@@ -9930,11 +10033,12 @@ body.docs-crop-active
 
 .status-btn:disabled {
   cursor: default;
-  color: var(--text-dim);
+  color: inherit;
+  opacity: 0.55;
 }
 
 .status-track.on {
-  color: var(--accent);
+  color: var(--docs-statusbar-strong);
 }
 
 .status-msg {
@@ -10018,8 +10122,8 @@ body.docs-crop-active
 }
 
 .status-view-btn.on {
-  background: var(--active-bg);
-  color: var(--accent);
+  background: var(--docs-statusbar-hover);
+  color: var(--docs-statusbar-strong);
 }
 
 /* ================= modal ================= */
