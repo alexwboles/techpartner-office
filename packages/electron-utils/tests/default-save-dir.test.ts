@@ -132,22 +132,22 @@ describe('rebaseSavedPaths', () => {
 })
 
 describe('migrateLegacySaveDir', () => {
-  const setup = (withSettings?: Record<string, unknown>) => {
+  const setup = (withSettings?: (documents: string) => Record<string, unknown>) => {
     const userData = join(root, 'userData')
     const documents = join(root, 'Documents')
     mkdirSync(userData, { recursive: true })
     mkdirSync(documents, { recursive: true })
     if (withSettings !== undefined) {
-      writeFileSync(join(userData, 'app-settings.json'), JSON.stringify(withSettings))
+      writeFileSync(join(userData, 'app-settings.json'), JSON.stringify(withSettings(documents)))
     }
     return { userData, documents }
   }
 
   it('renames the legacy folder and rebases saved paths', () => {
-    const { userData, documents } = setup({
+    const { userData, documents } = setup((documents) => ({
       starred: [join(documents, 'GenOffice', 'plan.docx')],
       lastSessionDocuments: [join(documents, 'GenOffice', 'notes.md')],
-    })
+    }))
     const oldDir = join(documents, 'GenOffice')
     mkdirSync(oldDir)
     writeFileSync(join(oldDir, 'plan.docx'), 'x')
@@ -181,7 +181,7 @@ describe('migrateLegacySaveDir', () => {
   })
 
   it('respects a configured custom save folder', () => {
-    const { userData, documents } = setup({ defaultSaveDir: join(root, 'my-files') })
+    const { userData, documents } = setup(() => ({ defaultSaveDir: join(root, 'my-files') }))
     mkdirSync(join(documents, 'GenOffice'))
     expect(migrateLegacySaveDir(documents, userData)).toEqual({
       migrated: false,
@@ -191,9 +191,9 @@ describe('migrateLegacySaveDir', () => {
   })
 
   it('updates an explicit setting that points at the legacy folder', () => {
-    const { userData, documents } = setup({
+    const { userData, documents } = setup((documents) => ({
       defaultSaveDir: join(documents, 'GenOffice'),
-    })
+    }))
     mkdirSync(join(documents, 'GenOffice'))
     expect(migrateLegacySaveDir(documents, userData)).toEqual({
       migrated: true,
