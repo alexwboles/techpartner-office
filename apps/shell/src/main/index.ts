@@ -356,6 +356,7 @@ import {
 } from './knowledge-base'
 import { createFileViaCli } from './mcp/headless-cli'
 import { ProjectAiService } from './project-ai-service'
+import { BuildChatService } from './build-chat-service'
 import { buildTemplatePptx, buildTemplateXlsx } from './template-files'
 import { TEMPLATES, templateExtOf } from '../shared/template-defs'
 import { homeCliContext, runHomeCli, type HomeCliDeps } from './home-cli'
@@ -522,6 +523,30 @@ function ensureProjectAiService(): ProjectAiService {
     },
   })
   return projectAiService
+}
+
+/** Build chat service: one instance for the shell, sharing the bundled CLI. */
+let buildChatService: BuildChatService | null = null
+function ensureBuildChatService(): BuildChatService {
+  buildChatService ??= new BuildChatService({
+    cli: bundledCliRunner(),
+    userDataPath: app.getPath('userData'),
+    saveDir: () => defaultSaveDir(),
+    openFile: (path) => {
+      routeDocumentPath(path)
+    },
+    openDocsTemplate: ({ title, html }) => {
+      // the template gallery's docs path: HTML into a new blank tab, which
+      // saves itself under the title — no file exists until that first save
+      tabManager?.openDocsTab(undefined, {
+        newBlank: true,
+        aiContent: { title, html },
+      })
+      recordStarPromptDocOpen()
+      analytics.track('file_new', { kind: 'docx' })
+    },
+  })
+  return buildChatService
 }
 
 /** the bundled techpartner CLI on the app's own Node runtime (MCP headless tools, Ask AI create_document) */
@@ -5652,6 +5677,20 @@ function registerHomeIpc(): void {
   ipcMain.handle(HOME_CHANNELS.projectAiReject, (_event, id: unknown): void => {
     if (typeof id === 'string') ensureProjectAiService().rejectSuggestion(id)
   })
+
+  // Build chat: one chat turn per call; the service holds the conversation.
+  ipcMain.handle(HOME_CHANNELS.buildChatSend, async (_event, text: unknown) => {
+    if (typeof text !== 'string' || !text.trim()) {
+      throw new Error('A build chat message is required.')
+    }
+    return ensureBuildChatService().send(text)
+  })
+  ipcMain.handle(HOME_CHANNELS.buildChatReset, (): void => {
+    ensureBuildChatService().reset()
+  })
+  ipcMain.handle(HOME_CHANNELS.buildChatState, () => ({
+    modelAvailable: ensureBuildChatService().modelAvailable(),
+  }))
 
   ipcMain.handle(HOME_CHANNELS.pickDefaultSaveDir, async (): Promise<string | null> => {
     const result = await showOpenDialogWithMemory(dialog, shellWindow, {

@@ -621,6 +621,24 @@ const homeApi: HomeApi = {
   async projectAiReject(id) {
     await ipcRenderer.invoke(HOME_CHANNELS.projectAiReject, id)
   },
+  async buildChatSend(text) {
+    if (typeof text !== 'string' || !text.trim()) throw new Error('Invalid build chat message.')
+    return (await ipcRenderer.invoke(HOME_CHANNELS.buildChatSend, text)) as Awaited<
+      ReturnType<HomeApi['buildChatSend']>
+    >
+  },
+  async buildChatReset() {
+    await ipcRenderer.invoke(HOME_CHANNELS.buildChatReset)
+  },
+  async buildChatState() {
+    const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.buildChatState)
+    return {
+      modelAvailable:
+        typeof result === 'object' &&
+        result !== null &&
+        (result as { modelAvailable?: unknown }).modelAvailable === true,
+    }
+  },
   async cloudProjectsCached() {
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.cloudProjectsCached)
     return asCloudProjectsSnapshot(result)

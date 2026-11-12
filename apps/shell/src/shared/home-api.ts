@@ -14,6 +14,7 @@ import type {
 } from '@genoffice/ai-provider'
 import type { UpdateChannel, UpdateUiState } from './update-api'
 import type { ProjectAiProjectType, ProjectAiState } from './project-ai'
+import type { BuildChatTurn } from './build-chat'
 import type {
   AttachmentInfo,
   CliContext,
@@ -335,6 +336,13 @@ export interface HomeApi {
   projectAiAccept(id: string): Promise<boolean>
   /** drop one queued suggestion without applying it */
   projectAiReject(id: string): Promise<void>
+  // ---- Build chat (chat-driven file creation across Docs/Sheets/Slides) ----
+  /** one chat turn: the service clarifies, plans, confirms edits, builds */
+  buildChatSend(text: string): Promise<BuildChatTurn>
+  /** forget the conversation and any pending question / plan */
+  buildChatReset(): Promise<void>
+  /** whether a usable AI model is configured (false = template-only mode) */
+  buildChatState(): Promise<{ modelAvailable: boolean }>
   /** open an existing file, routing to the right module by extension */
   openHelp(): Promise<void>
   openPath(path: string): Promise<void>
@@ -756,4 +764,7 @@ export const HOME_CHANNELS = {
   projectAiReview: 'home:project-ai-review',
   projectAiAccept: 'home:project-ai-accept',
   projectAiReject: 'home:project-ai-reject',
+  buildChatSend: 'home:build-chat-send',
+  buildChatReset: 'home:build-chat-reset',
+  buildChatState: 'home:build-chat-state',
 } as const
