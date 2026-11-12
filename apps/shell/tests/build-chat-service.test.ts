@@ -232,20 +232,21 @@ describe('the edit-confirmation gate', () => {
     const harness = await makeHarness()
     const letterPath = join(harness.saveDir, 'letter.docx')
     await writeDocxFixture(letterPath, ['Dear Sir', 'Body text.'])
+    // scripted model replies, one per planWithAi call, in order: propose the
+    // edit, answer the follow-up with questions, propose the edit again
+    const scriptedReplies: Array<string | null> = [
+      editPlan(letterPath, 'Dear Sir', 'Dear Ms. Lee'),
+      '{"questions":["What instead?"]}',
+      editPlan(letterPath, 'Dear Sir', 'Dear Ms. Lee'),
+    ]
     const service = new BuildChatService({
       userDataPath: harness.saveDir,
       cli: cliStub,
       saveDir: () => harness.saveDir,
       openFile: (path) => harness.openedFiles.push(path),
       openDocsTemplate: (input) => harness.openedDocsTemplates.push(input),
-      planWithAi: async () => {
-        const replies = [
-          editPlan(letterPath, 'Dear Sir', 'Dear Ms. Lee'),
-          '{"questions":["What instead?"]}',
-          editPlan(letterPath, 'Dear Sir', 'Dear Ms. Lee'),
-        ]
-        return replies.shift() ?? null
-      },
+      planWithAi: async () =>
+        scriptedReplies.length > 0 ? (scriptedReplies.shift() ?? null) : null,
       writeDocxFile: async (markdown, out) => {
         await writeFile(out, markdown, 'utf8')
       },

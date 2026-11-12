@@ -167,7 +167,7 @@ describe('Settings → Integrations', () => {
     // MCP block: the launcher itself while techpartner is not on the PATH, as a command and as JSON
     const mcp = [...host.querySelectorAll('.set-intg-mcp code')].map((c) => c.textContent)
     expect(mcp[0]).toBe(
-      'claude mcp add --transport stdio techpartner -- /Applications/TechPartner Office.app/Contents/Resources/cli/techpartner mcp',
+      'claude mcp add --transport stdio techpartner -- "/Applications/TechPartner Office.app/Contents/Resources/cli/techpartner" mcp',
     )
     expect(JSON.parse(mcp[1]!)).toEqual({
       mcpServers: {
