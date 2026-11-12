@@ -340,7 +340,7 @@ export function isKnownSkillPath(path: unknown, root: string): path is string {
   return resolve(root) === dirname(dirname(file))
 }
 
-/** `metadata:\n  version: x` in the frontmatter, the same shape skills/genoffice uses */
+/** `metadata:\n  version: x` in the frontmatter, the same shape skills/techpartner uses */
 export function skillVersion(path: string): string {
   try {
     const fm = parseSkillFrontmatter(readFileSync(path, 'utf8'))

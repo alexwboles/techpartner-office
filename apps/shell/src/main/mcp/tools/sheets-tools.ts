@@ -69,7 +69,7 @@ function createHeadlessXlsxTool(deps: SheetsToolDeps): McpToolDefinition {
     description:
       'Create an Excel .xlsx file and save it to disk without opening the app UI. `data` is a 2D ' +
       'array of rows; numbers become numeric cells, and a string starting with "=" becomes a ' +
-      'formula (the genoffice CLI evaluates it and stores the cached value). Returns the absolute ' +
+      'formula (the techpartner CLI evaluates it and stores the cached value). Returns the absolute ' +
       'path of the written file.',
     inputSchema: {
       title: z.string().describe('workbook title, used as the file name'),

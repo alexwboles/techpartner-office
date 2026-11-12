@@ -64,6 +64,6 @@ Under **Local HTTP server** the app can run the server itself — an enable swit
 
 | Command            | What it does               |
 | ------------------ | -------------------------- |
-| `genoffice <file>` | open a file                |
-| `genoffice mcp`    | start the local MCP server |
-| `genoffice --help` | every command and flag     |
+| `techpartner <file>` | open a file                |
+| `techpartner mcp`    | start the local MCP server |
+| `techpartner --help` | every command and flag     |

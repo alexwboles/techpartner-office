@@ -42,7 +42,7 @@ const DEFAULT_NAMES = [
   'insert_content',
   'insert_picture',
   'open_documents',
-  'open_in_genoffice',
+  'open_in_techpartner',
   'read_deck',
   'read_document',
   'read_docx',
@@ -243,7 +243,7 @@ describe('MCP surface over Streamable HTTP (/mcp)', () => {
         formats: string[]
         families: Array<{ family: string; editor: { open: string[] }; mcp?: unknown }>
       }
-      expect(infoJson.name).toBe('GenOffice')
+      expect(infoJson.name).toBe('TechPartner Office')
       expect(infoJson.version).toBe('0.9.0-acceptance')
       expect(infoJson.defaultSaveDir).toBe(workDir)
       // background generation is off here, so create_docx/create_pptx/create_xlsx
@@ -384,16 +384,16 @@ describe('MCP surface over Streamable HTTP (/mcp)', () => {
       expect(savedSheet.isError).toBe(false)
       expect(sheets.saved).toEqual([join(workDir, 'book.xlsx')])
 
-      // ── 8. open_in_genoffice routes .docx, refuses others ────────────────
+      // ── 8. open_in_techpartner routes .docx, refuses others ────────────────
       const openableDocx = join(workDir, 'open-me.docx')
       await writeFile(openableDocx, 'placeholder')
-      const opened = await call(client, 'open_in_genoffice', { path: openableDocx })
+      const opened = await call(client, 'open_in_techpartner', { path: openableDocx })
       expect(opened.isError).toBe(false)
       expect(openedPaths).toContain(openableDocx)
 
       const notOpenable = join(workDir, 'note.txt')
       await writeFile(notOpenable, 'x')
-      const refusedOpen = await call(client, 'open_in_genoffice', { path: notOpenable })
+      const refusedOpen = await call(client, 'open_in_techpartner', { path: notOpenable })
       expect(refusedOpen.isError).toBe(true)
       expect(refusedOpen.text).toMatch(/could not open/)
 
@@ -555,7 +555,7 @@ describe('MCP surface over Streamable HTTP (/mcp)', () => {
       result?: { content?: Array<{ text?: string }> }
     }
     const infoText = (callBody.result?.content ?? []).map((c) => c.text ?? '').join('')
-    expect(infoText).toContain('GenOffice')
+    expect(infoText).toContain('TechPartner Office')
     console.log('[tools/call get_app_info] ok,', infoText.length, 'chars')
 
     // a bad session id is refused, not silently accepted

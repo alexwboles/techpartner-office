@@ -53,9 +53,10 @@ export async function startHttp(opts: HttpServeOptions): Promise<HttpHandle> {
   const files = new FileStore(
     join(tmpdir(), `genoffice-mcp-http-${process.pid}-${randomBytes(4).toString('hex')}`),
   )
-  const roots = opts.env.GENOFFICE_ALLOWED_ROOTS?.trim()
+  const roots = (opts.env.TECHPARTNER_ALLOWED_ROOTS || opts.env.GENOFFICE_ALLOWED_ROOTS)?.trim()
   const env = {
     ...opts.env,
+    TECHPARTNER_ALLOWED_ROOTS: roots ? `${roots}${delimiter}${files.root}` : files.root,
     GENOFFICE_ALLOWED_ROOTS: roots ? `${roots}${delimiter}${files.root}` : files.root,
   }
   const sessions = new Map<string, Session>()
@@ -83,7 +84,9 @@ export async function startHttp(opts: HttpServeOptions): Promise<HttpHandle> {
     // header would make us hand out download URLs pointing at an attacker host.
     // Ignore them by default; only honor them when the operator explicitly opts
     // in behind a trusted reverse proxy via GENOFFICE_TRUST_PROXY_HEADERS=1.
-    const trustProxy = opts.env.GENOFFICE_TRUST_PROXY_HEADERS === '1'
+    const trustProxy =
+      opts.env.TECHPARTNER_TRUST_PROXY_HEADERS === '1' ||
+      opts.env.GENOFFICE_TRUST_PROXY_HEADERS === '1'
     const forwardedProto = trustProxy ? header(req.headers['x-forwarded-proto']) : undefined
     const forwardedHost = trustProxy ? header(req.headers['x-forwarded-host']) : undefined
     const proto = forwardedProto?.split(',')[0]?.trim() || 'http'

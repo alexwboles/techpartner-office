@@ -1,11 +1,12 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { realizedPath } from './fs'
 import { CliError, EXIT } from './result'
 
-/** The shell's Electron userData directory, located without Electron (GENOFFICE_USER_DATA overrides). */
+/** The shell's Electron userData directory, located without Electron (TECHPARTNER_USER_DATA overrides; the pre-rename GENOFFICE_USER_DATA still works). */
 export function genofficeUserDataDir(env: NodeJS.ProcessEnv): string {
+  if (env.TECHPARTNER_USER_DATA) return env.TECHPARTNER_USER_DATA
   if (env.GENOFFICE_USER_DATA) return env.GENOFFICE_USER_DATA
   // Resolve the home from the env we were given (as os.homedir() does with process.env.HOME), so
   // an in-process caller with a substituted HOME never lands in the real user directories.
@@ -16,19 +17,21 @@ export function genofficeUserDataDir(env: NodeJS.ProcessEnv): string {
       : process.platform === 'win32'
         ? env.APPDATA || join(home, 'AppData', 'Roaming')
         : env.XDG_CONFIG_HOME || join(home, '.config')
-  return join(base, 'GenOffice')
+  return join(base, 'TechPartner Office')
 }
 
 /**
- * Every directory a live GenOffice may have published its registries under: the
- * packaged profile, then the dev profiles.
+ * Every directory a live TechPartner Office may have published its registries
+ * under: the packaged profile, then the dev profiles, then the pre-rename
+ * `GenOffice` profiles (a shell that has not run since the rebrand still
+ * publishes under the old name).
  *
  * The dev profile has been spelled two ways. It was `<name> Dev` until
  * genoffice#1879 moved the shell to `<name>-Dev` — a space breaks XDG config
  * entries, which are meant to be one token (genoffice#1817) — and the shell renames the
  * old directory on first run after that. Both spellings are scanned here, new
  * first, because a profile that was never migrated still has to be reachable:
- * a custom `GENOFFICE_USER_DATA`, a checkout whose shell has not run since the
+ * a custom `TECHPARTNER_USER_DATA`, a checkout whose shell has not run since the
  * rename, or a migration that could not move a busy directory.
  *
  * Both readers used to spell this list out on their own, and genoffice#1879
@@ -36,9 +39,11 @@ export function genofficeUserDataDir(env: NodeJS.ProcessEnv): string {
  * directory nothing wrote to any more.
  */
 export function genofficeUserDataDirs(env: NodeJS.ProcessEnv): string[] {
+  if (env.TECHPARTNER_USER_DATA) return [env.TECHPARTNER_USER_DATA]
   if (env.GENOFFICE_USER_DATA) return [env.GENOFFICE_USER_DATA]
   const packaged = genofficeUserDataDir(env)
-  return [packaged, `${packaged}-Dev`, `${packaged} Dev`]
+  const legacy = join(dirname(packaged), 'GenOffice')
+  return [packaged, `${packaged}-Dev`, `${packaged} Dev`, legacy, `${legacy}-Dev`, `${legacy} Dev`]
 }
 
 export interface GuiOpenDocuments {
@@ -47,7 +52,7 @@ export interface GuiOpenDocuments {
 }
 
 /**
- * Files the running GenOffice shell has open, from the registries it publishes
+ * Files the running TechPartner Office shell has open, from the registries it publishes
  * on every tab change (apps/shell/src/main/open-documents.ts). Empty when no
  * shell is running: a registry whose pid is gone is a crash leftover.
  */
@@ -90,12 +95,12 @@ export function assertNotOpenInGui(abs: string, env: NodeJS.ProcessEnv): void {
     if (!open.paths.some((p) => realizedPath(p) === target)) continue
     throw new CliError(
       EXIT.file,
-      `GenOffice has this file open: ${abs}`,
+      `TechPartner Office has this file open: ${abs}`,
       { gui_pid: open.pid },
       {
         reason: 'file_open_in_gui',
         suggestion:
-          'close the tab in GenOffice first, or pass --force to write anyway (the editor may overwrite your change on its next save)',
+          'close the tab in TechPartner Office first, or pass --force to write anyway (the editor may overwrite your change on its next save)',
       },
     )
   }

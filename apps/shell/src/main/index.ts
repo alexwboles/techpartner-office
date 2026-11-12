@@ -427,29 +427,37 @@ for (const stream of [process.stdout, process.stderr]) {
 // ANY unpacked run (`npm run shell`, `npm run dev`, `npx electron .`) must not
 // share the installed app's userData or single-instance lock — otherwise a dev
 // run silently quits and forwards its argv to the running installed GenOffice.
-// GENOFFICE_USER_DATA: test drivers point this at a scratch dir so an
-// automated instance can run alongside the dev instance (separate lock).
+// TECHPARTNER_USER_DATA (GENOFFICE_USER_DATA still works as a fallback):
+// test drivers point this at a scratch dir so an automated instance can run
+// alongside the dev instance (separate lock).
 if (!app.isPackaged) {
-  if (process.env.GENOFFICE_USER_DATA) {
-    app.setPath('userData', process.env.GENOFFICE_USER_DATA)
+  const userDataOverride = process.env.TECHPARTNER_USER_DATA || process.env.GENOFFICE_USER_DATA
+  if (userDataOverride) {
+    app.setPath('userData', userDataOverride)
   } else {
-    // The dev profile used to live in "GenOffice Dev"; the space breaks
-    // unquoted shell expansions, rsync targets and .desktop Exec= lines, and
-    // XDG config entries are single tokens (genoffice#1817). "GenOffice-Dev" keeps the
-    // family naming of the packaged profile ("GenOffice"). The old directory
-    // moves once — it sits on the same volume as appData, so the rename is
-    // atomic, and a concurrent dev instance keeps its open file handles.
+    // The dev profile used to live in "GenOffice Dev", then "GenOffice-Dev";
+    // the space in the oldest name breaks unquoted shell expansions, rsync
+    // targets and .desktop Exec= lines, and XDG config entries are single
+    // tokens (genoffice#1817). "TechPartner Office-Dev" keeps the family
+    // naming of the packaged profile ("TechPartner Office"). The old
+    // directory moves once — it sits on the same volume as appData, so the
+    // rename is atomic, and a concurrent dev instance keeps its open file
+    // handles.
     const appData = app.getPath('appData')
-    const devDir = join(appData, 'GenOffice-Dev')
-    const oldDevDir = join(appData, 'GenOffice Dev')
+    const devDir = join(appData, 'TechPartner Office-Dev')
+    const legacyDevDirs = [join(appData, 'GenOffice-Dev'), join(appData, 'GenOffice Dev')]
     let userData = devDir
-    if (existsSync(oldDevDir) && !existsSync(devDir)) {
-      try {
-        renameSync(oldDevDir, devDir)
-      } catch {
-        // another dev instance holds the directory: keep using the old one so
-        // the profile is not lost and the move is retried on the next launch
-        userData = oldDevDir
+    if (!existsSync(devDir)) {
+      for (const oldDevDir of legacyDevDirs) {
+        if (!existsSync(oldDevDir)) continue
+        try {
+          renameSync(oldDevDir, devDir)
+        } catch {
+          // another dev instance holds the directory: keep using the old one so
+          // the profile is not lost and the move is retried on the next launch
+          userData = oldDevDir
+        }
+        break
       }
     }
     app.setPath('userData', userData)
@@ -468,12 +476,21 @@ if (headlessArgv.kind !== 'none') {
   app.dock?.hide()
 }
 
-// The product rename from "AI Office" to GenOffice changed the userData path; migrate old user data once
+// The product renames from "AI Office" to GenOffice and then to TechPartner
+// Office changed the userData path; migrate old user data once, preferring
+// the newest legacy profile ("GenOffice") over the oldest ("AI Office")
 if (app.isPackaged) {
-  const oldDir = join(app.getPath('appData'), 'AI Office')
   const newDir = app.getPath('userData')
   const newEmpty = !existsSync(newDir) || readdirSync(newDir).length === 0
-  if (newEmpty && existsSync(oldDir)) cpSync(oldDir, newDir, { recursive: true })
+  if (newEmpty) {
+    for (const legacyName of ['GenOffice', 'AI Office']) {
+      const oldDir = join(app.getPath('appData'), legacyName)
+      if (existsSync(oldDir)) {
+        cpSync(oldDir, newDir, { recursive: true })
+        break
+      }
+    }
+  }
 }
 
 // module build outputs: packaged builds carry them as extraResources
@@ -507,13 +524,13 @@ function ensureProjectAiService(): ProjectAiService {
   return projectAiService
 }
 
-/** the bundled genoffice CLI on the app's own Node runtime (MCP headless tools, Ask AI create_document) */
+/** the bundled techpartner CLI on the app's own Node runtime (MCP headless tools, Ask AI create_document) */
 function bundledCliRunner(): ReturnType<typeof createCliRunner> {
   cliRunner ??= createCliRunner({
     executable: process.execPath,
     entry: app.isPackaged
-      ? join(process.resourcesPath, 'cli', 'genoffice.cjs')
-      : join(APPS_ROOT, '..', 'packages', 'cli', 'dist', 'genoffice.cjs'),
+      ? join(process.resourcesPath, 'cli', 'techpartner.cjs')
+      : join(APPS_ROOT, '..', 'packages', 'cli', 'dist', 'techpartner.cjs'),
     // the sheets engine the app itself runs; the CLI's own lookup only knows the packaged layout and a checkout
     env: existsSync(SIDECAR_BIN) ? { XLSX_SIDECAR_PATH: SIDECAR_BIN } : {},
   })
@@ -4602,7 +4619,7 @@ function newDocTab(): void {
 
 /** MCP: open a blank docs tab and return its webContents id, for the visible-editor bridge */
 function openBlankDocsTabForMcp(): number {
-  if (!tabManager) throw new Error('GenOffice is not ready')
+  if (!tabManager) throw new Error('TechPartner Office is not ready')
   const tabId = tabManager.openDocsTab(undefined, { newBlank: true })
   const view = tabManager.docsTabs().find((t) => t.id === tabId)
   if (!view) throw new Error('the new document tab could not be opened')
@@ -4619,7 +4636,7 @@ function openBlankDocsTabForMcp(): number {
  * marking is skipped, the file name is the agent's business.
  */
 async function openBlankSheetsTabForMcp(): Promise<number> {
-  if (!tabManager) throw new Error('GenOffice is not ready')
+  if (!tabManager) throw new Error('TechPartner Office is not ready')
   const filePath = uniquePathIn(defaultSaveDir(), `${tm('untitledSheet')}.xlsx`)
   await atomicWriteFile(filePath, await blankXlsxBuffer())
   const tabId = tabManager.openSheetsTab(filePath)
@@ -4690,7 +4707,7 @@ function abandonBlankTabForMcp(
 
 /** MCP: open a blank slides tab and return its webContents id, for the visible-deck bridge */
 function openBlankSlidesTabForMcp(): number {
-  if (!tabManager) throw new Error('GenOffice is not ready')
+  if (!tabManager) throw new Error('TechPartner Office is not ready')
   const tabId = tabManager.openSlidesTab()
   const view = tabManager.slidesTabs().find((t) => t.id === tabId)
   if (!view) throw new Error('the new presentation tab could not be opened')
@@ -7068,8 +7085,8 @@ registerIntegrationsIpc({
     ? join(process.resourcesPath, 'cli')
     : join(APPS_ROOT, '..', 'packages', 'cli', 'bin'),
   skillPath: app.isPackaged
-    ? join(process.resourcesPath, 'cli', 'skills', 'genoffice', 'SKILL.md')
-    : join(APPS_ROOT, '..', 'skills', 'genoffice', 'SKILL.md'),
+    ? join(process.resourcesPath, 'cli', 'skills', 'techpartner', 'SKILL.md')
+    : join(APPS_ROOT, '..', 'skills', 'techpartner', 'SKILL.md'),
   cliPackageJson: app.isPackaged
     ? join(process.resourcesPath, 'cli', 'package.json')
     : join(APPS_ROOT, '..', 'packages', 'cli', 'package.json'),

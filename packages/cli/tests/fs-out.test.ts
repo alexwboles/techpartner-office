@@ -11,7 +11,7 @@ describe('resolveOutput', () => {
     const dir = mkdtempSync(join(tmpdir(), 'genoffice-out-'))
     const input = join(dir, 'deck.pptx')
     writeFileSync(input, 'source')
-    const ctx = { cwd: dir, env: { ...process.env, GENOFFICE_ALLOWED_ROOTS: '' } }
+    const ctx = { cwd: dir, env: { ...process.env, TECHPARTNER_ALLOWED_ROOTS: '' } }
     // `--out=` is an empty value, not an absent flag
     const args = parseArgs(['slides', 'apply', 'deck.pptx', '--ops', 'ops.json', '--out='])
     const out = flagString(args, 'out')

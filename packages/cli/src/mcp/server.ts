@@ -23,7 +23,7 @@ import { buildArgv, resolveTools, toolShape, type ResolvedTool } from './tools'
 const ABOUT =
   'GenOffice: create, read, convert, edit and render Office documents locally (docx, xlsx, pptx, pdf, md, html, csv). The app need not be running; render, convert-to-pdf and create_pdf start a hidden GenOffice process for a few seconds.'
 const WORKFLOW = [
-  'Editing: read the file with the *_read tool, write the ops with the op reference from guide (or the genoffice://guide/* resources), then *_apply. A rejected op names its index and reason; fix that op and resend the whole batch.',
+  'Editing: read the file with the *_read tool, write the ops with the op reference from guide (or the techpartner://guide/* resources), then *_apply. A rejected op names its index and reason; fix that op and resend the whole batch.',
   'A new presentation: a short deck (up to about 5 slides, or concrete content without a design brief) is one create_pptx call with ops or a spec, then slides_render. Longer or design-sensitive decks a person will present: deck_start (style sheet + outline), deck_page once per page in order, deck_build, then slides_render to look and slides_audit for geometry, deck_replace to fix a page. Edits to an existing deck: slides_read + slides_apply, keeping its design.',
 ]
 
@@ -48,31 +48,31 @@ export function remoteInstructions(baseUrl: string): string {
 
 const GUIDES: { uri: string; name: string; argv: string[]; description: string }[] = [
   {
-    uri: 'genoffice://guide/docs',
+    uri: 'techpartner://guide/docs',
     name: 'Word ops reference',
     argv: ['guide', 'docs'],
     description: 'every docs_apply op with its fields and the restricted-HTML rules',
   },
   {
-    uri: 'genoffice://guide/sheets',
+    uri: 'techpartner://guide/sheets',
     name: 'Excel ops reference',
     argv: ['guide', 'sheets'],
     description: 'every sheet_apply DSL op with its fields',
   },
   {
-    uri: 'genoffice://guide/slides',
+    uri: 'techpartner://guide/slides',
     name: 'PowerPoint ops reference',
     argv: ['guide', 'slides'],
     description: 'the slides_apply op groups and vocabulary',
   },
   {
-    uri: 'genoffice://guide/slides/design',
+    uri: 'techpartner://guide/slides/design',
     name: 'Deck design guide',
     argv: ['guide', 'slides', 'design'],
     description: 'the staged deck workflow: style sheet, outline, one page at a time, build, QC',
   },
   {
-    uri: 'genoffice://guide/slides/spec',
+    uri: 'techpartner://guide/slides/spec',
     name: 'Deck spec format',
     argv: ['guide', 'slides', 'spec'],
     description: 'the outline and one-page spec JSON the deck_* tools take',

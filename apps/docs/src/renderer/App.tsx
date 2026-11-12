@@ -2720,7 +2720,7 @@ export function App() {
       window.desktop.onZoteroRequest(async (request) => {
         try {
           const activeEditor = editorRef.current
-          if (!activeEditor) throw new Error('No active GenOffice document')
+          if (!activeEditor) throw new Error('No active TechPartner Office document')
           const controller =
             zoteroControllerRef.current ??
             new ZoteroDocumentController(activeEditor, {

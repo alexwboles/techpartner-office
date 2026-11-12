@@ -342,8 +342,6 @@ export const strings = {
     intgOtherFolderDesc: '选择它的 skills 目录，TechPartner Office 把文件写进去。',
     intgOtherZipTitle: '把文件交给助手',
     intgOtherZipDesc: '把 skill 保存为 zip，然后让助手自己安装。',
-    intgOtherNpxTitle: '用 skills 命令安装（需要 Node.js）',
-    intgOtherNpxDesc: '在终端运行：',
     intgCopy: '复制',
     intgStep2Title: '试一试',
     intgStep2Desc: '在助手里新开一个对话，用平常说话的方式提需求，例如：',
@@ -351,19 +349,19 @@ export const strings = {
     intgExample1: '把 ~/Downloads/report.md 转成 Word 文档',
     intgExample2: '做一份 6 页的幻灯片，介绍我们第三季度的业绩',
     intgExample3: '把 budget.xlsx 转成 PDF，并在 TechPartner Office 里打开',
-    intgStep2Note: '助手会自己调用 genoffice 命令行，你不需要输入任何命令。',
+    intgStep2Note: '助手会自己调用 techpartner 命令行，你不需要输入任何命令。',
     intgCliPartTitle: 'CLI · 命令行 + skill',
     intgCliPartDesc:
-      '适合能运行终端命令的助手（Claude Code、Codex、Cursor 等）。安装 skill 后，助手会自己调用 genoffice 命令行创建、转换、读取和编辑文件，你不需要输入任何命令。',
+      '适合能运行终端命令的助手（Claude Code、Codex、Cursor 等）。安装 skill 后，助手会自己调用 techpartner 命令行创建、转换、读取和编辑文件，你不需要输入任何命令。',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP 是 AI 助手调用外部工具的通用协议。助手不能运行命令（如 Claude Desktop），或你想让它直接操作 GenOffice 窗口时用这条路。下面两种接法任选一种。',
+      'MCP 是 AI 助手调用外部工具的通用协议。助手不能运行命令（如 Claude Desktop），或你想让它直接操作 TechPartner Office 窗口时用这条路。下面两种接法任选一种。',
     intgMcpStdioTitle: '由助手启动（推荐）',
     intgMcpStdioDesc:
-      '助手自己拉起 genoffice mcp，不需要在这里开任何开关，GenOffice 也不用开着。功能与 CLI 完全相同。',
+      '助手自己拉起 techpartner mcp，不需要在这里开任何开关，TechPartner Office 也不用开着。功能与 CLI 完全相同。',
     intgMcpHttpTitle: '本地 HTTP 服务',
     intgMcpHttpDesc:
-      '在 GenOffice 内运行，助手通过网址连接，可以看着它在 Word 编辑器里逐步生成。需要 GenOffice 保持打开；目前只支持 Word。',
+      '在 TechPartner Office 内运行，助手通过网址连接，可以看着它在 Docs 编辑器里逐步生成。需要 TechPartner Office 保持打开；目前只支持 Word。',
     intgMcpHttpAdvanced: '高级：其他地址与日志',
     intgMcpTryNote: '助手会通过 MCP 调用 TechPartner Office，你不需要输入任何命令。',
     intgMcpClaudeTitle: 'Claude Code',
@@ -372,10 +370,10 @@ export const strings = {
     intgMcpOtherDesc:
       '把这段加进它的 MCP 服务器配置（一个 JSON 文件，或设置里的「添加 MCP 服务器」）：',
     intgMcpNote: 'skill 和 MCP 可以同时存在，助手会自己选用；两者做的事完全一样。',
-    intgCliTitle: '高级：命令行 genoffice',
-    intgCliReady: 'genoffice {v} · 已可在终端直接使用（{path}）',
+    intgCliTitle: '高级：命令行 techpartner',
+    intgCliReady: 'techpartner {v} · 已可在终端直接使用（{path}）',
     intgCliNotOnPath:
-      'genoffice {v} · 尚未加入终端 PATH。助手仍能通过 ~/.genoffice/launcher 找到它，skill 不受影响。若想自己在终端输入 genoffice，运行一次：',
+      'techpartner {v} · 尚未加入终端 PATH。助手仍能通过 ~/.techpartner-office/launcher 找到它，skill 不受影响。若想自己在终端输入 techpartner，运行一次：',
     intgCliLauncher: '启动器目录',
     intgStateOutdated: '已安装 {v}，可更新到 {next}',
     intgStateModified: '已安装 {v}（已被修改）',
@@ -915,8 +913,6 @@ export const strings = {
     intgOtherFolderDesc: 'Pick its skills folder and TechPartner Office writes the file there.',
     intgOtherZipTitle: 'Hand the file to the assistant',
     intgOtherZipDesc: 'Save the skill as a zip, then ask the assistant to install it.',
-    intgOtherNpxTitle: 'With the skills command (needs Node.js)',
-    intgOtherNpxDesc: 'Run this in a terminal:',
     intgCopy: 'Copy',
     intgStep2Title: 'Try it',
     intgStep2Desc: 'Open a new chat in your assistant and ask in plain words, for example:',
@@ -926,19 +922,19 @@ export const strings = {
     intgExample2: 'Make a 6-slide deck about our Q3 results',
     intgExample3: 'Convert budget.xlsx to PDF and open it in TechPartner Office',
     intgStep2Note:
-      'The assistant runs the genoffice command line itself; you never have to type it.',
+      'The assistant runs the techpartner command line itself; you never have to type it.',
     intgCliPartTitle: 'CLI · command line + skill',
     intgCliPartDesc:
-      'For assistants that can run terminal commands (Claude Code, Codex, Cursor and others). Once the skill is installed, the assistant calls the genoffice command line itself to create, convert, read and edit files; you never type a command.',
+      'For assistants that can run terminal commands (Claude Code, Codex, Cursor and others). Once the skill is installed, the assistant calls the techpartner command line itself to create, convert, read and edit files; you never type a command.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP is the common protocol AI assistants use to call external tools. Use it when your assistant cannot run commands (Claude Desktop, for example) or when you want it to drive the GenOffice window directly. Pick either of the two ways below.',
+      'MCP is the common protocol AI assistants use to call external tools. Use it when your assistant cannot run commands (Claude Desktop, for example) or when you want it to drive the TechPartner Office window directly. Pick either of the two ways below.',
     intgMcpStdioTitle: 'Started by the assistant (recommended)',
     intgMcpStdioDesc:
-      'The assistant launches genoffice mcp itself: nothing to switch on here, and GenOffice does not need to be open. Same features as the CLI.',
+      'The assistant launches techpartner mcp itself: nothing to switch on here, and TechPartner Office does not need to be open. Same features as the CLI.',
     intgMcpHttpTitle: 'Local HTTP server',
     intgMcpHttpDesc:
-      'Runs inside GenOffice; the assistant connects to a URL and you can watch it build the document step by step in the Word editor. GenOffice must stay open; Word documents only for now.',
+      'Runs inside TechPartner Office; the assistant connects to a URL and you can watch it build the document step by step in the Docs editor. TechPartner Office must stay open; Docs only for now.',
     intgMcpHttpAdvanced: 'Advanced: other endpoints and log',
     intgMcpTryNote: 'The assistant calls TechPartner Office through MCP; you never type a command.',
     intgMcpClaudeTitle: 'Claude Code',
@@ -948,10 +944,10 @@ export const strings = {
       'Add this to its MCP server settings (a JSON file, or "Add MCP server" in its settings):',
     intgMcpNote:
       'The skill and MCP can be set up side by side; the assistant picks one. They do exactly the same things.',
-    intgCliTitle: 'Advanced: genoffice command line',
-    intgCliReady: 'genoffice {v} · ready in your terminal ({path})',
+    intgCliTitle: 'Advanced: techpartner command line',
+    intgCliReady: 'techpartner {v} · ready in your terminal ({path})',
     intgCliNotOnPath:
-      "genoffice {v} · not on your terminal's PATH. Assistants still find it through ~/.genoffice/launcher, so the skill works. To type genoffice yourself, run this once:",
+      "techpartner {v} · not on your terminal's PATH. Assistants still find it through ~/.techpartner-office/launcher, so the skill works. To type techpartner yourself, run this once:",
     intgCliLauncher: 'Launcher folder',
     intgStateOutdated: 'Installed {v}, update to {next} available',
     intgStateModified: 'Installed {v} (modified)',
@@ -1496,8 +1492,6 @@ export const strings = {
     intgOtherFolderDesc: 'Chọn thư mục kỹ năng của trợ lý và TechPartner Office sẽ ghi tệp vào đó.',
     intgOtherZipTitle: 'Giao tệp cho trợ lý',
     intgOtherZipDesc: 'Lưu kỹ năng dưới dạng zip, sau đó yêu cầu trợ lý cài đặt.',
-    intgOtherNpxTitle: 'Bằng lệnh skills (yêu cầu Node.js)',
-    intgOtherNpxDesc: 'Chạy lệnh này trong terminal:',
     intgCopy: 'Sao chép',
     intgStep2Title: 'Dùng thử',
     intgStep2Desc:
@@ -1507,19 +1501,19 @@ export const strings = {
     intgExample1: 'Chuyển đổi ~/Downloads/report.md thành tài liệu Word',
     intgExample2: 'Tạo bài thuyết trình 6 trang trình bày về kết quả quý 3 của chúng tôi',
     intgExample3: 'Chuyển đổi budget.xlsx sang PDF và mở trong TechPartner Office',
-    intgStep2Note: 'Trợ lý tự chạy dòng lệnh genoffice; bạn không bao giờ phải nhập lệnh.',
+    intgStep2Note: 'Trợ lý tự chạy dòng lệnh techpartner; bạn không bao giờ phải nhập lệnh.',
     intgCliPartTitle: 'CLI · dòng lệnh + kỹ năng',
     intgCliPartDesc:
-      'Dành cho các trợ lý có thể chạy lệnh terminal (Claude Code, Codex, Cursor và các trợ lý khác). Khi kỹ năng đã được cài đặt, trợ lý sẽ tự gọi dòng lệnh genoffice để tạo, chuyển đổi, đọc và chỉnh sửa tệp; bạn không cần nhập lệnh.',
+      'Dành cho các trợ lý có thể chạy lệnh terminal (Claude Code, Codex, Cursor và các trợ lý khác). Khi kỹ năng đã được cài đặt, trợ lý sẽ tự gọi dòng lệnh techpartner để tạo, chuyển đổi, đọc và chỉnh sửa tệp; bạn không cần nhập lệnh.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP là giao thức tiêu chuẩn mà các trợ lý AI dùng để gọi công cụ bên ngoài. Sử dụng khi trợ lý của bạn không thể chạy lệnh (ví dụ Claude Desktop) hoặc khi bạn muốn trợ lý điều khiển trực tiếp cửa sổ GenOffice. Chọn một trong hai cách bên dưới.',
+      'MCP là giao thức tiêu chuẩn mà các trợ lý AI dùng để gọi công cụ bên ngoài. Sử dụng khi trợ lý của bạn không thể chạy lệnh (ví dụ Claude Desktop) hoặc khi bạn muốn trợ lý điều khiển trực tiếp cửa sổ TechPartner Office. Chọn một trong hai cách bên dưới.',
     intgMcpStdioTitle: 'Được khởi động bởi trợ lý (khuyến nghị)',
     intgMcpStdioDesc:
-      'Trợ lý sẽ tự khởi chạy genoffice mcp: không cần bật gì ở đây và GenOffice không cần phải mở. Có đầy đủ tính năng tương tự CLI.',
+      'Trợ lý sẽ tự khởi chạy techpartner mcp: không cần bật gì ở đây và TechPartner Office không cần phải mở. Có đầy đủ tính năng tương tự CLI.',
     intgMcpHttpTitle: 'Máy chủ HTTP cục bộ',
     intgMcpHttpDesc:
-      'Chạy bên trong GenOffice; trợ lý kết nối với một URL và bạn có thể theo dõi nó tạo tài liệu từng bước trong trình chỉnh sửa Word. GenOffice phải luôn mở; hiện tại chỉ hỗ trợ tài liệu Word.',
+      'Chạy bên trong TechPartner Office; trợ lý kết nối với một URL và bạn có thể theo dõi nó tạo tài liệu từng bước trong trình chỉnh sửa Docs. TechPartner Office phải luôn mở; hiện tại chỉ hỗ trợ tài liệu Word.',
     intgMcpHttpAdvanced: 'Nâng cao: các điểm cuối khác và nhật ký',
     intgMcpTryNote:
       'Trợ lý gọi TechPartner Office thông qua MCP; bạn không bao giờ phải nhập lệnh.',
@@ -1530,10 +1524,10 @@ export const strings = {
       'Thêm nội dung này vào cài đặt máy chủ MCP của trợ lý (tệp JSON hoặc "Add MCP server" trong phần cài đặt):',
     intgMcpNote:
       'Kỹ năng và MCP có thể được thiết lập song song; trợ lý sẽ chọn một trong hai. Chúng thực hiện chức năng hoàn toàn giống nhau.',
-    intgCliTitle: 'Nâng cao: dòng lệnh genoffice',
-    intgCliReady: 'genoffice {v} · đã sẵn sàng trong terminal của bạn ({path})',
+    intgCliTitle: 'Nâng cao: dòng lệnh techpartner',
+    intgCliReady: 'techpartner {v} · đã sẵn sàng trong terminal của bạn ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · không có trong PATH của terminal. Trợ lý vẫn tìm thấy qua ~/.genoffice/launcher, vì vậy kỹ năng vẫn hoạt động. Để tự chạy lệnh genoffice, hãy thực hiện lệnh này một lần:',
+      'techpartner {v} · không có trong PATH của terminal. Trợ lý vẫn tìm thấy qua ~/.techpartner-office/launcher, vì vậy kỹ năng vẫn hoạt động. Để tự chạy lệnh techpartner, hãy thực hiện lệnh này một lần:',
     intgCliLauncher: 'Thư mục trình khởi chạy',
     intgStateOutdated: 'Đã cài đặt {v}, có bản cập nhật lên {next}',
     intgStateModified: 'Đã cài đặt {v} (đã sửa đổi)',
@@ -2083,8 +2077,6 @@ export const strings = {
     intgOtherFolderDesc: 'Beceri klasörünü seçin, TechPartner Office dosyayı oraya yazsın.',
     intgOtherZipTitle: 'Dosyayı asistana verin',
     intgOtherZipDesc: 'Beceriyi zip olarak kaydedin, sonra asistandan yüklemesini isteyin.',
-    intgOtherNpxTitle: 'skills komutuyla (Node.js gerekir)',
-    intgOtherNpxDesc: 'Bunu bir terminalde çalıştırın:',
     intgCopy: 'Kopyala',
     intgStep2Title: 'Deneyin',
     intgStep2Desc: 'Asistanınızda yeni bir sohbet açın ve düz sözcüklerle isteyin, örneğin:',
@@ -2094,19 +2086,19 @@ export const strings = {
     intgExample2: '3. çeyrek sonuçlarımız hakkında 6 slaytlık bir sunu hazırla',
     intgExample3: 'budget.xlsx dosyasını PDF’e dönüştür ve TechPartner Office’te aç',
     intgStep2Note:
-      'genoffice komut satırını asistan kendisi çalıştırır; sizin yazmanız hiç gerekmez.',
+      'techpartner komut satırını asistan kendisi çalıştırır; sizin yazmanız hiç gerekmez.',
     intgCliPartTitle: 'CLI · komut satırı + beceri',
     intgCliPartDesc:
-      'Terminal komutları çalıştırabilen asistanlar için (Claude Code, Codex, Cursor ve diğerleri). Beceri yüklendikten sonra asistan, dosya oluşturmak, dönüştürmek, okumak ve düzenlemek için genoffice komut satırını kendisi çağırır; siz hiç komut yazmazsınız.',
+      'Terminal komutları çalıştırabilen asistanlar için (Claude Code, Codex, Cursor ve diğerleri). Beceri yüklendikten sonra asistan, dosya oluşturmak, dönüştürmek, okumak ve düzenlemek için techpartner komut satırını kendisi çağırır; siz hiç komut yazmazsınız.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP, AI asistanlarının harici araçları çağırmak için kullandığı ortak protokoldür. Asistanınız komut çalıştıramıyorsa (örneğin Claude Desktop) ya da GenOffice penceresini doğrudan yönetmesini istiyorsanız kullanın. Aşağıdaki iki yoldan birini seçin.',
+      'MCP, AI asistanlarının harici araçları çağırmak için kullandığı ortak protokoldür. Asistanınız komut çalıştıramıyorsa (örneğin Claude Desktop) ya da TechPartner Office penceresini doğrudan yönetmesini istiyorsanız kullanın. Aşağıdaki iki yoldan birini seçin.',
     intgMcpStdioTitle: 'Asistan tarafından başlatılır (önerilen)',
     intgMcpStdioDesc:
-      'Asistan genoffice mcp’yi kendisi başlatır: burada açılacak bir şey yoktur ve GenOffice’in açık olması gerekmez. CLI ile aynı özellikler.',
+      'Asistan techpartner mcp’yi kendisi başlatır: burada açılacak bir şey yoktur ve TechPartner Office’in açık olması gerekmez. CLI ile aynı özellikler.',
     intgMcpHttpTitle: 'Yerel HTTP sunucusu',
     intgMcpHttpDesc:
-      'GenOffice içinde çalışır; asistan bir URL’ye bağlanır ve belgeyi Word düzenleyicisinde adım adım oluşturmasını izleyebilirsiniz. GenOffice açık kalmalıdır; şimdilik yalnızca Word belgeleri.',
+      'TechPartner Office içinde çalışır; asistan bir URL’ye bağlanır ve belgeyi Docs düzenleyicisinde adım adım oluşturmasını izleyebilirsiniz. TechPartner Office açık kalmalıdır; şimdilik yalnızca Word belgeleri.',
     intgMcpHttpAdvanced: 'Gelişmiş: diğer uç noktalar ve günlük',
     intgMcpTryNote:
       'Asistan TechPartner Office’i MCP üzerinden çağırır; siz hiç komut yazmazsınız.',
@@ -2117,10 +2109,10 @@ export const strings = {
       'Bunu MCP sunucu ayarlarına ekleyin (bir JSON dosyası ya da ayarlarındaki "MCP sunucusu ekle"):',
     intgMcpNote:
       'Beceri ve MCP yan yana kurulabilir; asistan birini seçer. İkisi de tamamen aynı şeyleri yapar.',
-    intgCliTitle: 'Gelişmiş: genoffice komut satırı',
-    intgCliReady: 'genoffice {v} · terminalinizde hazır ({path})',
+    intgCliTitle: 'Gelişmiş: techpartner komut satırı',
+    intgCliReady: 'techpartner {v} · terminalinizde hazır ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · terminalinizin PATH’inde değil. Asistanlar onu yine de ~/.genoffice/launcher üzerinden bulur, bu yüzden beceri çalışır. genoffice’i kendiniz yazmak için bunu bir kez çalıştırın:',
+      'techpartner {v} · terminalinizin PATH’inde değil. Asistanlar onu yine de ~/.techpartner-office/launcher üzerinden bulur, bu yüzden beceri çalışır. techpartner’i kendiniz yazmak için bunu bir kez çalıştırın:',
     intgCliLauncher: 'Başlatıcı klasörü',
     intgStateOutdated: '{v} yüklü, {next} sürümüne güncelleme mevcut',
     intgStateModified: '{v} yüklü (değiştirilmiş)',
@@ -2684,8 +2676,6 @@ export const strings = {
       'その skills フォルダーを選ぶと、TechPartner Office がファイルを書き込みます。',
     intgOtherZipTitle: 'ファイルをアシスタントに渡す',
     intgOtherZipDesc: 'スキルを zip で保存し、アシスタントにインストールを頼みます。',
-    intgOtherNpxTitle: 'skills コマンドで入れる（Node.js が必要）',
-    intgOtherNpxDesc: 'ターミナルで次を実行：',
     intgCopy: 'コピー',
     intgStep2Title: '試してみる',
     intgStep2Desc: 'アシスタントで新しいチャットを開き、普通の言葉で頼んでください。例：',
@@ -2695,19 +2685,19 @@ export const strings = {
     intgExample2: '第 3 四半期の業績について 6 枚のスライドを作って',
     intgExample3: 'budget.xlsx を PDF に変換して TechPartner Office で開いて',
     intgStep2Note:
-      'genoffice コマンドラインはアシスタントが自分で実行します。あなたが入力する必要はありません。',
+      'techpartner コマンドラインはアシスタントが自分で実行します。あなたが入力する必要はありません。',
     intgCliPartTitle: 'CLI · コマンドライン + skill',
     intgCliPartDesc:
-      'ターミナルコマンドを実行できるアシスタント（Claude Code、Codex、Cursor など）向け。skill をインストールすると、アシスタントが自分で genoffice コマンドラインを呼び出してファイルを作成・変換・読み取り・編集します。コマンドを入力する必要はありません。',
+      'ターミナルコマンドを実行できるアシスタント（Claude Code、Codex、Cursor など）向け。skill をインストールすると、アシスタントが自分で techpartner コマンドラインを呼び出してファイルを作成・変換・読み取り・編集します。コマンドを入力する必要はありません。',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP は AI アシスタントが外部ツールを呼び出すための共通プロトコルです。アシスタントがコマンドを実行できない場合（Claude Desktop など）や、GenOffice のウィンドウを直接操作させたい場合に使います。下の 2 つの方法からどちらか 1 つを選んでください。',
+      'MCP は AI アシスタントが外部ツールを呼び出すための共通プロトコルです。アシスタントがコマンドを実行できない場合（Claude Desktop など）や、TechPartner Office のウィンドウを直接操作させたい場合に使います。下の 2 つの方法からどちらか 1 つを選んでください。',
     intgMcpStdioTitle: 'アシスタントが起動する（推奨）',
     intgMcpStdioDesc:
-      'アシスタントが genoffice mcp を自分で起動します。ここで何かをオンにする必要はなく、GenOffice を開いておく必要もありません。機能は CLI と同じです。',
+      'アシスタントが techpartner mcp を自分で起動します。ここで何かをオンにする必要はなく、TechPartner Office を開いておく必要もありません。機能は CLI と同じです。',
     intgMcpHttpTitle: 'ローカル HTTP サーバー',
     intgMcpHttpDesc:
-      'GenOffice 内で動作し、アシスタントは URL で接続します。Word エディター上で文書が段階的に生成される様子を見られます。GenOffice を開いたままにする必要があり、現時点では Word のみ対応です。',
+      'TechPartner Office 内で動作し、アシスタントは URL で接続します。Docs エディター上で文書が段階的に生成される様子を見られます。TechPartner Office を開いたままにする必要があり、現時点では Word のみ対応です。',
     intgMcpHttpAdvanced: '詳細：その他のエンドポイントとログ',
     intgMcpTryNote:
       'アシスタントが MCP 経由で TechPartner Office を呼び出します。コマンドを入力する必要はありません。',
@@ -2718,10 +2708,10 @@ export const strings = {
       'これを MCP サーバー設定（JSON ファイル、または設定の「MCP サーバーを追加」）に追加します：',
     intgMcpNote:
       'スキルと MCP は併用できます。アシスタントがどちらかを選びます。両者の機能はまったく同じです。',
-    intgCliTitle: '上級：コマンドライン genoffice',
-    intgCliReady: 'genoffice {v} · ターミナルで使えます（{path}）',
+    intgCliTitle: '上級：コマンドライン techpartner',
+    intgCliReady: 'techpartner {v} · ターミナルで使えます（{path}）',
     intgCliNotOnPath:
-      'genoffice {v} · ターミナルの PATH にありません。アシスタントは ~/.genoffice/launcher 経由で見つけられるため、スキルは動作します。自分で genoffice を入力したい場合は一度だけ次を実行：',
+      'techpartner {v} · ターミナルの PATH にありません。アシスタントは ~/.techpartner-office/launcher 経由で見つけられるため、スキルは動作します。自分で techpartner を入力したい場合は一度だけ次を実行：',
     intgCliLauncher: 'ランチャーフォルダー',
     intgStateOutdated: 'インストール済み {v}、{next} に更新できます',
     intgStateModified: 'インストール済み {v}（変更されています）',
@@ -3273,8 +3263,6 @@ export const strings = {
     intgOtherFolderDesc: '해당 skills 폴더를 선택하면 TechPartner Office가 파일을 기록합니다.',
     intgOtherZipTitle: '파일을 어시스턴트에게 전달',
     intgOtherZipDesc: '스킬을 zip으로 저장한 뒤 어시스턴트에게 설치를 요청하세요.',
-    intgOtherNpxTitle: 'skills 명령으로 설치(Node.js 필요)',
-    intgOtherNpxDesc: '터미널에서 실행:',
     intgCopy: '복사',
     intgStep2Title: '사용해 보기',
     intgStep2Desc: '어시스턴트에서 새 대화를 열고 평소 말투로 요청하세요. 예:',
@@ -3283,19 +3271,19 @@ export const strings = {
     intgExample2: '3분기 실적을 소개하는 6장짜리 슬라이드를 만들어 줘',
     intgExample3: 'budget.xlsx를 PDF로 변환해서 TechPartner Office에서 열어 줘',
     intgStep2Note:
-      'genoffice 명령줄은 어시스턴트가 직접 실행하므로 여러분이 입력할 필요가 없습니다.',
+      'techpartner 명령줄은 어시스턴트가 직접 실행하므로 여러분이 입력할 필요가 없습니다.',
     intgCliPartTitle: 'CLI · 명령줄 + skill',
     intgCliPartDesc:
-      '터미널 명령을 실행할 수 있는 어시스턴트(Claude Code, Codex, Cursor 등)용입니다. skill을 설치하면 어시스턴트가 스스로 genoffice 명령줄을 호출해 파일을 만들고 변환하고 읽고 편집합니다. 명령을 직접 입력할 필요가 없습니다.',
+      '터미널 명령을 실행할 수 있는 어시스턴트(Claude Code, Codex, Cursor 등)용입니다. skill을 설치하면 어시스턴트가 스스로 techpartner 명령줄을 호출해 파일을 만들고 변환하고 읽고 편집합니다. 명령을 직접 입력할 필요가 없습니다.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP는 AI 어시스턴트가 외부 도구를 호출하는 공통 프로토콜입니다. 어시스턴트가 명령을 실행할 수 없거나(예: Claude Desktop) GenOffice 창을 직접 조작하게 하려면 이 방식을 사용하세요. 아래 두 방법 중 하나를 선택하면 됩니다.',
+      'MCP는 AI 어시스턴트가 외부 도구를 호출하는 공통 프로토콜입니다. 어시스턴트가 명령을 실행할 수 없거나(예: Claude Desktop) TechPartner Office 창을 직접 조작하게 하려면 이 방식을 사용하세요. 아래 두 방법 중 하나를 선택하면 됩니다.',
     intgMcpStdioTitle: '어시스턴트가 실행(권장)',
     intgMcpStdioDesc:
-      '어시스턴트가 genoffice mcp를 직접 실행합니다. 여기서 켤 것이 없고 GenOffice가 열려 있을 필요도 없습니다. 기능은 CLI와 같습니다.',
+      '어시스턴트가 techpartner mcp를 직접 실행합니다. 여기서 켤 것이 없고 TechPartner Office가 열려 있을 필요도 없습니다. 기능은 CLI와 같습니다.',
     intgMcpHttpTitle: '로컬 HTTP 서버',
     intgMcpHttpDesc:
-      'GenOffice 안에서 실행되며 어시스턴트가 URL로 연결합니다. Word 편집기에서 문서가 단계별로 만들어지는 과정을 볼 수 있습니다. GenOffice를 열어 두어야 하며 현재는 Word만 지원합니다.',
+      'TechPartner Office 안에서 실행되며 어시스턴트가 URL로 연결합니다. Docs 편집기에서 문서가 단계별로 만들어지는 과정을 볼 수 있습니다. TechPartner Office를 열어 두어야 하며 현재는 Word만 지원합니다.',
     intgMcpHttpAdvanced: '고급: 기타 주소와 로그',
     intgMcpTryNote:
       '어시스턴트가 MCP를 통해 TechPartner Office를 호출합니다. 명령을 직접 입력할 필요가 없습니다.',
@@ -3306,10 +3294,10 @@ export const strings = {
       '이 내용을 해당 어시스턴트의 MCP 서버 설정(JSON 파일 또는 설정의 "MCP 서버 추가")에 추가하세요:',
     intgMcpNote:
       '스킬과 MCP는 함께 설정할 수 있으며 어시스턴트가 하나를 선택합니다. 두 방식이 하는 일은 완전히 같습니다.',
-    intgCliTitle: '고급: 명령줄 genoffice',
-    intgCliReady: 'genoffice {v} · 터미널에서 바로 사용 가능({path})',
+    intgCliTitle: '고급: 명령줄 techpartner',
+    intgCliReady: 'techpartner {v} · 터미널에서 바로 사용 가능({path})',
     intgCliNotOnPath:
-      'genoffice {v} · 터미널 PATH에 없습니다. 어시스턴트는 ~/.genoffice/launcher로 찾을 수 있어 스킬은 정상 작동합니다. 직접 genoffice를 입력하려면 한 번만 실행:',
+      'techpartner {v} · 터미널 PATH에 없습니다. 어시스턴트는 ~/.techpartner-office/launcher로 찾을 수 있어 스킬은 정상 작동합니다. 직접 techpartner를 입력하려면 한 번만 실행:',
     intgCliLauncher: '런처 폴더',
     intgStateOutdated: '설치됨 {v}, {next}(으)로 업데이트 가능',
     intgStateModified: '설치됨 {v} (수정됨)',
@@ -3871,8 +3859,6 @@ export const strings = {
     intgOtherFolderDesc: 'Choisissez son dossier skills et TechPartner Office y écrit le fichier.',
     intgOtherZipTitle: "Remettre le fichier à l'assistant",
     intgOtherZipDesc: "Enregistrez le skill en zip, puis demandez à l'assistant de l'installer.",
-    intgOtherNpxTitle: 'Avec la commande skills (nécessite Node.js)',
-    intgOtherNpxDesc: 'Exécutez ceci dans un terminal :',
     intgCopy: 'Copier',
     intgStep2Title: 'Essayez',
     intgStep2Desc:
@@ -3883,19 +3869,19 @@ export const strings = {
     intgExample2: 'Prépare une présentation de 6 diapositives sur nos résultats du T3',
     intgExample3: 'Convertis budget.xlsx en PDF et ouvre-le dans TechPartner Office',
     intgStep2Note:
-      "L'assistant lance lui-même la ligne de commande genoffice ; vous n'avez jamais à la saisir.",
+      "L'assistant lance lui-même la ligne de commande techpartner ; vous n'avez jamais à la saisir.",
     intgCliPartTitle: 'CLI · ligne de commande + skill',
     intgCliPartDesc:
-      'Pour les assistants capables de lancer des commandes dans le terminal (Claude Code, Codex, Cursor, etc.). Une fois le skill installé, l’assistant appelle lui-même la ligne de commande genoffice pour créer, convertir, lire et modifier les fichiers ; vous ne tapez jamais de commande.',
+      'Pour les assistants capables de lancer des commandes dans le terminal (Claude Code, Codex, Cursor, etc.). Une fois le skill installé, l’assistant appelle lui-même la ligne de commande techpartner pour créer, convertir, lire et modifier les fichiers ; vous ne tapez jamais de commande.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP est le protocole commun que les assistants IA utilisent pour appeler des outils externes. Utilisez-le si votre assistant ne peut pas lancer de commandes (Claude Desktop, par exemple) ou si vous voulez qu’il pilote directement la fenêtre GenOffice. Choisissez l’une des deux méthodes ci-dessous.',
+      'MCP est le protocole commun que les assistants IA utilisent pour appeler des outils externes. Utilisez-le si votre assistant ne peut pas lancer de commandes (Claude Desktop, par exemple) ou si vous voulez qu’il pilote directement la fenêtre TechPartner Office. Choisissez l’une des deux méthodes ci-dessous.',
     intgMcpStdioTitle: 'Lancé par l’assistant (recommandé)',
     intgMcpStdioDesc:
-      'L’assistant lance lui-même genoffice mcp : rien à activer ici, et GenOffice n’a pas besoin d’être ouvert. Mêmes fonctions que la CLI.',
+      'L’assistant lance lui-même techpartner mcp : rien à activer ici, et TechPartner Office n’a pas besoin d’être ouvert. Mêmes fonctions que la CLI.',
     intgMcpHttpTitle: 'Serveur HTTP local',
     intgMcpHttpDesc:
-      'Tourne dans GenOffice ; l’assistant se connecte à une URL et vous voyez le document se construire pas à pas dans l’éditeur Word. GenOffice doit rester ouvert ; documents Word uniquement pour l’instant.',
+      'Tourne dans TechPartner Office ; l’assistant se connecte à une URL et vous voyez le document se construire pas à pas dans l’éditeur Docs. TechPartner Office doit rester ouvert ; documents Word uniquement pour l’instant.',
     intgMcpHttpAdvanced: 'Avancé : autres adresses et journal',
     intgMcpTryNote:
       'L’assistant appelle TechPartner Office via MCP ; vous ne tapez jamais de commande.',
@@ -3906,10 +3892,10 @@ export const strings = {
       'Ajoutez ceci à sa configuration de serveurs MCP (un fichier JSON, ou « Ajouter un serveur MCP » dans ses réglages) :',
     intgMcpNote:
       "Le skill et MCP peuvent coexister ; l'assistant choisit l'un des deux. Ils font exactement la même chose.",
-    intgCliTitle: 'Avancé : ligne de commande genoffice',
-    intgCliReady: 'genoffice {v} · prêt dans votre terminal ({path})',
+    intgCliTitle: 'Avancé : ligne de commande techpartner',
+    intgCliReady: 'techpartner {v} · prêt dans votre terminal ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · absent du PATH de votre terminal. Les assistants le trouvent quand même via ~/.genoffice/launcher, le skill fonctionne donc. Pour taper genoffice vous-même, exécutez ceci une fois :',
+      'techpartner {v} · absent du PATH de votre terminal. Les assistants le trouvent quand même via ~/.techpartner-office/launcher, le skill fonctionne donc. Pour taper techpartner vous-même, exécutez ceci une fois :',
     intgCliLauncher: 'Dossier du lanceur',
     intgStateOutdated: 'Installé {v}, mise à jour {next} disponible',
     intgStateModified: 'Installé {v} (modifié)',
@@ -4481,8 +4467,6 @@ export const strings = {
     intgOtherZipTitle: 'Datei an den Assistenten übergeben',
     intgOtherZipDesc:
       'Speichern Sie den Skill als Zip und bitten Sie den Assistenten, ihn zu installieren.',
-    intgOtherNpxTitle: 'Mit dem skills-Befehl (benötigt Node.js)',
-    intgOtherNpxDesc: 'Führen Sie dies in einem Terminal aus:',
     intgCopy: 'Kopieren',
     intgStep2Title: 'Ausprobieren',
     intgStep2Desc:
@@ -4493,19 +4477,19 @@ export const strings = {
     intgExample2: 'Erstelle eine Präsentation mit 6 Folien zu unseren Q3-Ergebnissen',
     intgExample3: 'Wandle budget.xlsx in PDF um und öffne es in TechPartner Office',
     intgStep2Note:
-      'Der Assistent ruft die genoffice-Befehlszeile selbst auf; Sie müssen sie nie eintippen.',
+      'Der Assistent ruft die techpartner-Befehlszeile selbst auf; Sie müssen sie nie eintippen.',
     intgCliPartTitle: 'CLI · Kommandozeile + Skill',
     intgCliPartDesc:
-      'Für Assistenten, die Terminalbefehle ausführen können (Claude Code, Codex, Cursor u. a.). Nach der Installation des Skills ruft der Assistent die genoffice-Kommandozeile selbst auf, um Dateien zu erstellen, zu konvertieren, zu lesen und zu bearbeiten; Sie tippen nie einen Befehl.',
+      'Für Assistenten, die Terminalbefehle ausführen können (Claude Code, Codex, Cursor u. a.). Nach der Installation des Skills ruft der Assistent die techpartner-Kommandozeile selbst auf, um Dateien zu erstellen, zu konvertieren, zu lesen und zu bearbeiten; Sie tippen nie einen Befehl.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP ist das gemeinsame Protokoll, über das KI-Assistenten externe Werkzeuge aufrufen. Nutzen Sie es, wenn der Assistent keine Befehle ausführen kann (z. B. Claude Desktop) oder wenn er das GenOffice-Fenster direkt steuern soll. Wählen Sie einen der beiden Wege unten.',
+      'MCP ist das gemeinsame Protokoll, über das KI-Assistenten externe Werkzeuge aufrufen. Nutzen Sie es, wenn der Assistent keine Befehle ausführen kann (z. B. Claude Desktop) oder wenn er das TechPartner Office-Fenster direkt steuern soll. Wählen Sie einen der beiden Wege unten.',
     intgMcpStdioTitle: 'Vom Assistenten gestartet (empfohlen)',
     intgMcpStdioDesc:
-      'Der Assistent startet genoffice mcp selbst: hier ist nichts einzuschalten, und GenOffice muss nicht geöffnet sein. Gleicher Funktionsumfang wie die CLI.',
+      'Der Assistent startet techpartner mcp selbst: hier ist nichts einzuschalten, und TechPartner Office muss nicht geöffnet sein. Gleicher Funktionsumfang wie die CLI.',
     intgMcpHttpTitle: 'Lokaler HTTP-Server',
     intgMcpHttpDesc:
-      'Läuft in GenOffice; der Assistent verbindet sich über eine URL, und Sie sehen im Word-Editor zu, wie das Dokument Schritt für Schritt entsteht. GenOffice muss geöffnet bleiben; derzeit nur Word-Dokumente.',
+      'Läuft in TechPartner Office; der Assistent verbindet sich über eine URL, und Sie sehen im Docs-Editor zu, wie das Dokument Schritt für Schritt entsteht. TechPartner Office muss geöffnet bleiben; derzeit nur Word-Dokumente.',
     intgMcpHttpAdvanced: 'Erweitert: weitere Adressen und Protokoll',
     intgMcpTryNote:
       'Der Assistent ruft TechPartner Office über MCP auf; Sie tippen nie einen Befehl.',
@@ -4516,10 +4500,10 @@ export const strings = {
       'Fügen Sie dies in seine MCP-Server-Konfiguration ein (eine JSON-Datei oder „MCP-Server hinzufügen“ in den Einstellungen):',
     intgMcpNote:
       'Skill und MCP können nebeneinander eingerichtet sein; der Assistent wählt eines. Beide tun genau dasselbe.',
-    intgCliTitle: 'Erweitert: Befehlszeile genoffice',
-    intgCliReady: 'genoffice {v} · im Terminal verfügbar ({path})',
+    intgCliTitle: 'Erweitert: Befehlszeile techpartner',
+    intgCliReady: 'techpartner {v} · im Terminal verfügbar ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · nicht im PATH Ihres Terminals. Assistenten finden es trotzdem über ~/.genoffice/launcher, der Skill funktioniert also. Um genoffice selbst einzugeben, führen Sie dies einmal aus:',
+      'techpartner {v} · nicht im PATH Ihres Terminals. Assistenten finden es trotzdem über ~/.techpartner-office/launcher, der Skill funktioniert also. Um techpartner selbst einzugeben, führen Sie dies einmal aus:',
     intgCliLauncher: 'Launcher-Ordner',
     intgStateOutdated: 'Installiert {v}, Update auf {next} verfügbar',
     intgStateModified: 'Installiert {v} (geändert)',
@@ -5086,8 +5070,6 @@ export const strings = {
     intgOtherFolderDesc: 'Elige su carpeta de skills y TechPartner Office escribe el archivo ahí.',
     intgOtherZipTitle: 'Entrega el archivo al asistente',
     intgOtherZipDesc: 'Guarda el skill como zip y pide al asistente que lo instale.',
-    intgOtherNpxTitle: 'Con el comando skills (requiere Node.js)',
-    intgOtherNpxDesc: 'Ejecuta esto en una terminal:',
     intgCopy: 'Copiar',
     intgStep2Title: 'Pruébalo',
     intgStep2Desc: 'Abre un chat nuevo en tu asistente y pídelo con tus palabras, por ejemplo:',
@@ -5097,19 +5079,19 @@ export const strings = {
     intgExample2: 'Haz una presentación de 6 diapositivas sobre nuestros resultados del T3',
     intgExample3: 'Convierte budget.xlsx a PDF y ábrelo en TechPartner Office',
     intgStep2Note:
-      'El asistente ejecuta la línea de comandos genoffice por sí mismo; nunca tienes que escribirla.',
+      'El asistente ejecuta la línea de comandos techpartner por sí mismo; nunca tienes que escribirla.',
     intgCliPartTitle: 'CLI · línea de comandos + skill',
     intgCliPartDesc:
-      'Para asistentes que pueden ejecutar comandos de terminal (Claude Code, Codex, Cursor y otros). Con el skill instalado, el asistente llama por sí mismo a la línea de comandos genoffice para crear, convertir, leer y editar archivos; nunca escribes un comando.',
+      'Para asistentes que pueden ejecutar comandos de terminal (Claude Code, Codex, Cursor y otros). Con el skill instalado, el asistente llama por sí mismo a la línea de comandos techpartner para crear, convertir, leer y editar archivos; nunca escribes un comando.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP es el protocolo común con el que los asistentes de IA llaman a herramientas externas. Úsalo cuando tu asistente no pueda ejecutar comandos (Claude Desktop, por ejemplo) o cuando quieras que controle directamente la ventana de GenOffice. Elige una de las dos formas de abajo.',
+      'MCP es el protocolo común con el que los asistentes de IA llaman a herramientas externas. Úsalo cuando tu asistente no pueda ejecutar comandos (Claude Desktop, por ejemplo) o cuando quieras que controle directamente la ventana de TechPartner Office. Elige una de las dos formas de abajo.',
     intgMcpStdioTitle: 'Iniciado por el asistente (recomendado)',
     intgMcpStdioDesc:
-      'El asistente lanza genoffice mcp por sí mismo: nada que activar aquí, y GenOffice no necesita estar abierto. Mismas funciones que la CLI.',
+      'El asistente lanza techpartner mcp por sí mismo: nada que activar aquí, y TechPartner Office no necesita estar abierto. Mismas funciones que la CLI.',
     intgMcpHttpTitle: 'Servidor HTTP local',
     intgMcpHttpDesc:
-      'Se ejecuta dentro de GenOffice; el asistente se conecta a una URL y puedes ver cómo construye el documento paso a paso en el editor de Word. GenOffice debe permanecer abierto; por ahora solo documentos Word.',
+      'Se ejecuta dentro de TechPartner Office; el asistente se conecta a una URL y puedes ver cómo construye el documento paso a paso en el editor de Docs. TechPartner Office debe permanecer abierto; por ahora solo documentos Word.',
     intgMcpHttpAdvanced: 'Avanzado: otras direcciones y registro',
     intgMcpTryNote:
       'El asistente llama a TechPartner Office a través de MCP; nunca escribes un comando.',
@@ -5120,10 +5102,10 @@ export const strings = {
       'Añade esto a su configuración de servidores MCP (un archivo JSON, o «Añadir servidor MCP» en sus ajustes):',
     intgMcpNote:
       'El skill y MCP pueden convivir; el asistente elige uno. Ambos hacen exactamente lo mismo.',
-    intgCliTitle: 'Avanzado: línea de comandos genoffice',
-    intgCliReady: 'genoffice {v} · listo en tu terminal ({path})',
+    intgCliTitle: 'Avanzado: línea de comandos techpartner',
+    intgCliReady: 'techpartner {v} · listo en tu terminal ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · no está en el PATH de tu terminal. Los asistentes lo encuentran igualmente mediante ~/.genoffice/launcher, así que el skill funciona. Para escribir genoffice tú mismo, ejecuta esto una vez:',
+      'techpartner {v} · no está en el PATH de tu terminal. Los asistentes lo encuentran igualmente mediante ~/.techpartner-office/launcher, así que el skill funciona. Para escribir techpartner tú mismo, ejecuta esto una vez:',
     intgCliLauncher: 'Carpeta del lanzador',
     intgStateOutdated: 'Instalado {v}, actualización a {next} disponible',
     intgStateModified: 'Instalado {v} (modificado)',
@@ -5678,8 +5660,6 @@ export const strings = {
     intgOtherFolderDesc: 'เลือกโฟลเดอร์ skills ของผู้ช่วย แล้ว TechPartner Office จะเขียนไฟล์ลงไป',
     intgOtherZipTitle: 'ส่งไฟล์ให้ผู้ช่วย',
     intgOtherZipDesc: 'บันทึกสกิลเป็น zip แล้วขอให้ผู้ช่วยติดตั้งเอง',
-    intgOtherNpxTitle: 'ใช้คำสั่ง skills (ต้องมี Node.js)',
-    intgOtherNpxDesc: 'รันคำสั่งนี้ในเทอร์มินัล:',
     intgCopy: 'คัดลอก',
     intgStep2Title: 'ลองใช้ดู',
     intgStep2Desc: 'เปิดแชตใหม่ในผู้ช่วยแล้วสั่งด้วยภาษาธรรมดา เช่น:',
@@ -5687,19 +5667,19 @@ export const strings = {
     intgExample1: 'แปลง ~/Downloads/report.md เป็นเอกสาร Word',
     intgExample2: 'ทำสไลด์ 6 หน้าเกี่ยวกับผลประกอบการไตรมาส 3 ของเรา',
     intgExample3: 'แปลง budget.xlsx เป็น PDF แล้วเปิดใน TechPartner Office',
-    intgStep2Note: 'ผู้ช่วยจะเรียกใช้บรรทัดคำสั่ง genoffice เอง คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
+    intgStep2Note: 'ผู้ช่วยจะเรียกใช้บรรทัดคำสั่ง techpartner เอง คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
     intgCliPartTitle: 'CLI · บรรทัดคำสั่ง + skill',
     intgCliPartDesc:
-      'สำหรับผู้ช่วยที่รันคำสั่งเทอร์มินัลได้ (Claude Code, Codex, Cursor และอื่น ๆ) เมื่อติดตั้ง skill แล้ว ผู้ช่วยจะเรียกบรรทัดคำสั่ง genoffice เองเพื่อสร้าง แปลง อ่าน และแก้ไขไฟล์ คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
+      'สำหรับผู้ช่วยที่รันคำสั่งเทอร์มินัลได้ (Claude Code, Codex, Cursor และอื่น ๆ) เมื่อติดตั้ง skill แล้ว ผู้ช่วยจะเรียกบรรทัดคำสั่ง techpartner เองเพื่อสร้าง แปลง อ่าน และแก้ไขไฟล์ คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP คือโปรโตคอลกลางที่ผู้ช่วย AI ใช้เรียกเครื่องมือภายนอก ใช้เมื่อผู้ช่วยรันคำสั่งไม่ได้ (เช่น Claude Desktop) หรือเมื่อต้องการให้มันควบคุมหน้าต่าง GenOffice โดยตรง เลือกวิธีใดวิธีหนึ่งจากสองวิธีด้านล่าง',
+      'MCP คือโปรโตคอลกลางที่ผู้ช่วย AI ใช้เรียกเครื่องมือภายนอก ใช้เมื่อผู้ช่วยรันคำสั่งไม่ได้ (เช่น Claude Desktop) หรือเมื่อต้องการให้มันควบคุมหน้าต่าง TechPartner Office โดยตรง เลือกวิธีใดวิธีหนึ่งจากสองวิธีด้านล่าง',
     intgMcpStdioTitle: 'ให้ผู้ช่วยเป็นผู้เริ่ม (แนะนำ)',
     intgMcpStdioDesc:
-      'ผู้ช่วยจะเรียก genoffice mcp ขึ้นมาเอง ไม่ต้องเปิดสวิตช์ใดที่นี่ และไม่ต้องเปิด GenOffice ไว้ ความสามารถเหมือน CLI ทุกประการ',
+      'ผู้ช่วยจะเรียก techpartner mcp ขึ้นมาเอง ไม่ต้องเปิดสวิตช์ใดที่นี่ และไม่ต้องเปิด TechPartner Office ไว้ ความสามารถเหมือน CLI ทุกประการ',
     intgMcpHttpTitle: 'เซิร์ฟเวอร์ HTTP ในเครื่อง',
     intgMcpHttpDesc:
-      'ทำงานอยู่ใน GenOffice ผู้ช่วยเชื่อมต่อผ่าน URL และคุณจะเห็นเอกสารค่อย ๆ ถูกสร้างขึ้นในตัวแก้ไข Word ต้องเปิด GenOffice ไว้ตลอด ปัจจุบันรองรับเฉพาะ Word',
+      'ทำงานอยู่ใน TechPartner Office ผู้ช่วยเชื่อมต่อผ่าน URL และคุณจะเห็นเอกสารค่อย ๆ ถูกสร้างขึ้นในตัวแก้ไข Docs ต้องเปิด TechPartner Office ไว้ตลอด ปัจจุบันรองรับเฉพาะ Word',
     intgMcpHttpAdvanced: 'ขั้นสูง: ที่อยู่อื่นและบันทึก',
     intgMcpTryNote: 'ผู้ช่วยจะเรียก TechPartner Office ผ่าน MCP คุณไม่ต้องพิมพ์คำสั่งใด ๆ',
     intgMcpClaudeTitle: 'Claude Code',
@@ -5709,10 +5689,10 @@ export const strings = {
       'เพิ่มส่วนนี้ลงในการตั้งค่าเซิร์ฟเวอร์ MCP ของผู้ช่วย (ไฟล์ JSON หรือ "เพิ่มเซิร์ฟเวอร์ MCP" ในการตั้งค่า):',
     intgMcpNote:
       'สกิลและ MCP ตั้งค่าไว้พร้อมกันได้ ผู้ช่วยจะเลือกใช้เอง ทั้งสองทำงานเหมือนกันทุกอย่าง',
-    intgCliTitle: 'ขั้นสูง: บรรทัดคำสั่ง genoffice',
-    intgCliReady: 'genoffice {v} · พร้อมใช้ในเทอร์มินัล ({path})',
+    intgCliTitle: 'ขั้นสูง: บรรทัดคำสั่ง techpartner',
+    intgCliReady: 'techpartner {v} · พร้อมใช้ในเทอร์มินัล ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · ยังไม่อยู่ใน PATH ของเทอร์มินัล ผู้ช่วยยังหาเจอผ่าน ~/.genoffice/launcher สกิลจึงใช้งานได้ตามปกติ หากต้องการพิมพ์ genoffice เอง ให้รันคำสั่งนี้ครั้งเดียว:',
+      'techpartner {v} · ยังไม่อยู่ใน PATH ของเทอร์มินัล ผู้ช่วยยังหาเจอผ่าน ~/.techpartner-office/launcher สกิลจึงใช้งานได้ตามปกติ หากต้องการพิมพ์ techpartner เอง ให้รันคำสั่งนี้ครั้งเดียว:',
     intgCliLauncher: 'โฟลเดอร์ตัวเรียกใช้',
     intgStateOutdated: 'ติดตั้งแล้ว {v} อัปเดตเป็น {next} ได้',
     intgStateModified: 'ติดตั้งแล้ว {v} (ถูกแก้ไข)',
@@ -6268,8 +6248,6 @@ export const strings = {
     intgOtherFolderDesc: 'Pilih folder skills-nya dan TechPartner Office menulis file di sana.',
     intgOtherZipTitle: 'Serahkan file ke asisten',
     intgOtherZipDesc: 'Simpan skill sebagai zip, lalu minta asisten memasangnya.',
-    intgOtherNpxTitle: 'Dengan perintah skills (butuh Node.js)',
-    intgOtherNpxDesc: 'Jalankan ini di terminal:',
     intgCopy: 'Salin',
     intgStep2Title: 'Coba sekarang',
     intgStep2Desc: 'Buka obrolan baru di asisten Anda dan minta dengan bahasa biasa, misalnya:',
@@ -6279,19 +6257,19 @@ export const strings = {
     intgExample2: 'Buat presentasi 6 slide tentang hasil Q3 kami',
     intgExample3: 'Konversi budget.xlsx ke PDF dan buka di TechPartner Office',
     intgStep2Note:
-      'Asisten menjalankan baris perintah genoffice sendiri; Anda tidak perlu mengetiknya.',
+      'Asisten menjalankan baris perintah techpartner sendiri; Anda tidak perlu mengetiknya.',
     intgCliPartTitle: 'CLI · baris perintah + skill',
     intgCliPartDesc:
-      'Untuk asisten yang bisa menjalankan perintah terminal (Claude Code, Codex, Cursor, dan lainnya). Setelah skill terpasang, asisten memanggil baris perintah genoffice sendiri untuk membuat, mengonversi, membaca, dan mengedit file; Anda tidak pernah mengetik perintah.',
+      'Untuk asisten yang bisa menjalankan perintah terminal (Claude Code, Codex, Cursor, dan lainnya). Setelah skill terpasang, asisten memanggil baris perintah techpartner sendiri untuk membuat, mengonversi, membaca, dan mengedit file; Anda tidak pernah mengetik perintah.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP adalah protokol umum yang dipakai asisten AI untuk memanggil alat eksternal. Gunakan saat asisten Anda tidak bisa menjalankan perintah (misalnya Claude Desktop) atau saat Anda ingin ia mengendalikan jendela GenOffice secara langsung. Pilih salah satu dari dua cara di bawah.',
+      'MCP adalah protokol umum yang dipakai asisten AI untuk memanggil alat eksternal. Gunakan saat asisten Anda tidak bisa menjalankan perintah (misalnya Claude Desktop) atau saat Anda ingin ia mengendalikan jendela TechPartner Office secara langsung. Pilih salah satu dari dua cara di bawah.',
     intgMcpStdioTitle: 'Dijalankan oleh asisten (disarankan)',
     intgMcpStdioDesc:
-      'Asisten menjalankan genoffice mcp sendiri: tidak ada yang perlu dinyalakan di sini, dan GenOffice tidak perlu terbuka. Fitur sama dengan CLI.',
+      'Asisten menjalankan techpartner mcp sendiri: tidak ada yang perlu dinyalakan di sini, dan TechPartner Office tidak perlu terbuka. Fitur sama dengan CLI.',
     intgMcpHttpTitle: 'Server HTTP lokal',
     intgMcpHttpDesc:
-      'Berjalan di dalam GenOffice; asisten terhubung lewat URL dan Anda bisa melihat dokumen dibangun langkah demi langkah di editor Word. GenOffice harus tetap terbuka; untuk saat ini hanya dokumen Word.',
+      'Berjalan di dalam TechPartner Office; asisten terhubung lewat URL dan Anda bisa melihat dokumen dibangun langkah demi langkah di editor Docs. TechPartner Office harus tetap terbuka; untuk saat ini hanya dokumen Word.',
     intgMcpHttpAdvanced: 'Lanjutan: alamat lain dan log',
     intgMcpTryNote:
       'Asisten memanggil TechPartner Office melalui MCP; Anda tidak pernah mengetik perintah.',
@@ -6302,10 +6280,10 @@ export const strings = {
       'Tambahkan ini ke pengaturan server MCP miliknya (berkas JSON, atau "Tambah server MCP" di pengaturannya):',
     intgMcpNote:
       'Skill dan MCP bisa dipasang bersamaan; asisten akan memilih salah satu. Keduanya melakukan hal yang sama persis.',
-    intgCliTitle: 'Lanjutan: baris perintah genoffice',
-    intgCliReady: 'genoffice {v} · siap di terminal Anda ({path})',
+    intgCliTitle: 'Lanjutan: baris perintah techpartner',
+    intgCliReady: 'techpartner {v} · siap di terminal Anda ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · belum ada di PATH terminal Anda. Asisten tetap menemukannya lewat ~/.genoffice/launcher, jadi skill tetap berfungsi. Untuk mengetik genoffice sendiri, jalankan ini sekali:',
+      'techpartner {v} · belum ada di PATH terminal Anda. Asisten tetap menemukannya lewat ~/.techpartner-office/launcher, jadi skill tetap berfungsi. Untuk mengetik techpartner sendiri, jalankan ini sekali:',
     intgCliLauncher: 'Folder peluncur',
     intgStateOutdated: 'Terpasang {v}, pembaruan ke {next} tersedia',
     intgStateModified: 'Terpasang {v} (dimodifikasi)',
@@ -6863,8 +6841,6 @@ export const strings = {
     intgOtherFolderDesc: 'Выберите его папку skills, и TechPartner Office запишет файл туда.',
     intgOtherZipTitle: 'Передать файл ассистенту',
     intgOtherZipDesc: 'Сохраните скилл как zip и попросите ассистента установить его.',
-    intgOtherNpxTitle: 'Командой skills (нужен Node.js)',
-    intgOtherNpxDesc: 'Выполните в терминале:',
     intgCopy: 'Копировать',
     intgStep2Title: 'Попробуйте',
     intgStep2Desc: 'Откройте новый чат в ассистенте и попросите обычными словами, например:',
@@ -6874,19 +6850,19 @@ export const strings = {
     intgExample2: 'Сделай презентацию из 6 слайдов о наших результатах за 3-й квартал',
     intgExample3: 'Конвертируй budget.xlsx в PDF и открой в TechPartner Office',
     intgStep2Note:
-      'Ассистент сам запускает командную строку genoffice; вводить её вам не придётся.',
+      'Ассистент сам запускает командную строку techpartner; вводить её вам не придётся.',
     intgCliPartTitle: 'CLI · командная строка + skill',
     intgCliPartDesc:
-      'Для ассистентов, умеющих выполнять команды терминала (Claude Code, Codex, Cursor и другие). После установки skill ассистент сам вызывает командную строку genoffice, чтобы создавать, конвертировать, читать и редактировать файлы; вам не нужно вводить команды.',
+      'Для ассистентов, умеющих выполнять команды терминала (Claude Code, Codex, Cursor и другие). После установки skill ассистент сам вызывает командную строку techpartner, чтобы создавать, конвертировать, читать и редактировать файлы; вам не нужно вводить команды.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP — общий протокол, через который ИИ-ассистенты вызывают внешние инструменты. Используйте его, если ассистент не умеет выполнять команды (например, Claude Desktop) или если хотите, чтобы он напрямую управлял окном GenOffice. Выберите один из двух способов ниже.',
+      'MCP — общий протокол, через который ИИ-ассистенты вызывают внешние инструменты. Используйте его, если ассистент не умеет выполнять команды (например, Claude Desktop) или если хотите, чтобы он напрямую управлял окном TechPartner Office. Выберите один из двух способов ниже.',
     intgMcpStdioTitle: 'Запускает ассистент (рекомендуется)',
     intgMcpStdioDesc:
-      'Ассистент сам запускает genoffice mcp: здесь ничего включать не нужно, и GenOffice не обязан быть открыт. Те же возможности, что у CLI.',
+      'Ассистент сам запускает techpartner mcp: здесь ничего включать не нужно, и TechPartner Office не обязан быть открыт. Те же возможности, что у CLI.',
     intgMcpHttpTitle: 'Локальный HTTP-сервер',
     intgMcpHttpDesc:
-      'Работает внутри GenOffice; ассистент подключается по URL, и вы видите, как документ шаг за шагом собирается в редакторе Word. GenOffice должен оставаться открытым; пока только документы Word.',
+      'Работает внутри TechPartner Office; ассистент подключается по URL, и вы видите, как документ шаг за шагом собирается в редакторе Docs. TechPartner Office должен оставаться открытым; пока только документы Word.',
     intgMcpHttpAdvanced: 'Дополнительно: другие адреса и журнал',
     intgMcpTryNote:
       'Ассистент обращается к TechPartner Office через MCP; вам не нужно вводить команды.',
@@ -6897,10 +6873,10 @@ export const strings = {
       'Добавьте это в его настройки MCP-серверов (JSON-файл или «Добавить MCP-сервер» в настройках):',
     intgMcpNote:
       'Скилл и MCP могут быть настроены одновременно; ассистент выберет один из них. Они делают одно и то же.',
-    intgCliTitle: 'Дополнительно: командная строка genoffice',
-    intgCliReady: 'genoffice {v} · доступен в терминале ({path})',
+    intgCliTitle: 'Дополнительно: командная строка techpartner',
+    intgCliReady: 'techpartner {v} · доступен в терминале ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · отсутствует в PATH терминала. Ассистенты всё равно находят его через ~/.genoffice/launcher, так что скилл работает. Чтобы вводить genoffice самостоятельно, выполните один раз:',
+      'techpartner {v} · отсутствует в PATH терминала. Ассистенты всё равно находят его через ~/.techpartner-office/launcher, так что скилл работает. Чтобы вводить techpartner самостоятельно, выполните один раз:',
     intgCliLauncher: 'Папка лаунчера',
     intgStateOutdated: 'Установлен {v}, доступно обновление до {next}',
     intgStateModified: 'Установлен {v} (изменён)',
@@ -7458,8 +7434,6 @@ export const strings = {
     intgOtherFolderDesc: 'اختر مجلد skills الخاص به وسيكتب TechPartner Office الملف هناك.',
     intgOtherZipTitle: 'سلّم الملف إلى المساعد',
     intgOtherZipDesc: 'احفظ المهارة كملف zip ثم اطلب من المساعد تثبيتها.',
-    intgOtherNpxTitle: 'بأمر skills (يتطلب Node.js)',
-    intgOtherNpxDesc: 'شغّل هذا في الطرفية:',
     intgCopy: 'نسخ',
     intgStep2Title: 'جرّبها',
     intgStep2Desc: 'افتح محادثة جديدة في مساعدك واطلب بكلمات عادية، مثلاً:',
@@ -7467,19 +7441,19 @@ export const strings = {
     intgExample1: 'حوّل ~/Downloads/report.md إلى مستند Word',
     intgExample2: 'أنشئ عرضاً من 6 شرائح عن نتائج الربع الثالث',
     intgExample3: 'حوّل budget.xlsx إلى PDF وافتحه في TechPartner Office',
-    intgStep2Note: 'المساعد يشغّل سطر أوامر genoffice بنفسه؛ لن تحتاج إلى كتابته أبداً.',
+    intgStep2Note: 'المساعد يشغّل سطر أوامر techpartner بنفسه؛ لن تحتاج إلى كتابته أبداً.',
     intgCliPartTitle: 'CLI · سطر الأوامر + skill',
     intgCliPartDesc:
-      'للمساعدين الذين يستطيعون تنفيذ أوامر الطرفية (Claude Code وCodex وCursor وغيرها). بعد تثبيت skill، يستدعي المساعد سطر أوامر genoffice بنفسه لإنشاء الملفات وتحويلها وقراءتها وتحريرها؛ لن تكتب أي أمر.',
+      'للمساعدين الذين يستطيعون تنفيذ أوامر الطرفية (Claude Code وCodex وCursor وغيرها). بعد تثبيت skill، يستدعي المساعد سطر أوامر techpartner بنفسه لإنشاء الملفات وتحويلها وقراءتها وتحريرها؛ لن تكتب أي أمر.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP هو البروتوكول المشترك الذي يستخدمه مساعدو الذكاء الاصطناعي لاستدعاء أدوات خارجية. استخدمه إذا كان مساعدك لا يستطيع تنفيذ الأوامر (مثل Claude Desktop) أو إذا أردت أن يتحكم في نافذة GenOffice مباشرة. اختر إحدى الطريقتين أدناه.',
+      'MCP هو البروتوكول المشترك الذي يستخدمه مساعدو الذكاء الاصطناعي لاستدعاء أدوات خارجية. استخدمه إذا كان مساعدك لا يستطيع تنفيذ الأوامر (مثل Claude Desktop) أو إذا أردت أن يتحكم في نافذة TechPartner Office مباشرة. اختر إحدى الطريقتين أدناه.',
     intgMcpStdioTitle: 'يشغّله المساعد (موصى به)',
     intgMcpStdioDesc:
-      'يشغّل المساعد genoffice mcp بنفسه: لا شيء لتفعيله هنا، ولا يلزم أن يكون GenOffice مفتوحًا. نفس إمكانات CLI.',
+      'يشغّل المساعد techpartner mcp بنفسه: لا شيء لتفعيله هنا، ولا يلزم أن يكون TechPartner Office مفتوحًا. نفس إمكانات CLI.',
     intgMcpHttpTitle: 'خادم HTTP محلي',
     intgMcpHttpDesc:
-      'يعمل داخل GenOffice؛ يتصل المساعد عبر عنوان URL ويمكنك مشاهدة المستند يُبنى خطوة بخطوة في محرر Word. يجب أن يبقى GenOffice مفتوحًا؛ مستندات Word فقط حاليًا.',
+      'يعمل داخل TechPartner Office؛ يتصل المساعد عبر عنوان URL ويمكنك مشاهدة المستند يُبنى خطوة بخطوة في محرر Docs. يجب أن يبقى TechPartner Office مفتوحًا؛ مستندات Word فقط حاليًا.',
     intgMcpHttpAdvanced: 'متقدم: عناوين أخرى والسجل',
     intgMcpTryNote: 'يستدعي المساعد TechPartner Office عبر MCP؛ لن تكتب أي أمر.',
     intgMcpClaudeTitle: 'Claude Code',
@@ -7489,10 +7463,10 @@ export const strings = {
       'أضف هذا إلى إعدادات خوادم MCP لديه (ملف JSON، أو «إضافة خادم MCP» في إعداداته):',
     intgMcpNote:
       'يمكن إعداد المهارة و MCP معاً؛ يختار المساعد أحدهما. كلاهما يقوم بالأشياء نفسها تماماً.',
-    intgCliTitle: 'متقدم: سطر أوامر genoffice',
-    intgCliReady: 'genoffice {v} · جاهز في الطرفية ({path})',
+    intgCliTitle: 'متقدم: سطر أوامر techpartner',
+    intgCliReady: 'techpartner {v} · جاهز في الطرفية ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · غير موجود في PATH الطرفية. ما زال المساعدون يجدونه عبر ~/.genoffice/launcher، فالمهارة تعمل. لكتابة genoffice بنفسك، شغّل هذا مرة واحدة:',
+      'techpartner {v} · غير موجود في PATH الطرفية. ما زال المساعدون يجدونه عبر ~/.techpartner-office/launcher، فالمهارة تعمل. لكتابة techpartner بنفسك، شغّل هذا مرة واحدة:',
     intgCliLauncher: 'مجلد المشغّل',
     intgStateOutdated: 'مثبّت {v}، يتوفر تحديث إلى {next}',
     intgStateModified: 'مثبّت {v} (تم تعديله)',
@@ -8045,8 +8019,6 @@ export const strings = {
       'Escolha a pasta de skills dele e o TechPartner Office grava o arquivo lá.',
     intgOtherZipTitle: 'Entregue o arquivo ao assistente',
     intgOtherZipDesc: 'Salve o skill como zip e peça ao assistente para instalá-lo.',
-    intgOtherNpxTitle: 'Com o comando skills (requer Node.js)',
-    intgOtherNpxDesc: 'Execute isto em um terminal:',
     intgCopy: 'Copiar',
     intgStep2Title: 'Experimente',
     intgStep2Desc: 'Abra um chat novo no seu assistente e peça com suas palavras, por exemplo:',
@@ -8056,19 +8028,19 @@ export const strings = {
     intgExample2: 'Monte uma apresentação de 6 slides sobre nossos resultados do 3º trimestre',
     intgExample3: 'Converta budget.xlsx para PDF e abra no TechPartner Office',
     intgStep2Note:
-      'O assistente executa a linha de comando genoffice sozinho; você nunca precisa digitá-la.',
+      'O assistente executa a linha de comando techpartner sozinho; você nunca precisa digitá-la.',
     intgCliPartTitle: 'CLI · linha de comando + skill',
     intgCliPartDesc:
-      'Para assistentes que executam comandos de terminal (Claude Code, Codex, Cursor e outros). Com o skill instalado, o assistente chama a linha de comando genoffice sozinho para criar, converter, ler e editar arquivos; você nunca digita um comando.',
+      'Para assistentes que executam comandos de terminal (Claude Code, Codex, Cursor e outros). Com o skill instalado, o assistente chama a linha de comando techpartner sozinho para criar, converter, ler e editar arquivos; você nunca digita um comando.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP é o protocolo comum que assistentes de IA usam para chamar ferramentas externas. Use-o quando o assistente não puder executar comandos (Claude Desktop, por exemplo) ou quando quiser que ele controle a janela do GenOffice diretamente. Escolha uma das duas formas abaixo.',
+      'MCP é o protocolo comum que assistentes de IA usam para chamar ferramentas externas. Use-o quando o assistente não puder executar comandos (Claude Desktop, por exemplo) ou quando quiser que ele controle a janela do TechPartner Office diretamente. Escolha uma das duas formas abaixo.',
     intgMcpStdioTitle: 'Iniciado pelo assistente (recomendado)',
     intgMcpStdioDesc:
-      'O assistente inicia o genoffice mcp sozinho: nada para ligar aqui, e o GenOffice não precisa estar aberto. Mesmos recursos da CLI.',
+      'O assistente inicia o techpartner mcp sozinho: nada para ligar aqui, e o TechPartner Office não precisa estar aberto. Mesmos recursos da CLI.',
     intgMcpHttpTitle: 'Servidor HTTP local',
     intgMcpHttpDesc:
-      'Roda dentro do GenOffice; o assistente conecta por URL e você acompanha o documento sendo montado passo a passo no editor Word. O GenOffice precisa ficar aberto; por enquanto só documentos Word.',
+      'Roda dentro do TechPartner Office; o assistente conecta por URL e você acompanha o documento sendo montado passo a passo no editor Docs. O TechPartner Office precisa ficar aberto; por enquanto só documentos Word.',
     intgMcpHttpAdvanced: 'Avançado: outros endereços e log',
     intgMcpTryNote:
       'O assistente chama o TechPartner Office via MCP; você nunca digita um comando.',
@@ -8079,10 +8051,10 @@ export const strings = {
       'Adicione isto à configuração de servidores MCP dele (um arquivo JSON, ou "Adicionar servidor MCP" nas configurações):',
     intgMcpNote:
       'O skill e o MCP podem coexistir; o assistente escolhe um deles. Ambos fazem exatamente as mesmas coisas.',
-    intgCliTitle: 'Avançado: linha de comando genoffice',
-    intgCliReady: 'genoffice {v} · pronto no seu terminal ({path})',
+    intgCliTitle: 'Avançado: linha de comando techpartner',
+    intgCliReady: 'techpartner {v} · pronto no seu terminal ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · não está no PATH do seu terminal. Os assistentes ainda o encontram por ~/.genoffice/launcher, então o skill funciona. Para digitar genoffice você mesmo, execute isto uma vez:',
+      'techpartner {v} · não está no PATH do seu terminal. Os assistentes ainda o encontram por ~/.techpartner-office/launcher, então o skill funciona. Para digitar techpartner você mesmo, execute isto uma vez:',
     intgCliLauncher: 'Pasta do inicializador',
     intgStateOutdated: 'Instalado {v}, atualização para {next} disponível',
     intgStateModified: 'Instalado {v} (modificado)',
@@ -8636,8 +8608,6 @@ export const strings = {
     intgOtherFolderDesc: 'Scegli la sua cartella skills e TechPartner Office vi scrive il file.',
     intgOtherZipTitle: "Consegna il file all'assistente",
     intgOtherZipDesc: "Salva lo skill come zip, poi chiedi all'assistente di installarlo.",
-    intgOtherNpxTitle: 'Con il comando skills (richiede Node.js)',
-    intgOtherNpxDesc: 'Esegui questo in un terminale:',
     intgCopy: 'Copia',
     intgStep2Title: 'Provalo',
     intgStep2Desc:
@@ -8648,19 +8618,19 @@ export const strings = {
     intgExample2: 'Prepara una presentazione di 6 slide sui nostri risultati del terzo trimestre',
     intgExample3: 'Converti budget.xlsx in PDF e aprilo in TechPartner Office',
     intgStep2Note:
-      "L'assistente esegue da solo la riga di comando genoffice; non dovrai mai digitarla.",
+      "L'assistente esegue da solo la riga di comando techpartner; non dovrai mai digitarla.",
     intgCliPartTitle: 'CLI · riga di comando + skill',
     intgCliPartDesc:
-      'Per assistenti che possono eseguire comandi da terminale (Claude Code, Codex, Cursor e altri). Installato lo skill, l’assistente richiama da sé la riga di comando genoffice per creare, convertire, leggere e modificare file; non digiti mai un comando.',
+      'Per assistenti che possono eseguire comandi da terminale (Claude Code, Codex, Cursor e altri). Installato lo skill, l’assistente richiama da sé la riga di comando techpartner per creare, convertire, leggere e modificare file; non digiti mai un comando.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP è il protocollo comune con cui gli assistenti IA richiamano strumenti esterni. Usalo quando l’assistente non può eseguire comandi (Claude Desktop, ad esempio) o quando vuoi che controlli direttamente la finestra di GenOffice. Scegli uno dei due modi qui sotto.',
+      'MCP è il protocollo comune con cui gli assistenti IA richiamano strumenti esterni. Usalo quando l’assistente non può eseguire comandi (Claude Desktop, ad esempio) o quando vuoi che controlli direttamente la finestra di TechPartner Office. Scegli uno dei due modi qui sotto.',
     intgMcpStdioTitle: 'Avviato dall’assistente (consigliato)',
     intgMcpStdioDesc:
-      'L’assistente avvia genoffice mcp da sé: niente da attivare qui, e GenOffice non deve essere aperto. Stesse funzioni della CLI.',
+      'L’assistente avvia techpartner mcp da sé: niente da attivare qui, e TechPartner Office non deve essere aperto. Stesse funzioni della CLI.',
     intgMcpHttpTitle: 'Server HTTP locale',
     intgMcpHttpDesc:
-      'Gira dentro GenOffice; l’assistente si collega a un URL e puoi vedere il documento prendere forma passo dopo passo nell’editor Word. GenOffice deve restare aperto; per ora solo documenti Word.',
+      'Gira dentro TechPartner Office; l’assistente si collega a un URL e puoi vedere il documento prendere forma passo dopo passo nell’editor Docs. TechPartner Office deve restare aperto; per ora solo documenti Word.',
     intgMcpHttpAdvanced: 'Avanzato: altri indirizzi e registro',
     intgMcpTryNote:
       'L’assistente richiama TechPartner Office tramite MCP; non digiti mai un comando.',
@@ -8671,10 +8641,10 @@ export const strings = {
       'Aggiungi questo alla sua configurazione dei server MCP (un file JSON, oppure «Aggiungi server MCP» nelle impostazioni):',
     intgMcpNote:
       "Skill e MCP possono convivere; l'assistente ne sceglie uno. Fanno esattamente le stesse cose.",
-    intgCliTitle: 'Avanzato: riga di comando genoffice',
-    intgCliReady: 'genoffice {v} · pronto nel terminale ({path})',
+    intgCliTitle: 'Avanzato: riga di comando techpartner',
+    intgCliReady: 'techpartner {v} · pronto nel terminale ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · non è nel PATH del terminale. Gli assistenti lo trovano comunque tramite ~/.genoffice/launcher, quindi lo skill funziona. Per digitare genoffice tu stesso, esegui questo una volta:',
+      'techpartner {v} · non è nel PATH del terminale. Gli assistenti lo trovano comunque tramite ~/.techpartner-office/launcher, quindi lo skill funziona. Per digitare techpartner tu stesso, esegui questo una volta:',
     intgCliLauncher: 'Cartella del launcher',
     intgStateOutdated: 'Installato {v}, aggiornamento a {next} disponibile',
     intgStateModified: 'Installato {v} (modificato)',
@@ -9227,8 +9197,6 @@ export const strings = {
     intgOtherFolderDesc: 'Wybierz jego folder skills, a TechPartner Office zapisze tam plik.',
     intgOtherZipTitle: 'Przekaż plik asystentowi',
     intgOtherZipDesc: 'Zapisz skill jako zip, a potem poproś asystenta o instalację.',
-    intgOtherNpxTitle: 'Poleceniem skills (wymaga Node.js)',
-    intgOtherNpxDesc: 'Uruchom to w terminalu:',
     intgCopy: 'Kopiuj',
     intgStep2Title: 'Wypróbuj',
     intgStep2Desc: 'Otwórz nowy czat w asystencie i poproś zwykłymi słowami, na przykład:',
@@ -9237,19 +9205,20 @@ export const strings = {
     intgExample1: 'Zamień ~/Downloads/report.md na dokument Word',
     intgExample2: 'Zrób prezentację z 6 slajdów o naszych wynikach za III kwartał',
     intgExample3: 'Przekonwertuj budget.xlsx do PDF i otwórz w TechPartner Office',
-    intgStep2Note: 'Asystent sam uruchamia wiersz poleceń genoffice; nigdy nie musisz go wpisywać.',
+    intgStep2Note:
+      'Asystent sam uruchamia wiersz poleceń techpartner; nigdy nie musisz go wpisywać.',
     intgCliPartTitle: 'CLI · wiersz poleceń + skill',
     intgCliPartDesc:
-      'Dla asystentów, które potrafią uruchamiać polecenia terminala (Claude Code, Codex, Cursor i inne). Po zainstalowaniu skilla asystent sam wywołuje wiersz poleceń genoffice, aby tworzyć, konwertować, czytać i edytować pliki; nigdy nie wpisujesz polecenia.',
+      'Dla asystentów, które potrafią uruchamiać polecenia terminala (Claude Code, Codex, Cursor i inne). Po zainstalowaniu skilla asystent sam wywołuje wiersz poleceń techpartner, aby tworzyć, konwertować, czytać i edytować pliki; nigdy nie wpisujesz polecenia.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP to wspólny protokół, którym asystenci AI wywołują zewnętrzne narzędzia. Użyj go, gdy asystent nie potrafi uruchamiać poleceń (np. Claude Desktop) lub gdy chcesz, aby bezpośrednio sterował oknem GenOffice. Wybierz jeden z dwóch sposobów poniżej.',
+      'MCP to wspólny protokół, którym asystenci AI wywołują zewnętrzne narzędzia. Użyj go, gdy asystent nie potrafi uruchamiać poleceń (np. Claude Desktop) lub gdy chcesz, aby bezpośrednio sterował oknem TechPartner Office. Wybierz jeden z dwóch sposobów poniżej.',
     intgMcpStdioTitle: 'Uruchamiany przez asystenta (zalecane)',
     intgMcpStdioDesc:
-      'Asystent sam uruchamia genoffice mcp: nic tu nie trzeba włączać, a GenOffice nie musi być otwarty. Te same funkcje co CLI.',
+      'Asystent sam uruchamia techpartner mcp: nic tu nie trzeba włączać, a TechPartner Office nie musi być otwarty. Te same funkcje co CLI.',
     intgMcpHttpTitle: 'Lokalny serwer HTTP',
     intgMcpHttpDesc:
-      'Działa wewnątrz GenOffice; asystent łączy się przez URL, a Ty widzisz, jak dokument powstaje krok po kroku w edytorze Word. GenOffice musi pozostać otwarty; na razie tylko dokumenty Word.',
+      'Działa wewnątrz TechPartner Office; asystent łączy się przez URL, a Ty widzisz, jak dokument powstaje krok po kroku w edytorze Docs. TechPartner Office musi pozostać otwarty; na razie tylko dokumenty Word.',
     intgMcpHttpAdvanced: 'Zaawansowane: inne adresy i dziennik',
     intgMcpTryNote:
       'Asystent wywołuje TechPartner Office przez MCP; nigdy nie wpisujesz polecenia.',
@@ -9260,10 +9229,10 @@ export const strings = {
       'Dodaj to do jego konfiguracji serwerów MCP (plik JSON lub „Dodaj serwer MCP” w ustawieniach):',
     intgMcpNote:
       'Skill i MCP mogą działać obok siebie; asystent wybiera jedno z nich. Oba robią dokładnie to samo.',
-    intgCliTitle: 'Zaawansowane: wiersz poleceń genoffice',
-    intgCliReady: 'genoffice {v} · gotowy w terminalu ({path})',
+    intgCliTitle: 'Zaawansowane: wiersz poleceń techpartner',
+    intgCliReady: 'techpartner {v} · gotowy w terminalu ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · nie ma go w PATH terminala. Asystenty i tak znajdą go przez ~/.genoffice/launcher, więc skill działa. Aby samodzielnie wpisywać genoffice, uruchom to raz:',
+      'techpartner {v} · nie ma go w PATH terminala. Asystenty i tak znajdą go przez ~/.techpartner-office/launcher, więc skill działa. Aby samodzielnie wpisywać techpartner, uruchom to raz:',
     intgCliLauncher: 'Folder programu uruchamiającego',
     intgStateOutdated: 'Zainstalowano {v}, dostępna aktualizacja do {next}',
     intgStateModified: 'Zainstalowano {v} (zmodyfikowano)',
@@ -9768,8 +9737,6 @@ export const strings = {
     intgOtherFolderDesc: 'Vyberte jeho složku skills a TechPartner Office tam soubor zapíše.',
     intgOtherZipTitle: 'Předejte soubor asistentovi',
     intgOtherZipDesc: 'Uložte skill jako zip a požádejte asistenta, aby jej nainstaloval.',
-    intgOtherNpxTitle: 'Příkazem skills (vyžaduje Node.js)',
-    intgOtherNpxDesc: 'Spusťte v terminálu:',
     intgCopy: 'Kopírovat',
     intgStep2Title: 'Vyzkoušejte',
     intgStep2Desc: 'Otevřete v asistentovi nový chat a požádejte běžnými slovy, například:',
@@ -9778,19 +9745,19 @@ export const strings = {
     intgExample1: 'Převeď ~/Downloads/report.md na dokument Word',
     intgExample2: 'Udělej prezentaci o 6 snímcích o našich výsledcích za 3. čtvrtletí',
     intgExample3: 'Převeď budget.xlsx do PDF a otevři ho v TechPartner Office',
-    intgStep2Note: 'Asistent spouští příkazový řádek genoffice sám; nikdy ho nemusíte psát.',
+    intgStep2Note: 'Asistent spouští příkazový řádek techpartner sám; nikdy ho nemusíte psát.',
     intgCliPartTitle: 'CLI · příkazový řádek + skill',
     intgCliPartDesc:
-      'Pro asistenty, kteří umí spouštět příkazy terminálu (Claude Code, Codex, Cursor a další). Po instalaci skillu asistent sám volá příkazový řádek genoffice k vytváření, převodu, čtení a úpravám souborů; žádný příkaz nepíšete.',
+      'Pro asistenty, kteří umí spouštět příkazy terminálu (Claude Code, Codex, Cursor a další). Po instalaci skillu asistent sám volá příkazový řádek techpartner k vytváření, převodu, čtení a úpravám souborů; žádný příkaz nepíšete.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP je společný protokol, kterým AI asistenti volají externí nástroje. Použijte ho, když asistent neumí spouštět příkazy (např. Claude Desktop) nebo když chcete, aby přímo ovládal okno GenOffice. Vyberte jeden ze dvou způsobů níže.',
+      'MCP je společný protokol, kterým AI asistenti volají externí nástroje. Použijte ho, když asistent neumí spouštět příkazy (např. Claude Desktop) nebo když chcete, aby přímo ovládal okno TechPartner Office. Vyberte jeden ze dvou způsobů níže.',
     intgMcpStdioTitle: 'Spouští asistent (doporučeno)',
     intgMcpStdioDesc:
-      'Asistent spustí genoffice mcp sám: tady není co zapínat a GenOffice nemusí být otevřený. Stejné funkce jako CLI.',
+      'Asistent spustí techpartner mcp sám: tady není co zapínat a TechPartner Office nemusí být otevřený. Stejné funkce jako CLI.',
     intgMcpHttpTitle: 'Místní HTTP server',
     intgMcpHttpDesc:
-      'Běží uvnitř GenOffice; asistent se připojí přes URL a v editoru Word sledujete, jak dokument krok za krokem vzniká. GenOffice musí zůstat otevřený; zatím jen dokumenty Word.',
+      'Běží uvnitř TechPartner Office; asistent se připojí přes URL a v editoru Docs sledujete, jak dokument krok za krokem vzniká. TechPartner Office musí zůstat otevřený; zatím jen dokumenty Word.',
     intgMcpHttpAdvanced: 'Pokročilé: další adresy a protokol',
     intgMcpTryNote: 'Asistent volá TechPartner Office přes MCP; žádný příkaz nepíšete.',
     intgMcpClaudeTitle: 'Claude Code',
@@ -9800,10 +9767,10 @@ export const strings = {
       'Přidejte toto do jeho nastavení MCP serverů (soubor JSON nebo „Přidat MCP server“ v nastavení):',
     intgMcpNote:
       'Skill a MCP mohou být nastaveny současně; asistent si jeden vybere. Oba dělají přesně to samé.',
-    intgCliTitle: 'Pokročilé: příkazový řádek genoffice',
-    intgCliReady: 'genoffice {v} · připraven v terminálu ({path})',
+    intgCliTitle: 'Pokročilé: příkazový řádek techpartner',
+    intgCliReady: 'techpartner {v} · připraven v terminálu ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · není v PATH terminálu. Asistenti ho i tak najdou přes ~/.genoffice/launcher, skill tedy funguje. Chcete-li genoffice psát sami, spusťte jednou:',
+      'techpartner {v} · není v PATH terminálu. Asistenti ho i tak najdou přes ~/.techpartner-office/launcher, skill tedy funguje. Chcete-li techpartner psát sami, spusťte jednou:',
     intgCliLauncher: 'Složka spouštěče',
     intgStateOutdated: 'Nainstalováno {v}, k dispozici aktualizace na {next}',
     intgStateModified: 'Nainstalováno {v} (upraveno)',
@@ -10400,8 +10367,6 @@ export const strings = {
     intgOtherFolderDesc: 'Kies zijn skills-map en TechPartner Office schrijft het bestand daar.',
     intgOtherZipTitle: 'Geef het bestand aan de assistent',
     intgOtherZipDesc: 'Sla de skill op als zip en vraag de assistent hem te installeren.',
-    intgOtherNpxTitle: 'Met de skills-opdracht (vereist Node.js)',
-    intgOtherNpxDesc: 'Voer dit uit in een terminal:',
     intgCopy: 'Kopiëren',
     intgStep2Title: 'Probeer het',
     intgStep2Desc:
@@ -10412,19 +10377,19 @@ export const strings = {
     intgExample2: 'Maak een presentatie van 6 dia’s over onze Q3-resultaten',
     intgExample3: 'Zet budget.xlsx om naar PDF en open het in TechPartner Office',
     intgStep2Note:
-      'De assistent voert de genoffice-opdrachtregel zelf uit; u hoeft die nooit te typen.',
+      'De assistent voert de techpartner-opdrachtregel zelf uit; u hoeft die nooit te typen.',
     intgCliPartTitle: 'CLI · opdrachtregel + skill',
     intgCliPartDesc:
-      'Voor assistenten die terminalopdrachten kunnen uitvoeren (Claude Code, Codex, Cursor en andere). Na installatie van de skill roept de assistent zelf de genoffice-opdrachtregel aan om bestanden te maken, converteren, lezen en bewerken; je typt nooit een opdracht.',
+      'Voor assistenten die terminalopdrachten kunnen uitvoeren (Claude Code, Codex, Cursor en andere). Na installatie van de skill roept de assistent zelf de techpartner-opdrachtregel aan om bestanden te maken, converteren, lezen en bewerken; je typt nooit een opdracht.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP is het gemeenschappelijke protocol waarmee AI-assistenten externe tools aanroepen. Gebruik het als je assistent geen opdrachten kan uitvoeren (bijvoorbeeld Claude Desktop) of als je wilt dat hij het GenOffice-venster rechtstreeks bestuurt. Kies een van de twee manieren hieronder.',
+      'MCP is het gemeenschappelijke protocol waarmee AI-assistenten externe tools aanroepen. Gebruik het als je assistent geen opdrachten kan uitvoeren (bijvoorbeeld Claude Desktop) of als je wilt dat hij het TechPartner Office-venster rechtstreeks bestuurt. Kies een van de twee manieren hieronder.',
     intgMcpStdioTitle: 'Gestart door de assistent (aanbevolen)',
     intgMcpStdioDesc:
-      'De assistent start genoffice mcp zelf: hier hoeft niets aan, en GenOffice hoeft niet open te staan. Dezelfde functies als de CLI.',
+      'De assistent start techpartner mcp zelf: hier hoeft niets aan, en TechPartner Office hoeft niet open te staan. Dezelfde functies als de CLI.',
     intgMcpHttpTitle: 'Lokale HTTP-server',
     intgMcpHttpDesc:
-      'Draait in GenOffice; de assistent verbindt via een URL en je ziet het document stap voor stap ontstaan in de Word-editor. GenOffice moet open blijven; voorlopig alleen Word-documenten.',
+      'Draait in TechPartner Office; de assistent verbindt via een URL en je ziet het document stap voor stap ontstaan in de Docs-editor. TechPartner Office moet open blijven; voorlopig alleen Word-documenten.',
     intgMcpHttpAdvanced: 'Geavanceerd: andere adressen en logboek',
     intgMcpTryNote:
       'De assistent roept TechPartner Office aan via MCP; je typt nooit een opdracht.',
@@ -10435,10 +10400,10 @@ export const strings = {
       'Voeg dit toe aan de MCP-serverinstellingen (een JSON-bestand, of "MCP-server toevoegen" in de instellingen):',
     intgMcpNote:
       'De skill en MCP kunnen naast elkaar bestaan; de assistent kiest er een. Ze doen precies hetzelfde.',
-    intgCliTitle: 'Geavanceerd: genoffice-opdrachtregel',
-    intgCliReady: 'genoffice {v} · klaar in uw terminal ({path})',
+    intgCliTitle: 'Geavanceerd: techpartner-opdrachtregel',
+    intgCliReady: 'techpartner {v} · klaar in uw terminal ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · staat niet in het PATH van uw terminal. Assistenten vinden het toch via ~/.genoffice/launcher, dus de skill werkt. Om zelf genoffice te typen, voert u dit één keer uit:',
+      'techpartner {v} · staat niet in het PATH van uw terminal. Assistenten vinden het toch via ~/.techpartner-office/launcher, dus de skill werkt. Om zelf techpartner te typen, voert u dit één keer uit:',
     intgCliLauncher: 'Launcher-map',
     intgStateOutdated: 'Geïnstalleerd {v}, update naar {next} beschikbaar',
     intgStateModified: 'Geïnstalleerd {v} (gewijzigd)',
@@ -10992,8 +10957,6 @@ export const strings = {
       'Pilih folder skills pembantu itu dan TechPartner Office menulis fail di sana.',
     intgOtherZipTitle: 'Serahkan fail kepada pembantu',
     intgOtherZipDesc: 'Simpan skill sebagai zip, kemudian minta pembantu memasangnya.',
-    intgOtherNpxTitle: 'Dengan arahan skills (perlukan Node.js)',
-    intgOtherNpxDesc: 'Jalankan ini dalam terminal:',
     intgCopy: 'Salin',
     intgStep2Title: 'Cuba sekarang',
     intgStep2Desc:
@@ -11004,19 +10967,19 @@ export const strings = {
     intgExample2: 'Buat pembentangan 6 slaid tentang hasil S3 kami',
     intgExample3: 'Tukar budget.xlsx kepada PDF dan buka dalam TechPartner Office',
     intgStep2Note:
-      'Pembantu menjalankan baris arahan genoffice sendiri; anda tidak perlu menaipnya.',
+      'Pembantu menjalankan baris arahan techpartner sendiri; anda tidak perlu menaipnya.',
     intgCliPartTitle: 'CLI · baris arahan + skill',
     intgCliPartDesc:
-      'Untuk pembantu yang boleh menjalankan arahan terminal (Claude Code, Codex, Cursor dan lain-lain). Setelah skill dipasang, pembantu memanggil baris arahan genoffice sendiri untuk mencipta, menukar, membaca dan mengedit fail; anda tidak perlu menaip sebarang arahan.',
+      'Untuk pembantu yang boleh menjalankan arahan terminal (Claude Code, Codex, Cursor dan lain-lain). Setelah skill dipasang, pembantu memanggil baris arahan techpartner sendiri untuk mencipta, menukar, membaca dan mengedit fail; anda tidak perlu menaip sebarang arahan.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP ialah protokol umum yang digunakan pembantu AI untuk memanggil alat luaran. Gunakannya apabila pembantu anda tidak boleh menjalankan arahan (contohnya Claude Desktop) atau apabila anda mahu ia mengawal tetingkap GenOffice secara langsung. Pilih salah satu daripada dua cara di bawah.',
+      'MCP ialah protokol umum yang digunakan pembantu AI untuk memanggil alat luaran. Gunakannya apabila pembantu anda tidak boleh menjalankan arahan (contohnya Claude Desktop) atau apabila anda mahu ia mengawal tetingkap TechPartner Office secara langsung. Pilih salah satu daripada dua cara di bawah.',
     intgMcpStdioTitle: 'Dimulakan oleh pembantu (disyorkan)',
     intgMcpStdioDesc:
-      'Pembantu melancarkan genoffice mcp sendiri: tiada apa yang perlu dihidupkan di sini, dan GenOffice tidak perlu dibuka. Ciri sama seperti CLI.',
+      'Pembantu melancarkan techpartner mcp sendiri: tiada apa yang perlu dihidupkan di sini, dan TechPartner Office tidak perlu dibuka. Ciri sama seperti CLI.',
     intgMcpHttpTitle: 'Pelayan HTTP tempatan',
     intgMcpHttpDesc:
-      'Berjalan di dalam GenOffice; pembantu menyambung melalui URL dan anda boleh melihat dokumen dibina langkah demi langkah dalam editor Word. GenOffice mesti kekal dibuka; buat masa ini dokumen Word sahaja.',
+      'Berjalan di dalam TechPartner Office; pembantu menyambung melalui URL dan anda boleh melihat dokumen dibina langkah demi langkah dalam editor Docs. TechPartner Office mesti kekal dibuka; buat masa ini dokumen Word sahaja.',
     intgMcpHttpAdvanced: 'Lanjutan: alamat lain dan log',
     intgMcpTryNote:
       'Pembantu memanggil TechPartner Office melalui MCP; anda tidak perlu menaip sebarang arahan.',
@@ -11027,10 +10990,10 @@ export const strings = {
       'Tambahkan ini pada tetapan pelayan MCP pembantu tersebut (fail JSON, atau "Tambah pelayan MCP" dalam tetapannya):',
     intgMcpNote:
       'Skill dan MCP boleh dipasang serentak; pembantu akan memilih satu. Kedua-duanya melakukan perkara yang sama.',
-    intgCliTitle: 'Lanjutan: baris arahan genoffice',
-    intgCliReady: 'genoffice {v} · sedia dalam terminal anda ({path})',
+    intgCliTitle: 'Lanjutan: baris arahan techpartner',
+    intgCliReady: 'techpartner {v} · sedia dalam terminal anda ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · tiada dalam PATH terminal anda. Pembantu masih menemuinya melalui ~/.genoffice/launcher, jadi skill berfungsi. Untuk menaip genoffice sendiri, jalankan ini sekali:',
+      'techpartner {v} · tiada dalam PATH terminal anda. Pembantu masih menemuinya melalui ~/.techpartner-office/launcher, jadi skill berfungsi. Untuk menaip techpartner sendiri, jalankan ini sekali:',
     intgCliLauncher: 'Folder pelancar',
     intgStateOutdated: 'Dipasang {v}, kemas kini ke {next} tersedia',
     intgStateModified: 'Dipasang {v} (diubah suai)',
@@ -11577,8 +11540,6 @@ export const strings = {
     intgOtherFolderDesc: 'בחרו את תיקיית ה-skills שלו ו-TechPartner Office יכתוב שם את הקובץ.',
     intgOtherZipTitle: 'מסרו את הקובץ לעוזר',
     intgOtherZipDesc: 'שמרו את ה-skill כ-zip ובקשו מהעוזר להתקין אותו.',
-    intgOtherNpxTitle: 'באמצעות פקודת skills (דורש Node.js)',
-    intgOtherNpxDesc: 'הריצו זאת בטרמינל:',
     intgCopy: 'העתקה',
     intgStep2Title: 'נסו',
     intgStep2Desc: 'פתחו שיחה חדשה בעוזר ובקשו במילים פשוטות, למשל:',
@@ -11586,19 +11547,19 @@ export const strings = {
     intgExample1: 'הפוך את ~/Downloads/report.md למסמך Word',
     intgExample2: 'הכן מצגת של 6 שקופיות על תוצאות הרבעון השלישי שלנו',
     intgExample3: 'המר את budget.xlsx ל-PDF ופתח אותו ב-TechPartner Office',
-    intgStep2Note: 'העוזר מריץ בעצמו את שורת הפקודה genoffice; לעולם לא תצטרכו להקליד אותה.',
+    intgStep2Note: 'העוזר מריץ בעצמו את שורת הפקודה techpartner; לעולם לא תצטרכו להקליד אותה.',
     intgCliPartTitle: 'CLI · שורת פקודה + skill',
     intgCliPartDesc:
-      'לעוזרים שיכולים להריץ פקודות טרמינל (Claude Code‏, Codex‏, Cursor ואחרים). לאחר התקנת ה‑skill העוזר קורא בעצמו לשורת הפקודה genoffice כדי ליצור, להמיר, לקרוא ולערוך קבצים; אתם לא מקלידים שום פקודה.',
+      'לעוזרים שיכולים להריץ פקודות טרמינל (Claude Code‏, Codex‏, Cursor ואחרים). לאחר התקנת ה‑skill העוזר קורא בעצמו לשורת הפקודה techpartner כדי ליצור, להמיר, לקרוא ולערוך קבצים; אתם לא מקלידים שום פקודה.',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP הוא הפרוטוקול המשותף שבו עוזרי AI קוראים לכלים חיצוניים. השתמשו בו כשהעוזר אינו יכול להריץ פקודות (למשל Claude Desktop) או כשאתם רוצים שהוא ישלוט ישירות בחלון GenOffice. בחרו אחת משתי הדרכים למטה.',
+      'MCP הוא הפרוטוקול המשותף שבו עוזרי AI קוראים לכלים חיצוניים. השתמשו בו כשהעוזר אינו יכול להריץ פקודות (למשל Claude Desktop) או כשאתם רוצים שהוא ישלוט ישירות בחלון TechPartner Office. בחרו אחת משתי הדרכים למטה.',
     intgMcpStdioTitle: 'מופעל על ידי העוזר (מומלץ)',
     intgMcpStdioDesc:
-      'העוזר מפעיל את genoffice mcp בעצמו: אין מה להפעיל כאן, ו‑GenOffice לא חייב להיות פתוח. אותן יכולות כמו ב‑CLI.',
+      'העוזר מפעיל את techpartner mcp בעצמו: אין מה להפעיל כאן, ו‑TechPartner Office לא חייב להיות פתוח. אותן יכולות כמו ב‑CLI.',
     intgMcpHttpTitle: 'שרת HTTP מקומי',
     intgMcpHttpDesc:
-      'פועל בתוך GenOffice; העוזר מתחבר דרך כתובת URL ואפשר לראות את המסמך נבנה צעד אחר צעד בעורך Word. GenOffice חייב להישאר פתוח; בשלב זה מסמכי Word בלבד.',
+      'פועל בתוך TechPartner Office; העוזר מתחבר דרך כתובת URL ואפשר לראות את המסמך נבנה צעד אחר צעד בעורך Docs. TechPartner Office חייב להישאר פתוח; בשלב זה מסמכי Word בלבד.',
     intgMcpHttpAdvanced: 'מתקדם: כתובות נוספות ויומן',
     intgMcpTryNote: 'העוזר קורא ל‑TechPartner Office דרך MCP; אתם לא מקלידים שום פקודה.',
     intgMcpClaudeTitle: 'Claude Code',
@@ -11607,10 +11568,10 @@ export const strings = {
     intgMcpOtherDesc: 'הוסיפו זאת להגדרות שרתי ה-MCP שלו (קובץ JSON, או "הוספת שרת MCP" בהגדרות):',
     intgMcpNote:
       'הסקיל ו-MCP יכולים להיות מוגדרים יחד; העוזר יבחר אחד מהם. שניהם עושים בדיוק את אותם הדברים.',
-    intgCliTitle: 'מתקדם: שורת הפקודה genoffice',
-    intgCliReady: 'genoffice {v} · מוכן בטרמינל ({path})',
+    intgCliTitle: 'מתקדם: שורת הפקודה techpartner',
+    intgCliReady: 'techpartner {v} · מוכן בטרמינל ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · לא נמצא ב-PATH של הטרמינל. העוזרים עדיין מוצאים אותו דרך ~/.genoffice/launcher, ולכן ה-skill עובד. כדי להקליד genoffice בעצמכם, הריצו זאת פעם אחת:',
+      'techpartner {v} · לא נמצא ב-PATH של הטרמינל. העוזרים עדיין מוצאים אותו דרך ~/.techpartner-office/launcher, ולכן ה-skill עובד. כדי להקליד techpartner בעצמכם, הריצו זאת פעם אחת:',
     intgCliLauncher: 'תיקיית המשגר',
     intgStateOutdated: 'מותקן {v}, זמין עדכון ל-{next}',
     intgStateModified: 'מותקן {v} (שונה)',
@@ -12154,8 +12115,6 @@ export const strings = {
     intgOtherFolderDesc: 'उसका skills फ़ोल्डर चुनें, TechPartner Office वहाँ फ़ाइल लिख देगा।',
     intgOtherZipTitle: 'फ़ाइल असिस्टेंट को दें',
     intgOtherZipDesc: 'skill को zip के रूप में सहेजें, फिर असिस्टेंट से इंस्टॉल करने को कहें।',
-    intgOtherNpxTitle: 'skills कमांड से (Node.js ज़रूरी)',
-    intgOtherNpxDesc: 'टर्मिनल में यह चलाएँ:',
     intgCopy: 'कॉपी करें',
     intgStep2Title: 'आज़माएँ',
     intgStep2Desc: 'अपने असिस्टेंट में नई चैट खोलें और सादे शब्दों में कहें, जैसे:',
@@ -12164,19 +12123,19 @@ export const strings = {
     intgExample1: '~/Downloads/report.md को Word दस्तावेज़ बना दो',
     intgExample2: 'हमारे Q3 नतीजों पर 6 स्लाइड का प्रेज़ेंटेशन बनाओ',
     intgExample3: 'budget.xlsx को PDF में बदलो और TechPartner Office में खोलो',
-    intgStep2Note: 'genoffice कमांड लाइन असिस्टेंट खुद चलाता है; आपको कभी टाइप नहीं करना पड़ता।',
+    intgStep2Note: 'techpartner कमांड लाइन असिस्टेंट खुद चलाता है; आपको कभी टाइप नहीं करना पड़ता।',
     intgCliPartTitle: 'CLI · कमांड लाइन + skill',
     intgCliPartDesc:
-      'उन सहायकों के लिए जो टर्मिनल कमांड चला सकते हैं (Claude Code, Codex, Cursor आदि)। skill इंस्टॉल होने के बाद सहायक फ़ाइलें बनाने, बदलने, पढ़ने और संपादित करने के लिए खुद genoffice कमांड लाइन चलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
+      'उन सहायकों के लिए जो टर्मिनल कमांड चला सकते हैं (Claude Code, Codex, Cursor आदि)। skill इंस्टॉल होने के बाद सहायक फ़ाइलें बनाने, बदलने, पढ़ने और संपादित करने के लिए खुद techpartner कमांड लाइन चलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP वह साझा प्रोटोकॉल है जिससे AI सहायक बाहरी टूल बुलाते हैं। इसे तब चुनें जब सहायक कमांड न चला सके (जैसे Claude Desktop) या आप चाहें कि वह GenOffice की विंडो को सीधे चलाए। नीचे दिए दो तरीकों में से कोई एक चुनें।',
+      'MCP वह साझा प्रोटोकॉल है जिससे AI सहायक बाहरी टूल बुलाते हैं। इसे तब चुनें जब सहायक कमांड न चला सके (जैसे Claude Desktop) या आप चाहें कि वह TechPartner Office की विंडो को सीधे चलाए। नीचे दिए दो तरीकों में से कोई एक चुनें।',
     intgMcpStdioTitle: 'सहायक द्वारा शुरू (अनुशंसित)',
     intgMcpStdioDesc:
-      'सहायक खुद genoffice mcp चलाता है: यहाँ कुछ चालू करने की ज़रूरत नहीं, और GenOffice खुला होना भी ज़रूरी नहीं। सुविधाएँ CLI जैसी ही।',
+      'सहायक खुद techpartner mcp चलाता है: यहाँ कुछ चालू करने की ज़रूरत नहीं, और TechPartner Office खुला होना भी ज़रूरी नहीं। सुविधाएँ CLI जैसी ही।',
     intgMcpHttpTitle: 'स्थानीय HTTP सर्वर',
     intgMcpHttpDesc:
-      'GenOffice के अंदर चलता है; सहायक URL से जुड़ता है और आप Word संपादक में दस्तावेज़ को चरण-दर-चरण बनते देख सकते हैं। GenOffice खुला रहना चाहिए; अभी केवल Word दस्तावेज़।',
+      'TechPartner Office के अंदर चलता है; सहायक URL से जुड़ता है और आप Docs संपादक में दस्तावेज़ को चरण-दर-चरण बनते देख सकते हैं। TechPartner Office खुला रहना चाहिए; अभी केवल Word दस्तावेज़।',
     intgMcpHttpAdvanced: 'उन्नत: अन्य पते और लॉग',
     intgMcpTryNote:
       'सहायक MCP के ज़रिये TechPartner Office को बुलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
@@ -12187,10 +12146,10 @@ export const strings = {
       'इसे उसकी MCP सर्वर सेटिंग्स में जोड़ें (एक JSON फ़ाइल, या सेटिंग्स में "MCP सर्वर जोड़ें"):',
     intgMcpNote:
       'स्किल और MCP एक साथ सेट किए जा सकते हैं; असिस्टेंट एक को चुन लेता है। दोनों बिल्कुल एक जैसे काम करते हैं।',
-    intgCliTitle: 'उन्नत: genoffice कमांड लाइन',
-    intgCliReady: 'genoffice {v} · टर्मिनल में तैयार ({path})',
+    intgCliTitle: 'उन्नत: techpartner कमांड लाइन',
+    intgCliReady: 'techpartner {v} · टर्मिनल में तैयार ({path})',
     intgCliNotOnPath:
-      'genoffice {v} · टर्मिनल के PATH में नहीं है। असिस्टेंट इसे ~/.genoffice/launcher से फिर भी ढूँढ लेते हैं, इसलिए skill काम करता है। खुद genoffice टाइप करने के लिए यह एक बार चलाएँ:',
+      'techpartner {v} · टर्मिनल के PATH में नहीं है। असिस्टेंट इसे ~/.techpartner-office/launcher से फिर भी ढूँढ लेते हैं, इसलिए skill काम करता है। खुद techpartner टाइप करने के लिए यह एक बार चलाएँ:',
     intgCliLauncher: 'लॉन्चर फ़ोल्डर',
     intgStateOutdated: 'इंस्टॉल {v}, {next} पर अपडेट उपलब्ध',
     intgStateModified: 'इंस्टॉल {v} (बदला गया)',
@@ -12725,8 +12684,6 @@ export const strings = {
     intgOtherFolderDesc: '選擇它的 skills 資料夾，TechPartner Office 會把檔案寫進去。',
     intgOtherZipTitle: '把檔案交給助理',
     intgOtherZipDesc: '把 skill 儲存為 zip，然後讓助理自行安裝。',
-    intgOtherNpxTitle: '用 skills 指令安裝（需要 Node.js）',
-    intgOtherNpxDesc: '在終端機執行：',
     intgCopy: '複製',
     intgStep2Title: '試試看',
     intgStep2Desc: '在助理中開一個新對話，用平常說話的方式提出需求，例如：',
@@ -12734,19 +12691,19 @@ export const strings = {
     intgExample1: '把 ~/Downloads/report.md 轉成 Word 文件',
     intgExample2: '做一份 6 頁的簡報，介紹我們第三季的業績',
     intgExample3: '把 budget.xlsx 轉成 PDF，並在 TechPartner Office 中開啟',
-    intgStep2Note: '助理會自行呼叫 genoffice 命令列，你不需要輸入任何指令。',
+    intgStep2Note: '助理會自行呼叫 techpartner 命令列，你不需要輸入任何指令。',
     intgCliPartTitle: 'CLI · 命令列 + skill',
     intgCliPartDesc:
-      '適合能執行終端機指令的助理（Claude Code、Codex、Cursor 等）。安裝 skill 後，助理會自己呼叫 genoffice 命令列建立、轉換、讀取和編輯檔案，你不需要輸入任何指令。',
+      '適合能執行終端機指令的助理（Claude Code、Codex、Cursor 等）。安裝 skill 後，助理會自己呼叫 techpartner 命令列建立、轉換、讀取和編輯檔案，你不需要輸入任何指令。',
     intgMcpPartTitle: 'MCP',
     intgMcpPartDesc:
-      'MCP 是 AI 助理呼叫外部工具的通用協定。助理不能執行指令（如 Claude Desktop），或你想讓它直接操作 GenOffice 視窗時用這條路。下面兩種接法任選一種。',
+      'MCP 是 AI 助理呼叫外部工具的通用協定。助理不能執行指令（如 Claude Desktop），或你想讓它直接操作 TechPartner Office 視窗時用這條路。下面兩種接法任選一種。',
     intgMcpStdioTitle: '由助理啟動（建議）',
     intgMcpStdioDesc:
-      '助理自己啟動 genoffice mcp，不需要在這裡開任何開關，GenOffice 也不用開著。功能與 CLI 完全相同。',
+      '助理自己啟動 techpartner mcp，不需要在這裡開任何開關，TechPartner Office 也不用開著。功能與 CLI 完全相同。',
     intgMcpHttpTitle: '本機 HTTP 服務',
     intgMcpHttpDesc:
-      '在 GenOffice 內執行，助理透過網址連線，可以看著它在 Word 編輯器裡逐步產生。需要 GenOffice 保持開啟；目前只支援 Word。',
+      '在 TechPartner Office 內執行，助理透過網址連線，可以看著它在 Docs 編輯器裡逐步產生。需要 TechPartner Office 保持開啟；目前只支援 Word。',
     intgMcpHttpAdvanced: '進階：其他位址與記錄',
     intgMcpTryNote: '助理會透過 MCP 呼叫 TechPartner Office，你不需要輸入任何指令。',
     intgMcpClaudeTitle: 'Claude Code',
@@ -12755,10 +12712,10 @@ export const strings = {
     intgMcpOtherDesc:
       '把這段加進它的 MCP 伺服器設定（一個 JSON 檔，或設定裡的「新增 MCP 伺服器」）：',
     intgMcpNote: 'skill 和 MCP 可以同時存在，助理會自行選用；兩者做的事完全相同。',
-    intgCliTitle: '進階：命令列 genoffice',
-    intgCliReady: 'genoffice {v} · 已可在終端機直接使用（{path}）',
+    intgCliTitle: '進階：命令列 techpartner',
+    intgCliReady: 'techpartner {v} · 已可在終端機直接使用（{path}）',
     intgCliNotOnPath:
-      'genoffice {v} · 尚未加入終端機 PATH。助理仍能透過 ~/.genoffice/launcher 找到它，skill 不受影響。若想自己在終端機輸入 genoffice，執行一次：',
+      'techpartner {v} · 尚未加入終端機 PATH。助理仍能透過 ~/.techpartner-office/launcher 找到它，skill 不受影響。若想自己在終端機輸入 techpartner，執行一次：',
     intgCliLauncher: '啟動器資料夾',
     intgStateOutdated: '已安裝 {v}，可更新至 {next}',
     intgStateModified: '已安裝 {v}（已被修改）',

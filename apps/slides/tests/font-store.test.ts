@@ -126,7 +126,7 @@ describe('extractFontCdnBaseUrl', () => {
   it('reads and normalises the packaged mirror URL', () => {
     expect(
       extractFontCdnBaseUrl({
-        genofficeFontCdn: { baseUrl: ' https://fonts.example.test/v1/ ' },
+        techpartnerFontCdn: { baseUrl: ' https://fonts.example.test/v1/ ' },
       }),
     ).toBe(fontCdnBaseUrl)
   })

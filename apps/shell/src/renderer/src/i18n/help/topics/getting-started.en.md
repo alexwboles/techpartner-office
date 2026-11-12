@@ -26,7 +26,7 @@ A new document opens untitled; the file on disk is only created at the first sav
 
 - Menu **File ▸ Open** (⌘O/ctrl+O) opens the system picker: .docx / .doc / .xlsx / .xls / .csv / .tsv / .pptx / .ppt / .pdf / .md / .html.
 - Click anything in Home's **Recent** list.
-- `genoffice <file>` from a terminal also opens files.
+- `techpartner <file>` from a terminal also opens files.
 
 ## The save model
 

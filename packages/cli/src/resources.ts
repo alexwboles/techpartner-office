@@ -5,7 +5,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 /**
- * Two layouts: packaged (Resources/cli/genoffice.cjs next to Resources/wasm,
+ * Two layouts: packaged (Resources/cli/techpartner.cjs next to Resources/wasm,
  * Resources/native, Resources/ocr — see apps/shell/electron-builder.cjs) and
  * the dev checkout (packages/cli/{src,dist} inside the monorepo).
  */
@@ -30,7 +30,10 @@ export function repoRoot(): string | null {
     const pkg = join(dir, 'package.json')
     if (existsSync(pkg)) {
       try {
-        if (JSON.parse(readFileSync(pkg, 'utf-8')).name === 'genoffice') {
+        const name = JSON.parse(readFileSync(pkg, 'utf-8')).name
+        // the monorepo root package: renamed with the product; the old name
+        // still counts so a pre-rename checkout is found
+        if (name === 'techpartner-office' || name === 'genoffice') {
           cachedRepo = dir
           return dir
         }
@@ -45,6 +48,7 @@ export function repoRoot(): string | null {
 }
 
 export function pdfiumWasmPath(): string {
+  if (process.env.TECHPARTNER_PDFIUM_WASM) return process.env.TECHPARTNER_PDFIUM_WASM
   if (process.env.GENOFFICE_PDFIUM_WASM) return process.env.GENOFFICE_PDFIUM_WASM
   const packaged = packagedResourcesDir()
   if (packaged) return join(packaged, 'wasm', 'pdfium.wasm')
@@ -54,7 +58,7 @@ export function pdfiumWasmPath(): string {
       return createRequire(join(root, 'package.json')).resolve('@embedpdf/pdfium/pdfium.wasm')
     } catch {}
   }
-  throw new Error('pdfium.wasm not found (set GENOFFICE_PDFIUM_WASM)')
+  throw new Error('pdfium.wasm not found (set TECHPARTNER_PDFIUM_WASM)')
 }
 
 export function xlsxSidecarPath(): string | null {
@@ -80,12 +84,12 @@ export function ocrHelperPath(): string | null {
   return candidates.find((p) => existsSync(p)) ?? null
 }
 
-/** skills/genoffice/SKILL.md as shipped beside this bundle (Resources/cli/skills) or in the checkout. */
+/** skills/techpartner/SKILL.md as shipped beside this bundle (Resources/cli/skills) or in the checkout. */
 export function bundledSkillPath(): string | null {
   const packaged = packagedResourcesDir()
   const candidates = [
-    ...(packaged ? [join(packaged, 'cli', 'skills', 'genoffice', 'SKILL.md')] : []),
-    ...(repoRoot() ? [join(repoRoot()!, 'skills', 'genoffice', 'SKILL.md')] : []),
+    ...(packaged ? [join(packaged, 'cli', 'skills', 'techpartner', 'SKILL.md')] : []),
+    ...(repoRoot() ? [join(repoRoot()!, 'skills', 'techpartner', 'SKILL.md')] : []),
   ]
   return candidates.find((p) => existsSync(p)) ?? null
 }
@@ -95,8 +99,9 @@ export interface AppLaunch {
   args: string[]
 }
 
-/** How to start the GenOffice GUI: the app binary that hosts this CLI, an installed app, or the dev checkout. */
+/** How to start the TechPartner Office GUI: the app binary that hosts this CLI, an installed app, or the dev checkout. */
 export function appLaunch(env: NodeJS.ProcessEnv = process.env): AppLaunch | null {
+  if (env.TECHPARTNER_APP_BIN) return { command: env.TECHPARTNER_APP_BIN, args: [] }
   if (env.GENOFFICE_APP_BIN) return { command: env.GENOFFICE_APP_BIN, args: [] }
   if (packagedResourcesDir() && process.versions.electron) {
     return { command: process.execPath, args: [] }
@@ -122,12 +127,20 @@ function installedAppBinaries(
     case 'darwin':
       return [
         ...(shipped ? [shipped] : []),
+        '/Applications/TechPartner Office.app/Contents/MacOS/TechPartner Office',
+        join(homedir(), 'Applications/TechPartner Office.app/Contents/MacOS/TechPartner Office'),
         '/Applications/GenOffice.app/Contents/MacOS/GenOffice',
         join(homedir(), 'Applications/GenOffice.app/Contents/MacOS/GenOffice'),
       ]
     case 'win32':
       return [
         ...(shipped ? [shipped] : []),
+        env.LOCALAPPDATA
+          ? join(env.LOCALAPPDATA, 'Programs', 'TechPartner Office', 'TechPartner Office.exe')
+          : '',
+        env.ProgramFiles
+          ? join(env.ProgramFiles, 'TechPartner Office', 'TechPartner Office.exe')
+          : '',
         env.LOCALAPPDATA ? join(env.LOCALAPPDATA, 'Programs', 'GenOffice', 'GenOffice.exe') : '',
         env.ProgramFiles ? join(env.ProgramFiles, 'GenOffice', 'GenOffice.exe') : '',
       ].filter(Boolean)
@@ -138,8 +151,8 @@ function installedAppBinaries(
 
 export function appBinaryForResources(resources: string, platform: NodeJS.Platform): string {
   const install = dirname(resources)
-  if (platform === 'darwin') return join(install, 'MacOS', 'GenOffice')
-  if (platform === 'win32') return join(install, 'GenOffice.exe')
+  if (platform === 'darwin') return join(install, 'MacOS', 'TechPartner Office')
+  if (platform === 'win32') return join(install, 'TechPartner Office.exe')
   return join(install, 'genoffice')
 }
 

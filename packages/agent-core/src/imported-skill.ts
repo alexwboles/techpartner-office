@@ -6,7 +6,7 @@
  *
  * A coding agent's skill is prose with YAML frontmatter: `name`, `description`,
  * and a body that tells a reader how to drive a shell. GenOffice ships one such
- * skill of its own (`skills/genoffice/SKILL.md`), and its body is written
+ * skill of its own (`skills/techpartner/SKILL.md`), and its body is written
  * against `genoffice` running in a terminal.
  *
  * The in-app agent is not that reader. Its skills are `AgentSkill` values

@@ -97,7 +97,7 @@ interface Token {
 const PAIR_THRESHOLD = 0.6
 
 /** the author recorded when the caller names none */
-export const DEFAULT_COMPARE_AUTHOR = 'GenOffice'
+export const DEFAULT_COMPARE_AUTHOR = 'TechPartner Office'
 
 /**
  * Build the redline: the revised document with the differences marked as

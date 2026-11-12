@@ -60,6 +60,43 @@ That rules out the full internal sweep (Phase 3, not started):
   name is invisible to users, so it was reverted — product name,
   appId, and window titles carry the TechPartner identity instead.
 
+## Alex's override (2026-11-12): no GenOffice mention anywhere
+
+Alex overrode the CLI carve-out above: the old name must not appear
+anywhere a user or an assistant can see it, including the command line.
+Done in the 2026-11-12 rename:
+
+- CLI command `genoffice` → `techpartner`; launcher home
+  `~/.genoffice/` → `~/.techpartner-office/` with a one-time startup
+  migration (`migrateLegacyCliHome`: contents intact, never merges,
+  never overrides a custom auth dir, never throws). A legacy `genoffice`
+  PATH link that is ours is removed on install.
+- MCP server name/config key → `techpartner`; resource URIs
+  `techpartner://guide/*`; the shell's `open_in_genoffice` tool →
+  `open_in_techpartner`. Legacy `genoffice` MCP entries that start our
+  launcher are migrated on write and removed on uninstall; foreign ones
+  are left alone.
+- Bundled skill folder/content → `skills/techpartner` invoking
+  `techpartner`; the `npx skills add genspark-ai/genoffice` install
+  route was removed from the Integrations pane (folder-pick and zip
+  routes stay).
+- Root `package.json` name → `techpartner-office`: the 2026-10-28
+  breakage mechanism is fixed — `repoRoot()` now accepts the root
+  package name `techpartner-office` as well as the legacy `genoffice`.
+- `TECHPARTNER_*` env vars are primary everywhere; `GENOFFICE_*` names
+  keep working as fallbacks.
+- A guard test (`apps/shell/tests/branding-guard.test.ts`) fails if the
+  old name reappears in the shell UI strings, the bundled skill, or the
+  help topics.
+
+Deliberate leftovers (internal only, never rendered): the `@genoffice/*`
+package scopes, `GENOFFICE_*` fallback env names, legacy-name constants
+used by the migrations, the Linux app binary name `genoffice` (update
+identity), PDF dictionary keys (`GenOfficeStaticFormFills`,
+`GenOfficeFormField`), the `'GenOffice PUA Blank'` font names,
+`.genoffice-*` hidden manifest filenames, upstream issue references in
+comments, and the Apache-2.0 LICENSE/NOTICE attribution (legal).
+
 ## Phase 1 + 2 (2026-10-30, Alex approved): visible branding, Genspark-free AI
 
 This supersedes the Oct 28 note that kept the Genspark sign-in. Alex

@@ -13,7 +13,7 @@ function opsFile(dir: string, name: string, ops: unknown[]): string {
   return path
 }
 
-describe('genoffice create/slides (pptx ops)', () => {
+describe('techpartner create/slides (pptx ops)', () => {
   it('builds a deck from ops, reads it back, and edits it in place', async () => {
     const dir = tempDir()
     const create = opsFile(dir, 'create.json', [
@@ -348,7 +348,7 @@ describe('slides apply runs ops in order', () => {
   })
 })
 
-describe('genoffice slides (arrangement, table styles, layouts)', () => {
+describe('techpartner slides (arrangement, table styles, layouts)', () => {
   it('lists layouts, adds a slide by layout name, styles a table and glues a connector', async () => {
     const dir = tempDir()
     const out = join(dir, 'arrange.pptx')

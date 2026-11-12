@@ -1,6 +1,6 @@
 # Installing TechPartner Office
 
-Every build is published on the [Releases page](https://github.com/genspark-ai/genoffice/releases/latest). All of them come from `main`; the macOS and Windows installers are signed.
+Every build is published on the [Releases page](https://github.com/alexwboles/techpartner-office/releases/latest). All of them come from `main`; the macOS and Windows installers are signed.
 
 ## Pick the file for your machine
 
@@ -29,14 +29,14 @@ Run the `.exe` installer. It puts TechPartner Office in the Start menu and regis
 **Debian / Ubuntu**
 
 ```sh
-sudo apt install ./genoffice_<version>_amd64.deb
+sudo apt install ./techpartner_<version>_amd64.deb
 ```
 
 **Fedora / RHEL / openSUSE**
 
 ```sh
-sudo dnf install ./genoffice-<version>.x86_64.rpm     # Fedora / RHEL family
-sudo zypper install ./genoffice-<version>.x86_64.rpm  # openSUSE
+sudo dnf install ./techpartner-<version>.x86_64.rpm     # Fedora / RHEL family
+sudo zypper install ./techpartner-<version>.x86_64.rpm  # openSUSE
 ```
 
 **AppImage** — runs where it is, with no install step:
@@ -64,4 +64,4 @@ All three wrap the published artifacts rather than rebuilding the app, so they t
 
 ## The command line comes with it
 
-Every install ships a `genoffice` command that talks to the same engines the window does, so the two never disagree about a file. On macOS and Windows it is inside the app bundle; `genoffice install-cli` puts it on your `PATH`. See **Command line and agents** for what it can do.
+Every install ships a `techpartner` command that talks to the same engines the window does, so the two never disagree about a file. On macOS and Windows it is inside the app bundle; `techpartner install-cli` puts it on your `PATH`. See **Command line and agents** for what it can do.

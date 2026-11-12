@@ -15,29 +15,29 @@ TechPartner Office speaks the Model Context Protocol, so a coding agent can read
 The same thing from a terminal — this is the advanced path, and the one to reach for when the agent lives somewhere the pane cannot find:
 
 ```sh
-genoffice mcp install all
+techpartner mcp install all
 ```
 
 It finds the coding agents on this machine and writes the stdio server entry into each one's own config, leaving the rest of that file as it found it.
 
 ```sh
-genoffice mcp list             # where each agent stands
-genoffice mcp install cursor    # just one
-genoffice mcp uninstall cursor  # take it back out
+techpartner mcp list             # where each agent stands
+techpartner mcp install cursor    # just one
+techpartner mcp uninstall cursor  # take it back out
 ```
 
 An agent you installed somewhere unusual takes `--dir <path>`; `--force` rewrites an entry that is already there.
 
 Everything the server takes is on one screen — the register, remove and list forms, serving over HTTP, and the two schema flags:
 
-![The real output of genoffice mcp --help: the install, uninstall and list forms, with the --http, --host, --token, --compact-schemas, --dir and --force options](img/mcp.png)
+![The real output of techpartner mcp --help: the install, uninstall and list forms, with the --http, --host, --token, --compact-schemas, --dir and --force options](img/mcp.png)
 
 ## Running it without an assistant
 
 For a client on another machine, serve it over HTTP instead:
 
 ```sh
-genoffice mcp --http 8765 --token <secret>
+techpartner mcp --http 8765 --token <secret>
 ```
 
 `--host <addr>` changes where it listens. Pass the same token to the client.
@@ -57,22 +57,22 @@ Every command is a tool. The interesting ones:
 
 ## Schemas, and a smaller budget
 
-`apply` and `create` advertise their `ops`, `cells` and `data` parameters with the typed per-op schema, generated from `genoffice guide <domain> --json`. That is precise and not small. A client with a tight context window can ask for plain arrays instead:
+`apply` and `create` advertise their `ops`, `cells` and `data` parameters with the typed per-op schema, generated from `techpartner guide <domain> --json`. That is precise and not small. A client with a tight context window can ask for plain arrays instead:
 
 ```sh
-genoffice mcp --compact-schemas
-GENOFFICE_MCP_COMPACT_SCHEMAS=1 genoffice mcp
+techpartner mcp --compact-schemas
+TECHPARTNER_MCP_COMPACT_SCHEMAS=1 techpartner mcp
 ```
 
 ## Why the skill
 
-An agent that does not know the op vocabulary will guess. The skill carries the reference and the design guides — the same material `genoffice guide` prints — so the assistant writes ops whose spec it has actually read. Install it from the pane at the top, or with `genoffice skill` from a terminal.
+An agent that does not know the op vocabulary will guess. The skill carries the reference and the design guides — the same material `techpartner guide` prints — so the assistant writes ops whose spec it has actually read. Install it from the pane at the top, or with `techpartner skill` from a terminal.
 
 ## What it can reach in the app
 
 The server is not limited to files on disk. While TechPartner Office is running, the agent can also work through the window:
 
-- **`open_in_genoffice`** opens a file in a tab and focuses it.
+- **`open_in_techpartner`** opens a file in a tab and focuses it.
 - **`open_documents`** lists every document you have open — id, type, path, and whether it has unsaved changes — then reads one's live content, saves it in place, or closes it, saving first unless you ask it to discard.
 - **The content tools** take that id (or path) as their `document` argument, so an edit lands in the tab you already have open and the window switches to show it.
 

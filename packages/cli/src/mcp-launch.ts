@@ -1,8 +1,8 @@
 /**
- * How an MCP client starts `genoffice mcp`. Shared by the app's Settings snippet
- * and `genoffice mcp install` so the two cannot drift. Clients spawn without a
- * shell, so on Windows neither genoffice.cmd nor `cmd /c` is safe (a path with
- * a space splits); the entry does what genoffice.cmd does instead: the app
+ * How an MCP client starts `techpartner mcp`. Shared by the app's Settings snippet
+ * and `techpartner mcp install` so the two cannot drift. Clients spawn without a
+ * shell, so on Windows neither techpartner.cmd nor `cmd /c` is safe (a path with
+ * a space splits); the entry does what techpartner.cmd does instead: the app
  * binary as Node on the bundled CLI. Pure string code: the renderer imports it.
  */
 export interface McpLaunch {
@@ -13,7 +13,7 @@ export interface McpLaunch {
 
 const isWindowsPath = (p: string) => p.includes('\\')
 
-/** The app's snippet: the bare name once genoffice is on the PATH, else the launcher itself. */
+/** The app's snippet: the bare name once techpartner is on the PATH, else the launcher itself. */
 export function mcpLaunch(cli: {
   status: string
   launcherDir: string
@@ -22,13 +22,13 @@ export function mcpLaunch(cli: {
   const dir = cli.launcherDir
   if (isWindowsPath(dir)) return windowsAppLaunch(dir)
   const onPath = cli.status === 'present' && !cli.pathHint
-  return { command: onPath ? 'genoffice' : `${dir}/genoffice`, args: ['mcp'] }
+  return { command: onPath ? 'techpartner' : `${dir}/techpartner`, args: ['mcp'] }
 }
 
 function windowsAppLaunch(dir: string): McpLaunch {
   return {
-    command: `${dir}\\..\\..\\GenOffice.exe`,
-    args: [`${dir}\\genoffice.cjs`, 'mcp'],
+    command: `${dir}\\..\\..\\TechPartner Office.exe`,
+    args: [`${dir}\\techpartner.cjs`, 'mcp'],
     env: { ELECTRON_RUN_AS_NODE: '1' },
   }
 }
@@ -42,8 +42,8 @@ export interface LauncherLaunchOptions {
 /**
  * `mcp install`: always the absolute launcher, never the bare name. On Windows
  * the packaged app is run as Node (same entry as the app's snippet); a checkout
- * has no GenOffice.exe beside it and runs the bundle on the system node, as the
- * bin/genoffice script does.
+ * has no TechPartner Office.exe beside it and runs the bundle on the system node,
+ * as the bin/techpartner script does.
  */
 export function mcpLaunchFromLauncher(
   launcher: string,
@@ -54,9 +54,9 @@ export function mcpLaunchFromLauncher(
   const sep = isWindowsPath(launcher) ? '\\' : '/'
   const dir = launcher.slice(0, Math.max(launcher.lastIndexOf('\\'), launcher.lastIndexOf('/')))
   const exists = opts.exists ?? (() => false)
-  if (exists(`${dir}${sep}..${sep}..${sep}GenOffice.exe`)) return windowsAppLaunch(dir)
-  const bundle = exists(`${dir}${sep}genoffice.cjs`)
-    ? `${dir}${sep}genoffice.cjs`
-    : `${dir}${sep}..${sep}dist${sep}genoffice.cjs`
+  if (exists(`${dir}${sep}..${sep}..${sep}TechPartner Office.exe`)) return windowsAppLaunch(dir)
+  const bundle = exists(`${dir}${sep}techpartner.cjs`)
+    ? `${dir}${sep}techpartner.cjs`
+    : `${dir}${sep}..${sep}dist${sep}techpartner.cjs`
   return { command: 'node', args: [bundle, 'mcp'] }
 }

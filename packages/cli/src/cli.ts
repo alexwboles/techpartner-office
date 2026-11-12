@@ -33,6 +33,7 @@ import {
   type ExitCode,
   type Warning,
 } from './result'
+import { migrateLegacyCliHome } from './install'
 import { didYouMean } from './suggest'
 
 declare const __GENOFFICE_VERSION__: string | undefined
@@ -87,6 +88,9 @@ export interface RunOptions {
 
 /** Runs one invocation; returns the exit code instead of exiting so tests and hosts can embed it. */
 export async function runCli(argv: readonly string[], opts: RunOptions = {}): Promise<ExitCode> {
+  // one-time move of the CLI home (~/.genoffice → ~/.techpartner-office);
+  // best effort, never throws, a no-op once it has happened
+  migrateLegacyCliHome(process.env)
   const registry = opts.registry ?? defaultRegistry()
   const io = opts.io ?? {
     stdout: (t) => process.stdout.write(t + '\n'),
@@ -103,7 +107,7 @@ export async function runCli(argv: readonly string[], opts: RunOptions = {}): Pr
   }
 
   if (flagBool(args, 'version')) {
-    io.stdout(json ? JSON.stringify({ status: 'ok', version: VERSION }) : `genoffice ${VERSION}`)
+    io.stdout(json ? JSON.stringify({ status: 'ok', version: VERSION }) : `techpartner ${VERSION}`)
     return EXIT.ok
   }
   if (name === null || (name === 'help' && args.positionals.length === 0)) {
@@ -124,7 +128,7 @@ export async function runCli(argv: readonly string[], opts: RunOptions = {}): Pr
               name,
               registry.list().map((d) => d.name),
             ),
-            'run `genoffice help` for the command list',
+            'run `techpartner help` for the command list',
           ),
         },
       ),
@@ -145,7 +149,7 @@ export async function runCli(argv: readonly string[], opts: RunOptions = {}): Pr
           reason: 'unknown_option',
           suggestion: withGuess(
             didYouMean(unknown[0]!, known),
-            `run \`genoffice help ${def.name}\` for its options`,
+            `run \`techpartner help ${def.name}\` for its options`,
             '--',
           ),
         },
@@ -229,9 +233,9 @@ function globalHelp(registry: CommandRegistry): string {
   const defs = registry.list()
   const width = Math.max(...defs.map((d) => d.name.length))
   return [
-    `genoffice ${VERSION} — GenOffice command line`,
+    `techpartner ${VERSION} — TechPartner Office command line`,
     '',
-    'Usage: genoffice <command> [options]',
+    'Usage: techpartner <command> [options]',
     '',
     'Commands:',
     ...defs.map((d) => `  ${d.name.padEnd(width)}  ${d.summary}`),
@@ -255,7 +259,7 @@ if (isMain) {
   const exit = (code: number) => process.stdout.write('', () => process.exit(code))
   runCli(process.argv.slice(2)).then(exit, (err) => {
     process.stderr.write(
-      `genoffice: ${err instanceof Error ? (err.stack ?? err.message) : String(err)}\n`,
+      `techpartner: ${err instanceof Error ? (err.stack ?? err.message) : String(err)}\n`,
     )
     exit(EXIT.conversion)
   })

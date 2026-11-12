@@ -47,7 +47,10 @@ async function fakeShell(
     join(dir, 'control.json'),
     JSON.stringify({ protocol: 1, pid: process.pid, endpoint, token: 'secret' }),
   )
-  return { env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_USER_DATA: dir }, requests }
+  return {
+    env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', TECHPARTNER_USER_DATA: dir },
+    requests,
+  }
 }
 
 describe('open targets', () => {
@@ -92,19 +95,19 @@ describe('open targets', () => {
 describe('control endpoint', () => {
   it('ignores a missing, malformed or dead-pid control.json', () => {
     const dir = mkdtempSync(join(tmpdir(), 'genoffice-ctl-'))
-    expect(controlEndpoint({ GENOFFICE_USER_DATA: dir })).toBeNull()
+    expect(controlEndpoint({ TECHPARTNER_USER_DATA: dir })).toBeNull()
     writeFileSync(join(dir, 'control.json'), '{')
-    expect(controlEndpoint({ GENOFFICE_USER_DATA: dir })).toBeNull()
+    expect(controlEndpoint({ TECHPARTNER_USER_DATA: dir })).toBeNull()
     writeFileSync(
       join(dir, 'control.json'),
       JSON.stringify({ protocol: 1, pid: 2 ** 22 - 1, endpoint: '/x', token: 't' }),
     )
-    expect(controlEndpoint({ GENOFFICE_USER_DATA: dir })).toBeNull()
+    expect(controlEndpoint({ TECHPARTNER_USER_DATA: dir })).toBeNull()
     writeFileSync(
       join(dir, 'control.json'),
       JSON.stringify({ protocol: 1, pid: process.pid, endpoint: '/x', token: 't' }),
     )
-    expect(controlEndpoint({ GENOFFICE_USER_DATA: dir })).toMatchObject({
+    expect(controlEndpoint({ TECHPARTNER_USER_DATA: dir })).toMatchObject({
       pid: process.pid,
       token: 't',
     })
@@ -192,12 +195,12 @@ describe('open / selection through the control channel', () => {
   it('selection without a running shell is app_unavailable with an open hint', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'genoffice-ctl-'))
     const r = await run(['selection', DOCX, '--json'], {
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_USER_DATA: dir },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', TECHPARTNER_USER_DATA: dir },
     })
     expect(r.code).toBe(4)
     expect(r.json()).toMatchObject({
       error: 'app_unavailable',
-      suggestion: expect.stringContaining(`genoffice open ${DOCX}`),
+      suggestion: expect.stringContaining(`techpartner open ${DOCX}`),
     })
   })
 })

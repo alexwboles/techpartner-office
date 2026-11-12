@@ -21,7 +21,7 @@ describe('mcp http hardening', () => {
       host: '127.0.0.1',
       token: TOKEN,
       cwd: tempDir(),
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
       log: () => {},
       registry: defaultRegistry(),
     })
@@ -99,7 +99,7 @@ describe('mcp http hardening', () => {
       cwd: tempDir(),
       env: {
         ...process.env,
-        GENOFFICE_AUDIT_LOG: 'off',
+        TECHPARTNER_AUDIT_LOG: 'off',
         GENOFFICE_ALLOWED_ROOTS: '',
         GENOFFICE_TRUST_PROXY_HEADERS: '1',
       },
@@ -212,7 +212,7 @@ describe('mcp http loopback Host guard', () => {
       port: 0,
       host: '127.0.0.1',
       cwd: tempDir(),
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
       log: (line) => logs.push(line),
       registry: defaultRegistry(),
     })

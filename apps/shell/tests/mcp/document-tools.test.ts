@@ -18,7 +18,7 @@ import { fakeCli } from './fake-cli'
 /**
  * The docx tool surface over a real MCP session. Files are written to a temp dir
  * that stands in for the app default save folder. The headless tools delegate to
- * the bundled genoffice CLI (a fake here), so these assert the argv/stdin the
+ * the bundled techpartner CLI (a fake here), so these assert the argv/stdin the
  * tools build — document fidelity is the CLI's own test surface.
  */
 
@@ -84,7 +84,7 @@ describe('M3 docx tools', () => {
     expect(tools.map((t) => t.name).sort()).toEqual([
       'create_docx',
       'get_app_info',
-      'open_in_genoffice',
+      'open_in_techpartner',
       'read_docx',
     ])
   })
@@ -195,10 +195,10 @@ describe('M3 docx tools', () => {
     expect(wrongExt.isError).toBe(true)
   })
 
-  it('open_in_genoffice calls the injected opener', async () => {
+  it('open_in_techpartner calls the injected opener', async () => {
     await writeFile(join(dir, 'open.docx'), 'placeholder')
     const result = await client!.callTool({
-      name: 'open_in_genoffice',
+      name: 'open_in_techpartner',
       arguments: { path: join(dir, 'open.docx') },
     })
     expect(result.isError).toBeFalsy()
@@ -230,7 +230,7 @@ describe('background generation gating', () => {
     ).map((t) => t.name)
     expect(names).not.toContain('create_docx')
     expect(names).toContain('read_docx')
-    expect(names).toContain('open_in_genoffice')
+    expect(names).toContain('open_in_techpartner')
     expect(names).toContain('get_app_info')
   })
 
@@ -341,7 +341,7 @@ describe('M6 visible-editing tools (docs control wired)', () => {
       'get_app_info',
       'insert_content',
       'insert_picture',
-      'open_in_genoffice',
+      'open_in_techpartner',
       'read_document',
       'read_docx',
       'replace_blocks',

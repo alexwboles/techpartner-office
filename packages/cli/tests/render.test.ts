@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { run, tempDir, writeMinimalPdf } from './helpers'
 
-/** A stand-in for the GenOffice binary: copies a prepared PDF to --out and prints the envelope. */
+/** A stand-in for the TechPartner Office binary: copies a prepared PDF to --out and prints the envelope. */
 function fakeApp(dir: string, pdf: string): string {
   const fake = join(dir, 'fake-genoffice.sh')
   writeFileSync(
@@ -14,7 +14,7 @@ function fakeApp(dir: string, pdf: string): string {
   return fake
 }
 
-describe('genoffice render', () => {
+describe('techpartner render', () => {
   it('rasterizes a PDF directly, one PNG per page, 1-based names and --page', async () => {
     const dir = tempDir()
     const pdf = writeMinimalPdf(join(dir, 'report.pdf'))
@@ -57,7 +57,7 @@ describe('genoffice render', () => {
     const pdf = writeMinimalPdf(join(dir, 'export.pdf'))
     const shots = join(dir, 'shots')
     const r = await run(['render', xlsx, '--out', shots, '--json'], {
-      env: { ...process.env, GENOFFICE_APP_BIN: fakeApp(dir, pdf) },
+      env: { ...process.env, TECHPARTNER_APP_BIN: fakeApp(dir, pdf) },
     })
     expect(r.code).toBe(0)
     expect(r.json().detail.via).toContain('headless-export')
@@ -91,7 +91,7 @@ describe('genoffice render', () => {
     const id = read.pages[0].elements[0].id as string
     const pdf = writeMinimalPdf(join(dir, 'export.pdf'))
     const shots = join(dir, 'shots')
-    const env = { ...process.env, GENOFFICE_APP_BIN: fakeApp(dir, pdf) }
+    const env = { ...process.env, TECHPARTNER_APP_BIN: fakeApp(dir, pdf) }
     const r = await run(
       ['render', deck, '--out', shots, '--el', id, '--pad', '10', '--grid', '--json'],
       { env },

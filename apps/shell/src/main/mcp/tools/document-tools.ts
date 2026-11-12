@@ -148,7 +148,7 @@ function createHeadlessDocxTool(deps: DocToolDeps): McpToolDefinition {
       'Create a Word .docx file from content and save it to disk without opening the app UI. ' +
       'Content is Markdown (headings, lists, bold/italic, links, code blocks, tables) or a ' +
       'restricted-HTML fragment (format:"html"), converted by the same docx engine the app and ' +
-      'the genoffice CLI use. Returns the absolute path of the written file.',
+      'the techpartner CLI use. Returns the absolute path of the written file.',
     inputSchema: {
       title: z.string().describe('document title, used as the file name'),
       content: z.string().describe('Markdown source (default) or a restricted-HTML fragment'),
@@ -211,8 +211,8 @@ export function createDocumentTools(deps: DocToolDeps, host: SessionHost): McpTo
       },
     },
     {
-      name: 'open_in_genoffice',
-      description: 'Open an existing file in the running GenOffice app, focusing its tab.',
+      name: 'open_in_techpartner',
+      description: 'Open an existing file in the running TechPartner Office app, focusing its tab.',
       inputSchema: {
         path: z.string().describe('absolute path to the file to open'),
       },
@@ -228,11 +228,11 @@ export function createDocumentTools(deps: DocToolDeps, host: SessionHost): McpTo
     {
       name: 'get_app_info',
       description:
-        'Report GenOffice version, the default save folder, the document formats this server can ' +
+        'Report TechPartner Office version, the default save folder, the document formats this server can ' +
         "generate, and the editor's full open/save/export format matrix per family.",
       inputSchema: {},
       handler: () => ({
-        name: 'GenOffice',
+        name: 'TechPartner Office',
         version: deps.version,
         defaultSaveDir: deps.defaultSaveDir(),
         // Every format listed here is written by a headless create/read tool, and

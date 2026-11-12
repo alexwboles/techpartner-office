@@ -8,7 +8,7 @@ import {
   createDocumentSkill,
   createIpcTransport,
   createKnowledgeBaseSkill,
-  RUN_GENOFFICE_TOOL,
+  RUN_TECHPARTNER_TOOL,
   withAttachedSkills,
   type AgentImage,
   type AttachmentInfo,
@@ -406,7 +406,7 @@ export function KbAskPanel({
     })
     const docSkill = createDocumentSkill({
       create: (request) => window.aiOffice.kbCreateDocument(request),
-      alsoSaves: [RUN_GENOFFICE_TOOL],
+      alsoSaves: [RUN_TECHPARTNER_TOOL],
     })
     loopRef.current = new AgentLoop({
       transport: createIpcTransport<AiSettings>({

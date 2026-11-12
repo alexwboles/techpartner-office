@@ -7,19 +7,76 @@ import {
   mkdirSync,
   readlinkSync,
   realpathSync,
+  renameSync,
+  statSync,
   symlinkSync,
   unlinkSync,
 } from 'node:fs'
+import { homedir } from 'node:os'
 import { basename, dirname, isAbsolute, join, resolve, win32 } from 'node:path'
 
 /**
- * Making `genoffice` reachable from a terminal. The launcher ships inside the app
- * (Resources/cli/genoffice, or genoffice.cmd on Windows); nothing at install time puts
+ * Making `techpartner` reachable from a terminal. The launcher ships inside the app
+ * (Resources/cli/techpartner, or techpartner.cmd on Windows); nothing at install time puts
  * it on PATH for the dmg, so the app tries this on every launch until it
- * succeeds and `genoffice install-cli` repeats it on demand. Best effort
+ * succeeds and `techpartner install-cli` repeats it on demand. Best effort
  * everywhere: no prompts, no elevation, never an error on the app's startup
  * path. `inspectCliLink` reports the same states without writing anything.
  */
+/** The CLI's home folder under the user's home: the launcher file the skill reads, auth and the audit log. */
+export const CLI_HOME_DIR_NAME = '.techpartner-office'
+
+/** The pre-rename CLI home folder name; kept only so the one-time migration below can find it. */
+export const LEGACY_CLI_HOME_DIR_NAME = '.genoffice'
+
+/** The pre-rename command name; kept only so its PATH link can be recognised and cleaned up. */
+export const LEGACY_LINK_NAME = 'genoffice'
+
+/**
+ * The CLI home directory: an explicit override wins (TECHPARTNER_AUTH_DIR,
+ * with the pre-rename GENOFFICE_AUTH_DIR still honoured), otherwise the
+ * default under the user's home.
+ */
+export function cliHomeDir(env: NodeJS.ProcessEnv = process.env): string {
+  return env.TECHPARTNER_AUTH_DIR || env.GENOFFICE_AUTH_DIR || join(homedir(), CLI_HOME_DIR_NAME)
+}
+
+/**
+ * One-time move of the CLI home from ~/.genoffice to ~/.techpartner-office,
+ * mirroring migrateLegacySaveDir's rules:
+ * - an explicit auth-dir override is a custom setup: respect it, move nothing
+ * - legacy folder missing → nothing to do (fresh installs get the new name)
+ * - new folder already exists → never merge; leave both alone
+ * - rename failure → never throw; the legacy folder keeps working and the
+ *   move is retried on the next launch
+ */
+export function migrateLegacyCliHome(
+  env: NodeJS.ProcessEnv = process.env,
+  home: string = homedir(),
+): { migrated: boolean; reason: string } {
+  try {
+    if (env.TECHPARTNER_AUTH_DIR || env.GENOFFICE_AUTH_DIR) {
+      return { migrated: false, reason: 'custom-dir' }
+    }
+    const oldDir = join(home, LEGACY_CLI_HOME_DIR_NAME)
+    const newDir = join(home, CLI_HOME_DIR_NAME)
+    if (!existsSync(oldDir) || !statSync(oldDir).isDirectory()) {
+      return { migrated: false, reason: 'no-legacy-dir' }
+    }
+    if (existsSync(newDir)) {
+      return { migrated: false, reason: 'target-exists' }
+    }
+    try {
+      renameSync(oldDir, newDir)
+    } catch {
+      return { migrated: false, reason: 'rename-failed' }
+    }
+    return { migrated: true, reason: 'renamed' }
+  } catch {
+    return { migrated: false, reason: 'error' }
+  }
+}
+
 export interface InstallOptions {
   /** absolute path of the launcher to expose */
   launcher: string
@@ -49,7 +106,7 @@ export interface InstallOutcome {
  * inherit, so it is the target even when it does not exist yet: a missing
  * directory is reported as unwritable (creating it needs root), not skipped.
  * When it is not writable the user's own bin dir takes the link, so a
- * non-admin install still gets a `genoffice` command.
+ * non-admin install still gets a `techpartner` command.
  *
  * The Homebrew prefix is never a candidate (genoffice#1914): `/opt/homebrew/bin` on
  * Apple Silicon, `/usr/local/bin` on an Intel Mac with a classic install,
@@ -61,7 +118,7 @@ export interface InstallOutcome {
  * without Homebrew keeps `/usr/local/bin`.
  *
  * A user who wants it there anyway still can: `ln -sf "$(dirname "$(which
- * genoffice)")/genoffice" "$(brew --prefix)/bin/genoffice"`. What is removed
+ * techpartner)")/techpartner" "$(brew --prefix)/bin/techpartner"`. What is removed
  * is the uninvited write, not the possibility.
  */
 export function defaultCandidateDirs(
@@ -119,15 +176,16 @@ export function installCliLink(opts: InstallOptions): InstallOutcome {
   const dirs = opts.candidateDirs ?? defaultCandidateDirs(platform, env)
   const userDirs = new Set(userBinDirs(env))
   const manual = manualCommand(opts.launcher)
+  removeLegacyCliLinks(dirs, opts.launcher)
   let occupied: string | undefined
   for (const dir of dirs) {
-    const link = join(dir, 'genoffice')
+    const link = join(dir, 'techpartner')
     const state = linkState(link, opts.launcher)
     if (state === 'ours' && readlinkSync(link) === opts.launcher) {
       return withPathHint({ status: 'present', location: link }, dir, userDirs, env)
     }
     if (state === 'file' || state === 'foreign') {
-      // somebody else's genoffice (a file, or npm's symlink): never clobber it
+      // somebody else's techpartner (a file, or npm's symlink): never clobber it
       occupied = link
       continue
     }
@@ -149,7 +207,11 @@ export function installCliLink(opts: InstallOptions): InstallOutcome {
     }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'genoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'techpartner'),
+    manual,
+  }
 }
 
 /** Read-only twin of `installCliLink`: what a fresh terminal would find, without changing anything. */
@@ -164,7 +226,7 @@ export function inspectCliLink(opts: InstallOptions): InstallOutcome {
   let occupied: string | undefined
   // same walk installCliLink does: an occupied name is skipped, the first free writable dir wins
   for (const dir of dirs) {
-    const link = join(dir, 'genoffice')
+    const link = join(dir, 'techpartner')
     const state = linkState(link, opts.launcher)
     if (state === 'ours' && readlinkSync(link) === opts.launcher) {
       return withPathHint({ status: 'present', location: link }, dir, userDirs, env)
@@ -178,11 +240,30 @@ export function inspectCliLink(opts: InstallOptions): InstallOutcome {
     }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'genoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'techpartner'),
+    manual,
+  }
+}
+
+/**
+ * Remove a pre-rename `genoffice` link that is ours (it resolves to one of our
+ * launchers) or dangling (its target is gone, so it runs nothing). A working
+ * foreign link or a real file is never touched.
+ */
+function removeLegacyCliLinks(dirs: string[], launcher: string): void {
+  for (const dir of dirs) {
+    const link = join(dir, LEGACY_LINK_NAME)
+    try {
+      const state = linkState(link, launcher)
+      if (state === 'ours' || state === 'dangling') unlinkSync(link)
+    } catch {}
+  }
 }
 
 function manualCommand(launcher: string): string {
-  return `sudo mkdir -p /usr/local/bin && sudo ln -sf "${launcher}" /usr/local/bin/genoffice`
+  return `sudo mkdir -p /usr/local/bin && sudo ln -sf "${launcher}" /usr/local/bin/techpartner`
 }
 
 function linkState(
@@ -204,9 +285,11 @@ function linkState(
 
 /**
  * A link is ours when it resolves to the launcher we are installing, or to a
- * `genoffice` launcher shipped by another copy of the app (an earlier version,
+ * `techpartner` launcher shipped by another copy of the app (an earlier version,
  * a second install dir): one that has our CLI bundle or the Windows twin beside
- * it. A path that merely ends in `/cli/genoffice` belongs to whoever put it there.
+ * it. The pre-rename `genoffice` launcher and bundle names count too, so a link
+ * left by an older install is recognised as ours. A path that merely ends in
+ * `/cli/techpartner` belongs to whoever put it there.
  */
 export function isOurLauncher(target: string, launcher: string): boolean {
   let real: string
@@ -218,9 +301,14 @@ export function isOurLauncher(target: string, launcher: string): boolean {
   try {
     if (real === realpathSync(launcher)) return true
   } catch {}
-  if (basename(real) !== 'genoffice') return false
+  if (basename(real) !== 'techpartner' && basename(real) !== LEGACY_LINK_NAME) return false
   const dir = dirname(real)
-  return existsSync(join(dir, 'genoffice.cjs')) || existsSync(join(dir, 'genoffice.cmd'))
+  return (
+    existsSync(join(dir, 'techpartner.cjs')) ||
+    existsSync(join(dir, 'techpartner.cmd')) ||
+    existsSync(join(dir, 'genoffice.cjs')) ||
+    existsSync(join(dir, 'genoffice.cmd'))
+  )
 }
 
 function writable(dir: string): boolean {
@@ -269,9 +357,9 @@ const WIN_PATH_READ =
 // best effort: a locked-down PowerShell may refuse Add-Type, the PATH edit still stands
 const WIN_BROADCAST =
   'try { ' +
-  'Add-Type -Namespace GenOfficePath -Name Native -MemberDefinition \'[DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)] public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);\'; ' +
+  'Add-Type -Namespace TechPartnerPath -Name Native -MemberDefinition \'[DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)] public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);\'; ' +
   '$r = [UIntPtr]::Zero; ' +
-  "[void][GenOfficePath.Native]::SendMessageTimeout([IntPtr]0xffff, 0x1A, [UIntPtr]::Zero, 'Environment', 2, 5000, [ref]$r) " +
+  "[void][TechPartnerPath.Native]::SendMessageTimeout([IntPtr]0xffff, 0x1A, [UIntPtr]::Zero, 'Environment', 2, 5000, [ref]$r) " +
   '} catch {}; '
 
 function psQuote(text: string): string {

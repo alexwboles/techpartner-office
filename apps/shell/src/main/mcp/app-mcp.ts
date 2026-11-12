@@ -141,11 +141,11 @@ function buildTools(): McpToolDefinition[] {
         // headless create_docx is opt-in: off by default so the default surface is
         // the visible document session
         background: currentSettings.background,
-        // open_in_genoffice reports ok only when the file routed to a tab
+        // open_in_techpartner reports ok only when the file routed to a tab
         openInTab: (filePath) => {
           if (!deps) return
           const opened = deps.openPath(filePath)
-          if (!opened) throw new Error(`could not open ${filePath} in GenOffice`)
+          if (!opened) throw new Error(`could not open ${filePath} in TechPartner Office`)
         },
         docs: deps.docsControl,
         extraFormats,

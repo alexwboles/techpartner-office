@@ -134,8 +134,8 @@ export function registerUserSkillsIpc(deps: UserSkillsDeps): void {
 /** the CLI entry the app ships, dev or packaged — the same one MCP delegates to */
 export function bundledCliEntry(): string {
   return app.isPackaged
-    ? join(process.resourcesPath, 'cli', 'genoffice.cjs')
-    : join(app.getAppPath(), '..', 'packages', 'cli', 'dist', 'genoffice.cjs')
+    ? join(process.resourcesPath, 'cli', 'techpartner.cjs')
+    : join(app.getAppPath(), '..', 'packages', 'cli', 'dist', 'techpartner.cjs')
 }
 
 export function makeUserCliRunner(): CliRunner {

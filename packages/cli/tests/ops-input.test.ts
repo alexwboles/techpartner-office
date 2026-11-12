@@ -7,7 +7,7 @@ import { MAX_OPS_BYTES, readOpsInput, readOpsStream } from '../src/ops-input'
 import { EXIT } from '../src/result'
 
 function ctx(cwd: string) {
-  return { cwd, env: { ...process.env, GENOFFICE_ALLOWED_ROOTS: '' } }
+  return { cwd, env: { ...process.env, TECHPARTNER_ALLOWED_ROOTS: '' } }
 }
 
 /** Sparse file: stat reports the size without writing the bytes. */

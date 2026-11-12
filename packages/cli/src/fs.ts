@@ -34,12 +34,13 @@ export interface PathContext {
 }
 
 /**
- * GENOFFICE_ALLOWED_ROOTS: PATH-style list of directories genoffice may read from and
- * write to. Unset means unrestricted. Roots are compared after resolving
+ * TECHPARTNER_ALLOWED_ROOTS: PATH-style list of directories techpartner may read
+ * from and write to (the pre-rename GENOFFICE_ALLOWED_ROOTS still works). Unset
+ * means unrestricted. Roots are compared after resolving
  * symlinks so a link inside a root cannot point out of it.
  */
 export function allowedRoots(env: NodeJS.ProcessEnv): string[] | null {
-  const raw = env.GENOFFICE_ALLOWED_ROOTS
+  const raw = env.TECHPARTNER_ALLOWED_ROOTS || env.GENOFFICE_ALLOWED_ROOTS
   if (raw === undefined || raw.trim() === '') return null
   return raw
     .split(delimiter)
@@ -79,7 +80,7 @@ export function assertAllowed(
   if (!roots.some((root) => isInside(root, real))) {
     throw new CliError(
       EXIT.file,
-      `refusing to ${purpose} outside GENOFFICE_ALLOWED_ROOTS: ${abs}`,
+      `refusing to ${purpose} outside TECHPARTNER_ALLOWED_ROOTS: ${abs}`,
       { allowed_roots: roots },
       {
         reason: 'outside_allowed_roots',

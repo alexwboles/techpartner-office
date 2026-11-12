@@ -25,7 +25,7 @@ type Content = {
   resource?: { uri: string; blob?: string }
 }
 
-describe('genoffice mcp --http', () => {
+describe('techpartner mcp --http', () => {
   let handle: HttpHandle
   let client: Client
   let dir: string
@@ -38,7 +38,7 @@ describe('genoffice mcp --http', () => {
       host: '127.0.0.1',
       token: TOKEN,
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: '' },
       log: () => {},
       registry,
     })
@@ -210,7 +210,7 @@ describe('http mode with GENOFFICE_ALLOWED_ROOTS set', () => {
     const handle = await startHttp({
       port: 0,
       cwd: roots,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: roots },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: roots },
       log: () => {},
       registry,
     })

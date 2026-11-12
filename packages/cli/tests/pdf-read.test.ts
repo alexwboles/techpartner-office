@@ -6,7 +6,7 @@ import { run, tempDir, writeMinimalPdf } from './helpers'
 const REPO = resolve(__dirname, '../../..')
 const ENCRYPTED = join(REPO, 'apps/shell/tests/fixtures/testPassword4Spaces.pdf')
 
-describe('genoffice pdf read', () => {
+describe('techpartner pdf read', () => {
   it('returns page count, metadata and per-page text with page sizes', async () => {
     const pdf = writeMinimalPdf(
       join(tempDir(), 'three.pdf'),

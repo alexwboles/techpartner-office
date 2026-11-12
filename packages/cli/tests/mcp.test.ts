@@ -132,7 +132,7 @@ describe('mcp server', () => {
     dir = tempDir()
     ctx = createContext({
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off' },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off' },
       log: () => {},
     })
     const server = await createMcpServer(ctx, { registry })
@@ -337,7 +337,7 @@ describe('mcp server', () => {
   it('falls back to untyped arrays with compactSchemas', async () => {
     const ctx2 = createContext({
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off' },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off' },
       log: () => {},
     })
     const server = await createMcpServer(ctx2, { registry, compactSchemas: true })
@@ -445,8 +445,8 @@ describe('mcp server', () => {
     expect(r.text).toContain('Word ops')
     expect(() => r.json()).toThrow()
     const { resources } = await client.listResources()
-    expect(resources.map((x) => x.uri)).toContain('genoffice://guide/slides/spec')
-    const spec = await client.readResource({ uri: 'genoffice://guide/slides/spec' })
+    expect(resources.map((x) => x.uri)).toContain('techpartner://guide/slides/spec')
+    const spec = await client.readResource({ uri: 'techpartner://guide/slides/spec' })
     expect((spec.contents[0] as { text: string }).text.length).toBeGreaterThan(200)
   })
 
@@ -569,7 +569,7 @@ describe('mcp server', () => {
     const inside = join(dir, 'roots')
     const ctx2 = createContext({
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: inside },
+      env: { ...process.env, TECHPARTNER_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: inside },
       log: () => {},
     })
     const server = await createMcpServer(ctx2, { registry })

@@ -7,7 +7,7 @@ import { convertCommand } from '../src/commands/convert'
 import { EXIT } from '../src/result'
 
 const run = async (argv: string[], cwd: string) => {
-  const ctx = { cwd, env: { ...process.env, GENOFFICE_ALLOWED_ROOTS: '' }, log: () => {} }
+  const ctx = { cwd, env: { ...process.env, TECHPARTNER_ALLOWED_ROOTS: '' }, log: () => {} }
   try {
     await convertCommand.run(parseArgs(argv, new Set(['force'])), ctx as never)
   } catch (e) {
