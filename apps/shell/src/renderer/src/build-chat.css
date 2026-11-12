@@ -202,3 +202,37 @@
   border-color: var(--color-btn-primary);
   color: var(--color-btn-primary-text);
 }
+
+/* Embedded on the Home landing: the same panel as one card inside the
+ * centered landing column. The height is capped so the landing stays
+ * tidy — the transcript scrolls inside the card and the composer stays
+ * pinned below it. The inner header sheds its own card chrome and the
+ * intro paragraph (the landing already frames the page) so the embed
+ * reads as a single surface, not a card inside a card. */
+.build-chat-embedded {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-pill);
+  height: 470px;
+  padding: 16px;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.build-chat-embedded .build-chat-head {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.build-chat-embedded .build-chat-sub {
+  display: none;
+}
+
+.build-chat-embedded .build-chat-list {
+  min-height: 0;
+}
+
+.build-chat-embedded .build-chat-input {
+  resize: none;
+}

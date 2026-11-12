@@ -62,6 +62,17 @@ beforeEach(async () => {
     createFromTemplate: vi.fn(async () => ({ ok: true })),
     aiGetSettings: async () => defaultAiSettings(),
     aiGskStatus: async () => ({ loggedIn: false }),
+    buildChatState: async () => ({ modelAvailable: false }),
+    buildChatSend: vi.fn(async () => ({
+      kind: 'questions' as const,
+      message: '',
+      questions: [],
+      planLines: [],
+      files: [],
+      errors: [],
+      modelAvailable: false,
+    })),
+    buildChatReset: async () => {},
     onAiSettingsChanged: () => () => {},
   } as unknown as Window['aiOffice']
   window.localStorage.clear()
@@ -275,6 +286,10 @@ describe('Home rail navigation', () => {
   it('opens on the search-first landing and returns to it from Home', async () => {
     expect(container.querySelector('.landing-headline')).not.toBeNull()
     expect(container.querySelector('.landing-search-hint')?.textContent).toBe('Ctrl K')
+    // the landing carries the Build chat card where the Project AI strip used to be
+    expect(container.querySelector('.landing-ai-strip')).toBeNull()
+    expect(container.querySelector('.build-chat-embedded .build-chat-input')).not.toBeNull()
+    expect(container.querySelector('.build-chat-embedded .build-chat-composer')).not.toBeNull()
     expect(container.querySelector('.landing-recent-list')?.textContent).toContain('brief.docx')
     expect(selected()).toEqual(['Home'])
     const seeAll = container.querySelector<HTMLButtonElement>('.landing-see-all')!

@@ -18,7 +18,6 @@ import type {
   FileSearchPage,
   FileSearchRerank,
 } from '../../shared/home-api'
-import type { ProjectAiState } from '../../shared/project-ai'
 import type { IntegrationsApi } from '../../shared/integrations-api'
 import { markText } from '../../shared/text-marks'
 import { useDismissablePopover } from '@genoffice/ui'
@@ -1164,8 +1163,6 @@ export function Home() {
   const [folderDrawerOpen, setFolderDrawerOpen] = useState(false)
   // template gallery modal (opened from either create row's From template)
   const [galleryOpen, setGalleryOpen] = useState(false)
-  // live Project AI state for the landing's strip (polled like the panel does)
-  const [projectAiStrip, setProjectAiStrip] = useState<ProjectAiState | null>(null)
   // the knowledge-base ask panel takes over the content area the same way
   const [askMode, setAskMode] = useState(false)
   const [projectAiMode, setProjectAiMode] = useState(false)
@@ -1448,31 +1445,6 @@ export function Home() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  // the landing's Project AI strip polls the same state the panel shows, but
-  // only while the landing is visible — the panel polls for itself when open
-  useEffect(() => {
-    if (!landing) return
-    let cancelled = false
-    const refresh = () => {
-      // a build without the project bridge has no strip to poll
-      const state = window.aiOffice.projectAiState?.()
-      if (!state) return
-      void state
-        .then((next) => {
-          if (!cancelled) setProjectAiStrip(next)
-        })
-        .catch(() => {
-          // the strip keeps its last state when the service is unreachable
-        })
-    }
-    void refresh()
-    const timer = window.setInterval(refresh, 4000)
-    return () => {
-      cancelled = true
-      window.clearInterval(timer)
-    }
-  }, [landing])
-
   useEffect(() => {
     const onFocus = () => refreshRef.current()
     window.addEventListener('focus', onFocus)
@@ -1664,7 +1636,7 @@ export function Home() {
     setGroupFilter(null)
   }
 
-  /** the rail's Project AI button and the landing strip share this */
+  /** the rail's Project AI button */
   const goProjectAi = () => {
     setProjectAiMode(true)
     setAskMode(false)
@@ -3030,8 +3002,8 @@ export function Home() {
   }
 
   /** the search-first landing: kicker, greeting, big search, create row,
-   * the first recent rows, and the Project AI strip — the full tables live
-   * one click away (See all, or the rail's Recent / Starred) */
+   * the Build chat card, and the first recent rows below it — the full
+   * tables live one click away (See all, or the rail's Recent / Starred) */
   function renderLanding() {
     const now = new Date()
     const hour = now.getHours()
@@ -3046,14 +3018,6 @@ export function Home() {
     const cjk = lang === 'zh' || lang === 'zh-TW' || lang === 'ja'
     const greeting = `${t(greetKey)}${accountName ? (cjk ? '，' : ', ') + accountName : ''}${cjk ? '。' : '. '}`
     const landingRows = entries.slice(0, LANDING_ROW_COUNT)
-    const strip = projectAiStrip
-    const stripFolder = strip?.folder
-      ? strip.folder.replace(/\\/g, '/').split('/').filter(Boolean).pop()
-      : null
-    const stripCounts = [
-      strip && strip.applied.length > 0 ? t('homeAiApplied', { n: strip.applied.length }) : null,
-      strip && strip.queue.length > 0 ? t('homeAiNeeds', { n: strip.queue.length }) : null,
-    ].filter((part): part is string => part !== null)
     return (
       <main className="content landing-content">
         <div className="landing-column">
@@ -3067,6 +3031,11 @@ export function Home() {
             <span className="landing-search-hint">Ctrl K</span>
           </div>
           {renderCreateRow()}
+          <BuildChatPanel
+            embedded
+            onOpenPath={(path) => void window.aiOffice.openPath(path)}
+            onOpenModelSettings={() => setSettingsRequest({ section: 'aiModel' })}
+          />
           <section className="landing-recents" aria-label={t('secRecent')}>
             <div className="landing-recents-head">
               <span className="section-label">{t('secRecent')}</span>
@@ -3092,20 +3061,6 @@ export function Home() {
               </>
             )}
           </section>
-          <button className="landing-ai-strip" onClick={goProjectAi}>
-            {stripFolder ? (
-              <>
-                <span className="landing-ai-title">
-                  {t('homeAiWatching', { name: stripFolder })}
-                </span>
-                {stripCounts.length > 0 && (
-                  <span className="landing-ai-counts">{stripCounts.join(' · ')}</span>
-                )}
-              </>
-            ) : (
-              <span className="landing-ai-title">{t('homeAiEmpty')}</span>
-            )}
-          </button>
         </div>
       </main>
     )

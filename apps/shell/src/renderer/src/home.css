@@ -596,32 +596,6 @@ body.vib .home {
   cursor: pointer;
 }
 
-.landing-ai-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-  padding: 16px 18px;
-  border: none;
-  background: var(--color-tp-deep);
-  color: var(--color-tp-rail-active);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.landing-ai-title {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.landing-ai-counts {
-  font-size: 13px;
-  opacity: 0.85;
-  white-space: nowrap;
-}
-
 .quick-text {
   flex: 1;
   min-width: 0;

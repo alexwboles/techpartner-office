@@ -17,8 +17,10 @@ const APP_BADGE: Record<string, string> = {
 }
 
 /**
- * Build chat panel, rendered in place of the Home file list when the
- * rail's Build entry is active.
+ * Build chat panel. Two placements share this one component and the
+ * same main-process conversation: the rail's Build entry renders it
+ * full-height in place of the Home file list, and the Home landing
+ * embeds it as a card (`embedded`) under the create row.
  *
  * The user describes what they need in plain words; the main-process
  * service holds the conversation and answers one turn at a time: a
@@ -32,6 +34,8 @@ const APP_BADGE: Record<string, string> = {
 export function BuildChatPanel(props: {
   onOpenPath: (path: string) => void
   onOpenModelSettings: () => void
+  /** landing card placement: fixed height, header chrome shed (see build-chat.css) */
+  embedded?: boolean
 }) {
   const { t } = useI18n()
   const [entries, setEntries] = useState<ChatEntry[]>([])
@@ -170,8 +174,8 @@ export function BuildChatPanel(props: {
     )
   }
 
-  return (
-    <main className="content build-chat">
+  const content = (
+    <>
       <section className="build-chat-head" aria-label={t('buildChatTitle')}>
         <div className="build-chat-head-row">
           <h1 className="build-chat-title">{t('buildChatTitle')}</h1>
@@ -227,6 +231,15 @@ export function BuildChatPanel(props: {
           {busy ? t('buildChatSending') : t('buildChatSend')}
         </button>
       </div>
-    </main>
+    </>
   )
+
+  if (props.embedded) {
+    return (
+      <section className="build-chat build-chat-embedded" aria-label={t('buildChatTitle')}>
+        {content}
+      </section>
+    )
+  }
+  return <main className="content build-chat">{content}</main>
 }
