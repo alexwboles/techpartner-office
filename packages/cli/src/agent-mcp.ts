@@ -215,7 +215,7 @@ export function writeMcpEntry(id: AgentId, file: string, launch: McpLaunch): voi
   const doc = text.trim() ? parseJsonObject(text) : {}
   if (!doc) throw new Error(`${file} is not a JSON object`)
   const map = isRecord(doc[def.shape.key]) ? (doc[def.shape.key] as Record<string, unknown>) : {}
-  const next = { ...map, [MCP_SERVER_NAME]: def.shape.entry(launch) }
+  const next: Record<string, unknown> = { ...map, [MCP_SERVER_NAME]: def.shape.entry(launch) }
   const legacy = map[LEGACY_MCP_SERVER_NAME]
   if (legacy !== undefined) {
     const l = def.shape.launchOf(legacy)
