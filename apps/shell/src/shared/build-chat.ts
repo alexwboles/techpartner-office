@@ -388,7 +388,7 @@ export function describePlan(
 
 // ── Templates: placeholders + fill ────────────────────────────────────
 
-const PLACEHOLDER_PATTERN = /\[[^\[\]\n]{1,80}\]/g
+const PLACEHOLDER_PATTERN = /\[[^[\]\n]{1,80}\]/g
 
 function placeholdersIn(text: string, into: string[]): void {
   for (const match of text.matchAll(PLACEHOLDER_PATTERN)) {

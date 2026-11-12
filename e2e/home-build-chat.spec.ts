@@ -24,7 +24,7 @@ test.describe('home build chat', () => {
   test('asks the template questions first, then builds the file', async () => {
     const launched = await launchShell({
       onboardingSeen: true,
-      settings: { defaultSaveDir: root },
+      settings: { defaultSaveDir: root, starPrompt: { resolved: true } },
       videoDir: 'home-build-chat',
     })
     const { page } = launched

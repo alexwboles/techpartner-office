@@ -155,7 +155,7 @@ test.describe('MCP open documents', () => {
       expect(JSON.parse(empty.text).documents).toEqual([])
 
       // open the file through the app's own routing: a tab the session does not own
-      const opened = await call('open_in_genoffice', { path: docPath })
+      const opened = await call('open_in_techpartner', { path: docPath })
       expect(opened.isError, opened.text).toBeFalsy()
       const editorTab = page.locator('.tab-bar .tab-item:not(.tab-home)')
       await expect(editorTab).toHaveCount(1)
@@ -261,7 +261,7 @@ test.describe('MCP open documents', () => {
         return { isError: body?.result?.isError === true, text }
       }
 
-      const opened = await call('open_in_genoffice', { path: docxPath })
+      const opened = await call('open_in_techpartner', { path: docxPath })
       expect(opened.isError, opened.text).toBeFalsy()
       const editorTab = page.locator('.tab-bar .tab-item:not(.tab-home)')
       await expect(editorTab).toHaveCount(1)
@@ -331,7 +331,7 @@ test.describe('MCP open documents', () => {
         return { isError: body?.result?.isError === true, text }
       }
 
-      const opened = await call('open_in_genoffice', { path: docPath })
+      const opened = await call('open_in_techpartner', { path: docPath })
       expect(opened.isError, opened.text).toBeFalsy()
       const editorPage = await waitForPageWithUrl(app, 'genoffice-app://markdown')
       await expect(editorPage.locator('.doc-editor')).toBeVisible()
