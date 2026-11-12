@@ -17,6 +17,27 @@ export const strings = {
     projectAiBuild: '创建项目',
     projectAiSub:
       '从一份简要说明创建一个项目：一份文档、一份预算表格和一份演示文稿，全部生成到你选择的文件夹中，AI 会在你工作时持续审阅它们。',
+    navBuild: 'AI 创建',
+    buildChatTitle: 'AI 创建',
+    buildChatSub:
+      '用平常的话说出你需要什么。缺少关键信息时，助手会先提问；然后给出计划，再创建文件——需要时可同时跨文档、表格和演示文稿。新建文件保存在默认保存文件夹中；只有在你确认后才会修改已有文件。',
+    buildChatEmpty:
+      '我们来创建什么？试试“给我一份咨询服务发票”、“一份项目经理的简历”，或“一份报价表格加一封给同一位客户的求职信”。',
+    buildChatPlaceholder: '说说你需要什么…',
+    buildChatSend: '发送',
+    buildChatSending: '处理中…',
+    buildChatNew: '新对话',
+    buildChatNoModelTitle: '仅模板模式',
+    buildChatNoModelBody:
+      '尚未设置 AI，因此“创建”只能匹配模板并填写其中的细节。设置 AI（免费的本地 Ollama，或你自己的密钥）后即可用聊天完整创建。',
+    buildChatOpenSettings: '打开 AI 设置',
+    buildChatQuestionsTitle: '先确认几个细节',
+    buildChatPlanTitle: '计划',
+    buildChatConfirmHint: '此计划会修改一个已有文件。回复“是”即可执行，或说明要改什么。',
+    buildChatCreatedTitle: '已创建',
+    buildChatOpenFile: '打开',
+    buildChatOpenedTab: '已在标签页中打开——将以此标题保存',
+    buildChatFailedTitle: '未能完成',
     navHome: '主页',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: '今天要做什么？',
@@ -579,6 +600,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -1160,6 +1203,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -1743,6 +1808,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -2332,6 +2419,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -2927,6 +3036,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -3512,6 +3643,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -4117,6 +4270,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -4722,6 +4897,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -5326,6 +5523,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -5905,6 +6124,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -6500,6 +6741,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -7096,6 +7359,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -7678,6 +7963,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -8270,6 +8577,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -8861,6 +9190,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -9449,6 +9800,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -10031,6 +10404,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -10619,6 +11014,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -11210,6 +11627,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -11779,6 +12218,28 @@ export const strings = {
     projectAiBuild: 'Build project',
     projectAiSub:
       'Build a project from one brief: a document, a budget spreadsheet, and a deck, all built into the folder you pick, and the AI keeps reviewing them as you work.',
+    navBuild: 'Build',
+    buildChatTitle: 'Build with AI',
+    buildChatSub:
+      'Describe what you need in plain words. The assistant asks when a detail is missing, shows its plan, then creates the files — across Docs, Sheets and Slides at once when the job calls for it. New files land in your default save folder; an existing file is only ever changed after you confirm.',
+    buildChatEmpty:
+      'What should we build? Try “an invoice for my consulting work”, “a resume for a project manager role”, or “a quote spreadsheet and a cover letter for the same client”.',
+    buildChatPlaceholder: 'Describe what you need…',
+    buildChatSend: 'Send',
+    buildChatSending: 'Working…',
+    buildChatNew: 'New chat',
+    buildChatNoModelTitle: 'Template-only mode',
+    buildChatNoModelBody:
+      'No AI is set up, so Build can only match a template and fill in its details. Set up AI — free local Ollama, or your own key — for full chat building.',
+    buildChatOpenSettings: 'Open AI settings',
+    buildChatQuestionsTitle: 'A few details first',
+    buildChatPlanTitle: 'Plan',
+    buildChatConfirmHint:
+      'This plan changes an existing file. Reply “yes” to run it, or say what to change instead.',
+    buildChatCreatedTitle: 'Created',
+    buildChatOpenFile: 'Open',
+    buildChatOpenedTab: 'Opened in a tab — saves under this title',
+    buildChatFailedTitle: 'Could not finish',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',
@@ -12363,6 +12824,27 @@ export const strings = {
     projectAiBuild: '建立專案',
     projectAiSub:
       '從一份簡要說明建立一個專案：一份文件、一份預算試算表和一份簡報，全部產生到你選擇的資料夾中，AI 會在你工作時持續審閱它們。',
+    navBuild: 'AI 建立',
+    buildChatTitle: 'AI 建立',
+    buildChatSub:
+      '用平常的話說出你需要什麼。缺少關鍵資訊時，助手會先提問；然後給出計劃，再建立檔案——需要時可同時跨文件、試算表和簡報。新建檔案保存在預設儲存資料夾中；只有在你確認後才會修改已有檔案。',
+    buildChatEmpty:
+      '我們來建立什麼？試試「給我一份顧問服務發票」、「一份專案經理的履歷」，或「一份報價試算表加一封給同一位客戶的求職信」。',
+    buildChatPlaceholder: '說說你需要什麼…',
+    buildChatSend: '傳送',
+    buildChatSending: '處理中…',
+    buildChatNew: '新對話',
+    buildChatNoModelTitle: '僅範本模式',
+    buildChatNoModelBody:
+      '尚未設定 AI，因此「建立」只能比對範本並填寫其中的細節。設定 AI（免費的本機 Ollama，或你自己的金鑰）後即可用聊天完整建立。',
+    buildChatOpenSettings: '開啟 AI 設定',
+    buildChatQuestionsTitle: '先確認幾個細節',
+    buildChatPlanTitle: '計劃',
+    buildChatConfirmHint: '此計劃會修改一個已有檔案。回覆「是」即可執行，或說明要改什麼。',
+    buildChatCreatedTitle: '已建立',
+    buildChatOpenFile: '開啟',
+    buildChatOpenedTab: '已在分頁中開啟——將以此標題儲存',
+    buildChatFailedTitle: '未能完成',
     navHome: 'Home',
     homeKicker: 'TechPartner Office',
     homeWorkingOn: 'What are we working on?',

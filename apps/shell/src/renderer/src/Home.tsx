@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { DragEvent as ReactDragEvent, ReactElement } from 'react'
 import appIcon from './assets/app-icon.png'
+import { BuildChatPanel } from './BuildChatPanel'
 import { KbAskPanel } from './KbAskPanel'
 import { ProjectAiPanel } from './ProjectAiPanel'
 import { FileBadge } from './file-badge'
@@ -1168,6 +1169,8 @@ export function Home() {
   // the knowledge-base ask panel takes over the content area the same way
   const [askMode, setAskMode] = useState(false)
   const [projectAiMode, setProjectAiMode] = useState(false)
+  // the build chat takes over the content area the same way too
+  const [buildMode, setBuildMode] = useState(false)
   const [filter, setFilter] = useState('all')
   // ── Starred groups (named buckets the Starred view can filter on) ──
   // groups that currently have at least one starred file (drives the pills)
@@ -1642,6 +1645,7 @@ export function Home() {
     setSelectedFolder(null)
     setAskMode(false)
     setProjectAiMode(false)
+    setBuildMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setGroupFilter(null)
@@ -1654,6 +1658,7 @@ export function Home() {
     setSelectedFolder(null)
     setAskMode(false)
     setProjectAiMode(false)
+    setBuildMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setGroupFilter(null)
@@ -1663,6 +1668,18 @@ export function Home() {
   const goProjectAi = () => {
     setProjectAiMode(true)
     setAskMode(false)
+    setBuildMode(false)
+    setLanding(false)
+    setSelectedFolder(null)
+    setSelected(new Set())
+    setRowMenu(null)
+  }
+
+  /** the rail's Build button: the chat that creates files */
+  const goBuild = () => {
+    setBuildMode(true)
+    setAskMode(false)
+    setProjectAiMode(false)
     setLanding(false)
     setSelectedFolder(null)
     setSelected(new Set())
@@ -1684,6 +1701,7 @@ export function Home() {
   const selectFolder = (dir: string) => {
     setSelectedFolder(dir)
     setAskMode(false)
+    setBuildMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setFolderMenu(null)
@@ -3211,11 +3229,13 @@ export function Home() {
   const activeNav = !selectedFolder
     ? projectAiMode
       ? 'projectAi'
-      : askMode
-        ? 'ask'
-        : landing
-          ? 'home'
-          : view
+      : buildMode
+        ? 'build'
+        : askMode
+          ? 'ask'
+          : landing
+            ? 'home'
+            : view
     : null
 
   return (
@@ -3284,6 +3304,7 @@ export function Home() {
           onClick={() => {
             setAskMode(true)
             setProjectAiMode(false)
+            setBuildMode(false)
             setLanding(false)
             setSelectedFolder(null)
             setSelected(new Set())
@@ -3299,6 +3320,28 @@ export function Home() {
             />
             <path
               d="M6 7.5h8M6 10.5h5"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+        <button
+          className={`rail-btn${activeNav === 'build' ? ' active' : ''}`}
+          aria-label={t('navBuild')}
+          aria-current={activeNav === 'build' ? 'page' : undefined}
+          title={t('navBuild')}
+          onClick={goBuild}
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path
+              d="M17.5 13c0 1.1-.9 2-2 2H6.8L2.5 18V4.5c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 6.5v5M7.5 9h5"
               stroke="currentColor"
               strokeWidth="1.4"
               strokeLinecap="round"
@@ -3360,6 +3403,11 @@ export function Home() {
         renderFolderContent()
       ) : projectAiMode ? (
         <ProjectAiPanel />
+      ) : buildMode ? (
+        <BuildChatPanel
+          onOpenPath={(path) => void window.aiOffice.openPath(path)}
+          onOpenModelSettings={() => setSettingsRequest({ section: 'aiModel' })}
+        />
       ) : askMode ? (
         <KbAskPanel
           onOpenPath={(path) => void window.aiOffice.openPath(path)}
