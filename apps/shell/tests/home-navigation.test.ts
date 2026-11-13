@@ -188,11 +188,11 @@ describe('Home rail navigation', () => {
     await click(templateBtn)
     expect(container.querySelector('.template-gallery')).not.toBeNull()
     expect(container.querySelector('.template-gallery')?.textContent).toContain('Modern Resume')
-    const useButton = [...container.querySelectorAll<HTMLButtonElement>('.template-card-use')].find(
-      (button) =>
-        button.closest('.template-card')?.querySelector('.template-card-title')?.textContent ===
-        'Modern Resume',
-    )!
+    // scope to the gallery's own grid: the landing's Templates section
+    // renders the same cards, and its Use button creates without ever
+    // touching the open gallery — this flow is the gallery's
+    const useButton =
+      mainGalleryCard('Modern Resume').querySelector<HTMLButtonElement>('.template-card-use')!
     await click(useButton)
     expect(window.aiOffice.createFromTemplate).toHaveBeenCalledWith(
       expect.objectContaining({ templateId: 'resume-modern' }),

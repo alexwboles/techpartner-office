@@ -3061,7 +3061,7 @@ export function Home() {
       <section className="landing-templates" aria-label={t('homeTemplatesTitle')}>
         <div className="landing-recents-head">
           <span className="section-label">{t('homeTemplatesTitle')}</span>
-          <button className="landing-see-all" onClick={() => setGalleryOpen(true)}>
+          <button className="landing-templates-see-all" onClick={() => setGalleryOpen(true)}>
             {t('homeTemplatesSeeAll')}
           </button>
         </div>

@@ -435,8 +435,14 @@ body.vib .home {
 }
 
 /* ── Search-first landing ────────────────────────────────────── */
+/* Row direction, top-anchored: justify-content centers the column
+ * horizontally; the column must never be centered vertically, or a
+ * column taller than the viewport loses its top (greeting, search,
+ * create row) into overflow the scroller cannot reach. */
 .landing-content {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -603,7 +609,8 @@ body.vib .home {
   margin-bottom: 10px;
 }
 
-.landing-see-all {
+.landing-see-all,
+.landing-templates-see-all {
   border: none;
   background: none;
   padding: 4px 0;
@@ -1654,8 +1661,12 @@ body.vib .home {
   cursor: default;
 }
 
-/* empty-list copy — centered in the space below the toolbar */
-.content:has(.proj-empty) {
+/* empty-list copy — centered in the space below the toolbar. The
+ * landing is excluded: it renders the same .proj-empty empty state
+ * for an empty Recent list, and flipping the landing's <main> to a
+ * column direction turns .landing-content's horizontal centering
+ * into vertical centering (see .landing-content above). */
+.content:not(.landing-content):has(.proj-empty) {
   display: flex;
   flex-direction: column;
 }
