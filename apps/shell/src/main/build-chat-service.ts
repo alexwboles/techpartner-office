@@ -22,14 +22,21 @@
  * 5. Edits (exact-text replacement in a document or deck) run only
  *    from a confirmed plan, and only when the text occurs exactly once.
  *
+ * The rendered transcript is owned here and persisted to
+ * build-chat-history.json in userData (last 200 entries), so the panel
+ * hydrates on mount and the conversation survives view switches and
+ * restarts. A pending edit plan is deliberately NOT persisted: on
+ * load, a restored confirm card is marked expired, and no later "yes"
+ * can release it — the gate state never outlives the process.
+ *
  * With no model configured, the deterministic fallback from the shared
  * core takes over: match one template, ask its placeholder questions,
  * fill from the answers. The panel says plainly when that mode is on.
  */
 
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { basename, join } from 'node:path'
+import { basename, join, resolve, sep } from 'node:path'
 import JSZip from 'jszip'
 import {
   activeProvider,
@@ -40,12 +47,17 @@ import {
 import { atomicWriteFile } from './atomic-write'
 import type { CliRunner } from './mcp/cli-runner'
 import { createFileViaCli } from './mcp/headless-cli'
+import { extractText } from './file-index/extract'
 import { replaceInTextNodes } from './project-ai-service'
+import { applySheetCellUpdates } from './sheet-edit'
 import { sanitizeFileBase, uniquePathIn } from './mcp/tools/document-tools'
 import { buildTemplatePptx, buildTemplateXlsx } from './template-files'
 import {
   applyBuildFill,
+  BUILD_CHAT_TRANSCRIPT_LIMIT,
+  BUILD_DERIVE_TEXT_LIMIT,
   buildChatSystemPrompt,
+  deriveDocumentSystemPrompt,
   describePlan,
   extractTemplatePlaceholders,
   fallbackCreateItem,
@@ -55,9 +67,12 @@ import {
   parseBuildReply,
   parsePlaceholderAnswers,
   planHasEdits,
+  type BuildChatTranscriptEntry,
   type BuildChatTurn,
   type BuildCreatedFile,
+  type BuildDeriveItem,
   type BuildPlanItem,
+  type BuildSheetEditItem,
 } from '../shared/build-chat'
 import { TEMPLATES, type TemplateDef } from '../shared/template-defs'
 
@@ -88,8 +103,65 @@ export interface BuildChatServiceDeps {
 const HISTORY_LIMIT = 20
 const MODEL_TIMEOUT_MS = 60_000
 
+/** the persisted transcript file inside the app's userData folder */
+const TRANSCRIPT_FILE = 'build-chat-history.json'
+
+const EXPIRED_EDIT_NOTE = 'That edit plan expired when the app closed, so it was not run.'
+
 const CLARIFY_QUESTION =
   'Could you tell me a bit more about what you need — what should it be called, and who or what is it for?'
+
+/** A message that names an existing readable file — in the no-model
+ *  fallback that can only be a derive request, which the fallback
+ *  honestly cannot do (it builds from templates, it cannot read). */
+const EXISTING_FILE_MENTION = /[\w][\w .-]*\.(docx|xlsx|pptx|md|html|txt)\b/i
+
+function isRecordValue(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function storedStringList(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((entry): entry is string => typeof entry === 'string')
+}
+
+/** Rebuild a turn from the persisted file, field by field: a hand-edited
+ *  or half-written history file degrades to fewer entries, never to a
+ *  crash or a malformed card. Returns undefined for a non-turn. */
+function sanitizeStoredTurn(raw: unknown): BuildChatTurn | undefined {
+  if (!isRecordValue(raw)) return undefined
+  const kinds: Array<BuildChatTurn['kind']> = [
+    'questions',
+    'built',
+    'confirm',
+    'message',
+    'no-model',
+    'error',
+  ]
+  if (!kinds.includes(raw.kind as BuildChatTurn['kind'])) return undefined
+  const files: BuildCreatedFile[] = []
+  if (Array.isArray(raw.files)) {
+    for (const entry of raw.files) {
+      if (!isRecordValue(entry)) continue
+      if (entry.app !== 'docs' && entry.app !== 'sheets' && entry.app !== 'slides') continue
+      if (typeof entry.title !== 'string') continue
+      files.push({
+        app: entry.app,
+        title: entry.title,
+        ...(typeof entry.path === 'string' ? { path: entry.path } : {}),
+      })
+    }
+  }
+  return {
+    kind: raw.kind as BuildChatTurn['kind'],
+    message: typeof raw.message === 'string' ? raw.message : '',
+    questions: storedStringList(raw.questions),
+    planLines: storedStringList(raw.planLines),
+    files,
+    errors: storedStringList(raw.errors),
+    modelAvailable: raw.modelAvailable === true,
+  }
+}
 
 interface PendingFallback {
   template: TemplateDef
@@ -158,6 +230,8 @@ function turn(partial: Partial<BuildChatTurn> & { kind: BuildChatTurn['kind'] })
 export class BuildChatService {
   private readonly deps: BuildChatServiceDeps
   private history: BuildChatHistoryEntry[] = []
+  /** the rendered transcript: what the panel shows, persisted to disk */
+  private transcriptEntries: BuildChatTranscriptEntry[] = []
   /** questions the assistant asked on the last model turn (state only —
    *  the clarify gate is that a questions turn never executes) */
   private pendingQuestions: string[] = []
@@ -166,10 +240,16 @@ export class BuildChatService {
 
   constructor(deps: BuildChatServiceDeps) {
     this.deps = deps
+    this.loadTranscript()
   }
 
   modelAvailable(): boolean {
     return this.deps.planWithAi ? true : buildChatModelAvailable(this.deps.userDataPath)
+  }
+
+  /** The rendered transcript, oldest first — the panel hydrates from it. */
+  transcript(): BuildChatTranscriptEntry[] {
+    return JSON.parse(JSON.stringify(this.transcriptEntries)) as BuildChatTranscriptEntry[]
   }
 
   reset(): void {
@@ -177,10 +257,33 @@ export class BuildChatService {
     this.pendingQuestions = []
     this.pendingEditPlan = null
     this.pendingFallback = null
+    this.transcriptEntries = []
+    try {
+      rmSync(join(this.deps.userDataPath, TRANSCRIPT_FILE), { force: true })
+    } catch {
+      // a stuck file must not break the reset; the next save overwrites it
+    }
   }
 
-  /** One user message in, one rendered turn out. */
+  /** One user message in, one rendered turn out. Every exchange is
+   *  recorded in the transcript (and persisted) whatever its outcome. */
   async send(rawText: string): Promise<BuildChatTurn> {
+    const result = await this.takeTurn(rawText)
+    const text = rawText.trim()
+    if (text) {
+      this.transcriptEntries.push(
+        { role: 'user', text },
+        { role: 'assistant', text: result.message, turn: result },
+      )
+      if (this.transcriptEntries.length > BUILD_CHAT_TRANSCRIPT_LIMIT) {
+        this.transcriptEntries = this.transcriptEntries.slice(-BUILD_CHAT_TRANSCRIPT_LIMIT)
+      }
+      this.saveTranscript()
+    }
+    return result
+  }
+
+  private async takeTurn(rawText: string): Promise<BuildChatTurn> {
     const text = rawText.trim()
     const modelAvailable = this.modelAvailable()
     if (!text) {
@@ -293,13 +396,27 @@ export class BuildChatService {
       })
     }
     const done = await this.executePlan(parsed.items, parsed.message ?? 'Done — created:')
-    return { ...done, planLines, modelAvailable: true }
+    // execution can add its own plan lines (a derive that only used the
+    // first part of a long source says so in the plan card)
+    return { ...done, planLines: [...planLines, ...done.planLines], modelAvailable: true }
   }
 
   private async respondWithoutModel(
     text: string,
     reason: 'not-configured' | 'unreachable',
   ): Promise<BuildChatTurn> {
+    if (EXISTING_FILE_MENTION.test(text)) {
+      // Working from an existing file needs a model that can read it;
+      // say so plainly instead of template-matching around the request.
+      return turn({
+        kind: 'no-model',
+        message:
+          reason === 'not-configured'
+            ? 'That asks me to work from an existing file, which needs AI — and no AI is set up yet. Set up AI (free local Ollama, or your own key) in Settings, then ask again. Without AI I can only build straight from a template.'
+            : 'That asks me to work from an existing file, which needs your AI — and it did not answer. Check that your AI is running (for local AI, that Ollama is up), then try again.',
+        modelAvailable: reason === 'not-configured' ? false : true,
+      })
+    }
     const template = matchTemplateForMessage(text, TEMPLATES)
     if (!template) {
       return turn({
@@ -336,21 +453,30 @@ export class BuildChatService {
   private async executePlan(items: BuildPlanItem[], intro: string): Promise<BuildChatTurn> {
     const files: BuildCreatedFile[] = []
     const errors: string[] = []
+    const notes: string[] = []
     for (const item of items) {
       try {
-        files.push(await this.executeItem(item))
+        const result = await this.executeItem(item)
+        files.push(result.file)
+        if (result.note) notes.push(result.note)
       } catch (error) {
         const label =
-          item.kind === 'edit' ? `Edit ${basename(item.path)}` : `Create “${item.title}”`
+          item.kind === 'create' || item.kind === 'derive'
+            ? `Create “${item.title}”`
+            : `Edit ${basename(item.path)}`
         errors.push(`${label}: ${error instanceof Error ? error.message : String(error)}`)
       }
     }
     const message = files.length > 0 ? intro : 'Nothing was created — see the problems below.'
-    return turn({ kind: 'built', message, files, errors, modelAvailable: true })
+    return turn({ kind: 'built', message, files, errors, planLines: notes, modelAvailable: true })
   }
 
-  private async executeItem(item: BuildPlanItem): Promise<BuildCreatedFile> {
-    if (item.kind === 'edit') return this.executeEdit(item)
+  private async executeItem(
+    item: BuildPlanItem,
+  ): Promise<{ file: BuildCreatedFile; note?: string }> {
+    if (item.kind === 'edit') return { file: await this.executeEdit(item) }
+    if (item.kind === 'sheet-edit') return { file: await this.executeSheetEdit(item) }
+    if (item.kind === 'derive') return this.executeDerive(item)
     const template = item.templateId
       ? TEMPLATES.find((candidate) => candidate.id === item.templateId)
       : undefined
@@ -360,7 +486,7 @@ export class BuildChatService {
     if (item.app === 'docs') {
       if (filled && filled.content.app === 'docs') {
         this.deps.openDocsTemplate({ title: item.title, html: filled.content.html })
-        return { app: 'docs', title: item.title }
+        return { file: { app: 'docs', title: item.title } }
       }
       const markdown = item.markdown ?? ''
       const body = markdown.trimStart().startsWith('#')
@@ -369,7 +495,7 @@ export class BuildChatService {
       const out = uniquePathIn(this.deps.saveDir(), `${sanitizeFileBase(item.title)}.docx`)
       await this.writeDocx(body, out)
       this.openQuietly(out)
-      return { app: 'docs', title: item.title, path: out }
+      return { file: { app: 'docs', title: item.title, path: out } }
     }
     if (item.app === 'sheets') {
       const sheets = filled && filled.content.app === 'sheets' ? filled.content.sheets : item.sheets
@@ -377,14 +503,14 @@ export class BuildChatService {
       const out = uniquePathIn(this.deps.saveDir(), `${sanitizeFileBase(item.title)}.xlsx`)
       await atomicWriteFile(out, await buildTemplateXlsx(sheets))
       this.openQuietly(out)
-      return { app: 'sheets', title: item.title, path: out }
+      return { file: { app: 'sheets', title: item.title, path: out } }
     }
     const slides = filled && filled.content.app === 'slides' ? filled.content.slides : item.slides
     if (!slides) throw new Error('The plan did not include any slides.')
     const out = uniquePathIn(this.deps.saveDir(), `${sanitizeFileBase(item.title)}.pptx`)
     await atomicWriteFile(out, await buildTemplatePptx(slides))
     this.openQuietly(out)
-    return { app: 'slides', title: item.title, path: out }
+    return { file: { app: 'slides', title: item.title, path: out } }
   }
 
   /** Exact-text edit of an existing document or deck (confirmed plans
@@ -421,6 +547,89 @@ export class BuildChatService {
     return { app: item.app, title: basename(item.path), path: item.path }
   }
 
+  /** Resolve a save-folder-relative plan path, refusing anything that
+   *  lands outside the folder (the validator already rejects absolute
+   *  paths and ".." segments; this is the second, physical check). */
+  private resolveSaveFolderPath(relative: string): string {
+    const root = resolve(this.deps.saveDir())
+    const target = resolve(root, relative)
+    if (target !== root && !target.startsWith(root + sep)) {
+      throw new Error('That file is outside the save folder.')
+    }
+    return target
+  }
+
+  /** Literal cell-value edit of an existing spreadsheet (confirmed
+   *  plans only): values land exactly as listed, the rest of the
+   *  workbook is preserved by the sheet-edit helper. */
+  private async executeSheetEdit(item: BuildSheetEditItem): Promise<BuildCreatedFile> {
+    const path = this.resolveSaveFolderPath(item.path)
+    if (!existsSync(path)) throw new Error('That file does not exist.')
+    const bytes = await readFile(path)
+    const out = await applySheetCellUpdates(bytes, item.updates, item.sheet)
+    await atomicWriteFile(path, out)
+    this.openQuietly(path)
+    return { app: 'sheets', title: basename(path), path }
+  }
+
+  /** Derive: read an existing file's text (the same extractors Home
+   *  search uses), hand it to the model with the user's instruction,
+   *  and create a NEW document from what comes back. The source is only
+   *  ever read. Long sources are cut at BUILD_DERIVE_TEXT_LIMIT and the
+   *  plan card says so — the model never silently sees a partial file
+   *  presented as the whole. */
+  private async executeDerive(
+    item: BuildDeriveItem,
+  ): Promise<{ file: BuildCreatedFile; note?: string }> {
+    const sourcePath = this.resolveSaveFolderPath(item.source)
+    if (!existsSync(sourcePath)) throw new Error('That source file does not exist.')
+    const extracted = await extractText(sourcePath)
+    if (extracted.kind !== 'text' || !extracted.text.trim()) {
+      throw new Error('I could not read any text from that file.')
+    }
+    const truncated = extracted.text.length > BUILD_DERIVE_TEXT_LIMIT
+    const content = truncated ? extracted.text.slice(0, BUILD_DERIVE_TEXT_LIMIT) : extracted.text
+    const markdown = await this.deriveMarkdown(item, content, truncated)
+    if (!markdown) throw new Error('The AI did not produce a document from that file.')
+    const body = markdown.trimStart().startsWith('#') ? markdown : `# ${item.title}\n\n${markdown}`
+    const out = uniquePathIn(this.deps.saveDir(), `${sanitizeFileBase(item.title)}.docx`)
+    await this.writeDocx(body, out)
+    this.openQuietly(out)
+    return {
+      file: { app: 'docs', title: item.title, path: out },
+      ...(truncated
+        ? {
+            note:
+              `“${basename(item.source)}” is long — ` +
+              'the new document is based on the first part of the file.',
+          }
+        : {}),
+    }
+  }
+
+  /** The derive content call: the writing prompt, not the plan
+   *  contract. A fenced reply is unfenced; an empty one is a failure. */
+  private async deriveMarkdown(
+    item: BuildDeriveItem,
+    content: string,
+    truncated: boolean,
+  ): Promise<string | null> {
+    const system = deriveDocumentSystemPrompt()
+    const userText =
+      `Instruction: ${item.instruction}\n\n` +
+      `Source file: ${basename(item.source)}${truncated ? ' (only the first part is shown)' : ''}\n\n` +
+      content
+    const reply = this.deps.planWithAi
+      ? await this.deps.planWithAi({ system, history: [{ role: 'user', text: userText }] })
+      : await this.callModelRaw(system, userText)
+    if (!reply) return null
+    const unfenced = reply
+      .replace(/^\s*```(?:markdown|md)?\s*/i, '')
+      .replace(/\s*```\s*$/, '')
+      .trim()
+    return unfenced ? unfenced : null
+  }
+
   private async writeDocx(markdown: string, out: string): Promise<void> {
     if (this.deps.writeDocxFile) {
       await this.deps.writeDocxFile(markdown, out)
@@ -442,6 +651,60 @@ export class BuildChatService {
     }
   }
 
+  /** Restore the persisted transcript (constructor only). Entries are
+   *  rebuilt field by field; a corrupt file means a fresh conversation.
+   *  Restored confirm cards are marked expired — their plan lived only
+   *  in the old process's memory and is gone for good. The model history
+   *  is rebuilt from the same entries so the conversation continues
+   *  coherently (a pending question set still reads as asked). */
+  private loadTranscript(): void {
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(
+        readFileSync(join(this.deps.userDataPath, TRANSCRIPT_FILE), 'utf8'),
+      ) as unknown
+    } catch {
+      return
+    }
+    if (!isRecordValue(parsed) || !Array.isArray(parsed.entries)) return
+    const entries: BuildChatTranscriptEntry[] = []
+    for (const raw of parsed.entries) {
+      if (!isRecordValue(raw)) continue
+      if (raw.role !== 'user' && raw.role !== 'assistant') continue
+      if (typeof raw.text !== 'string') continue
+      const storedTurn = raw.role === 'assistant' ? sanitizeStoredTurn(raw.turn) : undefined
+      entries.push({
+        role: raw.role,
+        text: raw.text,
+        ...(storedTurn ? { turn: storedTurn } : {}),
+      })
+    }
+    this.transcriptEntries = entries.slice(-BUILD_CHAT_TRANSCRIPT_LIMIT)
+    for (const entry of this.transcriptEntries) {
+      if (entry.turn?.kind === 'confirm') {
+        const message = [entry.turn.message, EXPIRED_EDIT_NOTE].filter(Boolean).join(' ')
+        entry.turn = { ...entry.turn, kind: 'message', message }
+        entry.text = message
+      }
+      if (entry.role === 'user') this.pushHistory('user', entry.text)
+      else if (entry.text) this.pushHistory('assistant', entry.text)
+    }
+  }
+
+  /** Persist the transcript atomically (temp file + rename, the same
+   *  shape as the app's other small JSON stores). Best-effort: a failed
+   *  write loses the saved transcript, never the live conversation. */
+  private saveTranscript(): void {
+    const file = join(this.deps.userDataPath, TRANSCRIPT_FILE)
+    const tmp = `${file}.tmp`
+    try {
+      writeFileSync(tmp, JSON.stringify({ version: 1, entries: this.transcriptEntries }), 'utf8')
+      renameSync(tmp, file)
+    } catch {
+      // ignored — see above
+    }
+  }
+
   private pushHistory(role: 'user' | 'assistant', text: string): void {
     this.history.push({ role, text })
     if (this.history.length > HISTORY_LIMIT) {
@@ -450,11 +713,20 @@ export class BuildChatService {
   }
 
   private async callModel(system: string): Promise<string | null> {
-    const target = resolveModelTarget(this.deps.userDataPath)
-    if (!target) return null
     const transcript = this.history
       .map((entry) => `${entry.role === 'user' ? 'User' : 'Assistant'}: ${entry.text}`)
       .join('\n')
+    return this.callModelRaw(
+      system,
+      `Conversation so far:\n${transcript}\n\nReply with the JSON for the latest user message.`,
+    )
+  }
+
+  /** One raw model call against the configured provider (never
+   *  Genspark), with the shared timeout; null when it cannot answer. */
+  private async callModelRaw(system: string, prompt: string): Promise<string | null> {
+    const target = resolveModelTarget(this.deps.userDataPath)
+    if (!target) return null
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS)
     try {
@@ -462,7 +734,7 @@ export class BuildChatService {
         target.provider,
         target.config,
         system,
-        `Conversation so far:\n${transcript}\n\nReply with the JSON for the latest user message.`,
+        prompt,
         controller.signal,
       )
       if (!result.ok) return null

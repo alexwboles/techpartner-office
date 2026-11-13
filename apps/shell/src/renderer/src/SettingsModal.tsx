@@ -44,8 +44,10 @@ import type {
   AiCatalogEntry,
   AuthorNameSetting,
   DocTheme,
+  OllamaProbeResult,
   UiTheme,
 } from '../../shared/home-api'
+import { OLLAMA_PULL_COMMAND } from '../../shared/home-api'
 import { ProviderLogo } from './provider-logos'
 import { IntegrationsPane, skillUpdateDue } from './IntegrationsPane'
 import { FoundSkills } from './FoundSkills'
@@ -319,6 +321,128 @@ function foldModels(providerId: string, models: string[]) {
 }
 
 /** AI model pane: provider / model / key / base URL, saved to userData/ai-settings.json */
+/**
+ * Guided local-AI setup on the account pane: probes the configured
+ * Ollama endpoint when the pane opens (and on "Check again"), states
+ * the result plainly, walks through download/run/pull when Ollama is
+ * missing, and offers the detected models as a dropdown when it is
+ * running. It never installs or runs anything itself — the download
+ * button only opens the official page, and pulling a model stays a
+ * command the user runs.
+ */
+function OllamaGuideCard({ t }: { t: TFunc }) {
+  const [probe, setProbe] = useState<OllamaProbeResult | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [currentModel, setCurrentModel] = useState('')
+
+  const runProbe = useCallback(() => {
+    setProbe(null)
+    void window.aiOffice.probeOllama?.().then((result) => {
+      setProbe(result ?? { status: 'unreachable' })
+    })
+    void window.aiOffice.getAiSettings?.().then((settings) => {
+      if (settings) setCurrentModel(settings.providers?.custom?.model ?? '')
+    })
+  }, [])
+  useEffect(runProbe, [runProbe])
+
+  const pickModel = (model: string) => {
+    setCurrentModel(model)
+    void (async () => {
+      const fresh = await window.aiOffice.getAiSettings?.()
+      if (!fresh) return
+      const endpoint = activeCustomEndpoint(fresh)
+      const slot = fresh.providers?.custom
+      const withModel = endpoint
+        ? upsertCustomEndpoint(fresh, { ...endpoint, model }, true)
+        : slot
+          ? { ...fresh, providers: { ...fresh.providers, custom: { ...slot, model } } }
+          : fresh
+      await window.aiOffice.setAiSettings?.({ ...withModel, provider: 'custom' })
+    })()
+  }
+
+  const copyCommand = () => {
+    void navigator.clipboard?.writeText(OLLAMA_PULL_COMMAND).then(
+      () => {
+        setCopied(true)
+        window.setTimeout(() => setCopied(false), 2000)
+      },
+      () => {},
+    )
+  }
+
+  const models = probe?.status === 'ready' ? probe.models : []
+  const pullRow = (
+    <span className="ollama-cmd">
+      <code>{OLLAMA_PULL_COMMAND}</code>
+      <button type="button" className="set-btn" onClick={copyCommand}>
+        {copied ? t('aiOllamaCopied') : t('aiOllamaCopy')}
+      </button>
+    </span>
+  )
+
+  return (
+    <div className="ollama-guide">
+      {probe === null && <p className="set-field-desc">{t('aiOllamaChecking')}</p>}
+      {probe?.status === 'ready' && (
+        <>
+          <p className="set-field-desc">{t('aiOllamaReady')}</p>
+          <div className="set-field">
+            <div className="set-field-text">
+              <label className="set-field-label">{t('aiOllamaReadyChoose')}</label>
+            </div>
+            <Dropdown
+              className="set-dd"
+              value={currentModel}
+              ariaLabel={t('aiOllamaReadyChoose')}
+              options={models.map((model) => ({ value: model, label: model }))}
+              onPick={pickModel}
+            />
+          </div>
+        </>
+      )}
+      {probe?.status === 'no-models' && (
+        <>
+          <p className="set-field-desc">{t('aiOllamaNoModels')}</p>
+          {pullRow}
+        </>
+      )}
+      {(probe?.status === 'unreachable' || probe?.status === 'not-configured') && (
+        <>
+          <p className="set-field-desc">
+            {probe.status === 'unreachable' ? t('aiOllamaUnreachable') : t('aiOllamaNotConfigured')}
+          </p>
+          <ol className="ollama-steps">
+            <li>
+              <span>{t('aiOllamaStepDownload')}</span>{' '}
+              <button
+                type="button"
+                className="set-btn"
+                onClick={() => void window.aiOffice.openOllamaDownload?.()}
+              >
+                {t('aiOllamaDownloadBtn')}
+              </button>
+            </li>
+            <li>{t('aiOllamaStepRun')}</li>
+            <li>
+              <span>{t('aiOllamaStepPull')}</span>
+              {pullRow}
+            </li>
+          </ol>
+        </>
+      )}
+      {probe !== null && (
+        <div className="set-pane-footer">
+          <button type="button" className="set-btn" onClick={runProbe}>
+            {t('aiOllamaCheckAgain')}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function AiModelPane({ t }: { t: TFunc }) {
   const [catalog, setCatalog] = useState<AiCatalogEntry[]>(
     () => window.aiOffice.getAiProviders?.() ?? [],
@@ -1923,6 +2047,7 @@ export function SettingsModal({
                 <p className="set-field-desc">{t('aiSetupDesc')}</p>
                 <p className="set-field-desc">{t('aiSetupOllama')}</p>
                 <p className="set-field-desc">{t('aiSetupByok')}</p>
+                <OllamaGuideCard t={t} />
                 <div className="set-pane-footer">
                   <button className="set-btn primary" onClick={() => setSection('aiModel')}>
                     {t('aiSetupOpenAi')}

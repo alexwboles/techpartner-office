@@ -12,8 +12,10 @@ import {
 import { buildTemplatePptx, buildTemplateXlsx } from '../src/main/template-files'
 import {
   EMPTY_TEMPLATE_GALLERY_STATE,
+  LANDING_TEMPLATE_COUNT,
   TEMPLATE_GALLERY_STORAGE_KEY,
   TEMPLATE_RECENT_LIMIT,
+  landingTemplatePicks,
   loadTemplateGalleryState,
   recordTemplateUse,
   saveTemplateGalleryState,
@@ -210,6 +212,40 @@ describe('template visual previews', () => {
     expect(visual.title).toBe('[Company Name]')
     expect(visual.subtitle).toContain('One-line pitch')
     expect(visual.extraSlides).toBe(7)
+  })
+})
+
+describe('landing template picks', () => {
+  it('a fresh profile gets a curated spread: one per category, capped', () => {
+    const picks = landingTemplatePicks(EMPTY_TEMPLATE_GALLERY_STATE)
+    expect(picks).toHaveLength(LANDING_TEMPLATE_COUNT)
+    // one per category for the first categories in catalog order
+    expect(picks.map((template) => template.id)).toEqual([
+      'resume-modern',
+      'cover-letter-general',
+      'letter-formal-inquiry',
+      'invoice-service',
+      'plan-lean-business',
+      'meeting-agenda',
+      'report-project-status',
+      'budget-monthly-personal',
+    ])
+    expect(new Set(picks.map((template) => template.category)).size).toBe(picks.length)
+  })
+
+  it('favorites come first, then recently used, without duplicates', () => {
+    const state = {
+      favorites: ['pitch-startup'],
+      recent: [
+        { id: 'invoice-product-sales', usedAt: 2 },
+        { id: 'pitch-startup', usedAt: 1 },
+      ],
+    }
+    const picks = landingTemplatePicks(state)
+    expect(picks[0]?.id).toBe('pitch-startup')
+    expect(picks[1]?.id).toBe('invoice-product-sales')
+    expect(picks).toHaveLength(LANDING_TEMPLATE_COUNT)
+    expect(new Set(picks.map((template) => template.id)).size).toBe(picks.length)
   })
 })
 

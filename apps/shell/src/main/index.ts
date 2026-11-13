@@ -357,6 +357,7 @@ import {
 import { createFileViaCli } from './mcp/headless-cli'
 import { ProjectAiService } from './project-ai-service'
 import { BuildChatService } from './build-chat-service'
+import { probeOllamaStatus } from './ollama-probe'
 import { buildTemplatePptx, buildTemplateXlsx } from './template-files'
 import { TEMPLATES, templateExtOf } from '../shared/template-defs'
 import { homeCliContext, runHomeCli, type HomeCliDeps } from './home-cli'
@@ -5688,9 +5689,10 @@ function registerHomeIpc(): void {
   ipcMain.handle(HOME_CHANNELS.buildChatReset, (): void => {
     ensureBuildChatService().reset()
   })
-  ipcMain.handle(HOME_CHANNELS.buildChatState, () => ({
-    modelAvailable: ensureBuildChatService().modelAvailable(),
-  }))
+  ipcMain.handle(HOME_CHANNELS.buildChatState, () => {
+    const service = ensureBuildChatService()
+    return { modelAvailable: service.modelAvailable(), entries: service.transcript() }
+  })
 
   ipcMain.handle(HOME_CHANNELS.pickDefaultSaveDir, async (): Promise<string | null> => {
     const result = await showOpenDialogWithMemory(dialog, shellWindow, {
@@ -5723,6 +5725,17 @@ function registerHomeIpc(): void {
 
   ipcMain.handle(HOME_CHANNELS.openGitHubRepo, () => {
     shell.openExternal(GITHUB_REPO_URL).catch(() => {
+      // no browser handler available; nothing actionable for the user here
+    })
+  })
+
+  // the Settings Ollama guide: probe the configured local endpoint and
+  // open the official download page on request — never installs or
+  // runs anything on the user's machine
+  ipcMain.handle('ai:probe-ollama', () => probeOllamaStatus(app.getPath('userData')))
+
+  ipcMain.handle('ai:open-ollama-download', () => {
+    shell.openExternal('https://ollama.com/download').catch(() => {
       // no browser handler available; nothing actionable for the user here
     })
   })

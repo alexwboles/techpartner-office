@@ -14,7 +14,7 @@ import type {
 } from '@genoffice/ai-provider'
 import type { UpdateChannel, UpdateUiState } from './update-api'
 import type { ProjectAiProjectType, ProjectAiState } from './project-ai'
-import type { BuildChatTurn } from './build-chat'
+import type { BuildChatTranscriptEntry, BuildChatTurn } from './build-chat'
 import type {
   AttachmentInfo,
   CliContext,
@@ -341,8 +341,9 @@ export interface HomeApi {
   buildChatSend(text: string): Promise<BuildChatTurn>
   /** forget the conversation and any pending question / plan */
   buildChatReset(): Promise<void>
-  /** whether a usable AI model is configured (false = template-only mode) */
-  buildChatState(): Promise<{ modelAvailable: boolean }>
+  /** whether a usable AI model is configured (false = template-only mode),
+   *  plus the persisted transcript so the panel can hydrate on mount */
+  buildChatState(): Promise<{ modelAvailable: boolean; entries: BuildChatTranscriptEntry[] }>
   /** open an existing file, routing to the right module by extension */
   openHelp(): Promise<void>
   openPath(path: string): Promise<void>
@@ -513,6 +514,11 @@ export interface HomeApi {
   openCloudProject(projectUrl: string): Promise<void>
   /** AI settings (userData/ai-settings.json, shared by every editor); the genspark key never appears here */
   getAiSettings(): Promise<AiSettings>
+  /** probe the configured local Ollama endpoint for the setup guide in
+   *  Settings: is local AI running, and which models does it have? */
+  probeOllama(): Promise<OllamaProbeResult>
+  /** open the official Ollama download page in the default browser */
+  openOllamaDownload(): Promise<void>
   /** persist AI settings; every renderer gets ai:settings-changed and re-reads */
   setAiSettings(settings: AiSettings): Promise<void>
   /** ai-settings.json was rewritten by any renderer (composer model chip, another window) */
@@ -544,6 +550,19 @@ export interface HomeApi {
     apiKey: string
   }): Promise<{ ok: boolean; error?: string }>
 }
+
+/** The Settings Ollama guide's probe outcome: the configured local
+ *  endpoint (http://localhost:11434/v1 by default) answered with its
+ *  model list, answered with none, did not answer, or is not the
+ *  endpoint the local-AI slot points at. */
+export type OllamaProbeResult =
+  | { status: 'ready'; models: string[] }
+  | { status: 'no-models' }
+  | { status: 'unreachable' }
+  | { status: 'not-configured' }
+
+/** The model the Ollama guide suggests pulling: capable, small, free. */
+export const OLLAMA_PULL_COMMAND = 'ollama pull llama3.1'
 
 export interface AiCatalogEntry extends AiProviderMeta {
   /** default endpoint for fixed-endpoint providers ('' = model-dependent or user-supplied) */

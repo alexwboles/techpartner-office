@@ -128,6 +128,76 @@ const TemplateVisual = memo(function TemplateVisual({ template }: { template: Te
 })
 
 /**
+ * One template card — the gallery grid's presentation, shared as-is
+ * with the Home landing's Templates section so a template looks and
+ * behaves the same in both places: live visual preview, star toggle,
+ * structure preview lines, and the Use button that creates through
+ * the caller's handler (both call sites go through the one
+ * createFromTemplate IPC path in main).
+ */
+export function TemplateCard({
+  template,
+  starred,
+  busy,
+  disabled,
+  onToggleFavorite,
+  onUse,
+}: {
+  template: TemplateDef
+  starred: boolean
+  /** this card's creation is in flight (its button says so) */
+  busy: boolean
+  /** any creation is in flight (all Use buttons wait) */
+  disabled: boolean
+  onToggleFavorite: (template: TemplateDef) => void
+  onUse: (template: TemplateDef) => void
+}) {
+  const { t } = useI18n()
+  const preview = templatePreview(template)
+  return (
+    <article className="template-card">
+      <TemplateVisual template={template} />
+      <div className="template-card-head">
+        <FileBadge ext={templateExtOf(template)} size={30} />
+        <div className="template-card-titles">
+          <div className="template-card-title">{template.title}</div>
+          <div className="template-card-app">
+            {t(templateCategoryKey(template.category) as StringKey)}
+          </div>
+        </div>
+        <button
+          className={`template-card-star${starred ? ' starred' : ''}`}
+          aria-label={t(starred ? 'templateGalleryUnfavorite' : 'templateGalleryFavorite')}
+          aria-pressed={starred}
+          onClick={() => onToggleFavorite(template)}
+        >
+          <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+            <path
+              d="M8 1.9l1.9 3.85 4.25.62-3.07 3 .72 4.23L8 11.6l-3.8 2 .72-4.23-3.07-3 4.25-.62z"
+              fill={starred ? '#f5a623' : 'none'}
+              stroke={starred ? '#f5a623' : 'currentColor'}
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <p className="template-card-desc">{template.description}</p>
+      {preview.length > 0 && (
+        <ul className="template-card-preview">
+          {preview.slice(0, 4).map((line, i) => (
+            <li key={i}>{line}</li>
+          ))}
+        </ul>
+      )}
+      <button className="template-card-use" disabled={disabled} onClick={() => onUse(template)}>
+        {busy ? t('templateGalleryCreating') : t('templateGalleryUse')}
+      </button>
+    </article>
+  )
+}
+
+/**
  * Template gallery modal: category chips + search over the template
  * library, one card per template with a live visual preview and a
  * structure preview, both derived from the real template content
@@ -223,55 +293,17 @@ export function TemplateGallery({
     }
   }
 
-  const renderCard = (template: TemplateDef) => {
-    const preview = templatePreview(template)
-    const starred = favoriteIds.has(template.id)
-    return (
-      <article key={template.id} className="template-card">
-        <TemplateVisual template={template} />
-        <div className="template-card-head">
-          <FileBadge ext={templateExtOf(template)} size={30} />
-          <div className="template-card-titles">
-            <div className="template-card-title">{template.title}</div>
-            <div className="template-card-app">
-              {t(templateCategoryKey(template.category) as StringKey)}
-            </div>
-          </div>
-          <button
-            className={`template-card-star${starred ? ' starred' : ''}`}
-            aria-label={t(starred ? 'templateGalleryUnfavorite' : 'templateGalleryFavorite')}
-            aria-pressed={starred}
-            onClick={() => toggleFavorite(template)}
-          >
-            <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
-              <path
-                d="M8 1.9l1.9 3.85 4.25.62-3.07 3 .72 4.23L8 11.6l-3.8 2 .72-4.23-3.07-3 4.25-.62z"
-                fill={starred ? '#f5a623' : 'none'}
-                stroke={starred ? '#f5a623' : 'currentColor'}
-                strokeWidth="1.2"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-        <p className="template-card-desc">{template.description}</p>
-        {preview.length > 0 && (
-          <ul className="template-card-preview">
-            {preview.slice(0, 4).map((line, i) => (
-              <li key={i}>{line}</li>
-            ))}
-          </ul>
-        )}
-        <button
-          className="template-card-use"
-          disabled={busyId !== null}
-          onClick={() => void createFromTemplate(template)}
-        >
-          {busyId === template.id ? t('templateGalleryCreating') : t('templateGalleryUse')}
-        </button>
-      </article>
-    )
-  }
+  const renderCard = (template: TemplateDef) => (
+    <TemplateCard
+      key={template.id}
+      template={template}
+      starred={favoriteIds.has(template.id)}
+      busy={busyId === template.id}
+      disabled={busyId !== null}
+      onToggleFavorite={toggleFavorite}
+      onUse={(picked) => void createFromTemplate(picked)}
+    />
+  )
 
   return (
     <div className="modal-overlay" onClick={onClose}>

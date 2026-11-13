@@ -1,3 +1,5 @@
+import { TEMPLATE_CATEGORIES, TEMPLATES, type TemplateDef } from '../../shared/template-defs'
+
 /**
  * Renderer-local state for the template gallery: favorite template ids and
  * the most recently used templates.
@@ -100,6 +102,42 @@ export function saveTemplateGalleryState(
   } catch {
     // the gallery just forgets across sessions
   }
+}
+
+/** how many template cards the Home landing highlights */
+export const LANDING_TEMPLATE_COUNT = 8
+
+/**
+ * The Home landing's template picks: favorites first (library order,
+ * like the gallery's pinned section), then recently used (most recent
+ * first), then a curated fill — one template per category in catalog
+ * order, then a second per category — so a fresh profile still gets a
+ * spread across the whole library. Reads the same store the gallery
+ * maintains; nothing here duplicates template data.
+ */
+export function landingTemplatePicks(
+  state: TemplateGalleryState,
+  limit: number = LANDING_TEMPLATE_COUNT,
+): TemplateDef[] {
+  const picks: TemplateDef[] = []
+  const seen = new Set<string>()
+  const take = (template: TemplateDef | undefined) => {
+    if (!template || seen.has(template.id) || picks.length >= limit) return
+    seen.add(template.id)
+    picks.push(template)
+  }
+  const favorites = new Set(state.favorites)
+  for (const template of TEMPLATES) {
+    if (favorites.has(template.id)) take(template)
+  }
+  const byId = new Map(TEMPLATES.map((template) => [template.id, template]))
+  for (const entry of state.recent) take(byId.get(entry.id))
+  for (let round = 0; round < 2 && picks.length < limit; round++) {
+    for (const category of TEMPLATE_CATEGORIES) {
+      take(TEMPLATES.filter((template) => template.category === category)[round])
+    }
+  }
+  return picks
 }
 
 /** star a template, or unstar it when it is already starred */

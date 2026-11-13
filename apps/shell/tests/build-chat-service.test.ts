@@ -4,8 +4,14 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import JSZip from 'jszip'
 import { describe, expect, it } from 'vitest'
-import { BuildChatService, extractBuildJson } from '../src/main/build-chat-service'
+import {
+  BuildChatService,
+  extractBuildJson,
+  type BuildChatHistoryEntry,
+  type BuildChatServiceDeps,
+} from '../src/main/build-chat-service'
 import type { CliRunner } from '../src/main/mcp/cli-runner'
+import { buildTemplateXlsx } from '../src/main/template-files'
 
 /**
  * Build chat service: the clarify gate, the edit-confirmation gate, plan
@@ -298,6 +304,295 @@ describe('the edit-confirmation gate', () => {
     const xml = await readDocxXml(letterPath)
     expect(xml).toContain('Total')
     expect(xml).not.toContain('Sum')
+  })
+})
+
+describe('derive from an existing file', () => {
+  const DERIVED_MARKDOWN = '# Revenue Brief\n\nRevenue grew 12 percent last quarter.'
+
+  function makeDeriveService(
+    harness: Harness,
+    plan: string,
+    derivedMarkdown: string,
+    calls: Array<{ system: string; history: BuildChatHistoryEntry[] }>,
+  ): BuildChatService {
+    return new BuildChatService({
+      userDataPath: harness.saveDir,
+      cli: cliStub,
+      saveDir: () => harness.saveDir,
+      openFile: (path) => harness.openedFiles.push(path),
+      openDocsTemplate: (input) => harness.openedDocsTemplates.push(input),
+      planWithAi: async (input) => {
+        calls.push(input)
+        return input.system.includes('writing assistant') ? derivedMarkdown : plan
+      },
+      writeDocxFile: async (markdown, out) => {
+        harness.writtenDocx.push({ markdown, out })
+        await writeFile(out, markdown, 'utf8')
+      },
+    })
+  }
+
+  it('creates a new document from a docx source and never touches the source', async () => {
+    const harness = await makeHarness()
+    const sourcePath = join(harness.saveDir, 'Notes.docx')
+    await writeDocxFixture(sourcePath, [
+      'Quarterly revenue grew 12 percent.',
+      'Costs fell in April.',
+    ])
+    const sourceBefore = await readFile(sourcePath)
+    const plan = JSON.stringify({
+      plan: [
+        {
+          kind: 'derive',
+          source: 'Notes.docx',
+          instruction: 'Summarize it as a short brief',
+          title: 'Revenue Brief',
+        },
+      ],
+      message: 'Building the brief.',
+    })
+    const calls: Array<{ system: string; history: BuildChatHistoryEntry[] }> = []
+    const service = makeDeriveService(harness, plan, DERIVED_MARKDOWN, calls)
+
+    const turnResult = await service.send('Turn Notes.docx into a short brief')
+    expect(turnResult.kind).toBe('built')
+    expect(turnResult.errors).toEqual([])
+    expect(turnResult.files[0]?.path?.endsWith('Revenue Brief.docx')).toBe(true)
+    expect(turnResult.planLines[0]).toContain('from Notes.docx')
+    // two model calls: the plan, then the writing call carrying the
+    // extracted source text and the user's instruction
+    expect(calls).toHaveLength(2)
+    expect(calls[1]?.history[0]?.text).toContain('Summarize it as a short brief')
+    expect(calls[1]?.history[0]?.text).toContain('Quarterly revenue grew 12 percent')
+    expect(harness.writtenDocx[0]?.markdown).toContain('Revenue grew 12 percent last quarter')
+    expect((await readFile(sourcePath)).equals(sourceBefore)).toBe(true)
+  })
+
+  it('creates a new document from an xlsx source', async () => {
+    const harness = await makeHarness()
+    const sourcePath = join(harness.saveDir, 'Data.xlsx')
+    await writeFile(
+      sourcePath,
+      await buildTemplateXlsx([
+        {
+          name: 'Stock',
+          headerRow: true,
+          rows: [
+            ['Item', 'Count'],
+            ['Apples', 42],
+          ],
+        },
+      ]),
+    )
+    const plan = JSON.stringify({
+      plan: [
+        {
+          kind: 'derive',
+          source: 'Data.xlsx',
+          instruction: 'Write up the stock',
+          title: 'Stock Notes',
+        },
+      ],
+    })
+    const calls: Array<{ system: string; history: BuildChatHistoryEntry[] }> = []
+    const service = makeDeriveService(
+      harness,
+      plan,
+      '# Stock Notes\n\nThere are 42 apples in stock.',
+      calls,
+    )
+    const turnResult = await service.send('Write up Data.xlsx as a document')
+    expect(turnResult.kind).toBe('built')
+    expect(turnResult.errors).toEqual([])
+    expect(calls[1]?.history[0]?.text).toContain('Apples')
+    expect(harness.writtenDocx[0]?.markdown).toContain('42 apples')
+  })
+
+  it('says in the plan card when only the first part of a long source was used', async () => {
+    const harness = await makeHarness()
+    const sourcePath = join(harness.saveDir, 'Long.docx')
+    await writeDocxFixture(sourcePath, ['x'.repeat(30_000)])
+    const plan = JSON.stringify({
+      plan: [
+        { kind: 'derive', source: 'Long.docx', instruction: 'Summarize it', title: 'Long Summary' },
+      ],
+    })
+    const calls: Array<{ system: string; history: BuildChatHistoryEntry[] }> = []
+    const service = makeDeriveService(harness, plan, '# Long Summary\n\nShort version.', calls)
+    const turnResult = await service.send('Summarize Long.docx')
+    expect(turnResult.kind).toBe('built')
+    expect(turnResult.planLines.some((line) => line.includes('first part of the file'))).toBe(true)
+    expect(calls[1]?.history[0]?.text).toContain('only the first part is shown')
+  })
+
+  it('the no-model fallback says plainly that working from a file needs AI', async () => {
+    const harness = await makeHarness()
+    const turnResult = await harness.service.send('Summarize my Notes.docx')
+    expect(turnResult.kind).toBe('no-model')
+    expect(turnResult.message).toContain('work from an existing file')
+    expect(turnResult.message).toContain('no AI is set up yet')
+    expect(await readdir(harness.saveDir)).toEqual([])
+  })
+})
+
+describe('the spreadsheet edit gate', () => {
+  it('a sheet edit waits for yes; a drop leaves the file byte-identical; yes applies exactly the listed cells', async () => {
+    const harness = await makeHarness()
+    const budgetPath = join(harness.saveDir, 'Budget.xlsx')
+    const fixture = await buildTemplateXlsx([
+      {
+        name: 'Budget',
+        headerRow: true,
+        rows: [
+          ['Item', 'Amount'],
+          ['Rent', 1200],
+          ['Food', 300],
+        ],
+      },
+    ])
+    await writeFile(budgetPath, fixture)
+    const plan = JSON.stringify({
+      plan: [
+        {
+          kind: 'sheet-edit',
+          path: 'Budget.xlsx',
+          updates: [
+            { cell: 'B2', value: 1350 },
+            { cell: 'C5', value: 'Total' },
+            { cell: 'B5', value: 1500 },
+          ],
+        },
+      ],
+      message: 'Here is the change.',
+    })
+    const scripted: Array<string | null> = [plan, '{"questions":["What instead?"]}', plan]
+    const service = new BuildChatService({
+      userDataPath: harness.saveDir,
+      cli: cliStub,
+      saveDir: () => harness.saveDir,
+      openFile: (path) => harness.openedFiles.push(path),
+      openDocsTemplate: (input) => harness.openedDocsTemplates.push(input),
+      planWithAi: async () => (scripted.length > 0 ? (scripted.shift() ?? null) : null),
+      writeDocxFile: async (markdown, out) => {
+        await writeFile(out, markdown, 'utf8')
+      },
+    })
+
+    const proposed = await service.send('Set rent to 1350 and add a totals row in Budget.xlsx')
+    expect(proposed.kind).toBe('confirm')
+    expect(proposed.planLines[0]).toContain('Budget.xlsx')
+    expect(proposed.planLines[0]).toContain('set B2 to 1350')
+    // nothing has touched the file yet
+    expect((await readFile(budgetPath)).equals(fixture)).toBe(true)
+
+    // a non-confirmation drops the plan; the file stays byte-identical
+    const dropped = await service.send('actually, never mind')
+    expect(dropped.message).toContain('Dropped that edit plan.')
+    expect((await readFile(budgetPath)).equals(fixture)).toBe(true)
+
+    // propose again, confirm, and exactly the listed cells change
+    const reproposed = await service.send('Set rent to 1350 and add a totals row in Budget.xlsx')
+    expect(reproposed.kind).toBe('confirm')
+    const done = await service.send('yes')
+    expect(done.kind).toBe('built')
+    expect(done.errors).toEqual([])
+    expect(done.files[0]?.path).toBe(budgetPath)
+
+    const zip = await JSZip.loadAsync(await readFile(budgetPath))
+    const sheetXml = await zip.file('xl/worksheets/sheet1.xml')!.async('string')
+    expect(sheetXml).toContain('<v>1350</v>')
+    expect(sheetXml).not.toContain('<v>1200</v>')
+    expect(sheetXml).toContain('Total')
+    expect(sheetXml).toContain('<v>1500</v>')
+    // the rest of the workbook is preserved
+    expect(sheetXml).toContain('Rent')
+    expect(sheetXml).toContain('Food')
+    expect(sheetXml).toContain('<v>300</v>')
+  })
+})
+
+describe('transcript persistence', () => {
+  async function makePersistentService(
+    userDataPath: string,
+    saveDir: string,
+    planWithAi?: BuildChatServiceDeps['planWithAi'],
+  ): Promise<BuildChatService> {
+    return new BuildChatService({
+      userDataPath,
+      cli: cliStub,
+      saveDir: () => saveDir,
+      openFile: () => {},
+      openDocsTemplate: () => {},
+      ...(planWithAi ? { planWithAi } : {}),
+      writeDocxFile: async (markdown, out) => {
+        await writeFile(out, markdown, 'utf8')
+      },
+    })
+  }
+
+  it('restores the transcript in a new service on the same userData dir', async () => {
+    const userDataPath = await mkdtemp(join(tmpdir(), 'build-chat-persist-user-'))
+    const saveDir = await mkdtemp(join(tmpdir(), 'build-chat-persist-save-'))
+    const first = await makePersistentService(userDataPath, saveDir)
+    await first.send('I need a payment receipt')
+    await first.send('Keyboard\nMouse')
+    expect(existsSync(join(userDataPath, 'build-chat-history.json'))).toBe(true)
+
+    // a new process: a fresh service over the same folders
+    const second = await makePersistentService(userDataPath, saveDir)
+    const entries = second.transcript()
+    expect(entries.map((entry) => entry.role)).toEqual(['user', 'assistant', 'user', 'assistant'])
+    expect(entries[0]?.text).toBe('I need a payment receipt')
+    expect(entries[1]?.turn?.kind).toBe('questions')
+    expect(entries[1]?.turn?.questions).toHaveLength(2)
+    expect(entries[3]?.turn?.kind).toBe('built')
+    expect(entries[3]?.turn?.files).toHaveLength(1)
+  })
+
+  it('a pending edit plan does not survive a restart, and a later yes cannot run it', async () => {
+    const userDataPath = await mkdtemp(join(tmpdir(), 'build-chat-persist-user-'))
+    const saveDir = await mkdtemp(join(tmpdir(), 'build-chat-persist-save-'))
+    const letterPath = join(saveDir, 'letter.docx')
+    await writeDocxFixture(letterPath, ['Dear Sir', 'Body text.'])
+    const editPlan = JSON.stringify({
+      plan: [
+        { kind: 'edit', app: 'docs', path: letterPath, find: 'Dear Sir', replace: 'Dear Ms. Lee' },
+      ],
+      message: 'Here is the change.',
+    })
+    const first = await makePersistentService(userDataPath, saveDir, async () => editPlan)
+    const proposed = await first.send('Change Dear Sir to Dear Ms. Lee in my letter')
+    expect(proposed.kind).toBe('confirm')
+
+    // restart with the edit still "pending": the restored card is expired
+    const second = await makePersistentService(
+      userDataPath,
+      saveDir,
+      async () => '{"questions":["What instead?"]}',
+    )
+    const entries = second.transcript()
+    const restored = entries[entries.length - 1]
+    expect(restored?.turn?.kind).toBe('message')
+    expect(restored?.turn?.message).toContain('expired when the app closed')
+
+    // a fresh plain yes is just a new message — the edit never runs
+    const after = await second.send('yes')
+    expect(after.kind).toBe('questions')
+    expect(await readDocxXml(letterPath)).toContain('Dear Sir')
+  })
+
+  it('reset clears the persisted transcript from disk and memory', async () => {
+    const userDataPath = await mkdtemp(join(tmpdir(), 'build-chat-persist-user-'))
+    const saveDir = await mkdtemp(join(tmpdir(), 'build-chat-persist-save-'))
+    const service = await makePersistentService(userDataPath, saveDir)
+    await service.send('I need a payment receipt')
+    expect(service.transcript()).toHaveLength(2)
+    service.reset()
+    expect(service.transcript()).toEqual([])
+    expect(existsSync(join(userDataPath, 'build-chat-history.json'))).toBe(false)
+    const fresh = await makePersistentService(userDataPath, saveDir)
+    expect(fresh.transcript()).toEqual([])
   })
 })
 

@@ -1,20 +1,26 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import type { BuildChatTurn } from '../../shared/build-chat'
+import type { BuildChatTranscriptEntry, BuildChatTurn } from '../../shared/build-chat'
 import { useI18n } from './locale'
 import './build-chat.css'
 
-interface ChatEntry {
-  role: 'user' | 'assistant'
-  text: string
-  /** the structured service turn behind an assistant entry */
-  turn?: BuildChatTurn
-}
+type ChatEntry = BuildChatTranscriptEntry
 
 const APP_BADGE: Record<string, string> = {
   docs: 'DOC',
   sheets: 'SHEET',
   slides: 'DECK',
 }
+
+/** One-tap starting points on a fresh conversation: each chip sends its
+ *  prompt as the first user message, so the clarify-then-build flow
+ *  starts without typing. The prompts stay inside what the chat can
+ *  actually do — a template-backed file in each of the three apps. */
+const STARTER_KEYS = [
+  'buildChatStarterInvoice',
+  'buildChatStarterBusinessPlan',
+  'buildChatStarterBudget',
+  'buildChatStarterPresentation',
+] as const
 
 /**
  * Build chat panel. Two placements share this one component and the
@@ -41,18 +47,29 @@ export function BuildChatPanel(props: {
   const [entries, setEntries] = useState<ChatEntry[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
+  const [hydrated, setHydrated] = useState(false)
   const [modelAvailable, setModelAvailable] = useState<boolean | null>(null)
   const listRef = useRef<HTMLDivElement | null>(null)
 
+  // The service owns the transcript (persisted across restarts): hydrate
+  // from it on mount, so leaving and returning — or relaunching the app —
+  // shows the same conversation instead of a blank panel.
   useEffect(() => {
     let live = true
     void window.aiOffice
       .buildChatState()
       .then((state) => {
-        if (live) setModelAvailable(state.modelAvailable)
+        if (!live) return
+        setModelAvailable(state.modelAvailable)
+        if (Array.isArray(state.entries) && state.entries.length > 0) {
+          setEntries(state.entries)
+        }
+        setHydrated(true)
       })
       .catch(() => {
-        if (live) setModelAvailable(null)
+        if (!live) return
+        setModelAvailable(null)
+        setHydrated(true)
       })
     return () => {
       live = false
@@ -64,10 +81,9 @@ export function BuildChatPanel(props: {
     if (list) list.scrollTop = list.scrollHeight
   }, [entries, busy])
 
-  const send = async (): Promise<void> => {
-    const text = draft.trim()
+  const sendText = async (rawText: string): Promise<void> => {
+    const text = rawText.trim()
     if (!text || busy) return
-    setDraft('')
     setBusy(true)
     setEntries((current) => [...current, { role: 'user', text }])
     try {
@@ -98,6 +114,13 @@ export function BuildChatPanel(props: {
     } finally {
       setBusy(false)
     }
+  }
+
+  const send = async (): Promise<void> => {
+    const text = draft.trim()
+    if (!text) return
+    setDraft('')
+    await sendText(text)
   }
 
   const newChat = async (): Promise<void> => {
@@ -208,6 +231,16 @@ export function BuildChatPanel(props: {
         ))}
         {busy && <p className="build-chat-working">{t('buildChatSending')}</p>}
       </div>
+
+      {hydrated && entries.length === 0 && !busy && (
+        <div className="build-chat-starters">
+          {STARTER_KEYS.map((key) => (
+            <button key={key} className="build-chat-chip" onClick={() => void sendText(t(key))}>
+              {t(key)}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="build-chat-composer">
         <textarea

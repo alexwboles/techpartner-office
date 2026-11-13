@@ -164,6 +164,30 @@
   margin: 0;
 }
 
+/* Starter chips on a fresh conversation: one tap sends the prompt.
+ * Sharp corners and the shared tokens, like every other surface here;
+ * the accent only appears on hover so the row stays quiet. */
+.build-chat-starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.build-chat-chip {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.build-chat-chip:hover {
+  border-color: var(--color-tp-accent);
+  color: var(--color-tp-accent);
+}
+
 .build-chat-composer {
   display: flex;
   gap: 8px;

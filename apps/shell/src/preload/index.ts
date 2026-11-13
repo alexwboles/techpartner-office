@@ -38,6 +38,7 @@ import type {
 } from '../shared/integrations-api'
 import type { FoundSkill, RecommendedSkill } from '../shared/found-skill'
 import type { TabsApi, TabSummary } from '../shared/tabs-api'
+import type { BuildChatTranscriptEntry } from '../shared/build-chat'
 import { TABS_CHANNELS } from '../shared/tabs-api'
 
 const UI_LANGUAGES: readonly UiLanguage[] = [
@@ -67,6 +68,16 @@ const UI_LANGUAGES: readonly UiLanguage[] = [
 
 function isUiLanguage(value: unknown): value is UiLanguage {
   return UI_LANGUAGES.includes(value as UiLanguage)
+}
+
+/** A persisted build-chat transcript entry, shape-checked at the bridge:
+ *  the renderer's hydration trusts these entries as renderable turns. */
+function isBuildChatTranscriptEntry(value: unknown): value is BuildChatTranscriptEntry {
+  if (typeof value !== 'object' || value === null) return false
+  const entry = value as { role?: unknown; text?: unknown; turn?: unknown }
+  if (entry.role !== 'user' && entry.role !== 'assistant') return false
+  if (typeof entry.text !== 'string') return false
+  return entry.turn === undefined || (typeof entry.turn === 'object' && entry.turn !== null)
 }
 
 const EMPTY_PAGE: RecentPage = { entries: [], total: 0, totalAll: 0 }
@@ -632,11 +643,15 @@ const homeApi: HomeApi = {
   },
   async buildChatState() {
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.buildChatState)
+    const record =
+      typeof result === 'object' && result !== null
+        ? (result as { modelAvailable?: unknown; entries?: unknown })
+        : {}
     return {
-      modelAvailable:
-        typeof result === 'object' &&
-        result !== null &&
-        (result as { modelAvailable?: unknown }).modelAvailable === true,
+      modelAvailable: record.modelAvailable === true,
+      entries: Array.isArray(record.entries)
+        ? record.entries.filter(isBuildChatTranscriptEntry)
+        : [],
     }
   },
   async cloudProjectsCached() {
@@ -664,6 +679,28 @@ const homeApi: HomeApi = {
   },
   async getAiSettings() {
     return (await ipcRenderer.invoke('ai:get-settings')) as AiSettings
+  },
+  async probeOllama() {
+    const raw: unknown = await ipcRenderer.invoke('ai:probe-ollama')
+    const record =
+      raw && typeof raw === 'object' ? (raw as { status?: unknown; models?: unknown }) : {}
+    if (record.status === 'ready' && Array.isArray(record.models)) {
+      return {
+        status: 'ready' as const,
+        models: record.models.filter((id): id is string => typeof id === 'string'),
+      }
+    }
+    if (
+      record.status === 'no-models' ||
+      record.status === 'unreachable' ||
+      record.status === 'not-configured'
+    ) {
+      return { status: record.status }
+    }
+    return { status: 'unreachable' as const }
+  },
+  async openOllamaDownload() {
+    await ipcRenderer.invoke('ai:open-ollama-download')
   },
   async setAiSettings(settings) {
     await ipcRenderer.invoke('ai:set-settings', settings)

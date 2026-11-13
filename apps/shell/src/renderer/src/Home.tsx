@@ -25,7 +25,16 @@ import { fileCountLabel, visiblePageCount } from './counts'
 import { useI18n } from './locale'
 import type { I18n, StringKey } from './locale'
 import { SettingsModal } from './SettingsModal'
-import { TemplateGallery } from './TemplateGallery'
+import { TemplateGallery, TemplateCard } from './TemplateGallery'
+import {
+  landingTemplatePicks,
+  loadTemplateGalleryState,
+  recordTemplateUse,
+  saveTemplateGalleryState,
+  toggleTemplateFavorite,
+  type TemplateGalleryState,
+} from './template-gallery-store'
+import type { TemplateDef } from '../../shared/template-defs'
 import type { SettingsTarget } from './SettingsModal'
 import { skillUpdateDue } from './IntegrationsPane'
 import { onFilesChanged } from './file-events'
@@ -1163,6 +1172,14 @@ export function Home() {
   const [folderDrawerOpen, setFolderDrawerOpen] = useState(false)
   // template gallery modal (opened from either create row's From template)
   const [galleryOpen, setGalleryOpen] = useState(false)
+  // the landing Templates section reads the same favorites/recents
+  // store the gallery modal maintains; it reloads when the modal
+  // closes so stars and uses made there show up here
+  const [landingGalleryState, setLandingGalleryState] = useState<TemplateGalleryState>(() =>
+    loadTemplateGalleryState(),
+  )
+  const [landingTemplateBusyId, setLandingTemplateBusyId] = useState<string | null>(null)
+  const [landingTemplateError, setLandingTemplateError] = useState<string | null>(null)
   // the knowledge-base ask panel takes over the content area the same way
   const [askMode, setAskMode] = useState(false)
   const [projectAiMode, setProjectAiMode] = useState(false)
@@ -3001,6 +3018,71 @@ export function Home() {
     )
   }
 
+  /** the landing's Templates highlight: favorites, then recently used,
+   * then a curated spread of the catalog (landingTemplatePicks), as
+   * the gallery's own cards. Capped at LANDING_TEMPLATE_COUNT so the
+   * section stays two rows at landing width and Recent stays close;
+   * See all opens the full gallery. Creation goes through the exact
+   * createFromTemplate path the gallery uses — no second logic. */
+  function renderLandingTemplates() {
+    const picks = landingTemplatePicks(landingGalleryState)
+    if (picks.length === 0) return null
+    const toggleFavorite = (template: TemplateDef) => {
+      const next = toggleTemplateFavorite(landingGalleryState, template.id)
+      setLandingGalleryState(next)
+      saveTemplateGalleryState(next)
+    }
+    const createFromTemplate = async (template: TemplateDef) => {
+      setLandingTemplateBusyId(template.id)
+      setLandingTemplateError(null)
+      try {
+        const result = await window.aiOffice.createFromTemplate({
+          templateId: template.id,
+          opts: newFileOpts,
+        })
+        if (result.ok) {
+          const next = recordTemplateUse(landingGalleryState, template.id)
+          setLandingGalleryState(next)
+          saveTemplateGalleryState(next)
+          return
+        }
+        setLandingTemplateError(t('templateGalleryFailed', { error: result.error ?? '' }))
+      } catch (err) {
+        setLandingTemplateError(
+          t('templateGalleryFailed', {
+            error: err instanceof Error ? err.message : String(err),
+          }),
+        )
+      } finally {
+        setLandingTemplateBusyId(null)
+      }
+    }
+    return (
+      <section className="landing-templates" aria-label={t('homeTemplatesTitle')}>
+        <div className="landing-recents-head">
+          <span className="section-label">{t('homeTemplatesTitle')}</span>
+          <button className="landing-see-all" onClick={() => setGalleryOpen(true)}>
+            {t('homeTemplatesSeeAll')}
+          </button>
+        </div>
+        <div className="landing-templates-grid">
+          {picks.map((template) => (
+            <TemplateCard
+              key={template.id}
+              template={template}
+              starred={landingGalleryState.favorites.includes(template.id)}
+              busy={landingTemplateBusyId === template.id}
+              disabled={landingTemplateBusyId !== null}
+              onToggleFavorite={toggleFavorite}
+              onUse={(picked) => void createFromTemplate(picked)}
+            />
+          ))}
+        </div>
+        {landingTemplateError && <p className="landing-templates-error">{landingTemplateError}</p>}
+      </section>
+    )
+  }
+
   /** the search-first landing: kicker, greeting, big search, create row,
    * the Build chat card, and the first recent rows below it — the full
    * tables live one click away (See all, or the rail's Recent / Starred) */
@@ -3036,6 +3118,7 @@ export function Home() {
             onOpenPath={(path) => void window.aiOffice.openPath(path)}
             onOpenModelSettings={() => setSettingsRequest({ section: 'aiModel' })}
           />
+          {renderLandingTemplates()}
           <section className="landing-recents" aria-label={t('secRecent')}>
             <div className="landing-recents-head">
               <span className="section-label">{t('secRecent')}</span>
@@ -3511,7 +3594,14 @@ export function Home() {
       <DropToOpenOverlay />
 
       {galleryOpen && (
-        <TemplateGallery createOpts={newFileOpts} onClose={() => setGalleryOpen(false)} />
+        <TemplateGallery
+          createOpts={newFileOpts}
+          onClose={() => {
+            setGalleryOpen(false)
+            // stars/uses made in the modal refresh the landing section
+            setLandingGalleryState(loadTemplateGalleryState())
+          }}
+        />
       )}
     </div>
   )

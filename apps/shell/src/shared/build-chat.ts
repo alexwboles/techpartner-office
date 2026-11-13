@@ -9,17 +9,22 @@
  *   { "plan": [ <item>, ... ], "message": "..." }  — ready to build
  *
  * A plan item either creates a NEW file (from a gallery template with
- * the user's facts filled in, or from custom content) or — only for a
- * document or a deck — edits an existing file by exact text replacement.
- * This module validates every reply before anything touches disk: an
- * invalid reply parses to null and the service asks a clarifying
- * question instead of crashing or half-building.
+ * the user's facts filled in, or from custom content), edits an
+ * existing file (a document or deck by exact text replacement, or a
+ * spreadsheet by literal cell values), or derives a new document from
+ * an existing file's content — the source is read, never changed.
+ * This module validates every
+ * reply before anything touches disk: an invalid reply parses to null
+ * and the service asks a clarifying question instead of crashing or
+ * half-building.
  *
  * SAFETY CONTRACT:
  * - Creates never overwrite: the service writes to a unique-suffixed
  *   path, and this module has no notion of an overwrite flag at all.
- * - Edits are a separate item kind, docs/slides only, exact-text only,
- *   and the service executes them only after the user confirms in chat.
+ * - Edits are separate item kinds (text edits for docs/slides,
+ *   cell-value edits for spreadsheets — literal values only, never
+ *   formulas), and the service executes them only after the user
+ *   confirms in chat.
  * - The model never invents facts silently: the system prompt below
  *   tells it to ask when a name, amount, date or item that would end
  *   up in a file is missing, and `parseBuildReply` cannot turn a
@@ -72,7 +77,48 @@ export interface BuildEditItem {
   replace: string
 }
 
-export type BuildPlanItem = BuildCreateItem | BuildEditItem
+/** One cell assignment of a spreadsheet edit: a literal value only. */
+export interface BuildCellUpdate {
+  /** A1-style reference, normalized (uppercase letters, no leading zeros) */
+  cell: string
+  value: string | number
+}
+
+export interface BuildSheetEditItem {
+  kind: 'sheet-edit'
+  /** the .xlsx in the user's save folder, as a relative path */
+  path: string
+  /** target sheet name; omitted means the workbook's first sheet */
+  sheet?: string
+  updates: BuildCellUpdate[]
+}
+
+export interface BuildDeriveItem {
+  kind: 'derive'
+  /** the existing file to build from, as a save-folder-relative path */
+  source: string
+  /** what to do with its content, in the user's words */
+  instruction: string
+  /** title of the NEW document this creates (the source never changes) */
+  title: string
+}
+
+export type BuildPlanItem = BuildCreateItem | BuildEditItem | BuildSheetEditItem | BuildDeriveItem
+
+/** Source extensions a derive item can read (the extractors Home
+ *  search uses cover exactly these editable/text formats). */
+export const BUILD_DERIVE_EXTENSIONS: readonly string[] = [
+  'docx',
+  'xlsx',
+  'pptx',
+  'md',
+  'html',
+  'txt',
+]
+
+/** Extracted source text fed to the model for a derive, in characters.
+ *  Past this the plan says plainly that only the first part was used. */
+export const BUILD_DERIVE_TEXT_LIMIT = 24_000
 
 export type BuildReply =
   | { kind: 'questions'; message?: string; questions: string[] }
@@ -97,6 +143,25 @@ export interface BuildChatTurn {
   modelAvailable: boolean
 }
 
+/**
+ * One entry of the rendered transcript — a user message, or an
+ * assistant message with the structured turn behind it. The service
+ * owns the transcript (the panel hydrates from it on mount) and
+ * persists it across restarts, capped at the last
+ * {@link BUILD_CHAT_TRANSCRIPT_LIMIT} entries. A pending edit
+ * confirmation is NOT part of this state: it lives only in the
+ * service's memory, so a restored confirm card can never be released
+ * by a later "yes" (the service marks restored ones expired on load).
+ */
+export interface BuildChatTranscriptEntry {
+  role: 'user' | 'assistant'
+  text: string
+  /** the structured service turn behind an assistant entry */
+  turn?: BuildChatTurn
+}
+
+export const BUILD_CHAT_TRANSCRIPT_LIMIT = 200
+
 export const BUILD_CHAT_MAX_QUESTIONS = 5
 export const BUILD_CHAT_MAX_ITEMS = 6
 export const BUILD_CHAT_MAX_PLACEHOLDERS = 8
@@ -114,6 +179,9 @@ const MAX_CELLS_PER_ROW = 16
 const MAX_CELL_CHARS = 500
 const MAX_SLIDES = 20
 const MAX_BULLETS_PER_SLIDE = 12
+const MAX_SHEET_UPDATES = 50
+const MAX_SAVE_PATH_CHARS = 260
+const MAX_INSTRUCTION_CHARS = 500
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -136,6 +204,39 @@ function isBuildApp(value: unknown): value is BuildChatApp {
 export function isAbsoluteBuildPath(value: string): boolean {
   if (value.startsWith('/')) return true
   return /^[A-Za-z]:[\\/]/.test(value)
+}
+
+/**
+ * A path inside the user's save folder — the only form spreadsheet
+ * edits (and derive sources) may use: relative, no drive letter, no
+ * absolute root, and no empty / "." / ".." segments, so resolving it
+ * against the save folder can never land outside it.
+ */
+export function isSaveFolderRelativePath(value: string): boolean {
+  const path = value.trim()
+  if (!path || path.length > MAX_SAVE_PATH_CHARS) return false
+  if (isAbsoluteBuildPath(path)) return false
+  if (path.startsWith('/') || path.startsWith('\\')) return false
+  if (/^[A-Za-z]:/.test(path)) return false
+  return path
+    .split(/[/\\]/)
+    .every((segment) => segment !== '' && segment !== '.' && segment !== '..')
+}
+
+/**
+ * Normalize an A1-style cell reference ("b12" → "B12"), or null when it
+ * is not strictly one: 1–3 letters + a row number, inside the real
+ * spreadsheet bounds (column XFD = 16384, row 1048576).
+ */
+export function normalizeCellRef(value: string): string | null {
+  const match = /^([A-Za-z]{1,3})([0-9]{1,7})$/.exec(value.trim())
+  if (!match) return null
+  const letters = match[1]!.toUpperCase()
+  let column = 0
+  for (const ch of letters) column = column * 26 + (ch.charCodeAt(0) - 64)
+  const row = Number.parseInt(match[2]!, 10)
+  if (column < 1 || column > 16384 || row < 1 || row > 1048576) return null
+  return `${letters}${row}`
 }
 
 function validateFill(value: unknown): BuildFillEntry[] | null {
@@ -283,6 +384,44 @@ function validateEditItem(entry: Record<string, unknown>): BuildEditItem | null 
   return { kind: 'edit', app: entry.app, path, find, replace }
 }
 
+function validateSheetEditItem(entry: Record<string, unknown>): BuildSheetEditItem | null {
+  const path = typeof entry.path === 'string' ? entry.path.trim() : ''
+  if (!isSaveFolderRelativePath(path) || !/\.xlsx$/i.test(path)) return null
+  if (
+    !Array.isArray(entry.updates) ||
+    entry.updates.length === 0 ||
+    entry.updates.length > MAX_SHEET_UPDATES
+  ) {
+    return null
+  }
+  const item: BuildSheetEditItem = { kind: 'sheet-edit', path, updates: [] }
+  if (entry.sheet !== undefined) {
+    const sheet = cleanString(entry.sheet, 31)
+    if (!sheet || [...sheet].some((ch) => SHEET_NAME_FORBIDDEN.includes(ch))) return null
+    item.sheet = sheet
+  }
+  const seen = new Set<string>()
+  for (const raw of entry.updates) {
+    if (!isRecord(raw)) return null
+    const cell = typeof raw.cell === 'string' ? normalizeCellRef(raw.cell) : null
+    if (!cell || seen.has(cell)) return null
+    seen.add(cell)
+    const value = raw.value
+    if (typeof value === 'number') {
+      if (!Number.isFinite(value)) return null
+      item.updates.push({ cell, value })
+    } else if (typeof value === 'string') {
+      // values are literals in this action: a leading "=" would read as
+      // a formula in the file, and formulas are deliberately not written
+      if (value.length > MAX_CELL_CHARS || value.startsWith('=')) return null
+      item.updates.push({ cell, value })
+    } else {
+      return null
+    }
+  }
+  return item
+}
+
 /**
  * Validate a model reply into a BuildReply. Returns null for anything
  * that is not exactly one of the two contract shapes — the caller then
@@ -312,7 +451,14 @@ export function parseBuildReply(
     const items: BuildPlanItem[] = []
     for (const raw of value.plan) {
       if (!isRecord(raw)) return null
-      const item = raw.kind === 'edit' ? validateEditItem(raw) : validateCreateItem(raw, templates)
+      const item =
+        raw.kind === 'edit'
+          ? validateEditItem(raw)
+          : raw.kind === 'sheet-edit'
+            ? validateSheetEditItem(raw)
+            : raw.kind === 'derive'
+              ? validateDeriveItem(raw)
+              : validateCreateItem(raw, templates)
       if (!item) return null
       items.push(item)
     }
@@ -328,7 +474,7 @@ export function parseBuildReply(
 /** True when a plan touches an existing file — those plans always wait
  *  for the user's explicit confirmation before anything executes. */
 export function planHasEdits(items: readonly BuildPlanItem[]): boolean {
-  return items.some((item) => item.kind === 'edit')
+  return items.some((item) => item.kind === 'edit' || item.kind === 'sheet-edit')
 }
 
 /** A short yes in chat: the only thing that releases a pending edit plan. */
@@ -361,14 +507,41 @@ function baseName(path: string): string {
   return parts[parts.length - 1] || path
 }
 
+function describeCellValue(value: string | number): string {
+  return typeof value === 'number' ? String(value) : `“${truncateMiddle(value, 40)}”`
+}
+
+function validateDeriveItem(entry: Record<string, unknown>): BuildDeriveItem | null {
+  const source = typeof entry.source === 'string' ? entry.source.trim() : ''
+  if (!isSaveFolderRelativePath(source)) return null
+  const extension = source.split('.').pop()?.toLowerCase() ?? ''
+  if (!BUILD_DERIVE_EXTENSIONS.includes(extension)) return null
+  const instruction = cleanString(entry.instruction, MAX_INSTRUCTION_CHARS)
+  const title = cleanString(entry.title, MAX_TITLE_CHARS)
+  if (!instruction || !title) return null
+  return { kind: 'derive', source, instruction, title }
+}
+
 /** One plain-language line per plan item — the plan the user sees in the
  *  chat before any file is created. */
 export function describePlanItem(item: BuildPlanItem, templates: readonly TemplateDef[]): string {
+  if (item.kind === 'derive') {
+    return `Create a document “${item.title}” from ${baseName(item.source)}`
+  }
   if (item.kind === 'edit') {
     return (
       `Edit ${baseName(item.path)}: replace “${truncateMiddle(item.find, 60)}” ` +
       `with “${truncateMiddle(item.replace, 60)}”`
     )
+  }
+  if (item.kind === 'sheet-edit') {
+    const shown = item.updates
+      .slice(0, 4)
+      .map((update) => `set ${update.cell} to ${describeCellValue(update.value)}`)
+    const more =
+      item.updates.length > shown.length ? `, and ${item.updates.length - shown.length} more` : ''
+    const sheet = item.sheet ? ` (sheet “${item.sheet}”)` : ''
+    return `Edit ${baseName(item.path)}${sheet}: ${shown.join(', ')}${more}`
   }
   const noun = APP_NOUN[item.app]
   if (item.templateId) {
@@ -505,8 +678,11 @@ function wordsOf(text: string): string[] {
 /**
  * The one template a model-free request clearly points at, by word
  * overlap with template titles (weighted double), descriptions and
- * categories. Returns null when nothing scores or two templates tie —
- * guessing between templates would build the wrong file.
+ * categories. Returns null when nothing scores — and on a tie, unless
+ * exactly one of the tied templates carries [bracketed placeholders]:
+ * that one asks questions before building, while the others would
+ * build instantly with their sample content, and clarifying beats
+ * guessing. Any other tie is still a guess, so it returns null.
  */
 export function matchTemplateForMessage(
   message: string,
@@ -514,9 +690,8 @@ export function matchTemplateForMessage(
 ): TemplateDef | null {
   const messageWords = new Set(wordsOf(message))
   if (messageWords.size === 0) return null
-  let best: TemplateDef | null = null
   let bestScore = 0
-  let secondScore = 0
+  const scored: Array<{ template: TemplateDef; score: number }> = []
   for (const template of templates) {
     const titleWords = new Set(wordsOf(template.title))
     const otherWords = new Set(wordsOf(`${template.description} ${template.category}`))
@@ -525,16 +700,14 @@ export function matchTemplateForMessage(
       if (titleWords.has(word)) score += 2
       else if (otherWords.has(word)) score += 1
     }
-    if (score > bestScore) {
-      secondScore = bestScore
-      bestScore = score
-      best = template
-    } else if (score > secondScore) {
-      secondScore = score
-    }
+    scored.push({ template, score })
+    if (score > bestScore) bestScore = score
   }
-  if (!best || bestScore < 2 || bestScore <= secondScore) return null
-  return best
+  if (bestScore < 2) return null
+  const tied = scored.filter((entry) => entry.score === bestScore).map((entry) => entry.template)
+  if (tied.length === 1) return tied[0]!
+  const asking = tied.filter((template) => extractTemplatePlaceholders(template).length > 0)
+  return asking.length === 1 ? asking[0]! : null
 }
 
 /** One question per placeholder, in the template's own wording. */
@@ -639,12 +812,30 @@ export function buildChatSystemPrompt(templates: readonly TemplateDef[]): string
     '- Custom spreadsheet: {"kind": "create", "app": "sheets", "title": "...", "sheets": [{"name": "Sheet1", "headerRow": true, "rows": [["Column", "Amount"], ["Item", 100]]}]}. A cell is a string, a number, or {"formula": "B2*C2", "cached": 500} where cached is the value the formula produces.',
     '- Custom deck: {"kind": "create", "app": "slides", "title": "...", "slides": [{"title": "...", "subtitle": "...", "bullets": ["...", "..."]}]}',
     '',
-    'An edit item changes an existing document or deck by exact text replacement: {"kind": "edit", "app": "docs"|"slides", "path": "/absolute/path/file.docx", "find": "exact existing text", "replace": "new text"}. Only offer an edit when the user explicitly asks to change a specific existing file and gives its path. Edits are never combined with silent side effects, and the user will be asked to confirm the plan before any edit runs. Spreadsheets cannot be edited this way.',
+    'An edit item changes an existing document or deck by exact text replacement: {"kind": "edit", "app": "docs"|"slides", "path": "/absolute/path/file.docx", "find": "exact existing text", "replace": "new text"}. Only offer an edit when the user explicitly asks to change a specific existing file and gives its path.',
+    'A spreadsheet edit item sets cell values in an existing spreadsheet: {"kind": "sheet-edit", "path": "Budget.xlsx", "updates": [{"cell": "B12", "value": 4500}, {"cell": "C3", "value": "Total"}]}. The path is relative to the user\'s save folder and must end in .xlsx. Add "sheet": "Sheet name" only when the user names the sheet — otherwise the first sheet is edited. Values are literal strings or numbers: formulas are not supported, so never start a value with "=". At most 50 cells in one item. Only offer it when the user names the spreadsheet and the cells to change.',
+    'Edits of either kind are never combined with silent side effects, and the user will be asked to confirm the plan before any edit runs.',
+    'A derive item creates a NEW document based on an existing file: {"kind": "derive", "source": "Budget.xlsx", "instruction": "summarize it as a one-page brief", "title": "Budget Summary"}. The source path is relative to the save folder; supported sources are .docx, .xlsx, .pptx, .md, .html and .txt. The source file is never changed — the output is always a new document. Use it when the user asks to summarize, rewrite, reformat or build on a file they already have, and put their exact ask in the instruction.',
     '',
     'You cannot create PDF files. If the user asks for a PDF, say so in a questions reply (ask what editable file to create instead) — never promise a PDF.',
     'Creates always make NEW files; they never overwrite anything. Titles are file titles without an extension.',
     '',
     'Template catalog (id, app, title, description):',
     catalog,
+  ].join('\n')
+}
+
+/**
+ * The system prompt for the second, content-writing call of a derive
+ * item: the service hands the model one source file's extracted text
+ * plus the user's instruction, and gets back the new document as
+ * markdown. Kept separate from the plan contract on purpose — this
+ * call writes prose, never JSON, and may only use the source's facts.
+ */
+export function deriveDocumentSystemPrompt(): string {
+  return [
+    "You are the writing assistant inside TechPartner Office. You are given the text of one of the user's existing files and an instruction for a new document based on it.",
+    'Reply with the new document in markdown only — no commentary before or after it, no code fences around it. Start with a top-level heading.',
+    'Use only facts from the source text. Do not invent names, figures, dates or claims that are not in it; when the source does not cover something the instruction asks for, leave it out rather than guessing.',
   ].join('\n')
 }

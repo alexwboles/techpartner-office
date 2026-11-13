@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   applyBuildFill,
   buildChatSystemPrompt,
+  deriveDocumentSystemPrompt,
   describePlan,
   extractTemplatePlaceholders,
   fallbackCreateItem,
@@ -240,6 +241,143 @@ describe('parseBuildReply: plan shape', () => {
   })
 })
 
+describe('parseBuildReply: sheet-edit items', () => {
+  it('accepts a sheet edit and normalizes the cell references', () => {
+    const reply = parseBuildReply(
+      {
+        plan: [
+          {
+            kind: 'sheet-edit',
+            path: 'Budget.xlsx',
+            updates: [
+              { cell: 'b12', value: 4500 },
+              { cell: 'C3', value: 'Total' },
+            ],
+          },
+        ],
+      },
+      TEMPLATES,
+    )
+    expect(reply?.kind).toBe('plan')
+    if (reply?.kind === 'plan') {
+      expect(planHasEdits(reply.items)).toBe(true)
+      expect(reply.items[0]).toEqual({
+        kind: 'sheet-edit',
+        path: 'Budget.xlsx',
+        updates: [
+          { cell: 'B12', value: 4500 },
+          { cell: 'C3', value: 'Total' },
+        ],
+      })
+    }
+  })
+
+  it('accepts a named sheet and a subfolder path', () => {
+    const reply = parseBuildReply(
+      {
+        plan: [
+          {
+            kind: 'sheet-edit',
+            path: 'Finance/Q3.xlsx',
+            sheet: 'Totals',
+            updates: [{ cell: 'A1', value: 1 }],
+          },
+        ],
+      },
+      TEMPLATES,
+    )
+    expect(reply?.kind).toBe('plan')
+  })
+
+  const invalidSheetEdits: Array<[string, unknown]> = [
+    ['an absolute path', { path: '/home/alex/Budget.xlsx', updates: [{ cell: 'A1', value: 1 }] }],
+    [
+      'a Windows absolute path',
+      { path: 'C:\\Users\\alex\\Budget.xlsx', updates: [{ cell: 'A1', value: 1 }] },
+    ],
+    [
+      'a path climbing out of the folder',
+      { path: '../Budget.xlsx', updates: [{ cell: 'A1', value: 1 }] },
+    ],
+    ['a non-spreadsheet file', { path: 'Notes.docx', updates: [{ cell: 'A1', value: 1 }] }],
+    ['a reversed ref', { path: 'Budget.xlsx', updates: [{ cell: '12B', value: 1 }] }],
+    ['row zero', { path: 'Budget.xlsx', updates: [{ cell: 'B0', value: 1 }] }],
+    ['no row at all', { path: 'Budget.xlsx', updates: [{ cell: 'B', value: 1 }] }],
+    ['a column past XFD', { path: 'Budget.xlsx', updates: [{ cell: 'XFE1', value: 1 }] }],
+    [
+      'a formula-looking value',
+      { path: 'Budget.xlsx', updates: [{ cell: 'B2', value: '=SUM(A1:A9)' }] },
+    ],
+    [
+      'the same cell twice',
+      {
+        path: 'Budget.xlsx',
+        updates: [
+          { cell: 'B2', value: 1 },
+          { cell: 'b2', value: 2 },
+        ],
+      },
+    ],
+    ['no updates', { path: 'Budget.xlsx', updates: [] }],
+    [
+      'more than 50 updates',
+      {
+        path: 'Budget.xlsx',
+        updates: Array.from({ length: 51 }, (_, i) => ({ cell: `A${i + 1}`, value: i })),
+      },
+    ],
+    ['a boolean value', { path: 'Budget.xlsx', updates: [{ cell: 'B2', value: true }] }],
+  ]
+  it.each(invalidSheetEdits)('rejects %s', (_label, item) => {
+    const reply = { plan: [{ kind: 'sheet-edit', ...(item as Record<string, unknown>) }] }
+    expect(parseBuildReply(reply, TEMPLATES)).toBeNull()
+  })
+})
+
+describe('parseBuildReply: derive items', () => {
+  it('accepts a derive item and keeps it out of the edit gate', () => {
+    const reply = parseBuildReply(
+      {
+        plan: [
+          {
+            kind: 'derive',
+            source: 'Budget.xlsx',
+            instruction: 'Summarize it as a one-page brief',
+            title: 'Budget Summary',
+          },
+        ],
+      },
+      TEMPLATES,
+    )
+    expect(reply?.kind).toBe('plan')
+    if (reply?.kind === 'plan') {
+      // a derive creates a new file: no confirmation gate
+      expect(planHasEdits(reply.items)).toBe(false)
+      expect(reply.items[0]).toEqual({
+        kind: 'derive',
+        source: 'Budget.xlsx',
+        instruction: 'Summarize it as a one-page brief',
+        title: 'Budget Summary',
+      })
+    }
+  })
+
+  const invalidDerives: Array<[string, unknown]> = [
+    [
+      'an absolute source',
+      { source: '/home/alex/Notes.docx', instruction: 'Sum it up', title: 'S' },
+    ],
+    ['a source climbing out', { source: '../Notes.docx', instruction: 'Sum it up', title: 'S' }],
+    ['an unsupported type', { source: 'Scan.pdf', instruction: 'Sum it up', title: 'S' }],
+    ['no instruction', { source: 'Notes.docx', instruction: '', title: 'S' }],
+    ['no title', { source: 'Notes.docx', instruction: 'Sum it up', title: '' }],
+  ]
+  it.each(invalidDerives)('rejects %s', (_label, item) => {
+    const reply = { plan: [{ kind: 'derive', ...(item as Record<string, unknown>) }] }
+    expect(parseBuildReply(reply, TEMPLATES)).toBeNull()
+  })
+})
+
 describe('parseBuildReply: invalid output parses to null', () => {
   const invalid: Array<[string, unknown]> = [
     ['plain prose', 'Sure, making that now!'],
@@ -322,11 +460,27 @@ describe('describePlan', () => {
         find: 'Dear Sir',
         replace: 'Dear Ms. Lee',
       },
+      {
+        kind: 'sheet-edit',
+        path: 'Budget.xlsx',
+        updates: [
+          { cell: 'B12', value: 4500 },
+          { cell: 'C3', value: 'Total' },
+        ],
+      },
+      {
+        kind: 'derive',
+        source: 'Finance/Budget.xlsx',
+        instruction: 'Summarize it',
+        title: 'Budget Summary',
+      },
     ]
     expect(describePlan(items, TEMPLATES)).toEqual([
       'Create a spreadsheet “Invoice for Acme” from the “Service Invoice” template',
       'Create a document “Notes”',
       'Edit letter.docx: replace “Dear Sir” with “Dear Ms. Lee”',
+      'Edit Budget.xlsx: set B12 to 4500, set C3 to “Total”',
+      'Create a document “Budget Summary” from Budget.xlsx',
     ])
   })
 })
@@ -427,6 +581,15 @@ describe('deterministic fallback', () => {
     expect(matchTemplateForMessage('', TEMPLATES)).toBeNull()
   })
 
+  it('breaks a tie toward the one template that asks questions first', () => {
+    // "invoice" scores both invoice templates equally; the product one
+    // carries [Product n] placeholders while the service one would build
+    // instantly with sample line items — clarifying beats guessing
+    expect(matchTemplateForMessage('Make an invoice', TEMPLATES)?.id).toBe('invoice-product-sales')
+    // a tie where several templates ask questions is still a guess
+    expect(matchTemplateForMessage('Create a presentation', TEMPLATES)).toBeNull()
+  })
+
   it('asks one question per placeholder', () => {
     expect(fallbackQuestionsFor(['[Name]', '[Date]'])).toEqual([
       'What should I put for [Name]?',
@@ -479,5 +642,21 @@ describe('buildChatSystemPrompt', () => {
     expect(prompt).toContain('cannot create PDF')
     expect(prompt).toContain('invoice-service (sheets)')
     expect(prompt).toContain(invoice.title)
+  })
+
+  it('teaches the spreadsheet edit and its literal-values rule', () => {
+    const prompt = buildChatSystemPrompt(TEMPLATES)
+    expect(prompt).toContain('"sheet-edit"')
+    expect(prompt).toContain('never start a value with "="')
+    expect(prompt).not.toContain('Spreadsheets cannot be edited')
+  })
+
+  it('teaches derive, and the writing prompt forbids inventing facts', () => {
+    const prompt = buildChatSystemPrompt(TEMPLATES)
+    expect(prompt).toContain('"derive"')
+    expect(prompt).toContain('never changed')
+    const writing = deriveDocumentSystemPrompt()
+    expect(writing).toContain('markdown only')
+    expect(writing).toContain('Do not invent')
   })
 })

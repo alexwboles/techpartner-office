@@ -502,6 +502,41 @@
   gap: 8px;
 }
 
+/* ── Ollama setup guide (account pane) ── */
+
+.ollama-guide {
+  margin-top: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-subtle);
+}
+
+.ollama-steps {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.ollama-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  padding: 3px 4px 3px 10px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+
+.ollama-cmd code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  color: var(--text-primary);
+}
+
 /* ── AI model pane ── */
 
 .set-input {

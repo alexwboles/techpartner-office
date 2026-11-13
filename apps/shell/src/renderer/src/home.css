@@ -574,6 +574,24 @@ body.vib .home {
   border-color: var(--border-hover);
 }
 
+/* the landing Templates highlight: the gallery's own cards in a grid
+   capped by the pick count (8) — two rows at landing width */
+.landing-templates {
+  margin-bottom: 24px;
+}
+
+.landing-templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(198px, 1fr));
+  gap: 12px;
+}
+
+.landing-templates-error {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--danger);
+}
+
 .landing-recents {
   margin-bottom: 24px;
 }
