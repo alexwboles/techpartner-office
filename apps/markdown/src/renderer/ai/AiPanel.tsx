@@ -16,6 +16,7 @@ import {
   type MindMapTreeNode,
 } from '@genoffice/agent-core'
 import { imageGenerationAvailable, type AiSettings } from '@genoffice/ai-provider/browser'
+import { IconSparkle } from '../components/icons'
 import {
   AiComposer,
   AiQueueStrip,
@@ -884,8 +885,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <IconSparkle size={22} />
+          TechPartner AI
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton

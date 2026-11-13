@@ -12,6 +12,7 @@ import { AgentLoop, composeSkills, withAttachedSkills } from '@genoffice/agent-c
 import type { AgentImage } from '@genoffice/agent-core'
 import type { AiSettings } from '@genoffice/ai-provider'
 import { imageGenerationAvailable } from '@genoffice/ai-provider/browser'
+import { IconSparkle } from '../components/icons'
 import { ATTACHMENT_IMAGE_EXTS } from '../../shared/ipc'
 import type { AttachmentAddResult, AttachmentMeta } from '../../shared/ipc'
 import {
@@ -1246,8 +1247,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <IconSparkle size={22} />
+          TechPartner AI
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton

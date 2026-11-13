@@ -570,6 +570,21 @@ export const IconOpacity = () => (
   </Icon>
 )
 
+/** Neutral sparkle for AI surfaces — the same glyph the docs/slides icon
+ * sets ship as IconSparkle (16-canvas, filled), used wherever the AI panel
+ * and ribbon previously rendered the upstream brand mark. */
+export function IconSparkle({ size = 18 }: { size?: number }): ReactElement {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path
+        d="M 8 3.03 C 8 5.78 10.22 8 12.97 8 C 10.22 8 8 10.22 8 12.97 C 8 10.22 5.78 8 3.03 8 C 5.78 8 8 5.78 8 3.03 Z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  )
+}
+
 /** One-click AI feature glyphs (same 24-canvas/1.5-stroke artwork as the docs ribbon) */
 export const IconAiSummarize = () => (
   <svg

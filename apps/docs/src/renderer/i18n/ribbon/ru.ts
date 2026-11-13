@@ -191,7 +191,7 @@ export const ru = {
   ribbonReplaceTip: 'Найти и заменить текст',
   ribbonSelectAll: 'Выделить все',
   ribbonSelectAllTip: 'Выделить весь документ',
-  ribbonAiAssistant: 'Genspark',
+  ribbonAiAssistant: 'TechPartner AI',
   ribbonAiAssistantTip: 'Открыть помощника ИИ',
   ribbonRemoveTableStyleTip: 'Удалить стиль таблицы',
   ribbonNoStyle: 'Без стиля',

@@ -192,7 +192,7 @@ export const es = {
   ribbonReplaceTip: 'Buscar y reemplazar texto',
   ribbonSelectAll: 'Seleccionar todo',
   ribbonSelectAllTip: 'Seleccionar todo el documento',
-  ribbonAiAssistant: 'Genspark',
+  ribbonAiAssistant: 'TechPartner AI',
   ribbonAiAssistantTip: 'Abrir el asistente de IA',
   ribbonRemoveTableStyleTip: 'Quitar el estilo de tabla',
   ribbonNoStyle: 'Sin estilo',

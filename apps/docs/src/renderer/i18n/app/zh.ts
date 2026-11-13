@@ -322,13 +322,13 @@ export const zh = {
   appTabClear: '清除',
   // AI settings
   appAiSettings: 'AI 设置',
-  appGensparkAccount: 'Genspark 账号',
+  appGensparkAccount: 'TechPartner AI 账号',
   appChecking: '检测中…',
   appLoggedIn: '已登录',
   appLoggedInEmail: '已登录：{email}',
-  appNotLoggedIn: '未登录（AI 功能需要登录 Genspark 账号）',
+  appNotLoggedIn: 'AI 尚未设置(请在设置中添加本地模型或自己的 API 密钥)',
   appWaitingBrowserLogin: '等待浏览器登录…',
-  appLoginGenspark: '登录 Genspark',
+  appLoginGenspark: '设置 AI',
   appModel: '模型',
   // Context menu
   appCut: '剪切',

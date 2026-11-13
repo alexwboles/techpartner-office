@@ -47,3 +47,21 @@ describe('branding guard: no trace of the old product name in user-facing copy',
     expect(offenders(files)).toEqual([])
   })
 })
+
+describe('branding guard: no upstream AI brand in the app AI panel titles', () => {
+  it('apps aiPanelTitle / ribbonAiAssistant values contain no Genspark', () => {
+    const files: string[] = []
+    for (const app of ['docs', 'sheets', 'slides', 'pdf', 'markdown', 'html']) {
+      files.push(
+        ...filesUnder(join(REPO_ROOT, 'apps', app, 'src/renderer/i18n')).filter((f) =>
+          f.endsWith('.ts'),
+        ),
+      )
+    }
+    expect(files.length).toBeGreaterThan(0)
+    const bad = files.filter((f) =>
+      /^\s*(?:aiPanelTitle|ribbonAiAssistant):.*genspark/im.test(readFileSync(f, 'utf-8')),
+    )
+    expect(bad).toEqual([])
+  })
+})

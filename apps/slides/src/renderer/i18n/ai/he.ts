@@ -17,8 +17,8 @@ export const he = {
   aiQcPageSkipped: 'עמוד {n}: בדיקת הפריסה האוטומטית דולגה',
   aiQcStopped: 'בדיקת הפריסה הופסקה',
   aiQcCapped: 'עוד {count} עמודים לא נבדקו (מגבלה לכל הרצה)',
-  aiGskLoginBtn: 'התחבר ל-Genspark',
-  aiPanelTitle: 'Genspark',
+  aiGskLoginBtn: 'Set up AI',
+  aiPanelTitle: 'TechPartner AI',
   aiOpenAssistant: 'פתיחת עוזר ה-AI',
   aiFactCheckBtn: 'בדיקת עובדות AI',
   aiFactCheckPrompt:
@@ -110,7 +110,8 @@ export const he = {
   aiErrRegion: 'ספק המודל הזה אינו פועל באזור הנוכחי שלך — בחרו מודל אחר או החליפו רשת',
   aiErrOverloaded: 'שירות ה-AI עמוס כרגע — נסו שוב בעוד רגע',
   aiErrNetwork: 'בעיית רשת: לא ניתן להתחבר לשירות ה-AI. בדוק את החיבור ונסה שוב',
-  aiCreditsExhausted: 'קרדיטי Genspark שלך אזלו. טען מחדש ב-genspark.ai/pricing ונסה שוב',
+  aiCreditsExhausted:
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiErrRequestFailed: 'שליחת הבקשה נכשלה: {msg}',
   aiErrGenerateFailed: 'היצירה נכשלה',
   aiErrRegenFailed: 'יצירת השקופית מחדש נכשלה',

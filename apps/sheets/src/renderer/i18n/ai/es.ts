@@ -5,7 +5,7 @@ export const es = {
   aiEmptyBuildTitle: 'Deja que la IA construya este libro por ti',
   aiEmptyBuildBody:
     'Describe la tabla, los datos o el gráfico que necesitas: la IA los crea directamente.',
-  aiGskLoginBtn: 'Iniciar sesión en Genspark',
+  aiGskLoginBtn: 'Set up AI',
   aiUndelivered: 'No enviado',
   aiRetry: 'Reintentar',
   aiOpenAssistant: 'Abrir el asistente de IA',
@@ -50,13 +50,13 @@ export const es = {
   aiFileTooltip:
     'SHA-256 {sha}\nAl guardar solo se reescriben las entradas editadas; todo lo demás se conserva.',
   aiFileMeta: '{sheets} hojas · {entries} entradas',
-  aiGensparkAccount: 'Cuenta de Genspark',
+  aiGensparkAccount: 'TechPartner AI account',
   aiAccountChecking: 'Comprobando…',
   aiLoggedIn: 'Sesión iniciada',
   aiLoggedInAs: 'Sesión iniciada: {email}',
-  aiNotLoggedIn: 'Sin sesión iniciada (las funciones de IA requieren una cuenta de Genspark)',
+  aiNotLoggedIn: 'AI is not set up yet (add a local model or your own API key in Settings)',
   aiWaitingBrowserLogin: 'Esperando el inicio de sesión en el navegador…',
-  aiLoginGenspark: 'Iniciar sesión en Genspark',
+  aiLoginGenspark: 'Set up AI',
   aiModel: 'Modelo',
   aiCancel: 'Cancelar',
   aiSave: 'Guardar',
@@ -70,7 +70,7 @@ export const es = {
   aiNetworkError:
     'Problema de red: no se pudo conectar con el servicio de IA. Comprueba tu conexión e inténtalo de nuevo',
   aiCreditsExhausted:
-    'Tus créditos de Genspark se han agotado. Recarga en genspark.ai/pricing e inténtalo de nuevo',
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiToolWorkbookContext: 'Leer información del libro',
   aiToolReadRange: 'Leer rango',
   aiToolReadRangeOf: 'Leer rango {range}',

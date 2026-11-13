@@ -334,13 +334,13 @@ export const ja = {
   appTabClear: 'クリア',
   // AI settings
   appAiSettings: 'AI 設定',
-  appGensparkAccount: 'Genspark アカウント',
+  appGensparkAccount: 'TechPartner AI account',
   appChecking: '確認中…',
   appLoggedIn: 'サインイン済み',
   appLoggedInEmail: 'サインイン済み:{email}',
-  appNotLoggedIn: '未サインイン(AI 機能には Genspark アカウントが必要です)',
+  appNotLoggedIn: 'AI is not set up yet (add a local model or your own API key in Settings)',
   appWaitingBrowserLogin: 'ブラウザーでのサインインを待っています…',
-  appLoginGenspark: 'Genspark にサインイン',
+  appLoginGenspark: 'Set up AI',
   appModel: 'モデル',
   // Context menu
   appCut: '切り取り',

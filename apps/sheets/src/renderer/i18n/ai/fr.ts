@@ -5,7 +5,7 @@ export const fr = {
   aiEmptyBuildTitle: "Laissez l'IA construire ce classeur pour vous",
   aiEmptyBuildBody:
     "Décrivez le tableau, les données ou le graphique voulu — l'IA les crée directement.",
-  aiGskLoginBtn: 'Se connecter à Genspark',
+  aiGskLoginBtn: 'Set up AI',
   aiUndelivered: 'Non envoyé',
   aiRetry: 'Réessayer',
   aiOpenAssistant: "Ouvrir l'assistant IA",
@@ -50,13 +50,13 @@ export const fr = {
   aiFileTooltip:
     "SHA-256 {sha}\nL'enregistrement ne réécrit que les entrées modifiées ; tout le reste est conservé.",
   aiFileMeta: '{sheets} feuilles · {entries} entrées',
-  aiGensparkAccount: 'Compte Genspark',
+  aiGensparkAccount: 'TechPartner AI account',
   aiAccountChecking: 'Vérification…',
   aiLoggedIn: 'Connecté',
   aiLoggedInAs: 'Connecté : {email}',
-  aiNotLoggedIn: 'Non connecté (les fonctions IA nécessitent un compte Genspark)',
+  aiNotLoggedIn: 'AI is not set up yet (add a local model or your own API key in Settings)',
   aiWaitingBrowserLogin: 'En attente de la connexion dans le navigateur…',
-  aiLoginGenspark: 'Se connecter à Genspark',
+  aiLoginGenspark: 'Set up AI',
   aiModel: 'Modèle',
   aiCancel: 'Annuler',
   aiSave: 'Enregistrer',
@@ -69,7 +69,7 @@ export const fr = {
   aiNetworkError:
     'Problème réseau : impossible de joindre le service IA. Vérifiez votre connexion et réessayez',
   aiCreditsExhausted:
-    'Vos crédits Genspark sont épuisés. Rechargez sur genspark.ai/pricing puis réessayez',
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiToolWorkbookContext: 'Lire les informations du classeur',
   aiToolReadRange: 'Lire la plage',
   aiToolReadRangeOf: 'Lire la plage {range}',

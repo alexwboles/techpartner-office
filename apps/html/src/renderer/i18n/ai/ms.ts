@@ -4,7 +4,8 @@ export const ms = {
   aiCollapsePanel: 'Runtuhkan panel',
   aiComposerPlaceholder: 'Minta AI menulis atau menyunting…',
   aiCopyReplyTitle: 'Salin balasan',
-  aiCreditsExhausted: 'Kredit habis — tambah nilai di genspark.ai',
+  aiCreditsExhausted:
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiEmptyTitle: 'Reka halaman dengan AI',
   aiEmptyBody:
     'Halaman pendaratan, laporan, poster: nyatakan tujuan dan khalayak; AI mencadangkan ringkasan dahulu, kemudian membina halaman',

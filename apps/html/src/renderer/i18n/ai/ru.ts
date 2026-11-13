@@ -4,7 +4,8 @@ export const ru = {
   aiCollapsePanel: 'Свернуть панель',
   aiComposerPlaceholder: 'Попросите ИИ написать или изменить…',
   aiCopyReplyTitle: 'Копировать ответ',
-  aiCreditsExhausted: 'Кредиты закончились — пополните на genspark.ai',
+  aiCreditsExhausted:
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiEmptyTitle: 'Создайте страницу с помощью ИИ',
   aiEmptyBody:
     'Лендинг, отчёт, постер: скажите, для чего и для кого; ИИ сначала предложит бриф, затем соберёт страницу',

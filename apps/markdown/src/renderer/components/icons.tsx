@@ -24,6 +24,7 @@ export {
   IconSearch,
   IconEyeOff,
   IconSpellcheck,
+  IconSparkle,
 } from '../../../../docs/src/renderer/components/icons'
 
 interface IconProps {

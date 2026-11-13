@@ -8,8 +8,8 @@ export const ms = {
   aiStarterPolishAll: 'Perhalusi keseluruhan dokumen dengan nada lebih profesional',
   aiStarterContinue: 'Teruskan menulis dari bahagian akhir dokumen',
   aiStarterFillTemplate: 'Cari dan isi ruang letak dalam dokumen ini',
-  aiGskLoginBtn: 'Log masuk ke Genspark',
-  aiPanelTitle: 'Genspark',
+  aiGskLoginBtn: 'Set up AI',
+  aiPanelTitle: 'TechPartner AI',
   aiOpenAssistant: 'Buka pembantu AI',
   aiSummarizeBtn: 'Ringkasan AI',
   aiSummarizePrompt: 'Ringkaskan kandungan utama dan perkara penting dokumen ini',
@@ -117,7 +117,7 @@ export const ms = {
   aiNetworkError:
     'Masalah rangkaian: tidak dapat menghubungi perkhidmatan AI. Semak sambungan anda dan cuba lagi',
   aiCreditsExhausted:
-    'Kredit Genspark anda telah habis. Tambah nilai di genspark.ai/pricing dan cuba lagi',
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiSumReadAttachment: 'Baca lampiran',
   aiSumImageAttachment: 'Lampiran imej {name}',
   aiSumRead: 'Baca {name}',

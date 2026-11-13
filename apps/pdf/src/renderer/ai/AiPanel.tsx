@@ -23,6 +23,7 @@ import {
   type AiTokenUsageView,
 } from '@genoffice/ui'
 import { aiLangDirective, t as tGlobal, useI18n } from '../i18n/locale'
+import { IconSparkle } from '../icons'
 import { createFileNav, Markdown } from '@genoffice/ui'
 import sendEnterOn from '../assets/send-enter-on.png'
 import sendEnterOff from '../assets/send-enter-off.png'
@@ -729,8 +730,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <IconSparkle size={22} />
+          TechPartner AI
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton

@@ -5,7 +5,7 @@ export const cs = {
   aiEmptyBuildTitle: 'Nechte AI sestavit tento sešit za vás',
   aiEmptyBuildBody:
     'Popište tabulku, data nebo graf, které potřebujete — AI je vytvoří přímo na místě.',
-  aiGskLoginBtn: 'Přihlásit se ke Genspark',
+  aiGskLoginBtn: 'Set up AI',
   aiUndelivered: 'Neodesláno',
   aiRetry: 'Zkusit znovu',
   aiOpenAssistant: 'Otevřít asistenta AI',
@@ -49,13 +49,13 @@ export const cs = {
   aiFileTooltip:
     'SHA-256 {sha}\nPři uložení se přepíší jen upravené položky; všechno ostatní zůstane zachováno.',
   aiFileMeta: 'Listy: {sheets} · položky: {entries}',
-  aiGensparkAccount: 'Účet Genspark',
+  aiGensparkAccount: 'TechPartner AI account',
   aiAccountChecking: 'Ověřuje se…',
   aiLoggedIn: 'Přihlášeno',
   aiLoggedInAs: 'Přihlášeno: {email}',
-  aiNotLoggedIn: 'Nepřihlášeno (funkce AI vyžadují účet Genspark)',
+  aiNotLoggedIn: 'AI is not set up yet (add a local model or your own API key in Settings)',
   aiWaitingBrowserLogin: 'Čeká se na přihlášení v prohlížeči…',
-  aiLoginGenspark: 'Přihlásit se ke Genspark',
+  aiLoginGenspark: 'Set up AI',
   aiModel: 'Model',
   aiCancel: 'Zrušit',
   aiSave: 'Uložit',
@@ -68,7 +68,7 @@ export const cs = {
   aiNetworkError:
     'Problém se sítí: službu AI se nepodařilo kontaktovat. Zkontrolujte připojení a zkuste to znovu',
   aiCreditsExhausted:
-    'Vaše kredity Genspark jsou vyčerpány. Dobijte je na genspark.ai/pricing a zkuste to znovu',
+    'Your AI provider credits have run out. Top up with your provider, then try again',
   aiToolWorkbookContext: 'Načtení informací o sešitu',
   aiToolReadRange: 'Načtení oblasti',
   aiToolReadRangeOf: 'Načtení oblasti {range}',
