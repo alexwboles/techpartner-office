@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import type { BuildChatTranscriptEntry, BuildChatTurn } from '../../shared/build-chat'
+import type { BuildChatTranscriptEntry } from '../../shared/build-chat'
 import { useI18n } from './locale'
 import './build-chat.css'
 
